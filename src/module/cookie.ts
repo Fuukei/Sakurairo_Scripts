@@ -3,16 +3,20 @@
  * @license GPL-v2
  * @date 2021.03
  */
-function setCookie(key: string, value: string, days?: number) {
+let _version_ctrl = ''
+export function setVersionCtrl(version_ctrl:string){
+    _version_ctrl=version_ctrl
+}
+export function setCookie(key: string, value: string, days?: number) {
     let expires = "";
     if (days) {
         expires = "; expires=" + new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toUTCString();
     }
-    document.cookie = key + mashiro_option.cookie_version_control + "=" + (value || "") + expires + "; path=/";
+    document.cookie = key + _version_ctrl + "=" + (value || "") + expires + "; path=/";
 }
 
-function getCookie(key: string) {
-    const nameEQ = key + mashiro_option.cookie_version_control + "=",
+export function getCookie(key: string) {
+    const nameEQ = key + _version_ctrl + "=",
         ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
@@ -22,6 +26,6 @@ function getCookie(key: string) {
     return null;
 }
 
-function removeCookie(key:string) {
-    document.cookie = key + mashiro_option.cookie_version_control + '=; Max-Age=-99999999;';
+export function removeCookie(key:string) {
+    document.cookie = key + _version_ctrl + '=; Max-Age=-99999999;';
 }
