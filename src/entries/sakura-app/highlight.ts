@@ -1,7 +1,7 @@
 /**
  * sakura-app.js L167-201
  */
-
+import hljs from "highlight.js";
 const attributes = [
     ['autocomplete', 'off'],
     ['autocorrect', 'off'],
@@ -12,7 +12,7 @@ const attributes = [
 ]
 function code_highlight_style() {
     const pre = document.getElementsByTagName("pre");
-    const code = document.querySelectorAll("pre code");
+    const code: NodeListOf<HTMLElement> = document.querySelectorAll("pre code");
     for (let i = 0; i < code.length; i++) {
         hljs.highlightBlock(code[i]);
     }
@@ -21,8 +21,8 @@ function code_highlight_style() {
         const code_a = code[i];
         let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
         if (lang.toLowerCase() == "hljs") {
-            lang = code_a.className.replace('hljs', '') ?
-                code_a.className.replace('hljs', '') : "text";
+            const lang_attr = code_a.className.replace('hljs', '')
+            lang = lang_attr || "text";
         }
         pre[i].classList.add("highlight-wrap");
 
