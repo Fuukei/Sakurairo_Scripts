@@ -10,8 +10,11 @@ module.exports = merge(common, {
         parallel: true,
         terserOptions: {
           // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+          sourceMap:true,
         },
       })
     ]
+  },devtool:"hidden-source-map",output:{
+    iife:true// 是否添加 IIFE 外层
   }
 })
