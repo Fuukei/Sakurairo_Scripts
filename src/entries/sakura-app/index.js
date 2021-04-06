@@ -10,6 +10,7 @@
  * @url https://2heng.xin
  * @date 2019.8.3
  */
+//@ts-
 mashiro_global.variables = new function () {
     this.has_hls = false;
     this.skinSecter = true;
@@ -79,8 +80,8 @@ function imgError(ele, type) {
 function slideToogle(el, duration = 1000, mode = '', callback) {
     let dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
-    let flag = dom.status != 'none';
-    if ((flag == 1 && mode == "show") || (flag == 0 && mode == "hide")) return;
+    const flag = dom.status != 'none';
+    if ((flag == true && mode == "show") || (flag == false && mode == "hide")) return;
     dom.status = flag ? 'none' : 'block';
     dom.style.transition = 'height ' + duration / 1000 + 's';
     dom.style.overflow = 'hidden';
@@ -496,10 +497,13 @@ no_right_click();
 ready(function () {
     //$(document).ready(function () {
     function cover_bg() {
-        if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-            document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile" + ")";
+        const centerbg = document.querySelector(".centerbg")
+        if (centerbg){
+           if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
+            centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile" + ")";
         } else {
-            document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + ")";
+            centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + ")";
+        } 
         }
     }
     cover_bg();
@@ -1462,7 +1466,7 @@ var home = location.href,
                         Record = list.innerHTML,
                         searchFlag = null;
                     otxt.oninput = function () {
-                        if (searchFlag = null) {
+                        if (searchFlag == null) {
                             clearTimeout(searchFlag);
                         }
                         searchFlag = setTimeout(function () {
@@ -1575,7 +1579,7 @@ var home = location.href,
                     }
                 }
             });
-            let _sc = document.querySelector(".search_close");
+            const sc = document.querySelector(".search_close");
             sc && sc.addEventListener("click", function () {
                 let js_search = document.getElementsByClassName("js-search")[0];
                 if (js_search.classList.contains("is-visible")) {
