@@ -1,10 +1,10 @@
 const define = require('./define')
 module.exports = {
     entry: {
-        test: './src/test.ts',
+        "sakura-app": './src/entries/sakura-app/index.js',
     },
     output: {
-        filename: '[name].bundle.js',
+        filename: '[name].js',
         path: define.dist_path,
     },
     module: {
