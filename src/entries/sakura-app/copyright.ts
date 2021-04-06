@@ -13,6 +13,7 @@ const txt = [
 
 ]
 type WindowWithClipboardData = Window & typeof globalThis & { clipboardData: DataTransfer }
+
 function setClipboardText(event: ClipboardEvent, selectionTxt: string) {
     event.preventDefault();
     let htmlData = txt.join('<br>') + "<br><br>" + selectionTxt.replace(/\r\n/g, "<br>"),
