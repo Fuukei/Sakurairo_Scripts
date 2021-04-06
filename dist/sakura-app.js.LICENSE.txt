@@ -1,0 +1,6 @@
+/**
+ * source from f7db3c5
+ * @seealso https://github.com/mirai-mamori/Sakurairo
+ * @license GPL-v2
+ * @date 2021.03
+ */
