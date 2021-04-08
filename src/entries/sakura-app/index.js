@@ -176,7 +176,7 @@ mashiro_global.font_control.ini();
 function code_highlight_style() {
     let pre = document.getElementsByTagName("pre");
     let code = document.querySelectorAll("pre code");
-    if (!pre.length)return;
+    if (!pre.length) return;
     function gen_top_bar(i) {
         let attributes = {
             'autocomplete': 'off',
@@ -216,7 +216,7 @@ try {
 
 if (Poi.reply_link_version == 'new') {
     let cm = document.querySelector(".comments-main");
-    if (cm)cm.addEventListener("click", function (e) {
+    if (cm) cm.addEventListener("click", function (e) {
         if (e.target.classList.contains("comment-reply-link")) {
             e.preventDefault();
             e.stopPropagation();
@@ -236,7 +236,7 @@ let ready = function (fn) {
 function attach_image() {
     let cached = document.getElementsByClassName("insert-image-tips")[0],
         upload_img = document.getElementById('upload-img-file');
-    if (!upload_img)return;
+    if (!upload_img) return;
     upload_img.addEventListener("change", (function () {
         if (this.files.length > 10) {
             addComment.createButterbar("每次上传上限为10张.<br>10 files max per request.");
@@ -300,7 +300,7 @@ function add_upload_tips() {
     let file_subit = document.getElementById('upload-img-file'),
         hover = document.getElementsByClassName('insert-image-tips')[0],
         Tip = document.getElementById('uploadTipPopup');
-    if (!file_subit)return;
+    if (!file_subit) return;
     file_subit.addEventListener("mouseenter", function () {
         hover.classList.toggle('insert-image-tips-hover');
         Tip.classList.toggle('show');
@@ -378,22 +378,22 @@ function checkskinSecter() {
     if (mashiro_global.variables.skinSecter === false) {
         let pattern = document.querySelector(".pattern-center"),
             headertop = document.querySelector(".headertop-bar");
-        if (pattern){
+        if (pattern) {
             pattern.classList.remove("pattern-center");
             pattern.classList.add("headertop-bar-sakura");
         }
-        if (headertop){
+        if (headertop) {
             headertop.classList.remove("headertop-bar");
             headertop.classList.add("headertop-bar-sakura");
         }
     } else {
         let pattern = document.querySelector(".pattern-center-sakura"),
             headertop = document.querySelector(".headertop-bar-sakura");
-        if (pattern){
+        if (pattern) {
             pattern.classList.remove("pattern-center-sakura");
             pattern.classList.add("'pattern-center");
         }
-        if (headertop){
+        if (headertop) {
             headertop.classList.remove("headertop-bar-sakura");
             headertop.classList.add("headertop-bar");
         }
@@ -483,7 +483,7 @@ function mobile_dark_light() {
 
 function no_right_click() {
     let pri = document.getElementById("primary");
-    if(!pri)return;
+    if (!pri) return;
     pri.addEventListener("contextmenu", function (e) {
         if (e.target.nodeName.toLowerCase() == "img") {
             e.preventDefault();
@@ -498,12 +498,12 @@ ready(function () {
     //$(document).ready(function () {
     function cover_bg() {
         const centerbg = document.querySelector(".centerbg")
-        if (centerbg){
-           if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-            centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile" + ")";
-        } else {
-            centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + ")";
-        } 
+        if (centerbg) {
+            if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
+                centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile" + ")";
+            } else {
+                centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + ")";
+            }
         }
     }
     cover_bg();
@@ -827,11 +827,11 @@ const pjaxInit = function () {
         try {
             reloadHermit();
         } catch (e) { };
-        for (let i=0;i<_div.length;i++) {
+        for (let i = 0; i < _div.length; i++) {
             _div[i].classList.remove("load-aplayer");
         }
     });
-    for (let i=0;i<_div.length;i++) {
+    for (let i = 0; i < _div.length; i++) {
         if (_div[i].classList.contains("aplayer")) {
             try {
                 reloadHermit();
@@ -1308,7 +1308,7 @@ var home = location.href,
         },
         splay: function () {
             let video_btn = document.getElementById("video-btn");
-            if (video_btn){
+            if (video_btn) {
                 video_btn.classList.add("video-pause");
                 video_btn.classList.remove("video-play");
             }
@@ -1331,7 +1331,7 @@ var home = location.href,
         },
         spause: function () {
             let video_btn = document.getElementById("video-btn");
-            if (video_btn){
+            if (video_btn) {
                 video_btn.classList.add("video-play");
                 video_btn.classList.remove("video-pause");
             }
@@ -1635,8 +1635,8 @@ var home = location.href,
         },
         XLS: function () {
             $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
-            var load_post_timer;
-            var intersectionObserver = new IntersectionObserver(function (entries) {
+            let load_post_timer;
+            const intersectionObserver = new IntersectionObserver(function (entries) {
                 if (entries[0].intersectionRatio <= 0) return;
                 var page_next = $('#pagination a').attr("href");
                 var load_key = addComment.I("add_post_time");
@@ -1660,11 +1660,10 @@ var home = location.href,
             });
 
             function load_post() {
+                const pagination_a = document.querySelector('#pagination a')
                 $('#pagination a').addClass("loading").text("");
-                $.ajax({
-                    type: "POST",
-                    url: $('#pagination a').attr("href") + "#main",
-                    success: function (data) {
+                fetch(pagination_a.attributes.href + "#main", { method: "POST" }).then(resp => {
+                    if (resp.ok) {
                         result = $(data).find("#main .post");
                         nextHref = $(data).find("#pagination a").attr("href");
                         $("#main").append(result.fadeIn(500));
@@ -1685,7 +1684,32 @@ var home = location.href,
                             $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
                         }
                     }
-                });
+                })
+                /*  $.ajax({
+                     type: "POST",
+                     url: $('#pagination a').attr("href") + "#main",
+                     success: function (data) {
+                         result = $(data).find("#main .post");
+                         nextHref = $(data).find("#pagination a").attr("href");
+                         $("#main").append(result.fadeIn(500));
+                         $("#pagination a").removeClass("loading").text("Previous");
+                         $('#add_post span').removeClass("loading").text("");
+                         lazyload();
+                         post_list_show_animation();
+                         if (nextHref != undefined) {
+                             $("#pagination a").attr("href", nextHref);
+                             //加载完成上滑
+                             var tempScrollTop = $(window).scrollTop();
+                             $(window).scrollTop(tempScrollTop);
+                             $body.animate({
+                                 scrollTop: tempScrollTop + 300
+ 
+                             }, 666)
+                         } else {
+                             $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                         }
+                     }
+                 }); */
                 return false;
             }
         },
@@ -1694,7 +1718,54 @@ var home = location.href,
                 __cancel_text = __cancel.text(),
                 __list = 'commentwrap';
             jQuery(document).on("submit", "#commentform", function () {
-                jQuery.ajax({
+                addComment.createButterbar("提交中(Commiting)....")
+                fetch(Poi.ajaxurl, { method: jQuery(this).attr('method'), body: jQuery(this).serialize() + "&action=ajax_comment", }).then(resp => {
+                    if (resp.ok) {
+                       Array.from( document.getElementsByTagName('textarea')).forEach(function () {
+                        this.value = ''
+                    })
+                        var t = addComment,
+                            cancel = t.I('cancel-comment-reply-link'),
+                            temp = t.I('wp-temp-form-div'),
+                            respond = t.I(t.respondId),
+                            post = t.I('comment_post_ID').value,
+                            parent = t.I('comment_parent').value;
+                        if (parent != '0') {
+                            jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                        } else if (!jQuery('.' + __list).length) {
+                            if (Poi.formpostion == 'bottom') {
+                                jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                            } else {
+                                jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                            }
+                        } else {
+                            if (Poi.order == 'asc') {
+                                jQuery('.' + __list).append(data);
+                            } else {
+                                jQuery('.' + __list).prepend(data);
+                            }
+                        }
+                        t.createButterbar("提交成功(Succeed)");
+                        lazyload();
+                        code_highlight_style();
+                        click_to_view_image();
+                        clean_upload_images();
+                        cancel.style.display = 'none';
+                        cancel.onclick = null;
+                        t.I('comment_parent').value = '0';
+                        if (temp && respond) {
+                            temp.parentNode.insertBefore(respond, temp);
+                            temp.remove();
+                            //temp.parentNode.removeChild(temp)
+                        }
+                    } else {
+                        throw `HTTP ${resp.status}:${resp.statusText}`
+                    }
+                }).catch(reason => {
+                    var t = addComment;
+                    t.createButterbar(reason);
+                })
+                /* jQuery.ajax({
                     url: Poi.ajaxurl,
                     data: jQuery(this).serialize() + "&action=ajax_comment",
                     type: jQuery(this).attr('method'),
@@ -1742,7 +1813,7 @@ var home = location.href,
                             //temp.parentNode.removeChild(temp)
                         }
                     }
-                });
+                }); */
                 return false;
             });
             addComment = {
@@ -1877,7 +1948,7 @@ var home = location.href,
                             click_to_view_image();
                             let commentwrap = document.querySelector("ul.commentwrap");
                             window.scrollTo({
-                                top: commentwrap && (commentwrap.getBoundingClientRect().top+ window.pageYOffset - commentwrap.clientTop - 200),
+                                top: commentwrap && (commentwrap.getBoundingClientRect().top + window.pageYOffset - commentwrap.clientTop - 200),
                                 behavior: "smooth"
                             });
                         }
@@ -1942,7 +2013,7 @@ if (Poi.pjax) {
         if (mashiro_option.NProgressON) NProgress.done();
         mashiro_global.ini.pjax();
         let loading = document.getElementById("loading");
-        if (loading){
+        if (loading) {
             loading.classList.add("hide");
             loading.classList.remove("show");
         }
