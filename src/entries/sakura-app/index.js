@@ -11,6 +11,19 @@
  * @date 2019.8.3
  */
 //@ts-
+
+(function(){
+    const UA = navigator.userAgent,
+    version_list = {Firefox:84,Edg:88,Chrome:88,Opera:74,Version:9},
+    reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
+    version = UA.match(reg);
+    if (version && version[2] > version_list[version[1]] && Poi.pjax){
+        Poi.pjax = true;
+    }else{
+        Poi.pjax = "";
+    }
+})();
+
 mashiro_global.variables = new function () {
     this.has_hls = false;
     this.skinSecter = true;
