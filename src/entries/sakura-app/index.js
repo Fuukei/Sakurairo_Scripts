@@ -15,7 +15,7 @@
  * @date 2019.8.3
  * *** ***
  */
-
+const add_copyright = require('./copyright').default;
 (() => {
     const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 },
         reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
@@ -426,8 +426,8 @@ function checkBgImgCookie() {
 }
 function checkDarkModeCookie() {
     let dark = getCookie("dark"),
-        today = new Date()
-    cWidth = document.body.clientWidth;
+        today = new Date(),
+        cWidth = document.body.clientWidth;
     if (!dark) {
         if ((today.getHours() > 21 || today.getHours() < 7) && mashiro_option.darkmode) {
             setTimeout(function () {
@@ -815,7 +815,7 @@ function tableOfContentScroll(flag) {
         }
     }
 }
-tableOfContentScroll(flag = true);
+tableOfContentScroll(true);
 const pjaxInit = function () {
     add_upload_tips();
     no_right_click();
@@ -868,7 +868,7 @@ const pjaxInit = function () {
     smileBoxToggle();
     timeSeriesReload();
     add_copyright();
-    tableOfContentScroll(flag = true);
+    tableOfContentScroll(true);
 }
 
 function sm() {
@@ -989,29 +989,7 @@ function grin(tag, type, before, after) {
         myField.focus();
     }
 }
-let copytext = (e) => {
-    if (window.getSelection().toString().length > 30 && mashiro_option.clipboardCopyright) {
-        setClipboardText(e);
-    }
-    addComment.createButterbar("复制成功！<br>Copied to clipboard successfully!", 1000);
-    function setClipboardText(event) {
-        event.preventDefault();
-        let htmlData = "# 商业转载请联系作者获得授权，非商业转载请注明出处。<br>" + "# For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source.<br>" + "# 协议(License)：署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)<br>" + "# 作者(Author)：" + mashiro_option.author_name + "<br>" + "# 链接(URL)：" + window.location.href + "<br>" + "# 来源(Source)：" + mashiro_option.site_name + "<br><br>" + window.getSelection().toString().replace(/\r\n/g, "<br>"),
-            textData = "# 商业转载请联系作者获得授权，非商业转载请注明出处。\n" + "# For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source.\n" + "# 协议(License)：署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0)\n" + "# 作者(Author)：" + mashiro_option.author_name + "\n" + "# 链接(URL)：" + window.location.href + "\n" + "# 来源(Source)：" + mashiro_option.site_name + "\n\n" + window.getSelection().toString().replace(/\r\n/g, "\n");
-        if (event.clipboardData) {
-            event.clipboardData.setData("text/html", htmlData);
-            event.clipboardData.setData("text/plain", textData);
-        } else if (window.clipboardData) {
-            return window.clipboardData.setData("text", textData);
-        }
-    }
-}
-function add_copyright() {
-    document.body.removeEventListener("copy", copytext);
-    document.body.addEventListener("copy", copytext);
-}
-
-add_copyright();
+add_copyright()
 ready(() => {
     getqqinfo();
 });
@@ -1800,9 +1778,8 @@ var home = location.href,
                 addComment.createButterbar("提交中(Commiting)....")
                 fetch(Poi.ajaxurl, { method: jQuery(this).attr('method'), body: jQuery(this).serialize() + "&action=ajax_comment", }).then(resp => {
                     if (resp.ok) {
-                        Array.from(document.getElementsByTagName('textarea')).forEach(function () {
-                            this.value = ''
-                        })
+                        Array.from(document.getElementsByTagName('textarea'))
+                            .forEach((e) => e.value = '')
                         var t = addComment,
                             cancel = t.I('cancel-comment-reply-link'),
                             temp = t.I('wp-temp-form-div'),
@@ -1895,92 +1872,7 @@ var home = location.href,
                 }); */
                 return false;
             });
-            addComment = {
-                moveForm: function (commId, parentId, respondId) {
-                    var t = this,
-                        div, comm = t.I(commId),
-                        respond = t.I(respondId),
-                        cancel = t.I('cancel-comment-reply-link'),
-                        parent = t.I('comment_parent'),
-                        post = t.I('comment_post_ID');
-                    __cancel.text(__cancel_text);
-                    t.respondId = respondId;
-                    if (!t.I('wp-temp-form-div')) {
-                        div = document.createElement('div');
-                        div.id = 'wp-temp-form-div';
-                        div.style.display = 'none';
-                        respond.parentNode.insertBefore(div, respond)
-                    } !comm ? (temp = t.I('wp-temp-form-div'), t.I('comment_parent').value = '0', temp.parentNode.insertBefore(respond, temp), temp.remove()) : comm.parentNode.insertBefore(respond, comm.nextSibling);
-                    jQuery("body").animate({
-                        scrollTop: jQuery('#respond').offset().top - 180
-                    }, 400);
-                    parent.value = parentId;
-                    cancel.style.display = '';
-                    cancel.onclick = function () {
-                        var t = addComment,
-                            temp = t.I('wp-temp-form-div'),
-                            respond = t.I(t.respondId);
-                        t.I('comment_parent').value = '0';
-                        if (temp && respond) {
-                            temp.parentNode.insertBefore(respond, temp);
-                            temp.remove();
-                            //temp.parentNode.removeChild(temp);
-                        }
-                        this.style.display = 'none';
-                        this.onclick = null;
-                        return false;
-                    };
-                    try {
-                        t.I('comment').focus();
-                    } catch (e) { }
-                    return false;
-                },
-                I: function (e) {
-                    return document.getElementById(e);
-                },
-                clearButterbar: function (e) {
-                    let butterBar = document.getElementsByClassName("butterBar");
-                    if (butterBar.length > 0) {
-                        for (let i = 0; i < butterBar.length; i++) {
-                            let a = butterBar[i];
-                            a.remove();
-                        }
-                    }
-                },
-                createButterbar: function (message, showtime) {
-                    let t = this;
-                    t.clearButterbar();
-                    document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-                    let butterBar = () => {
-                        let _butterBar = document.getElementsByClassName("butterBar");
-                        if (_butterBar.length == 0) return;
-                        for (let i = 0; i < _butterBar.length; i++) {
-                            let a = _butterBar[i];
-                            a.remove();
-                        }
-                    }
-                    if (showtime > 0) {
-                        setTimeout(() => { butterBar() }, showtime);
-                    } else {
-                        setTimeout(() => { butterBar() }, 6000);
-                    }
-                }
-                // clearButterbar: function (e) {
-                //     if (jQuery(".butterBar").length > 0) {
-                //         jQuery(".butterBar").remove();
-                //     }
-                // },
-                // createButterbar: function (message, showtime) {
-                //     var t = this;
-                //     t.clearButterbar();
-                //     jQuery("body").append('<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-                //     if (showtime > 0) {
-                //         setTimeout("jQuery('.butterBar').remove()", showtime);
-                //     } else {
-                //         setTimeout("jQuery('.butterBar').remove()", 6000);
-                //     }
-                // }
-            };
+            window.addComment = require('./AddComment').default
         },
         XCP: function () {
             document.body.addEventListener('click', function (e) {
