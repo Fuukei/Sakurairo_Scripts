@@ -2067,13 +2067,10 @@ if (Poi.pjax) {
         cacheBust: false,
     });
     document.addEventListener("pjax:send", () => {
-        let normal = document.getElementsByClassName("normal-cover-video");
-        if (normal.length > 0) {
-            for (let a; a < normal.length; a++) {
-                normal[a].pause();
-                normal[a].src = '';
-                normal[a].load = '';
-            }
+        for (const element of document.getElementsByClassName("normal-cover-video")) {
+            element.pause();
+            element.src = '';
+            element.load = '';
         }
         document.getElementById("bar").style.width = "0%";
         if (mashiro_option.NProgressON) NProgress.start();
