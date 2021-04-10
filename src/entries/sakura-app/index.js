@@ -10,18 +10,12 @@
  * @url https://2heng.xin
  * @date 2019.8.3
  */
-//@ts-
 
-(function(){
-    const UA = navigator.userAgent,
-    version_list = {Firefox:84,Edg:88,Chrome:88,Opera:74,Version:9},
-    reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
-    version = UA.match(reg);
-    if (version && version[2] > version_list[version[1]] && Poi.pjax){
-        Poi.pjax = true;
-    }else{
-        Poi.pjax = "";
-    }
+(() => {
+    const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 },
+        reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
+        version = navigator.userAgent.match(reg);
+    Poi.pjax = version && (version[2] > version_list[version[1]]) && Poi.pjax
 })();
 
 mashiro_global.variables = new function () {
@@ -1125,15 +1119,15 @@ if (mashiro_option.float_player_on) {
 
 function getqqinfo() {
     let is_get_by_qq = false,
-    author = document.querySelector("input#author"),
-    qq = document.querySelector("input#qq"),
-    email = document.querySelector("input#email"),
-    url = document.querySelector("input#url"),
-    qq_check = document.querySelector(".qq-check"),
-    gravatar_check = document.querySelector(".gravatar-check"),
-    user_avatar_img = document.querySelector("div.comment-user-avatar img");
+        author = document.querySelector("input#author"),
+        qq = document.querySelector("input#qq"),
+        email = document.querySelector("input#email"),
+        url = document.querySelector("input#url"),
+        qq_check = document.querySelector(".qq-check"),
+        gravatar_check = document.querySelector(".gravatar-check"),
+        user_avatar_img = document.querySelector("div.comment-user-avatar img");
     if (author == null) return;
-        //cached = $('input');
+    //cached = $('input');
     if (!getCookie('user_qq') && !getCookie('user_qq_email') && !getCookie('user_author')) {
         qq.value = author.value = email.value = url.value = "";
         //cached.filter('#qq,#author,#email,#url').val('');
@@ -1233,9 +1227,9 @@ function getqqinfo() {
         // }
     }
     email.addEventListener("blur", function () {
-    //cached.filter('#email').on('blur', function () {
+        //cached.filter('#email').on('blur', function () {
         let emailAddress = email.value;
-       // var emailAddress = cached.filter('#email').val();
+        // var emailAddress = cached.filter('#email').val();
         if ((is_get_by_qq == false || emailAddressFlag != emailAddress) && emailAddress != '') {
             user_avatar_img.setAttribute("src", get_gravatar(emailAddress, 80));
             //$('div.comment-user-avatar img').attr('src', get_gravatar(emailAddress, 80));
@@ -1244,7 +1238,7 @@ function getqqinfo() {
             setCookie('user_qq_email', '', 30);
             setCookie('is_user_qq', 'no', 30);
             qq.value = '';
-           // cached.filter('#qq').val('');
+            // cached.filter('#qq').val('');
             if (!qq.value) {
                 qq_check.style.display = "none";
                 gravatar_check.style.display = "block";
@@ -1259,18 +1253,18 @@ function getqqinfo() {
     }
     url.addEventListener("blur", function () {
         //cached.filter('#url').on('blur', function () {
-            let URL_Address = url.value;
-            url.value = URL_Address;
-            // var URL_Address = cached.filter('#url').val();
-            // cached.filter('#url').val(URL_Address);
-            setCookie('user_url', URL_Address, 30);
-        });
+        let URL_Address = url.value;
+        url.value = URL_Address;
+        // var URL_Address = cached.filter('#url').val();
+        // cached.filter('#url').val(URL_Address);
+        setCookie('user_url', URL_Address, 30);
+    });
     if (getCookie('user_author')) {
-         author.value = getCookie('user_author');
+        author.value = getCookie('user_author');
         // cached.filter('#author').val(getCookie('user_author'));
     }
     author.addEventListener("blur", function () {
-    // cached.filter('#author').on('blur', function () {
+        // cached.filter('#author').on('blur', function () {
         let user_name = author.value;
         author.value = user_name;
         // var user_name = cached.filter('#author').val();
@@ -1500,13 +1494,13 @@ var home = location.href,
             }
             let archives = document.getElementsByClassName("archives");
             if (archives.length > 0) {
-                for (let i =0;i<archives.length;i++){
+                for (let i = 0; i < archives.length; i++) {
                     archives[i].style.display = "none";
                 }
                 archives[0].style.display = "";
                 let h3 = document.getElementById("archives-temp").getElementsByTagName("h3");
-                for(let i=0;i<h3.length;i++){
-                    h3[i].addEventListener("click",(e)=>{
+                for (let i = 0; i < h3.length; i++) {
+                    h3[i].addEventListener("click", (e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         slideToogle(e.target.nextElementSibling, 300);
@@ -1801,9 +1795,9 @@ var home = location.href,
                 addComment.createButterbar("提交中(Commiting)....")
                 fetch(Poi.ajaxurl, { method: jQuery(this).attr('method'), body: jQuery(this).serialize() + "&action=ajax_comment", }).then(resp => {
                     if (resp.ok) {
-                       Array.from( document.getElementsByTagName('textarea')).forEach(function () {
-                        this.value = ''
-                    })
+                        Array.from(document.getElementsByTagName('textarea')).forEach(function () {
+                            this.value = ''
+                        })
                         var t = addComment,
                             cancel = t.I('cancel-comment-reply-link'),
                             temp = t.I('wp-temp-form-div'),
