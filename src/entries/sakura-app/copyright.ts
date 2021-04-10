@@ -1,7 +1,6 @@
 /**
  * sakura-app.js L943-963
  */
-import addComment from "./addComment";
 
 const txt = [
     "# 商业转载请联系作者获得授权，非商业转载请注明出处。",
@@ -16,7 +15,7 @@ type WindowWithClipboardData = Window & typeof globalThis & { clipboardData: Dat
 
 function setClipboardText(event: ClipboardEvent, selectionTxt: string) {
     event.preventDefault();
-    let htmlData = txt.join('<br>') + "<br><br>" + selectionTxt.replace(/\r\n/g, "<br>"),
+    const htmlData = txt.join('<br>') + "<br><br>" + selectionTxt.replace(/\r\n/g, "<br>"),
         textData = txt.join('\n') + "\n\n" + selectionTxt.toString().replace(/\r\n/g, "\n");
     if (event.clipboardData) {
         event.clipboardData.setData("text/html", htmlData);
@@ -30,7 +29,7 @@ function copytext(e: ClipboardEvent) {
     const selection = window.getSelection()
     if (selection) {
         const selectionText = selection.toString()
-        if (selectionText.length > 30 && mashiro_option.clipboardCopyright) {
+        if (selectionText.length > 30) {
             setClipboardText(e, selectionText);
             addComment.createButterbar("复制成功！<br>Copied to clipboard successfully!", 1000);
         }
@@ -40,6 +39,8 @@ function copytext(e: ClipboardEvent) {
  * 添加复制时的版权提示
  */
 export default function add_copyright() {
-    document.body.removeEventListener("copy", copytext);
-    document.body.addEventListener("copy", copytext);
+    if (mashiro_option.clipboardCopyright) {
+        document.body.removeEventListener("copy", copytext)
+        document.body.addEventListener("copy", copytext);
+    }
 }

@@ -1,5 +1,4 @@
 import { getCookie, setCookie } from "../../module/cookie";
-
 /**
  * sakura-app.js L135-165
  */

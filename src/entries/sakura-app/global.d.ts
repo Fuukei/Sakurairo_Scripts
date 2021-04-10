@@ -1,5 +1,3 @@
-import FontControl from "./font-control"
-
 declare namespace mashiro_option{
     const NProgressON: boolean
     const audio: boolean
@@ -30,7 +28,7 @@ declare namespace mashiro_option{
     const windowheight: string
 }
 declare namespace mashiro_global{
-let font_control:FontControl
+//let font_control:FontControl
 let ini:{
     normalize()
     pjax()
@@ -40,3 +38,4 @@ let variables:{
     skinSecter:boolean
 }
 }
+declare let addComment:any
