@@ -20,7 +20,7 @@ const add_copyright = require('./copyright').default;
     const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 },
         reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
         version = navigator.userAgent.match(reg);
-    Poi.pjax = version && (version[2] > version_list[version[1]]) && Poi.pjax
+    Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax
 })();
 
 mashiro_global.variables = new function () {
@@ -118,14 +118,11 @@ function slideToogle(el, duration = 1000, mode = '', callback) {
 
 function post_list_show_animation() {
     if (document.querySelector('article') && document.querySelector('article').classList.contains("post-list-thumb")) {
-        let options = {
+        const options = {
             root: null,
             threshold: [0.66]
         },
-            io = new IntersectionObserver(callback, options),
-            articles = document.getElementsByClassName('post-list-thumb');
-
-        function callback(entries) {
+        callback = (entries)=>{
             entries.forEach((article) => {
                 if (!window.IntersectionObserver) {
                     article.target.style.willChange = 'auto';
@@ -145,15 +142,17 @@ function post_list_show_animation() {
                     }
                 }
             })
-        }
+        },
+        io = new IntersectionObserver(callback, options),
+        articles = document.getElementsByClassName('post-list-thumb');
         for (let a = 0; a < articles.length; a++) {
             io.observe(articles[a]);
         }
     }
 }
 mashiro_global.font_control = new function () {
-    let cbs = document.getElementsByClassName("control-btn-serif")[0];
-    let cbss = document.getElementsByClassName("control-btn-sans-serif")[0];
+    const cbs = document.getElementsByClassName("control-btn-serif")[0],
+        cbss = document.getElementsByClassName("control-btn-sans-serif")[0];
     this.change_font = function () {
         if (document.body.classList.contains("serif")) {
             document.body.classList.remove("serif");
@@ -186,8 +185,8 @@ mashiro_global.font_control = new function () {
 mashiro_global.font_control.ini();
 
 function code_highlight_style() {
-    let pre = document.getElementsByTagName("pre");
-    let code = document.querySelectorAll("pre code");
+    const pre = document.getElementsByTagName("pre"),
+        code = document.querySelectorAll("pre code");
     if (!pre.length) return;
     function gen_top_bar(i) {
         let attributes = {
@@ -215,7 +214,7 @@ function code_highlight_style() {
         gen_top_bar(i);
     }
     hljs.initLineNumbersOnLoad();
-    let ec = document.querySelector(".entry-content");
+    const ec = document.querySelector(".entry-content");
     ec && ec.addEventListener("click", function (e) {
         if (!e.target.classList.contains("highlight-wrap")) return;
         e.target.classList.toggle("code-block-fullscreen");
