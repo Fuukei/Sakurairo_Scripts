@@ -4,22 +4,22 @@ const AddComment = {
         let __cancel = jQuery('#cancel-comment-reply-link'),
             __cancel_text = __cancel.text(),
          t = this,
-            div, comm = t.I(commId),
-            respond = t.I(respondId),
-            cancel = t.I('cancel-comment-reply-link'),
-            parent = t.I('comment_parent')
-        //post = t.I('comment_post_ID');
+            div, comm = document.getElementById(commId),
+            respond = document.getElementById(respondId),
+            cancel = document.getElementById('cancel-comment-reply-link'),
+            parent = document.getElementById('comment_parent')
+        //post = document.getElementById('comment_post_ID');
         __cancel.text(__cancel_text);
         t.respondId = respondId;
-        if (!t.I('wp-temp-form-div')) {
+        if (!document.getElementById('wp-temp-form-div')) {
             div = document.createElement('div');
             div.id = 'wp-temp-form-div';
             div.style.display = 'none';
             respond.parentNode.insertBefore(div, respond)
         }
         if (!comm) {
-            const temp = t.I('wp-temp-form-div')
-            t.I('comment_parent').value = '0'
+            const temp = document.getElementById('wp-temp-form-div')
+            document.getElementById('comment_parent').value = '0'
             temp.parentNode.insertBefore(respond, temp)
             temp.remove()
         } else {
@@ -32,9 +32,9 @@ const AddComment = {
         cancel.style.display = '';
         cancel.onclick = function () {
             var t = addComment,
-                temp = t.I('wp-temp-form-div'),
-                respond = t.I(t.respondId);
-            t.I('comment_parent').value = '0';
+                temp = document.getElementById('wp-temp-form-div'),
+                respond = document.getElementById(t.respondId);
+            document.getElementById('comment_parent').value = '0';
             if (temp && respond) {
                 temp.parentNode.insertBefore(respond, temp);
                 temp.remove();
@@ -45,11 +45,10 @@ const AddComment = {
             return false;
         };
         try {
-            t.I('comment').focus();
+            document.getElementById('comment').focus();
         } catch (e) { }
         return false;
     },
-    I:(e)=> document.getElementById(e),
     clearButterbar: function () {
         const butterBar = document.getElementsByClassName("butterBar");
         if (butterBar.length > 0) {

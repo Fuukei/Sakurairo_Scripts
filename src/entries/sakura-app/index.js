@@ -675,8 +675,8 @@ timeSeriesReload();
 
 /*视频feature*/
 function coverVideo() {
-    let video = addComment.I("coverVideo"),
-        btn = addComment.I("coverVideo-btn");
+    let video = document.getElementById("coverVideo"),
+        btn = document.getElementById("coverVideo-btn");
 
     if (video.paused) {
         video.play();
@@ -694,8 +694,8 @@ function coverVideo() {
 }
 
 function killCoverVideo() {
-    var video = addComment.I("coverVideo");
-    var btn = addComment.I("coverVideo-btn");
+    var video = document.getElementById("coverVideo");
+    var btn = document.getElementById("coverVideo-btn");
 
     if (video.paused) {
         //console.info('none:killCoverVideo()');
@@ -709,7 +709,7 @@ function killCoverVideo() {
 }
 
 function loadHls() {
-    let video = addComment.I('coverVideo'),
+    let video = document.getElementById('coverVideo'),
         video_src = document.getElementById("coverVideo").getAttribute("data-src");
     if (Hls.isSupported()) {
         let hls = new Hls();
@@ -934,8 +934,8 @@ function grin(tag, type, before, after) {
         case "tieba": tag = ' ::' + tag + ':: '; break;
         default: tag = ' :' + tag + ': ';
     }
-    if (addComment.I('comment') && addComment.I('comment').type == 'textarea') {
-        myField = addComment.I('comment');
+    if (document.getElementById('comment') && document.getElementById('comment').type == 'textarea') {
+        myField = document.getElementById('comment');
     } else {
         return false;
     }
@@ -1496,8 +1496,8 @@ var // s = $('#bgvideo')[0],
                     var QueryStorage = [];
                     search_a(Poi.api + "sakura/v1/cache_search/json?_wpnonce=" + Poi.nonce);
 
-                    var otxt = addComment.I("search-input"),
-                        list = addComment.I("PostlistBox"),
+                    var otxt = document.getElementById("search-input"),
+                        list = document.getElementById("PostlistBox"),
                         Record = list.innerHTML,
                         searchFlag = null;
                     otxt.oninput = function () {
@@ -1610,7 +1610,7 @@ var // s = $('#bgvideo')[0],
                                     break
                             }
                         }
-                        w && (y = y + G + "文章" + E + w + D), u && (y = y + G + "页面" + E + u + D), r && (y = y + G + "分类" + E + r + D), p && (y = y + G + "标签" + E + p + D), F && (y = y + G + "评论" + E + F + D), s = addComment.I("PostlistBox"), s.innerHTML = y
+                        w && (y = y + G + "文章" + E + w + D), u && (y = y + G + "页面" + E + u + D), r && (y = y + G + "分类" + E + r + D), p && (y = y + G + "标签" + E + p + D), F && (y = y + G + "评论" + E + F + D), s = document.getElementById("PostlistBox"), s.innerHTML = y
                     }
                 }
             });
@@ -1674,9 +1674,9 @@ var // s = $('#bgvideo')[0],
             const intersectionObserver = new IntersectionObserver(function (entries) {
                 if (entries[0].intersectionRatio <= 0) return;
                 var page_next = $('#pagination a').attr("href");
-                var load_key = addComment.I("add_post_time");
+                var load_key = document.getElementById("add_post_time");
                 if (page_next != undefined && load_key) {
-                    var load_time = addComment.I("add_post_time").title;
+                    var load_time = document.getElementById("add_post_time").title;
                     if (load_time != "233") {
                         console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
                         load_post_timer = setTimeout(function () {
@@ -2026,7 +2026,7 @@ if ((isWebkit || isOpera || isIe) && document.getElementById && window.addEventL
         if (!(/^[A-z0-9_-]+$/.test(id))) {
             return;
         }
-        element = addComment.I(id);
+        element = document.getElementById(id);
         if (element) {
             if (!(/^(?:a|select|input|button|textarea)$/i.test(element.tagName))) {
                 element.tabIndex = -1;
