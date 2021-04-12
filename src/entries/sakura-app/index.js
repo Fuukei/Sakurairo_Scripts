@@ -20,9 +20,9 @@ const add_copyright = require('./copyright').default;
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
     let reg;
-    if (UA.indexOf('Chrome')!=-1){
+    if (UA.indexOf('Chrome') != -1) {
         reg = /(Chrome)\/(\d+)/i;
-    }else {
+    } else {
         reg = /(Firefox|Chrome|Version|Opera)\/(\d+)/i;
     }
     const version = UA.match(reg);
@@ -57,7 +57,7 @@ mashiro_global.ini = new function () {
     }
 }
 
-const {setCookie,getCookie,removeCookie,setVersionCtrl} = require('../../module/cookie')
+const { setCookie, getCookie, removeCookie, setVersionCtrl } = require('../../module/cookie')
 setVersionCtrl(mashiro_option.cookie_version_control)
 /* function imgError(ele, type) {
     switch (type) {
@@ -105,29 +105,29 @@ function post_list_show_animation() {
             root: null,
             threshold: [0.66]
         },
-        callback = (entries)=>{
-            entries.forEach((article) => {
-                if (!window.IntersectionObserver) {
-                    article.target.style.willChange = 'auto';
-                    if (article.target.classList.contains("post-list-show") === false) {
-                        article.target.classList.add("post-list-show");
-                    }
-                } else {
-                    if (article.target.classList.contains("post-list-show")) {
+            callback = (entries) => {
+                entries.forEach((article) => {
+                    if (!window.IntersectionObserver) {
                         article.target.style.willChange = 'auto';
-                        io.unobserve(article.target)
-                    } else {
-                        if (article.isIntersecting) {
+                        if (article.target.classList.contains("post-list-show") === false) {
                             article.target.classList.add("post-list-show");
+                        }
+                    } else {
+                        if (article.target.classList.contains("post-list-show")) {
                             article.target.style.willChange = 'auto';
                             io.unobserve(article.target)
+                        } else {
+                            if (article.isIntersecting) {
+                                article.target.classList.add("post-list-show");
+                                article.target.style.willChange = 'auto';
+                                io.unobserve(article.target)
+                            }
                         }
                     }
-                }
-            })
-        },
-        io = new IntersectionObserver(callback, options),
-        articles = document.getElementsByClassName('post-list-thumb');
+                })
+            },
+            io = new IntersectionObserver(callback, options),
+            articles = document.getElementsByClassName('post-list-thumb');
         for (let a = 0; a < articles.length; a++) {
             io.observe(articles[a]);
         }
@@ -742,12 +742,12 @@ function coverVideoIni() {
         if (mashiro_global.variables.has_hls) {
             loadHls();
         } else {
-/*             //不保证可用 需测试
-            loadJS("https://cdn.jsdelivr.net/gh/mashirozx/Sakura@3.3.3/cdn/js/src/16.hls.js", function () {
-                loadHls();
-                mashiro_global.variables.has_hls = true;
-            }) */
-            import('hls.js').then(hls=>{
+            /*             //不保证可用 需测试
+                        loadJS("https://cdn.jsdelivr.net/gh/mashirozx/Sakura@3.3.3/cdn/js/src/16.hls.js", function () {
+                            loadHls();
+                            mashiro_global.variables.has_hls = true;
+                        }) */
+            import('hls.js').then(hls => {
                 //export to GLOBAL
                 window.Hls = hls.default
                 loadHls();
@@ -1103,9 +1103,9 @@ function getqqinfo() {
     }
     let emailAddressFlag = email.value;
     //var emailAddressFlag = cached.filter('#email').val();
-    author.addEventListener('blur',()=>{
-   // })
-    //cached.filter('#author').on('blur', function () {
+    author.addEventListener('blur', () => {
+        // })
+        //cached.filter('#author').on('blur', function () {
         let qq = author.value,
             $reg = /^[1-9]\d{4,9}$/;
         if ($reg.test(qq)) {
@@ -1128,7 +1128,7 @@ function getqqinfo() {
                     qq.value = qq.trim();
                     // cached.filter('#qq').val($.trim(qq));
                     // if (cached.filter('#qq').val()) {
-                    if (qq.value){
+                    if (qq.value) {
                         qq_check.style.display = 'block';
                         gravatar_check.style.display = 'none';
                         // $('.qq-check').css('display', 'block');
@@ -1142,7 +1142,7 @@ function getqqinfo() {
                     emailAddressFlag = email.value();
                     // emailAddressFlag = cached.filter('#email').val();
                     /***/
-                    user_avatar_img.setAttribute('src',data.avatar);
+                    user_avatar_img.setAttribute('src', data.avatar);
                     // $('div.comment-user-avatar img').attr('src', data.avatar);
                     setCookie('user_avatar', data.avatar, 30);
                 },
@@ -1151,26 +1151,26 @@ function getqqinfo() {
                     // cached.filter('#qq').val('');
                     qq_check.style.display = 'none';
                     gravatar_check.style.display = 'block';
-                    user_avatar_img.setAttribute('src',get_gravatar(email.value,80));
+                    user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
                     // $('.qq-check').css('display', 'none');
                     // $('.gravatar-check').css('display', 'block');
                     // $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
                     setCookie('user_qq', '', 30);
-                    setCookie('user_email',email.value,30);
-                    setCookie('user_avatar',get_gravatar(email.value,80),30);
+                    setCookie('user_email', email.value, 30);
+                    setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                     // setCookie('user_email', cached.filter('#email').val(), 30);
                     // setCookie('user_avatar', get_gravatar(cached.filter('#email').val(), 80), 30);
                     /***/
                     qq.value = email.value = url.value = "";
                     // cached.filter('#qq,#email,#url').val('');
                     // if (!cached.filter('#qq').val()) {
-                    if(!qq.value){
+                    if (!qq.value) {
                         qq_check.style.display = 'none';
                         gravatar_check.style.display = 'block';
                         // $('.qq-check').css('display', 'none');
                         // $('.gravatar-check').css('display', 'block');
                         setCookie('user_qq', '', 30);
-                        user_avatar_img.setAttribute('src',get_gravatar(email.value,80));
+                        user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
                         // $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
                         setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                     }
@@ -1719,7 +1719,7 @@ var // s = $('#bgvideo')[0],
                         lazyload();
                         post_list_show_animation();
                         if (nextHref != undefined) {
-                            pagination_a.setAttribute("href",nextHref);
+                            pagination_a.setAttribute("href", nextHref);
                             // $("#pagination a").attr("href", nextHref);
                             //加载完成上滑
                             let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
@@ -1734,7 +1734,7 @@ var // s = $('#bgvideo')[0],
                             //
                             // }, 666)
                         } else {
-                            document.getElementById("pagination").innerHTML="<span>很高兴你翻到这里，但是真的没有了...</span>";
+                            document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
                             // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
                         }
                     }
@@ -1768,21 +1768,25 @@ var // s = $('#bgvideo')[0],
             }
         },
         XCS: function () {
-            var __cancel = jQuery('#cancel-comment-reply-link'),
-                __cancel_text = __cancel.text(),
-                __list = 'commentwrap';
+            var __list = 'commentwrap';
             jQuery(document).on("submit", "#commentform", function () {
                 addComment.createButterbar("提交中(Commiting)....")
-                fetch(Poi.ajaxurl, { method: jQuery(this).attr('method'), body: jQuery(this).serialize() + "&action=ajax_comment", }).then(resp => {
+                fetch(Poi.ajaxurl, {
+                    method: jQuery(this).attr('method'),
+                    headers:{
+                        "Content-Type":"application/x-www-form-urlencoded"
+                    },
+                    body:"action=ajax_comment&" + jQuery(this).serialize()
+                }).then(async resp => {
+                    const data = await resp.text()
                     if (resp.ok) {
                         Array.from(document.getElementsByTagName('textarea'))
                             .forEach((e) => e.value = '')
-                        var t = addComment,
-                            cancel = t.I('cancel-comment-reply-link'),
-                            temp = t.I('wp-temp-form-div'),
-                            respond = t.I(t.respondId),
-                            post = t.I('comment_post_ID').value,
-                            parent = t.I('comment_parent').value;
+                        const cancel = document.getElementById('cancel-comment-reply-link'),
+                            temp = document.getElementById('wp-temp-form-div'),
+                            respond = document.getElementById(addComment.respondId),
+                            //post = document.getElementById('comment_post_ID').value,
+                            parent = document.getElementById('comment_parent').value;
                         if (parent != '0') {
                             jQuery('#respond').before('<ol class="children">' + data + '</ol>');
                         } else if (!jQuery('.' + __list).length) {
@@ -1798,25 +1802,24 @@ var // s = $('#bgvideo')[0],
                                 jQuery('.' + __list).prepend(data);
                             }
                         }
-                        t.createButterbar("提交成功(Succeed)");
+                        addComment.createButterbar("提交成功(Succeed)");
                         lazyload();
                         code_highlight_style();
                         click_to_view_image();
                         clean_upload_images();
                         cancel.style.display = 'none';
                         cancel.onclick = null;
-                        t.I('comment_parent').value = '0';
+                        document.getElementById('comment_parent').value = '0';
                         if (temp && respond) {
                             temp.parentNode.insertBefore(respond, temp);
                             temp.remove();
                             //temp.parentNode.removeChild(temp)
                         }
                     } else {
-                        throw `HTTP ${resp.status}:${resp.statusText}`
+                        addComment.createButterbar(data??'HTTP'+resp.status+':'+resp.statusText); 
                     }
                 }).catch(reason => {
-                    var t = addComment;
-                    t.createButterbar(reason);
+                    addComment.createButterbar(reason);
                 })
                 /* jQuery.ajax({
                     url: Poi.ajaxurl,
