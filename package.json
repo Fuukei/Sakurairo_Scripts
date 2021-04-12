@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
-    "highlight.js": "^10.7.1"
+    "highlight.js": "^10.7.1",
+    "hls.js": "^1.0.0"
   }
 }

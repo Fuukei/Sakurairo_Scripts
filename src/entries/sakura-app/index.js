@@ -709,10 +709,10 @@ function killCoverVideo() {
 }
 
 function loadHls() {
-    let video = document.getElementById('coverVideo'),
+    const video = document.getElementById('coverVideo'),
         video_src = document.getElementById("coverVideo").getAttribute("data-src");
     if (Hls.isSupported()) {
-        let hls = new Hls();
+        const hls = new Hls();
         hls.loadSource(video_src);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -725,7 +725,7 @@ function loadHls() {
         });
     }
 }
-function loadJS(url, callback) {
+/* function loadJS(url, callback) {
     let script = document.createElement("script"),
         fn = callback || function () { };
     script.type = "text/javascript";
@@ -734,7 +734,7 @@ function loadJS(url, callback) {
     };
     script.src = url;
     document.head.appendChild(script);
-}
+} */
 
 function coverVideoIni() {
     let video = document.getElementsByTagName('video')[0];
@@ -742,8 +742,14 @@ function coverVideoIni() {
         if (mashiro_global.variables.has_hls) {
             loadHls();
         } else {
-            //不保证可用 需测试
+/*             //不保证可用 需测试
             loadJS("https://cdn.jsdelivr.net/gh/mashirozx/Sakura@3.3.3/cdn/js/src/16.hls.js", function () {
+                loadHls();
+                mashiro_global.variables.has_hls = true;
+            }) */
+            import('hls.js').then(hls=>{
+                //export to GLOBAL
+                window.Hls = hls.default
                 loadHls();
                 mashiro_global.variables.has_hls = true;
             })
