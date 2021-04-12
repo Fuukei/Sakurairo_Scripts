@@ -1120,7 +1120,7 @@ function getqqinfo() {
     }
     let emailAddressFlag = email.value;
     //var emailAddressFlag = cached.filter('#email').val();
-    document.querySelector('input#author').addEventListener('blur',()=>{
+    author.addEventListener('blur',()=>{
    // })
     //cached.filter('#author').on('blur', function () {
         let qq = author.value,
@@ -1132,21 +1132,24 @@ function getqqinfo() {
                 dataType: 'json',
                 success: function (data) {
                     author.value = data.name;
-                    email.value = $.trim(qq) + '@qq.com';
+                    email.value = qq.trim() + '@qq.com';
                     //cached.filter('#author').val(data.name);
                     // cached.filter('#email').val($.trim(qq) + '@qq.com');
                     if (mashiro_option.qzone_autocomplete) {
-                        url.value = 'https://user.qzone.qq.com/' + $.trim(qq);
+                        url.value = 'https://user.qzone.qq.com/' + qq.trim();
                         // cached.filter('#url').val('https://user.qzone.qq.com/' + $.trim(qq));
                     }
-                    $('div.comment-user-avatar img').attr('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
+                    user_avatar_img.setAttribute('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
+                    // $('div.comment-user-avatar img').attr('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
                     is_get_by_qq = true;
-                    qq.value = $.trim(qq);
+                    qq.value = qq.trim();
                     // cached.filter('#qq').val($.trim(qq));
                     // if (cached.filter('#qq').val()) {
                     if (qq.value){
-                        $('.qq-check').css('display', 'block');
-                        $('.gravatar-check').css('display', 'none');
+                        qq_check.style.display = 'block';
+                        gravatar_check.style.display = 'none';
+                        // $('.qq-check').css('display', 'block');
+                        // $('.gravatar-check').css('display', 'none');
                     }
                     setCookie('user_author', data.name, 30);
                     setCookie('user_qq', qq, 30);
@@ -1156,7 +1159,8 @@ function getqqinfo() {
                     emailAddressFlag = email.value();
                     // emailAddressFlag = cached.filter('#email').val();
                     /***/
-                    $('div.comment-user-avatar img').attr('src', data.avatar);
+                    user_avatar_img.setAttribute('src',data.avatar);
+                    // $('div.comment-user-avatar img').attr('src', data.avatar);
                     setCookie('user_avatar', data.avatar, 30);
                 },
                 error: function () {
@@ -1714,28 +1718,41 @@ var // s = $('#bgvideo')[0],
             });
 
             function load_post() {
-                const pagination_a = document.querySelector('#pagination a')
-                $('#pagination a').addClass("loading").text("");
+                const pagination_a = document.querySelector('#pagination a');
+                pagination_a.classList.add("loading");
+                pagination_a.innerText = "";
+                // $('#pagination a').addClass("loading").text("");
                 fetch(pagination_a.attributes.href + "#main", { method: "POST" }).then(resp => {
                     if (resp.ok) {
                         result = $(data).find("#main .post");
                         nextHref = $(data).find("#pagination a").attr("href");
                         $("#main").append(result.fadeIn(500));
-                        $("#pagination a").removeClass("loading").text("Previous");
-                        $('#add_post span').removeClass("loading").text("");
+                        pagination_a.classList.remove("loading");
+                        pagination_a.innerText = "Previous";
+                        document.querySelector("#add_post span").classList.remove("loading");
+                        document.querySelector("#add_post span").innerText = "";
+                        // $("#pagination a").removeClass("loading").text("Previous");
+                        // $('#add_post span').removeClass("loading").text("");
                         lazyload();
                         post_list_show_animation();
                         if (nextHref != undefined) {
-                            $("#pagination a").attr("href", nextHref);
+                            pagination_a.setAttribute("href",nextHref);
+                            // $("#pagination a").attr("href", nextHref);
                             //加载完成上滑
-                            var tempScrollTop = $(window).scrollTop();
-                            $(window).scrollTop(tempScrollTop);
-                            $body.animate({
-                                scrollTop: tempScrollTop + 300
-
-                            }, 666)
+                            let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                            // window.scrollTo(tempScrollTop);
+                            // $(window).scrollTop(tempScrollTop);
+                            window.scrollTo({
+                                top: tempScrollTop + 300,
+                                behavior: 'smooth'
+                            })
+                            // $body.animate({
+                            //     scrollTop: tempScrollTop + 300
+                            //
+                            // }, 666)
                         } else {
-                            $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                            document.getElementById("pagination").innerHTML="<span>很高兴你翻到这里，但是真的没有了...</span>";
+                            // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
                         }
                     }
                 })
