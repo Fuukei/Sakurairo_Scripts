@@ -1769,14 +1769,13 @@ var // s = $('#bgvideo')[0],
         },
         XCS: function () {
             var __list = 'commentwrap';
-            jQuery(document).on("submit", "#commentform", function () {
+            document.getElementById("commentform").addEventListener('submit', function () {
                 addComment.createButterbar("提交中(Commiting)....")
+                const form = new FormData(this)
+                form.append('action', 'ajax_comment')
                 fetch(Poi.ajaxurl, {
-                    method: jQuery(this).attr('method'),
-                    headers:{
-                        "Content-Type":"application/x-www-form-urlencoded"
-                    },
-                    body:"action=ajax_comment&" + jQuery(this).serialize()
+                    method: this.attributes.method.value,
+                    body: form
                 }).then(async resp => {
                     const data = await resp.text()
                     if (resp.ok) {
@@ -1816,7 +1815,7 @@ var // s = $('#bgvideo')[0],
                             //temp.parentNode.removeChild(temp)
                         }
                     } else {
-                        addComment.createButterbar(data??'HTTP'+resp.status+':'+resp.statusText); 
+                        addComment.createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
                     }
                 }).catch(reason => {
                     addComment.createButterbar(reason);
@@ -1871,7 +1870,7 @@ var // s = $('#bgvideo')[0],
                     }
                 }); */
                 return false;
-            });
+            })
             window.addComment = require('./AddComment').default
         },
         XCP: function () {
