@@ -47,5 +47,5 @@
   "dependencies": {
     "highlight.js": "^10.7.1",
     "hls.js": "^1.0.0"
-  }
+  },"browserslist": ["last 3 version, not dead, not IE 11"]
 }

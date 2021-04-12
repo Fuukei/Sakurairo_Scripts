@@ -8,14 +8,14 @@ module.exports = merge(common, {
   optimization: {
     minimizer: [
       new TerserPlugin({
-        parallel: true,
         terserOptions: {
           // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
           sourceMap: true,
+          ecma:2016
         },
       })
     ]
-  }, devtool: "hidden-source-map",
+  }, devtool: "source-map",
   output: {
     iife: true// 是否添加 IIFE 外层
   }, plugins: [new CompressionPlugin({

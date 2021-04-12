@@ -14,17 +14,19 @@ module.exports = {
                 test: /\.m?js$/,
                 exclude: /(node_modules)/,
                 use: {
-                  loader: 'babel-loader',
-                  options: {
-                    presets: ['@babel/preset-env']
-                  }
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        cacheDirectory:true,
+                        cacheCompression:false
+                    }
                 }
-              }
+            }
         ]
     },
     resolve: {
         extensions: ['.js', '.json', '.ts'] // 自动判断后缀名，引入时可以不带后缀
     },
     plugins: [],
-    target:"web"
+    target: "web"
 };
