@@ -1787,18 +1787,23 @@ var // s = $('#bgvideo')[0],
                             //post = document.getElementById('comment_post_ID').value,
                             parent = document.getElementById('comment_parent').value;
                         if (parent != '0') {
-                            jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                        } else if (!jQuery('.' + __list).length) {
+                            //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                            document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
+                        } else if (!document.getElementsByClassName(__list).length) {
                             if (Poi.formpostion == 'bottom') {
-                                jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                                document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
+                                //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
                             } else {
-                                jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                                document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
+                                //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
                             }
                         } else {
                             if (Poi.order == 'asc') {
-                                jQuery('.' + __list).append(data);
+                                document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
+                               //jQuery('.' + __list).append(data);
                             } else {
-                                jQuery('.' + __list).prepend(data);
+                                document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
+                                //jQuery('.' + __list).prepend(data);
                             }
                         }
                         addComment.createButterbar("提交成功(Succeed)");
