@@ -57,8 +57,8 @@ mashiro_global.ini = new function () {
     }
 }
 
-const {setCookie,getCookie,removeCookie} = require('../../module/cookie')
-
+const {setCookie,getCookie,removeCookie,setVersionCtrl} = require('../../module/cookie')
+setVersionCtrl(mashiro_option.cookie_version_control)
 /* function imgError(ele, type) {
     switch (type) {
         case 1:
