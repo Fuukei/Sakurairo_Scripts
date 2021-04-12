@@ -25,7 +25,7 @@ const add_copyright = require('./copyright').default;
     }else {
         reg = /(Firefox|Chrome|Version|Opera)\/(\d+)/i;
     }
-    const version = navigator.userAgent.match(reg);
+    const version = UA.match(reg);
     Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax
 })();
 
@@ -179,7 +179,6 @@ mashiro_global.font_control = new function () {
         if (document.body.clientWidth > 860) {
             if (!getCookie("font_family") || getCookie("font_family") == "serif")
                 document.body.classList.add("serif");
-            // $("body").addClass("serif");
         }
         if (getCookie("font_family") == "sans-serif") {
             document.body.classList.remove("sans-serif");
@@ -414,8 +413,6 @@ function checkskinSecter() {
             headertop.classList.remove("headertop-bar-sakura");
             headertop.classList.add("headertop-bar");
         }
-        // $(".pattern-center-sakura").removeClass('pattern-center-sakura').addClass('pattern-center');
-        // $(".headertop-bar-sakura").removeClass('headertop-bar-sakura').addClass('headertop-bar');
     }
 }
 
@@ -423,10 +420,8 @@ function checkBgImgCookie() {
     let bgurl = getCookie("bgImgSetting");
     if (!bgurl) {
         document.getElementById("white-bg").click();
-        //$("#white-bg").click();
     } else {
         document.getElementById(bgurl).click();
-        //$("#" + bgurl).click();
     }
 }
 function checkDarkModeCookie() {
@@ -512,7 +507,6 @@ function no_right_click() {
 no_right_click();
 
 ready(function () {
-    //$(document).ready(function () {
     function cover_bg() {
         const centerbg = document.querySelector(".centerbg")
         if (centerbg) {
@@ -938,19 +932,12 @@ if (comt.length > 0) {
         })
     })
 }
-// $('.comt-addsmilies').click(function () {
-//     $('.comt-smilies').toggle();
-// })
 let comta = document.querySelectorAll(".comt-smilies a");
 comta.forEach((e) => {
     e.addEventListener("click", () => {
         e.parentNode.style.display = "none";
     })
 })
-// $('.comt-smilies a').click(function () {
-//     $(this).parent().hide();
-// })
-
 function smileBoxToggle() {
     let et = document.getElementById("emotion-toggle");
     et && et.addEventListener('click', function () {
@@ -1106,8 +1093,8 @@ if (mashiro_option.float_player_on) {
 }
 
 function getqqinfo() {
-    let is_get_by_qq = false,
-        author = document.querySelector("input#author"),
+    let is_get_by_qq = false;
+    const author = document.querySelector("input#author"),
         qq = document.querySelector("input#qq"),
         email = document.querySelector("input#email"),
         url = document.querySelector("input#url"),
@@ -1115,10 +1102,8 @@ function getqqinfo() {
         gravatar_check = document.querySelector(".gravatar-check"),
         user_avatar_img = document.querySelector("div.comment-user-avatar img");
     if (author == null) return;
-    //cached = $('input');
     if (!getCookie('user_qq') && !getCookie('user_qq_email') && !getCookie('user_author')) {
         qq.value = author.value = email.value = url.value = "";
-        //cached.filter('#qq,#author,#email,#url').val('');
     }
     if (getCookie('user_avatar') && getCookie('user_qq') && getCookie('user_qq_email')) {
         user_avatar_img.setAttribute('src', getCookie('user_avatar'));
@@ -1132,22 +1117,13 @@ function getqqinfo() {
             qq_check.style.display = "block";
             gravatar_check.style.display = "none";
         }
-        // $('div.comment-user-avatar img').attr('src', getCookie('user_avatar'));
-        // cached.filter('#author').val(getCookie('user_author'));
-        // cached.filter('#email').val(getCookie('user_qq') + '@qq.com');
-        // cached.filter('#qq').val(getCookie('user_qq'));
-        // if (mashiro_option.qzone_autocomplete) {
-        //     cached.filter('#url').val('https://user.qzone.qq.com/' + getCookie('user_qq'));
-        // }
-        // if (cached.filter('#qq').val()) {
-        //     $('.qq-check').css('display', 'block');
-        //     $('.gravatar-check').css('display', 'none');
-        // }
     }
     let emailAddressFlag = email.value;
     //var emailAddressFlag = cached.filter('#email').val();
-    cached.filter('#author').on('blur', function () {
-        var qq = cached.filter('#author').val(),
+    document.querySelector('input#author').addEventListener('blur',()=>{
+   // })
+    //cached.filter('#author').on('blur', function () {
+        let qq = author.value,
             $reg = /^[1-9]\d{4,9}$/;
         if ($reg.test(qq)) {
             $.ajax({
@@ -1155,15 +1131,20 @@ function getqqinfo() {
                 url: mashiro_option.qq_api_url + '?qq=' + qq + '&_wpnonce=' + Poi.nonce,
                 dataType: 'json',
                 success: function (data) {
-                    cached.filter('#author').val(data.name);
-                    cached.filter('#email').val($.trim(qq) + '@qq.com');
+                    author.value = data.name;
+                    email.value = $.trim(qq) + '@qq.com';
+                    //cached.filter('#author').val(data.name);
+                    // cached.filter('#email').val($.trim(qq) + '@qq.com');
                     if (mashiro_option.qzone_autocomplete) {
-                        cached.filter('#url').val('https://user.qzone.qq.com/' + $.trim(qq));
+                        url.value = 'https://user.qzone.qq.com/' + $.trim(qq);
+                        // cached.filter('#url').val('https://user.qzone.qq.com/' + $.trim(qq));
                     }
                     $('div.comment-user-avatar img').attr('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
                     is_get_by_qq = true;
-                    cached.filter('#qq').val($.trim(qq));
-                    if (cached.filter('#qq').val()) {
+                    qq.value = $.trim(qq);
+                    // cached.filter('#qq').val($.trim(qq));
+                    // if (cached.filter('#qq').val()) {
+                    if (qq.value){
                         $('.qq-check').css('display', 'block');
                         $('.gravatar-check').css('display', 'none');
                     }
@@ -1172,27 +1153,39 @@ function getqqinfo() {
                     setCookie('is_user_qq', 'yes', 30);
                     setCookie('user_qq_email', qq + '@qq.com', 30);
                     setCookie('user_email', qq + '@qq.com', 30);
-                    emailAddressFlag = cached.filter('#email').val();
+                    emailAddressFlag = email.value();
+                    // emailAddressFlag = cached.filter('#email').val();
                     /***/
                     $('div.comment-user-avatar img').attr('src', data.avatar);
                     setCookie('user_avatar', data.avatar, 30);
                 },
                 error: function () {
-                    cached.filter('#qq').val('');
-                    $('.qq-check').css('display', 'none');
-                    $('.gravatar-check').css('display', 'block');
-                    $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
+                    qq.value = '';
+                    // cached.filter('#qq').val('');
+                    qq_check.style.display = 'none';
+                    gravatar_check.style.display = 'block';
+                    user_avatar_img.setAttribute('src',get_gravatar(email.value,80));
+                    // $('.qq-check').css('display', 'none');
+                    // $('.gravatar-check').css('display', 'block');
+                    // $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
                     setCookie('user_qq', '', 30);
-                    setCookie('user_email', cached.filter('#email').val(), 30);
-                    setCookie('user_avatar', get_gravatar(cached.filter('#email').val(), 80), 30);
+                    setCookie('user_email',email.value,30);
+                    setCookie('user_avatar',get_gravatar(email.value,80),30);
+                    // setCookie('user_email', cached.filter('#email').val(), 30);
+                    // setCookie('user_avatar', get_gravatar(cached.filter('#email').val(), 80), 30);
                     /***/
-                    cached.filter('#qq,#email,#url').val('');
-                    if (!cached.filter('#qq').val()) {
-                        $('.qq-check').css('display', 'none');
-                        $('.gravatar-check').css('display', 'block');
+                    qq.value = email.value = url.value = "";
+                    // cached.filter('#qq,#email,#url').val('');
+                    // if (!cached.filter('#qq').val()) {
+                    if(!qq.value){
+                        qq_check.style.display = 'none';
+                        gravatar_check.style.display = 'block';
+                        // $('.qq-check').css('display', 'none');
+                        // $('.gravatar-check').css('display', 'block');
                         setCookie('user_qq', '', 30);
-                        $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
-                        setCookie('user_avatar', get_gravatar(cached.filter('#email').val(), 80), 30);
+                        user_avatar_img.setAttribute('src',get_gravatar(email.value,80));
+                        // $('div.comment-user-avatar img').attr('src', get_gravatar(cached.filter('#email').val(), 80));
+                        setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                     }
                 }
             });
@@ -1322,8 +1315,7 @@ loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
 
-var home = location.href,
-    // s = $('#bgvideo')[0],
+var // s = $('#bgvideo')[0],
     s = document.getElementById("bgvideo"),
     Siren = {
         MN: function () {
