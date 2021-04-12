@@ -59,7 +59,7 @@ mashiro_global.ini = new function () {
 
 const {setCookie,getCookie,removeCookie} = require('../../module/cookie')
 
-function imgError(ele, type) {
+/* function imgError(ele, type) {
     switch (type) {
         case 1:
             ele.src = 'https://view.moezx.cc/images/2017/12/30/Transparent_Akkarin.th.jpg';
@@ -70,7 +70,7 @@ function imgError(ele, type) {
         default:
             ele.src = 'https://view.moezx.cc/images/2018/05/13/image-404.png';
     }
-}
+} */
 
 function slideToogle(el, duration = 1000, mode = '', callback) {
     let dom = el;
