@@ -1,13 +1,14 @@
 const AddComment = {
     respondId: null,
     moveForm: function (commId, parentId, respondId) {
-        let __cancel = jQuery('#cancel-comment-reply-link'),
+        const __cancel = document.getElementById('cancel-comment-reply-link'),
             __cancel_text = __cancel.text(),
-         t = this,
-            div, comm = document.getElementById(commId),
+            t = this,
+            comm = document.getElementById(commId),
             respond = document.getElementById(respondId),
             cancel = document.getElementById('cancel-comment-reply-link'),
             parent = document.getElementById('comment_parent')
+        let div
         //post = document.getElementById('comment_post_ID');
         __cancel.text(__cancel_text);
         t.respondId = respondId;
@@ -61,11 +62,7 @@ const AddComment = {
         const t = this;
         t.clearButterbar();
         document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-        if (showtime > 0) {
-            setTimeout(() => { t.clearButterbar() }, showtime);
-        } else {
-            setTimeout(() => { t.clearButterbar() }, 6000);
-        }
+        setTimeout(() => { t.clearButterbar() }, showtime > 0 ? showtime : 6000);
     }
 };
 export default AddComment
