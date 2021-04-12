@@ -17,9 +17,15 @@
  */
 const add_copyright = require('./copyright').default;
 (() => {
-    const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 },
-        reg = /(Firefox|Chrome|Version|Opera|Version)\/(\d+)/i,
-        version = navigator.userAgent.match(reg);
+    const UA = navigator.userAgent,
+        version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
+    let reg;
+    if (UA.indexOf('Chrome')!=-1){
+        reg = /(Chrome)\/(\d+)/i;
+    }else {
+        reg = /(Firefox|Chrome|Version|Opera)\/(\d+)/i;
+    }
+    const version = navigator.userAgent.match(reg);
     Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax
 })();
 
@@ -98,21 +104,21 @@ function slideToogle(el, duration = 1000, mode = '', callback) {
     dom.style.transition = 'height ' + duration / 1000 + 's';
     dom.style.overflow = 'hidden';
     clearTimeout(dom.tagTimer);
-    dom.tagTimer = dom.tagTimer || null
+    dom.tagTimer = dom.tagTimer || null;
     dom.style.display = 'block';
-    dom.tagHeight = dom.tagHeight || dom.clientHeight + 'px'
+    dom.tagHeight = dom.tagHeight || dom.clientHeight + 'px';
     dom.style.display = '';
-    dom.style.height = flag ? dom.tagHeight : "0px"
+    dom.style.height = flag ? dom.tagHeight : "0px";
     setTimeout(() => {
         dom.style.height = flag ? "0px" : dom.tagHeight
-    }, 0)
+    }, 0);
     dom.tagTimer = setTimeout(() => {
-        dom.style.display = flag ? 'none' : 'block'
+        dom.style.display = flag ? 'none' : 'block';
         dom.style.transition = '';
         dom.style.overflow = '';
         dom.style.height = '';
         dom.status = dom.tagHeight = null;
-    }, duration)
+    }, duration);
     if (callback) callback();
 }
 
