@@ -1768,8 +1768,9 @@ var // s = $('#bgvideo')[0],
             }
         },
         XCS: function () {
-            var __list = 'commentwrap';
-            document.getElementById("commentform").addEventListener('submit', function () {
+            const __list = 'commentwrap';
+            const form = document.getElementById("commentform")
+            if(form)form.addEventListener('submit', function () {
                 addComment.createButterbar("提交中(Commiting)....")
                 const form = new FormData(this)
                 form.append('action', 'ajax_comment')
