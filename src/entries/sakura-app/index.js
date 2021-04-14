@@ -483,7 +483,7 @@ function changeCoverBG() {
     const centerbg = document.querySelector(".centerbg")
     if (centerbg) {
         const type_mobile = document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true
-        centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + (type_mobile?"?type=mobile":"") + ")";
+        centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + (type_mobile ? "?type=mobile" : "") + ")";
     }
 }
 ready(function () {
@@ -1758,7 +1758,7 @@ var // s = $('#bgvideo')[0],
         XCS: function () {
             const __list = 'commentwrap';
             const form = document.getElementById("commentform")
-            if(form)form.addEventListener('submit', function () {
+            if (form) form.addEventListener('submit', function () {
                 addComment.createButterbar("提交中(Commiting)....")
                 const form = new FormData(this)
                 form.append('action', 'ajax_comment')
@@ -1789,7 +1789,7 @@ var // s = $('#bgvideo')[0],
                         } else {
                             if (Poi.order == 'asc') {
                                 document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
-                               //jQuery('.' + __list).append(data);
+                                //jQuery('.' + __list).append(data);
                             } else {
                                 document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
                                 //jQuery('.' + __list).prepend(data);
