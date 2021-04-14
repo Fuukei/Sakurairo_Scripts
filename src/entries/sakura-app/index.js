@@ -40,7 +40,7 @@ mashiro_global.ini = new function () {
         copy_code_block();
         web_audio();
         coverVideoIni();
-        checkskinSecter();
+        checkSkinSecter();
         scrollBar();
         load_bangumi();
         sm();
@@ -51,7 +51,7 @@ mashiro_global.ini = new function () {
         copy_code_block();
         web_audio();
         coverVideoIni();
-        checkskinSecter();
+        checkSkinSecter();
         load_bangumi();
         sm();
     }
@@ -218,8 +218,7 @@ if (Poi.reply_link_version == 'new') {
         }
     })
 }
-let ready = function (fn) {
-    if (typeof fn !== 'function') return;
+const ready = function (fn) {
     if (document.readyState === 'complete') {
         return fn();
     }
@@ -305,12 +304,11 @@ function add_upload_tips() {
 }
 
 function click_to_view_image() {
-    let comment_inline = document.getElementsByClassName('comment_inline_img');
+    const comment_inline = document.getElementsByClassName('comment_inline_img');
     if (!comment_inline.length) return;
     document.getElementsByClassName("comments-main")[0].addEventListener("click", function (e) {
         if (e.target.classList.contains("comment_inline_img")) {
-            let temp_url = e.target.src;
-            window.open(temp_url);
+            window.open(e.target.src);
         }
     })
 }
@@ -318,7 +316,7 @@ click_to_view_image();
 
 
 function original_emoji_click() {
-    let emoji = document.getElementsByClassName('emoji-item');
+    const emoji = document.getElementsByClassName('emoji-item');
     if (!emoji.length) return;
     document.querySelector(".menhera-container").addEventListener("click", function (e) {
         if (e.target.classList.contains("emoji-item")) {
@@ -367,9 +365,9 @@ function scrollBar() {
     }
 }
 
-function checkskinSecter() {
+function checkSkinSecter() {
     if (mashiro_global.variables.skinSecter === false) {
-        let pattern = document.querySelector(".pattern-center"),
+        const pattern = document.querySelector(".pattern-center"),
             headertop = document.querySelector(".headertop-bar");
         if (pattern) {
             pattern.classList.remove("pattern-center");
@@ -380,7 +378,7 @@ function checkskinSecter() {
             headertop.classList.add("headertop-bar-sakura");
         }
     } else {
-        let pattern = document.querySelector(".pattern-center-sakura"),
+        const pattern = document.querySelector(".pattern-center-sakura"),
             headertop = document.querySelector(".headertop-bar-sakura");
         if (pattern) {
             pattern.classList.remove("pattern-center-sakura");
@@ -471,9 +469,8 @@ function mobile_dark_light() {
 }
 
 function no_right_click() {
-    let pri = document.getElementById("primary");
-    if (!pri) return;
-    pri.addEventListener("contextmenu", function (e) {
+    const pri = document.getElementById("primary");
+    if (pri) pri.addEventListener("contextmenu", function (e) {
         if (e.target.nodeName.toLowerCase() == "img") {
             e.preventDefault();
             e.stopPropagation();
@@ -482,33 +479,24 @@ function no_right_click() {
 }
 
 no_right_click();
-
-ready(function () {
-    function cover_bg() {
-        const centerbg = document.querySelector(".centerbg")
-        if (centerbg) {
-            if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-                centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile" + ")";
-            } else {
-                centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + ")";
-            }
-        }
+function changeCoverBG() {
+    const centerbg = document.querySelector(".centerbg")
+    if (centerbg) {
+        const type_mobile = document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true
+        centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + (type_mobile?"?type=mobile":"") + ")";
     }
-    cover_bg();
+}
+ready(function () {
+    changeCoverBG();
     let checkskin_bg = (a) => a == "none" ? "" : a;
 
     function changeBG() {
-        let cached = document.querySelectorAll(".menu-list li");
+        const cached = document.querySelectorAll(".menu-list li");
         cached.forEach(e => {
             e.addEventListener("click", function () {
-                let tagid = this.id;
-                if (tagid == "white-bg" || tagid == "dark-bg") {
-                    mashiro_global.variables.skinSecter = true;
-                    checkskinSecter();
-                } else {
-                    mashiro_global.variables.skinSecter = false;
-                    checkskinSecter();
-                }
+                const tagid = this.id;
+                mashiro_global.variables.skinSecter = tagid == "white-bg" || tagid == "dark-bg";
+                checkSkinSecter();
                 if (tagid == "dark-bg") {
                     document.getElementsByTagName("html")[0].style.background = "#333333";
                     document.getElementsByClassName("site-content")[0].style.backgroundColor = "#333333";
