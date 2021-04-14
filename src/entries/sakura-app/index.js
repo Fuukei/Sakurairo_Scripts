@@ -373,7 +373,7 @@ function checkskinSecter() {
             headertop = document.querySelector(".headertop-bar");
         if (pattern) {
             pattern.classList.remove("pattern-center");
-            pattern.classList.add("headertop-bar-sakura");
+            pattern.classList.add("pattern-center-sakura");
         }
         if (headertop) {
             headertop.classList.remove("headertop-bar");
@@ -384,7 +384,7 @@ function checkskinSecter() {
             headertop = document.querySelector(".headertop-bar-sakura");
         if (pattern) {
             pattern.classList.remove("pattern-center-sakura");
-            pattern.classList.add("'pattern-center");
+            pattern.classList.add("pattern-center");
         }
         if (headertop) {
             headertop.classList.remove("headertop-bar-sakura");
