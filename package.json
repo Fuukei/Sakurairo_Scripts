@@ -50,5 +50,8 @@
   },
   "browserslist": [
     "last 3 version, not dead, not IE 11"
-  ]
+  ],
+  "optionalDependencies": {
+    "conventional-changelog-cli": "^2.1.1"
+  }
 }
