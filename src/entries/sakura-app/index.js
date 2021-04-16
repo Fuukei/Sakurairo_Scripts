@@ -1383,10 +1383,13 @@ var // s = $('#bgvideo')[0],
                     ignoreClass: 'fancybox',
                 });
             }*/
-            $('.js-toggle-search').on('click', function () {
-                $('.js-toggle-search').toggleClass('is-active');
-                $('.js-search').toggleClass('is-visible');
-                $('html').css('overflow-y', 'hidden');
+            const callback = function () {
+                //$('.js-toggle-search').toggleClass('is-active');
+                document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
+                //$('.js-search').toggleClass('is-visible');
+                document.getElementsByClassName('js-search')[0].classList.toggle('is-visible')
+                //$('html').css('overflow-y', 'hidden');
+                document.documentElement.style.overflowY = 'hidden'
                 if (mashiro_option.live_search) {
                     var QueryStorage = [];
                     search_a(Poi.api + "sakura/v1/cache_search/json?_wpnonce=" + Poi.nonce);
@@ -1451,13 +1454,20 @@ var // s = $('#bgvideo')[0],
                     }
 
                     function div_href() {
-                        $(".ins-selectable").each(function () {
+                        for(const ele of document.getElementsByClassName('ins-selectable')){
+                            ele.addEventListener("click",function () {
+                                $("#Ty").attr('href', $(this).attr('href'));
+                                $("#Ty").click();
+                                $(".search_close").click();
+                            });
+                        }
+                        /* $(".ins-selectable").each(function () {
                             $(this).click(function () {
                                 $("#Ty").attr('href', $(this).attr('href'));
                                 $("#Ty").click();
                                 $(".search_close").click();
                             });
-                        });
+                        }); */
                     }
 
                     function search_result(keyword, link, fa, title, iconfont, comments, text) {
@@ -1508,7 +1518,11 @@ var // s = $('#bgvideo')[0],
                         w && (y = y + G + "文章" + E + w + D), u && (y = y + G + "页面" + E + u + D), r && (y = y + G + "分类" + E + r + D), p && (y = y + G + "标签" + E + p + D), F && (y = y + G + "评论" + E + F + D), s = document.getElementById("PostlistBox"), s.innerHTML = y
                     }
                 }
-            });
+            }
+            for (const ele of document.getElementsByClassName('js-toggle-search')) {
+                ele.addEventListener('click', callback);
+            }
+
             const sc = document.querySelector(".search_close");
             sc && sc.addEventListener("click", function () {
                 let js_search = document.getElementsByClassName("js-search")[0];
