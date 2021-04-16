@@ -26,6 +26,21 @@ declare namespace mashiro_option{
     const skin_bg4: string
     const template_url: string
     const windowheight: string
+    const meting_api_url:string|undefined
+}
+declare namespace Poi{
+    const pjax:string
+    const movies:Object
+    const windowHeight:string
+    const codeLamp:string
+    const ajaxurl:string
+    const order:string
+    const formpostion:string
+    const reply_link_version:string
+    const api:string
+    const nonce:string
+    const google_analytics_id:string
+    const gravatar_url:string
 }
 declare namespace mashiro_global{
 //let font_control:FontControl
