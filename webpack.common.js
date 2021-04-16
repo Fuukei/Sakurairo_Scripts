@@ -1,7 +1,7 @@
 const define = require('./define')
 module.exports = {
     entry: {
-        "sakura-app": './src/entries/sakura-app/index.js',
+        "app": './src/entries/sakura-app/index.js',
         "login":"./src/entries/login.js",
         //"customizer":"./src/entries/customizer.js"
     },
