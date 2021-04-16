@@ -48,8 +48,8 @@ function a(a: HTMLElement, b: string | any[]) {
         let d:C = {};
         for (const e in c) {
             let f = e.toLowerCase();
-                if(a.dataset.hasOwnProperty(f) || a.dataset.hasOwnProperty(e) || c[e] !== null){
-                    d[e] = a.dataset[f] || a.dataset[e] || c[e]
+            if (a.dataset.hasOwnProperty(f) || a.dataset.hasOwnProperty(e) || c[e] !== null) {
+                d[e] = a.dataset[f] || a.dataset[e] || c[e]
                     if('true' === d[e] || 'false' === d[e]){
                         d[e] = 'true' == d[e]
                     }
@@ -111,16 +111,23 @@ function loadMeting() {
             api_path = api_path.replace(':server', element.dataset.server)
             api_path = api_path.replace(':type', element.dataset.type)
             api_path = api_path.replace(':id', element.dataset.id);
-
-            let xhr = new XMLHttpRequest;
-            xhr.onreadystatechange = function () {
-                if (4 === xhr.readyState && (200 <= xhr.status && 300 > xhr.status || 304 === xhr.status)) {
-                    let b = JSON.parse(xhr.responseText);
-                    a(element, b)
-                }
-            },
-                xhr.open('get', api_path, !0)
-            xhr.send()
+            if (fetch) {
+                fetch(api_path).then(async(resp) => {
+                    if (resp.ok) {
+                        a(element, await resp.json())
+                    }
+                })
+            } else {
+                const xhr = new XMLHttpRequest;
+                xhr.onreadystatechange = function () {
+                    if (4 === xhr.readyState && (200 <= xhr.status && 300 > xhr.status || 304 === xhr.status)) {
+                        const b = JSON.parse(xhr.responseText);
+                        a(element, b)
+                    }
+                },
+                    xhr.open('get', api_path, !0)
+                xhr.send()
+            }
         } else if (element.dataset.url) {
             const playlist_info = [{
                 name: element.dataset.name || element.dataset.title || 'Audio name',
