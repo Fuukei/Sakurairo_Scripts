@@ -15,7 +15,7 @@ module.exports = merge(common, {
         },
       })
     ]
-  }, devtool: "source-map",
+  },
   output: {
     iife: true// 是否添加 IIFE 外层
   }, plugins: [new CompressionPlugin({
