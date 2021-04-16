@@ -6,7 +6,13 @@ declare namespace mashiro_option{
     const clipboardCopyright: boolean
     const cookie_version_control: string
     const cover_api: string
+    /**
+     * darmode
+     */
     const darkmode: boolean
+    const dm_strategy:'client'|'time'|'eien'
+    /**************************** */
+
     const email_domain: string
     const email_name: string
     const entry_content_style: string
