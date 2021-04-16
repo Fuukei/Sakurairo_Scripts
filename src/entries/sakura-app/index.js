@@ -199,7 +199,7 @@ function code_highlight_style() {
     ec && ec.addEventListener("click", function (e) {
         if (!e.target.classList.contains("highlight-wrap")) return;
         e.target.classList.toggle("code-block-fullscreen");
-        document.getElementsByTagName("html")[0].classList.toggle('code-block-fullscreen-html-scroll');
+        document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
     })
 }
 try {
@@ -415,7 +415,7 @@ function checkDarkModeCookie() {
                 }, 100);
                 console.log('夜间模式关闭');
             } else {
-                document.getElementsByTagName("html")[0].style.background = "unset";
+                document.documentElement.style.background = "unset";
                 document.body.classList.remove("dark");
                 let mbdl = document.getElementById("moblieDarkLight");
                 if (mbdl) {
@@ -437,7 +437,7 @@ function checkDarkModeCookie() {
                 }, 100);
                 console.log('夜间模式关闭');
             } else {
-                document.getElementsByTagName("html")[0].style.background = "unset";
+                document.documentElement.style.background = "unset";
                 document.body.classList.remove("dark");
                 document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
                 setCookie("dark", "0", 0.33);
@@ -455,12 +455,12 @@ setTimeout(function () {
 
 function mobile_dark_light() {
     if (document.body.classList.contains("dark")) {
-        document.getElementsByTagName("html")[0].style.background = "unset";
+        document.documentElement.style.background = "unset";
         document.body.classList.remove("dark");
         document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
         setCookie("dark", "0", 0.33);
     } else {
-        document.getElementsByTagName("html")[0].style.background = "#333333";
+        document.documentElement.style.background = "#333333";
         document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
         document.body.classList.add("dark");
         setCookie("dark", "1", 0.33);
@@ -497,12 +497,12 @@ ready(function () {
                 mashiro_global.variables.skinSecter = tagid == "white-bg" || tagid == "dark-bg";
                 checkSkinSecter();
                 if (tagid == "dark-bg") {
-                    document.getElementsByTagName("html")[0].style.background = "#333333";
+                    document.documentElement.style.background = "#333333";
                     document.getElementsByClassName("site-content")[0].style.backgroundColor = "#333333";
                     document.body.classList.add("dark");
                     setCookie("dark", "1", 0.33);
                 } else {
-                    document.getElementsByTagName("html")[0].style.background = "unset";
+                    document.documentElement.style.background = "unset";
                     document.getElementsByClassName("site-content")[0].style.backgroundColor = "rgba(255, 255, 255, .8)";
                     document.body.classList.remove("dark");
                     setCookie("dark", "0", 0.33);
@@ -1529,7 +1529,7 @@ var // s = $('#bgvideo')[0],
                 if (js_search.classList.contains("is-visible")) {
                     document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
                     js_search.classList.toggle("is-visible");
-                    document.getElementsByTagName("html")[0].style.overflowY = "unset";
+                    document.documentElement.style.overflowY = "unset";
                 }
             });
             try {
@@ -1899,7 +1899,7 @@ if (Poi.pjax) {
         if (document.querySelector(".js-search.is-visible")) {
             document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
-            document.getElementsByTagName("html")[0].style.overflowY = "unset";
+            document.documentElement.style.overflowY = "unset";
         }
     });
     document.addEventListener("pjax:success", function () {
@@ -1963,7 +1963,7 @@ function headertop_down() {
 }
 
 window.onload = function () {
-    document.getElementsByTagName("html")[0].style.overflowY = "unset";
+    document.documentElement.style.overflowY = "unset";
     let preload = document.getElementById("preload");
     if (!preload) return;
     preload.classList.add('hide');
