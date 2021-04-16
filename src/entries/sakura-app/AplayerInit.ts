@@ -1,30 +1,12 @@
 //可能存在的全局变量
 declare var meting_api: string;
 declare var APlayer: new (...args: any[]) => void
-interface C {
-    container?: HTMLElement;
-    audio?: string | any[];
-    mini?: any;
-    fixed?: any;
-    autoplay?: boolean;
-    mutex?: boolean;
-    lrcType?: number;
-    listFolded?: number;
-    preload?: string;
-    theme?: string;
-    loop?: string;
-    order?: string,
-    volume?: any,
-    listMaxHeight?: any,
-    customAudioType?: any,
-    storageName?: string;
-}
 export function aplayerF() {
     document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
 }
 let aplayers: any[] = []
 function a(a: HTMLElement, b: string | any[]) {
-    let c: C = {
+    const default_option: Record<string,any> = {
         container: a,
         audio: b,
         mini: null,
@@ -43,15 +25,15 @@ function a(a: HTMLElement, b: string | any[]) {
         storageName: 'metingjs'
     };
     if (b.length) {
-        b[0].lrc || (c.lrcType = 0);
+        b[0].lrc || (default_option.lrcType = 0);
 
-        let d:C = {};
-        for (const e in c) {
-            let f = e.toLowerCase();
-            if (a.dataset.hasOwnProperty(f) || a.dataset.hasOwnProperty(e) || c[e] !== null) {
-                d[e] = a.dataset[f] || a.dataset[e] || c[e]
-                    if('true' === d[e] || 'false' === d[e]){
-                        d[e] = 'true' == d[e]
+        let d:Record<string,any> = {};
+        for (const key in default_option) {
+            let key_lowercase = key.toLowerCase();
+            if (a.dataset.hasOwnProperty(key_lowercase) || a.dataset.hasOwnProperty(key) || default_option[key] !== null) {
+                d[key] = a.dataset[key_lowercase] || a.dataset[key] || default_option[key]
+                    if('true' === d[key] || 'false' === d[key]){
+                        d[key] = 'true' == d[key]
                     }
                 }
         }
