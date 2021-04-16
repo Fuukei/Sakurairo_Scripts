@@ -1,5 +1,5 @@
 /**
- * sakura-script.js - Client script bundle for Sakurairo, a WordPress theme.
+ * app.js - Client script bundle for Sakurairo, a WordPress theme.
  * @author bymoye
  * @author KotoriK
  * @license GPL-v2

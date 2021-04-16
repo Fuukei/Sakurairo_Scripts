@@ -1,4 +1,5 @@
 /**
+ * Cookie
  * from github.com/mirai-mamori/Sakurairo ./js/sakura-app.js ,commit 71f5a0c
  * @license GPL-v2
  * @date 2021.03
