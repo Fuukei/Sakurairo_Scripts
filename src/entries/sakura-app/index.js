@@ -959,7 +959,8 @@ ready(() => {
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
-        import('./AplayerInit').then(({aplayerF})=>aplayerF())
+        const { aplayerInit } = require('./AplayerInit')
+        aplayerInit()
     }
 }
 

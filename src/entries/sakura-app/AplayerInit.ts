@@ -3,7 +3,7 @@ declare var meting_api: string;
 declare var APlayer: new (...args: any[]) => void
 
 let aplayers: any[] = []
-export function aplayerF() {
+export function aplayerInit() {
     document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
 }
 function initAplayer(a: HTMLElement, b: string | any[]) {
