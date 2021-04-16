@@ -71,3 +71,4 @@ function resizeImage(id) {
 		'opacity': '1'
 	})
 }
+window.resizeImage = resizeImage
