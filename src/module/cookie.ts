@@ -4,15 +4,9 @@
  * @license GPL-v2
  * @date 2021.03
  */
-let _version_ctrl = ''
-export function setVersionCtrl(version_ctrl:string){
-    _version_ctrl=version_ctrl
-}
+let _version_ctrl = mashiro_option.cookie_version_control
 export function setCookie(key: string, value: string, days?: number) {
-    let expires = "";
-    if (days) {
-        expires = "; expires=" + new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toUTCString();
-    }
+    const expires = days ? "; expires=" + new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toUTCString() : "";
     document.cookie = key + _version_ctrl + "=" + (value || "") + expires + "; path=/";
 }
 
@@ -27,6 +21,6 @@ export function getCookie(key: string) {
     return null;
 }
 
-export function removeCookie(key:string) {
+export function removeCookie(key: string) {
     document.cookie = key + _version_ctrl + '=; Max-Age=-99999999;';
 }
