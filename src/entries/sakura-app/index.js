@@ -1151,20 +1151,21 @@ setTimeout(function () {
 }, 100);
 
 function load_bangumi() {
-    let section = document.getElementsByTagName("section"), _flag = false;
-    for (let i = 0; i < section.length; i++) {
-        if (section[i].classList.contains("bangumi")) {
+    const sections = document.getElementsByTagName("section")
+    let _flag = false;
+    for (let i = 0; i < sections.length; i++) {
+        if (sections[i].classList.contains("bangumi")) {
             _flag = true;
+            break
         }
     }
     if (_flag) {
         document.addEventListener('click', function (e) {
-            let target = e.target;
+            const target = e.target;
             if (target === document.querySelector("#bangumi-pagination a")) {
-                let bgpa = document.querySelector("#bangumi-pagination a");
-                bgpa.classList.add("loading");
-                bgpa.textContent = "";
-                let xhr = new XMLHttpRequest();
+                target.classList.add("loading");
+                target.textContent = "";
+                const xhr = new XMLHttpRequest();
                 xhr.open('POST', target.href + "&_wpnonce=" + Poi.nonce, true);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -1174,8 +1175,8 @@ function load_bangumi() {
                         bfan.remove();
                         row.insertAdjacentHTML('beforeend', html);
                     } else {
-                        bgpa.classList.remove("loading");
-                        bgpa.innerHTML = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR ';
+                        target.classList.remove("loading");
+                        target.innerHTML = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR ';
                     }
                 };
                 xhr.send();
