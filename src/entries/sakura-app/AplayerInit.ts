@@ -48,10 +48,12 @@ function a(a: HTMLElement, b: string | any[]) {
         let d:C = {};
         for (const e in c) {
             let f = e.toLowerCase();
-            (a.dataset.hasOwnProperty(f) || a.dataset.hasOwnProperty(e) || c[e] !== null)
-                && (d[e] = a.dataset[f] || a.dataset[e] || c[e],
-                    ('true' === d[e] || 'false' === d[e]) && (d[e] = 'true' == d[e])
-                )
+                if(a.dataset.hasOwnProperty(f) || a.dataset.hasOwnProperty(e) || c[e] !== null){
+                    d[e] = a.dataset[f] || a.dataset[e] || c[e]
+                    if('true' === d[e] || 'false' === d[e]){
+                        d[e] = 'true' == d[e]
+                    }
+                }
         }
         aplayers.push(new APlayer(d))
     }
