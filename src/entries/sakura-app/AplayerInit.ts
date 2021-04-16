@@ -1,12 +1,13 @@
 //可能存在的全局变量
 declare var meting_api: string;
 declare var APlayer: new (...args: any[]) => void
+
+let aplayers: any[] = []
 export function aplayerF() {
     document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
 }
-let aplayers: any[] = []
-function a(a: HTMLElement, b: string | any[]) {
-    const default_option: Record<string,any> = {
+function initAplayer(a: HTMLElement, b: string | any[]) {
+    const default_option: Record<string, any> = {
         container: a,
         audio: b,
         mini: null,
@@ -27,15 +28,15 @@ function a(a: HTMLElement, b: string | any[]) {
     if (b.length) {
         b[0].lrc || (default_option.lrcType = 0);
 
-        let d:Record<string,any> = {};
+        let d: Record<string, any> = {};
         for (const key in default_option) {
             let key_lowercase = key.toLowerCase();
             if (a.dataset.hasOwnProperty(key_lowercase) || a.dataset.hasOwnProperty(key) || default_option[key] !== null) {
                 d[key] = a.dataset[key_lowercase] || a.dataset[key] || default_option[key]
-                    if('true' === d[key] || 'false' === d[key]){
-                        d[key] = 'true' == d[key]
-                    }
+                if ('true' === d[key] || 'false' === d[key]) {
+                    d[key] = 'true' == d[key]
                 }
+            }
         }
         aplayers.push(new APlayer(d))
     }
@@ -94,9 +95,9 @@ function loadMeting() {
             api_path = api_path.replace(':type', element.dataset.type)
             api_path = api_path.replace(':id', element.dataset.id);
             if (fetch) {
-                fetch(api_path).then(async(resp) => {
+                fetch(api_path).then(async (resp) => {
                     if (resp.ok) {
-                        a(element, await resp.json())
+                        initAplayer(element, await resp.json())
                     }
                 })
             } else {
@@ -104,7 +105,7 @@ function loadMeting() {
                 xhr.onreadystatechange = function () {
                     if (4 === xhr.readyState && (200 <= xhr.status && 300 > xhr.status || 304 === xhr.status)) {
                         const b = JSON.parse(xhr.responseText);
-                        a(element, b)
+                        initAplayer(element, b)
                     }
                 },
                     xhr.open('get', api_path, !0)
@@ -119,7 +120,7 @@ function loadMeting() {
                 lrc: element.dataset.lrc,
                 type: element.dataset.type || 'auto'
             }];
-            a(element, playlist_info)
+            initAplayer(element, playlist_info)
         }
     }
 };
