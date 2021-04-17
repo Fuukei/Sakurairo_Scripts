@@ -87,3 +87,16 @@ export function checkDarkModeCookie() {
         }
     }
 }
+/* function mobile_dark_light() {
+    if (document.body.classList.contains("dark")) {
+        document.documentElement.style.background = "unset";
+        document.body.classList.remove("dark");
+        document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
+        setCookie("dark", "0", 0.33);
+    } else {
+        document.documentElement.style.background = "#333333";
+        document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
+        document.body.classList.add("dark");
+        setCookie("dark", "1", 0.33);
+    }
+} */

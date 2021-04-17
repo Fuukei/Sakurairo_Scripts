@@ -391,28 +391,6 @@ function checkSkinSecter() {
 }
 const { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode } = require('./darkmode')
 
-if (!getCookie("darkcache") && ifDarkmodeShouldOn) {
-    removeCookie("dark");
-    setCookie("darkcache", "cached", 0.4);
-}
-setTimeout(function () {
-    checkDarkModeCookie();
-}, 100);
-
-function mobile_dark_light() {
-    if (document.body.classList.contains("dark")) {
-        document.documentElement.style.background = "unset";
-        document.body.classList.remove("dark");
-        document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
-        setCookie("dark", "0", 0.33);
-    } else {
-        document.documentElement.style.background = "#333333";
-        document.getElementById("moblieDarkLight").innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
-        document.body.classList.add("dark");
-        setCookie("dark", "1", 0.33);
-    }
-}
-
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -481,18 +459,23 @@ ready(function () {
         });
     }
     changeBG();
-    function checkBgImgCookie(){
+    function checkBgImgCookie() {
         const bgurl = getCookie("bgImgSetting");
-        if (!bgurl) {
-            document.getElementById("white-bg").click();
-    
-        }else{
+        if (!bgurl || bgurl === 'white-bg') {
+            turnOffDarkMode()
+        } else {
             document.getElementById(bgurl).click();
-    
         }
     }
     checkBgImgCookie()
-
+    if (!getCookie("darkcache") && ifDarkmodeShouldOn) {
+        removeCookie("dark");
+        setCookie("darkcache", "cached", 0.4);
+    }
+    setTimeout(function () {
+        checkDarkModeCookie();
+    }, 100);
+    
     function closeSkinMenu() {
         document.querySelector(".skin-menu").classList.remove("show");
         setTimeout(function () {
