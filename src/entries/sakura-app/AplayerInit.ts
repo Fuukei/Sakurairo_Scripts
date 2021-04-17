@@ -74,8 +74,13 @@ function initAplayer(a: HTMLElement, b: string | any[]) {
     });
 }
 function loadMeting() {
-    const meting_api_path = typeof meting_api == 'string' ? meting_api :
-        mashiro_option.meting_api_url + '?server=:server&type=:type&id=:id&_wpnonce=' + Poi.nonce
+    let meting_api_path: URL
+    if (typeof meting_api == 'string') {
+        meting_api_path = new URL(meting_api)
+    } else {
+        meting_api_path = new URL(mashiro_option.meting_api_url)
+        meting_api_path.searchParams.set('_wpnonce', Poi.nonce)
+    }
 
     for (let f = 0; f < aplayers.length; f++) try {
         aplayers[f].destroy()
@@ -90,16 +95,20 @@ function loadMeting() {
         let element = collection[e],
             id = element.dataset.id;
         if (id) {
-            let api_path = element.dataset.api || meting_api_path;
-            api_path = api_path.replace(':server', element.dataset.server)
-            api_path = api_path.replace(':type', element.dataset.type)
-            api_path = api_path.replace(':id', element.dataset.id);
+            const api_path = element.dataset.api ? new URL(element.dataset.api) : meting_api_path;
+            const params = api_path.searchParams
+            params.set('server', element.dataset.server)
+            params.set('type', element.dataset.type)
+            params.set('id', element.dataset.id);
             if (fetch) {
-                fetch(api_path).then(async (resp) => {
+                fetch(api_path.toString())
+                .then(async (resp) => {
                     if (resp.ok) {
                         initAplayer(element, await resp.json())
+                    }else{
+                        console.warn(`(APlayer) HTTP ${resp.status}:${resp.statusText}`)
                     }
-                })
+                }).catch(console.error)
             } else {
                 const xhr = new XMLHttpRequest;
                 xhr.onreadystatechange = function () {
@@ -108,7 +117,7 @@ function loadMeting() {
                         initAplayer(element, b)
                     }
                 },
-                    xhr.open('get', api_path, !0)
+                    xhr.open('get', api_path.toString(), !0)
                 xhr.send()
             }
         } else if (element.dataset.url) {
