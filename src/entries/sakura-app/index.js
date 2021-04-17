@@ -462,7 +462,7 @@ ready(function () {
     function checkBgImgCookie() {
         const bgurl = getCookie("bgImgSetting");
         if (!bgurl || bgurl === 'white-bg') {
-            turnOffDarkMode()
+            return
         } else {
             document.getElementById(bgurl).click();
         }
@@ -475,7 +475,7 @@ ready(function () {
     setTimeout(function () {
         checkDarkModeCookie();
     }, 100);
-    
+
     function closeSkinMenu() {
         document.querySelector(".skin-menu").classList.remove("show");
         setTimeout(function () {
