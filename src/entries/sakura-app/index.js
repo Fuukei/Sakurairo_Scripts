@@ -406,7 +406,9 @@ function changeCoverBG() {
     const centerbg = document.querySelector(".centerbg")
     if (centerbg) {
         const type_mobile = document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true
-        centerbg.style.backgroundImage = "url(" + mashiro_option.cover_api + (type_mobile ? "?type=mobile" : "") + ")";
+        const cover_api = new URL(mashiro_option.cover_api)
+        if (type_mobile) cover_api.searchParams.set('type', 'mobile')
+        centerbg.style.backgroundImage = "url(" + cover_api.toString() + ")";
     }
 }
 ready(function () {
@@ -495,23 +497,23 @@ ready(function () {
     add_upload_tips();
 });
 let bgn = 1;
-
-function nextBG() {
+function setBG() {
+    const cover_api_url = new URL(mashiro_option.cover_api)
     if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile&" + bgn + ")";
+        cover_api_url.searchParams.set('type', 'mobile')
+        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + "&" + bgn + ")";
     } else {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + "?" + bgn + ")";
+        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + (cover_api_url.search === '' ? "?" + bgn : '&' + bgn) + ")";
     }
-    bgn = bgn + 1;
+}
+function nextBG() {
+    setBG()
+    bgn++;
 }
 
 function preBG() {
-    bgn = bgn - 1;
-    if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + "?type=mobile&" + bgn + ")";
-    } else {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + mashiro_option.cover_api + "?" + bgn + ")";
-    }
+    bgn--;
+    setBG()
 }
 ready(function () {
     let next = document.getElementById("bg-next"),
