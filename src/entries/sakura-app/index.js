@@ -248,7 +248,9 @@ function attach_image() {
                 cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
                 addComment.createButterbar("上传中...<br>Uploading...");
             });
-            xhr.open("POST", Poi.api + 'sakura/v1/image/upload?_wpnonce=' + Poi.nonce, true);
+            const upload_api = new URL(Poi.api + 'sakura/v1/image/upload')
+            upload_api.searchParams.set("_wpnonce", Poi.nonce)
+            xhr.open("POST", upload_api.toString(), true);
             xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
