@@ -56,7 +56,7 @@ mashiro_global.ini = new function () {
         sm();
     }
 }
-
+const buildAPI = require('./api').default
 const { setCookie, getCookie, removeCookie, } = require('../../module/cookie')
 /* function imgError(ele, type) {
     switch (type) {
@@ -248,9 +248,7 @@ function attach_image() {
                 cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
                 addComment.createButterbar("上传中...<br>Uploading...");
             });
-            const upload_api = new URL(Poi.api + 'sakura/v1/image/upload')
-            upload_api.searchParams.set("_wpnonce", Poi.nonce)
-            xhr.open("POST", upload_api.toString(), true);
+            xhr.open("POST", buildAPI(Poi.api + 'sakura/v1/image/upload'), true);
             xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
@@ -517,7 +515,7 @@ function preBG() {
     bgn--;
     setBG()
 }
-function bgButtonAddListener(){
+function bgButtonAddListener() {
     const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");
     if (next) { next.onclick = () => { nextBG() } };
@@ -941,7 +939,7 @@ function getqqinfo() {
         if ($reg.test(qq)) {
             $.ajax({
                 type: 'get',
-                url: mashiro_option.qq_api_url + '?qq=' + qq + '&_wpnonce=' + Poi.nonce,
+                url: buildAPI(mashiro_option.qq_api_url, { qq }),
                 dataType: 'json',
                 success: function (data) {
                     author.value = data.name;
@@ -1214,7 +1212,7 @@ var // s = $('#bgvideo')[0],
         },
         LV: function () {
             let video_btn = document.getElementById("video-btn");
-            if(video_btn)video_btn.addEventListener("click", function () {
+            if (video_btn) video_btn.addEventListener("click", function () {
                 if (this.classList.contains("loadvideo")) {
                     this.classList.add("video-pause");
                     this.classList.remove("loadvideo");
@@ -1244,7 +1242,7 @@ var // s = $('#bgvideo')[0],
                 }
             });
             const video_add = document.getElementById("video-add")
-            if(video_add)video_add.addEventListener("click", function () {
+            if (video_add) video_add.addEventListener("click", function () {
                 Siren.addsource();
             });
         },
@@ -1337,9 +1335,7 @@ var // s = $('#bgvideo')[0],
                 document.documentElement.style.overflowY = 'hidden'
                 if (mashiro_option.live_search) {
                     var QueryStorage = [];
-                    const search_api = new URL(Poi.api + "sakura/v1/cache_search/json")
-                    search_api.searchParams.set("_wpnonce", Poi.nonce)
-                    search_a(search_api.toString());
+                    search_a(buildAPI(Poi.api + "sakura/v1/cache_search/json"));
 
                     var otxt = document.getElementById("search-input"),
                         list = document.getElementById("PostlistBox"),
