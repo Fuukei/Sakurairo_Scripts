@@ -2,73 +2,62 @@
  *	Resize Image
 */
 function resizeImage(id) {
-	jQuery('#' + id).css({
-		'position': 'absolute',
-		'top': '0px',
-		'left': '0px',
-		'width': '100%',
-		'height': '100%',
-		'z-index': -1,
-		'overflow': 'hidden'
-	});
-	var w = jQuery(window).width(),
-		h = jQuery(window).height(),
-		o = jQuery('#' + id).children('img'),
-		iW = o.width(),
-		iH = o.height();
-	o.css({
-		'display': 'block',
-		'opacity': 0
-	});
+	let a = document.getElementById(id);
+	a.style.position = "absolute";
+	a.style.top = "0px";
+	a.style.left = "0px";
+	a.style.width = "100%";
+	a.style.height = "100%";
+	a.style.zIndex = "-1";
+	a.style.overflow = "hidden";
+	let w = document.documentElement.clientWidth ||document.body.clientWidth,
+		h = document.documentElement.clientHeight ||document.body.clientHeight,
+		o = document.querySelector("#" + id + " img"),
+		iW = parseFloat(getComputedStyle(o, null).width.replace("px", "")),
+		iH = parseFloat(getComputedStyle(o, null).height.replace("px", ""));
+	o.style.display = "block";
+	o.style.opacity = "0";
 	if (w > h) {
 		if (iW > iH) {
-			o.css({
-				'width': w
-			});
-			o.css({
-				'height': Math.round((iH / iW) * w)
-			});
-			var newIh = Math.round((iH / iW) * w);
+			o.style.width = w + "px";
+			o.style.height = Math.round((iH / iW) * w) + "px";
+			let newIh = Math.round((iH / iW) * w);
 			if (newIh < h) {
-				o.css({
-					'height': h
-				});
-				o.css({
-					'width': Math.round((iW / iH) * h)
-				})
+				o.style.height = h + "px";
+				o.style.width = Math.round((iW / iH) * h) + "px";
 			}
 		} else {
-			o.css({
-				'height': h
-			});
-			o.css({
-				'width': Math.round((iW / iH) * h)
-			})
+			o.style.height = h + "px";
+			o.style.width = Math.round((iW / iH) * h) + "px";
 		}
 	} else {
-		o.css({
-			'height': h
-		});
-		o.css({
-			'width': Math.round((iW / iH) * h)
-		})
+		o.style.height = h + "px";
+		o.style.width = Math.round((iW / iH) * h) + "px";
 	}
-	var newIW = o.width(),
-		newIH = o.height();
+	let newIW = parseFloat(getComputedStyle(o, null).width.replace("px", "")),
+		newIH = parseFloat(getComputedStyle(o, null).height.replace("px", ""));
 	if (newIW > w) {
-		var l = (newIW - w) / 2;
-		o.css('margin-left', -l)
+		let l = (newIW - w) / 2;
+		o.style.marginLeft = -l;
 	} else {
-		o.css('margin-left', 0)
+		o.style.marginLeft = 0;
 	}
 	if (newIH > h) {
-		var t = (newIH - h) / 2;
-		o.css('margin-top', -t)
+		let t = (newIH - h) / 2;
+		o.style.marginTop = -t;
 	} else {
-		o.css('margin-top', 0)
+		o.style.marginTop = 0;
 	}
-	o.css({
-		'opacity': '1'
-	})
+	o.style.opacity = "1";
 }
-window.resizeImage = resizeImage
+window.resizeImage = resizeImage;
+
+document.getElementById("captchaimg").addEventListener("click",(e)=>{
+    fetch('/wp-json/sakura/v1/captcha/create')
+    .then((response)=>{
+        return response.json();
+    })
+    .then((json)=>{
+        e.target.src = json['data'];
+    });
+})
