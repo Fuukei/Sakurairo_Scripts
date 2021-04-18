@@ -1402,11 +1402,13 @@ var // s = $('#bgvideo')[0],
                     }
 
                     function div_href() {
+                        const search_close = document.querySelector(".search_close")
+                        const Ty = document.getElementById('Ty')
                         for (const ele of document.getElementsByClassName('ins-selectable')) {
-                            ele.addEventListener("click", function () {
-                                $("#Ty").attr('href', $(this).attr('href'));
-                                $("#Ty").click();
-                                $(".search_close").click();
+                            ele.addEventListener("click", () => {
+                                Ty.href = ele.href
+                                Ty.click()
+                                search_close.click()
                             });
                         }
                         /* $(".ins-selectable").each(function () {
