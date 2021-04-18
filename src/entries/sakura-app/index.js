@@ -1406,7 +1406,7 @@ var // s = $('#bgvideo')[0],
                         const Ty = document.getElementById('Ty')
                         for (const ele of document.getElementsByClassName('ins-selectable')) {
                             ele.addEventListener("click", () => {
-                                Ty.href = ele.href
+                                Ty.href = ele.getAttribute('href')
                                 Ty.click()
                                 search_close.click()
                             });
