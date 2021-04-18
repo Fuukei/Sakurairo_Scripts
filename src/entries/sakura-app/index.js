@@ -517,12 +517,13 @@ function preBG() {
     bgn--;
     setBG()
 }
-ready(function () {
-    let next = document.getElementById("bg-next"),
+function bgButtonAddListener(){
+    const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");
     if (next) { next.onclick = () => { nextBG() } };
     if (pre) { pre.onclick = () => { preBG() } };
-});
+}
+ready(bgButtonAddListener);
 
 function topFunction() {
     window.scrollTo({
@@ -774,12 +775,7 @@ const pjaxInit = function () {
     if (openNav.length != 0) {
         openNav[0].style.height = '50px';
     }
-    document.getElementById("bg-next").addEventListener("click", () => {
-        nextBG();
-    });
-    document.getElementById("bg-pre").addEventListener("click", () => {
-        preBG();
-    });
+    bgButtonAddListener()
     smileBoxToggle();
     timeSeriesReload();
     add_copyright();
