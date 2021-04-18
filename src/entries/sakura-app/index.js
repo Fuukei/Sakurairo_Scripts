@@ -1338,7 +1338,9 @@ var // s = $('#bgvideo')[0],
                 document.documentElement.style.overflowY = 'hidden'
                 if (mashiro_option.live_search) {
                     var QueryStorage = [];
-                    search_a(Poi.api + "sakura/v1/cache_search/json?_wpnonce=" + Poi.nonce);
+                    const search_api = new URL(Poi.api + "sakura/v1/cache_search/json")
+                    search_api.searchParams.set("_wpnonce", Poi.nonce)
+                    search_a(search_api.toString());
 
                     var otxt = document.getElementById("search-input"),
                         list = document.getElementById("PostlistBox"),
