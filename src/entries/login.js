@@ -51,13 +51,3 @@ function resizeImage(id) {
 	o.style.opacity = "1";
 }
 window.resizeImage = resizeImage;
-
-document.getElementById("captchaimg").addEventListener("click",(e)=>{
-    fetch('/wp-json/sakura/v1/captcha/create')
-    .then((response)=>{
-        return response.json();
-    })
-    .then((json)=>{
-        e.target.src = json['data'];
-    });
-})
