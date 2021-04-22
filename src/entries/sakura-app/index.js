@@ -1353,7 +1353,7 @@ var // s = $('#bgvideo')[0],
                     function search_a(val) {
                         if (sessionStorage.getItem('search') != null) {
                             QueryStorage = JSON.parse(sessionStorage.getItem('search'));
-                            query(QueryStorage, $("#search-input").val(), Record);
+                            query(QueryStorage, document.getElementById("search-input").value, Record);
                             div_href();
                         } else {
                             var _xhr = new XMLHttpRequest();
@@ -1522,14 +1522,14 @@ var // s = $('#bgvideo')[0],
             // });
         },
         XLS: function () {
-            $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
             let load_post_timer;
             const intersectionObserver = new IntersectionObserver(function (entries) {
                 if (entries[0].intersectionRatio <= 0) return;
-                var page_next = $('#pagination a').attr("href");
-                var load_key = document.getElementById("add_post_time");
+                // var page_next = $('#pagination a').attr("href");
+                const page_next = document.querySelector('#pagination a').getAttribute("href"),
+                    load_key = document.getElementById("add_post_time");
                 if (page_next != undefined && load_key) {
-                    var load_time = document.getElementById("add_post_time").title;
+                    const load_time = document.getElementById("add_post_time").title;
                     if (load_time != "233") {
                         console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
                         load_post_timer = setTimeout(function () {
