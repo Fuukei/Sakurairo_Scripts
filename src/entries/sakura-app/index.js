@@ -206,17 +206,6 @@ try {
     code_highlight_style();
 } catch (e) { }
 
-if (Poi.reply_link_version == 'new') {
-    let cm = document.querySelector(".comments-main");
-    if (cm) cm.addEventListener("click", function (e) {
-        if (e.target.classList.contains("comment-reply-link")) {
-            e.preventDefault();
-            e.stopPropagation();
-            let data_commentid = e.target.getAttribute("data-commentid");
-            addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
-        }
-    })
-}
 const ready = function (fn) {
     if (document.readyState === 'complete') {
         return fn();
@@ -784,6 +773,16 @@ function sm() {
     let sm = document.getElementsByClassName('sm'),
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
+    if (Poi.reply_link_version == 'new') {
+        if (cm) cm.addEventListener("click", function (e) {
+            if (e.target.classList.contains("comment-reply-link")) {
+                e.preventDefault();
+                e.stopPropagation();
+                let data_commentid = e.target.getAttribute("data-commentid");
+                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+            }
+        })
+    }
     cm && cm.addEventListener("click", (e) => {
         let list = e.target.parentNode;
         if (list.classList.contains("sm")) {
@@ -1542,26 +1541,45 @@ var // s = $('#bgvideo')[0],
             intersectionObserver.observe(
                 document.querySelector('.footer-device')
             );
-            $('body').on('click', '#pagination a', function () {
-                clearTimeout(load_post_timer);
-                load_post();
-                return false;
-            });
+            document.body.addEventListener("click", function (e) {
+                if (e.target == document.querySelector("#pagination a")) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    clearTimeout(load_post_timer);
+                    load_post();
+                }
+            })
 
             function load_post() {
                 const pagination_a = document.querySelector('#pagination a');
                 pagination_a.classList.add("loading");
                 pagination_a.innerText = "";
                 // $('#pagination a').addClass("loading").text("");
-                fetch(pagination_a.attributes.href + "#main", { method: "POST" }).then(resp => {
-                    if (resp.ok) {
-                        result = $(data).find("#main .post");
-                        nextHref = $(data).find("#pagination a").attr("href");
-                        $("#main").append(result.fadeIn(500));
-                        pagination_a.classList.remove("loading");
-                        pagination_a.innerText = "Previous";
-                        document.querySelector("#add_post span").classList.remove("loading");
-                        document.querySelector("#add_post span").innerText = "";
+                fetch(pagination_a.getAttribute("href") + "#main").then(resp => resp.text()).then(text=>{
+                    const parser = new DOMParser(),
+                        DOM = parser.parseFromString(text, "text/html"),
+                        result = DOM.querySelectorAll("#main .post"),
+                        paga = DOM.querySelector("#pagination a"),
+                        nextHref = paga && paga.getAttribute("href");
+                        for(let i=0;i<result.length;i++){
+                            let b = result[i];
+                            document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+                        }
+                        if(Poi.pjax)_pjax.refresh(document.querySelector("#content"));
+                    //if (resp.ok) {
+                        // result = $(data).find("#main .post");
+                        // nextHref = $(data).find("#pagination a").attr("href");
+                        // $("#main").append(result.fadeIn(500));
+                        const dpga = document.querySelector("#pagination a"),
+                        addps = document.querySelector("#add_post span");
+                        if(dpga){
+                            dpga.classList.remove("loading");
+                            dpga.innerText = "Previous";
+                        }
+                        if(addps){
+                            addps.classList.remove("loading");
+                            addps.innerText = "";
+                        }
                         // $("#pagination a").removeClass("loading").text("Previous");
                         // $('#add_post span').removeClass("loading").text("");
                         lazyload();
@@ -1585,7 +1603,8 @@ var // s = $('#bgvideo')[0],
                             document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
                             // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
                         }
-                    }
+                    //}
+                
                 })
                 /*  $.ajax({
                      type: "POST",
