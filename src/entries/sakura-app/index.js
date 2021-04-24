@@ -1103,6 +1103,8 @@ function load_bangumi() {
         document.addEventListener('click', function (e) {
             const target = e.target;
             if (target === document.querySelector("#bangumi-pagination a")) {
+                e.preventDefault();
+                e.stopPropagation();
                 target.classList.add("loading");
                 target.textContent = "";
                 const xhr = new XMLHttpRequest();
