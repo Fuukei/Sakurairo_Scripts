@@ -820,8 +820,8 @@ POWERMODE.colorful = true;
 POWERMODE.shake = false;
 document.body.addEventListener('input', POWERMODE);
 
+const motionEles = [".bili", ".menhera", ".tieba"];
 function motionSwitch(ele) {
-    let motionEles = [".bili", ".menhera", ".tieba"];
     for (let i = 0; i < motionEles.length; i++) {
         document.querySelector(motionEles[i] + '-bar').classList.remove('on-hover');
         document.querySelector(motionEles[i] + '-container').style.display = 'none';
@@ -829,6 +829,8 @@ function motionSwitch(ele) {
     document.querySelector(ele + '-bar').classList.add("on-hover");
     document.querySelector(ele + '-container').style.display = 'block';
 }
+window.motionSwitch=motionSwitch
+
 let comt = document.getElementsByClassName("comt-addsmilies");
 if (comt.length > 0) {
     Array.from(comt, (e) => {
