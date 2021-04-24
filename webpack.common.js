@@ -7,7 +7,7 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: define.dist_path,
+        path: define.dist_path,iife: true// 是否添加 IIFE 外层
     },
     module: {
         rules: [

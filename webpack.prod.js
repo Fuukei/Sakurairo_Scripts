@@ -16,9 +16,7 @@ module.exports = merge(common, {
       })
     ]
   },
-  output: {
-    iife: true// 是否添加 IIFE 外层
-  }, plugins: [new CompressionPlugin({
+ plugins: [new CompressionPlugin({
     test: /\.js(\?.*)?$/i,
     threshold: 8192,
 
