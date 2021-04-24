@@ -19,7 +19,10 @@ export function turnOnDarkMode(userTriggered?: boolean) {
     document.documentElement.style.background = "#333333";
     (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "#333333";
     document.body.classList.add("dark");
-    if (userTriggered) setCookie("dark", "1", 0.33);
+    if (userTriggered) {
+        setCookie("dark", "1", 0.33);
+        setCookie("bgImgSetting", "white-bg", 30);
+    }
     console.log('夜间模式开启');
 }
 export function turnOffDarkMode(userTriggered?: boolean) {
