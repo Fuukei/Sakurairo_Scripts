@@ -1928,4 +1928,12 @@ function web_audio() {
         })
     }
 }
-require('./global-func')
+require('./global-func')if (mashiro_option.fancybox) {
+    loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
+    import('jquery').then((jQuery) => {
+        window.jQuery = jQuery.default
+        window.$ = jQuery.default
+        import('@fancyapps/fancybox')
+    })
+}
+
