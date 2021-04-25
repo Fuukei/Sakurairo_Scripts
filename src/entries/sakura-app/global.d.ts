@@ -12,7 +12,12 @@ declare namespace mashiro_option{
     const darkmode: boolean
     const dm_strategy:'client'|'time'|'eien'
     /**************************** */
-
+    /**
+     * preload blur
+     * 为0时功能关闭，单位ms
+     * @seealso https://developer.mozilla.org/en-US/docs/Web/API/EffectTiming/duration
+     */
+    const preload_blur:number
     const email_domain: string
     const email_name: string
     const entry_content_style: string

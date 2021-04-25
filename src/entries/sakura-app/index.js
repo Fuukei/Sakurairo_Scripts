@@ -1931,15 +1931,27 @@ function headertop_down() {
 }
 window.headertop_down=headertop_down
 
-window.onload = function () {
-    document.documentElement.style.overflowY = "unset";
-    let preload = document.getElementById("preload");
+window.addEventListener('load',()=>{
+    const preload = document.getElementById("preload");
     if (!preload) return;
+    document.documentElement.style.overflowY='unset';
+    if(mashiro_option.preload_blur==0){
     preload.classList.add('hide');
     preload.classList.remove('show');
-    setTimeout('preload.remove()', 666);
-}
-
+    setTimeout(()=>preload.remove(), 233);
+    }else{
+        preload.animate(
+            [
+            {filter:"blur(0px)",backdropFilter:"blur(10px)",opacity:1},
+            {backdropFilter:"blur(0px)grayscale(0)",opacity:0.1},
+            {opacity:0,filter:"blur(100px)",}
+        ],
+            {duration:mashiro_option.preload_blur,fill:"forwards",easing:"ease"}
+            ).onfinish=()=>{
+                preload.remove()
+            }
+    }
+})
 
 
 function web_audio() {
