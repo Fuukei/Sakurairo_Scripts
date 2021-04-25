@@ -4,7 +4,8 @@ declare var meting_api: string;
 import APlayer from 'aplayer'
 let aplayers: any[] = []
 export function aplayerInit() {
-    document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
+    //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
+    loadMeting()
 }
 function initAplayer(a: HTMLElement, b: string | any[]) {
     const default_option: Record<string, any> = {
