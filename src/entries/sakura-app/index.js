@@ -16,7 +16,7 @@
  * *** ***
  */
 const add_copyright = require('./copyright').default;
-const {loadCSS} = require('fg-loadcss');
+const { loadCSS } = require('fg-loadcss');
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -830,7 +830,7 @@ ready(() => {
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
-        import('./AplayerInit').then(({ aplayerInit })=>aplayerInit())
+        import('./AplayerInit').then(({ aplayerInit }) => aplayerInit())
         /* const { aplayerInit } = require('./AplayerInit')
         aplayerInit() */
     }
@@ -1928,7 +1928,9 @@ function web_audio() {
         })
     }
 }
-require('./global-func')if (mashiro_option.fancybox) {
+require('./global-func')
+//init fancybox
+if (mashiro_option.fancybox) {
     loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
     import('jquery').then((jQuery) => {
         window.jQuery = jQuery.default
