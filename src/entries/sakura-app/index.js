@@ -611,12 +611,14 @@ function coverVideoIni() {
                             loadHls();
                             mashiro_global.variables.has_hls = true;
                         }) */
-            import('hls.js').then(hls => {
-                //export to GLOBAL
-                window.Hls = hls.default
-                loadHls();
-                mashiro_global.variables.has_hls = true;
-            })
+            import('hls.js')
+                .then(hls => {
+                    //export to GLOBAL
+                    window.Hls = hls.default
+                    loadHls();
+                    mashiro_global.variables.has_hls = true;
+                })
+                .catch(reason => console.warn('Hls load failed: ', reason))
         }
     }
 }
