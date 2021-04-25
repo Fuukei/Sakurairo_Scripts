@@ -761,12 +761,6 @@ function sm() {
     })
 }
 
-
-POWERMODE.colorful = true;
-POWERMODE.shake = false;
-document.body.addEventListener('input', POWERMODE);
-
-
 let comt = document.getElementsByClassName("comt-addsmilies");
 if (comt.length > 0) {
     Array.from(comt, (e) => {
@@ -1064,6 +1058,8 @@ loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
+
+const POWERMODE = require('activate-power-mode/src/index')
 
 var // s = $('#bgvideo')[0],
     s = document.getElementById("bgvideo"),
