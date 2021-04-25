@@ -1461,15 +1461,18 @@ var // s = $('#bgvideo')[0],
             const intersectionObserver = new IntersectionObserver(function (entries) {
                 if (entries[0].intersectionRatio <= 0) return;
                 // var page_next = $('#pagination a').attr("href");
-                const page_next = document.querySelector('#pagination a').getAttribute("href"),
-                    load_key = document.getElementById("add_post_time");
-                if (page_next != undefined && load_key) {
-                    const load_time = document.getElementById("add_post_time").title;
-                    if (load_time != "233") {
-                        console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
-                        load_post_timer = setTimeout(function () {
-                            load_post();
-                        }, load_time * 1000);
+                const _page_next = document.querySelector('#pagination a')
+                if (_page_next) {
+                    const page_next = _page_next.getAttribute("href"),
+                        load_key = document.getElementById("add_post_time");
+                    if (page_next != undefined && load_key) {
+                        const load_time = document.getElementById("add_post_time").title;
+                        if (load_time != "233") {
+                            console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
+                            load_post_timer = setTimeout(function () {
+                                load_post();
+                            }, load_time * 1000);
+                        }
                     }
                 }
             });
