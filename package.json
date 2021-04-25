@@ -21,7 +21,9 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "highlight.js": "^10.7.2",
-    "hls.js": "^1.0.1"
+    "hls.js": "^1.0.1",
+    "pjax": "^0.2.8",
+    "tocbot": "^4.12.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",

@@ -654,6 +654,7 @@ function tableOfContentScroll(flag) {
                     id++;
                 }
             }
+            const tocbot = require('tocbot')
             tocbot.init({
                 tocSelector: '.toc',
                 contentSelector: ['.entry-content', '.links'],
