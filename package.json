@@ -21,6 +21,7 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "activate-power-mode": "github:disjukr/activate-power-mode",
+    "aplayer": "^1.10.1",
     "highlight.js": "^10.7.2",
     "hls.js": "^1.0.1",
     "pjax": "^0.2.8",

@@ -829,8 +829,8 @@ ready(() => {
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
-        const { aplayerInit } = require('./AplayerInit')
-        aplayerInit()
+        loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
+        import('./AplayerInit').then(({ aplayerInit })=>aplayerInit())
     }
 }
 
@@ -1057,7 +1057,6 @@ mashiro_global.ini.normalize();
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
-loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
 
 const POWERMODE = require('activate-power-mode/src/index')
 

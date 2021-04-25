@@ -1,7 +1,7 @@
 //可能存在的全局变量
 declare var meting_api: string;
-declare var APlayer: new (...args: any[]) => void
-
+//@ts-ignore
+import APlayer from 'aplayer'
 let aplayers: any[] = []
 export function aplayerInit() {
     document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
