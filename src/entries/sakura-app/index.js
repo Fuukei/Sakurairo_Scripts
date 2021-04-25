@@ -1498,7 +1498,7 @@ var // s = $('#bgvideo')[0],
                         let b = result[i];
                         document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
                     }
-                    if (Poi.pjax) _pjax.refresh(document.querySelector("#content"));
+                    if (Poi.pjax) Pjax.refresh(document.querySelector("#content"));
                     //if (resp.ok) {
                     // result = $(data).find("#main .post");
                     // nextHref = $(data).find("#pagination a").attr("href");
