@@ -16,6 +16,7 @@
  * *** ***
  */
 const add_copyright = require('./copyright').default;
+const {loadCSS} = require('fg-loadcss');
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -829,8 +830,9 @@ ready(() => {
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
-        loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
         import('./AplayerInit').then(({ aplayerInit })=>aplayerInit())
+        /* const { aplayerInit } = require('./AplayerInit')
+        aplayerInit() */
     }
 }
 

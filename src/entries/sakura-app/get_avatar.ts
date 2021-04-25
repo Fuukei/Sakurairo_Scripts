@@ -1,7 +1,7 @@
 //from a6cd66c 11.third-part-functions.js
 import MD5 from 'md5'
 // Gravatar
-function get_gravatar(email, size) {
+function get_gravatar(email: string, size: string | number) {
 
     /**@deprecated */
     // MD5 (Message-Digest Algorithm) by WebToolkit

@@ -72,11 +72,13 @@ function motionSwitch(ele) {
     document.querySelector(ele + '-bar').classList.add("on-hover");
     document.querySelector(ele + '-container').style.display = 'block';
 }
+const get_avatar = require('./get_avatar')
+window.get_avatar = get_avatar
 
 window.imgError = imgError
-window.cmt_showPopup=cmt_showPopup
-window.coverVideo=coverVideo
-window.killCoverVideo=killCoverVideo
-window.mail_me=mail_me
+window.cmt_showPopup = cmt_showPopup
+window.coverVideo = coverVideo
+window.killCoverVideo = killCoverVideo
+window.mail_me = mail_me
 window.headertop_down = headertop_down
 window.motionSwitch = motionSwitch

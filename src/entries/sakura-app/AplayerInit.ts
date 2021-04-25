@@ -2,9 +2,11 @@
 declare var meting_api: string;
 //@ts-ignore
 import APlayer from 'aplayer'
+import { loadCSS } from 'fg-loadcss';
 let aplayers: any[] = []
 export function aplayerInit() {
     //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
+    loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
     loadMeting()
 }
 function initAplayer(a: HTMLElement, b: string | any[]) {
