@@ -829,7 +829,7 @@ function motionSwitch(ele) {
     document.querySelector(ele + '-bar').classList.add("on-hover");
     document.querySelector(ele + '-container').style.display = 'block';
 }
-window.motionSwitch=motionSwitch
+window.motionSwitch = motionSwitch
 
 let comt = document.getElementsByClassName("comt-addsmilies");
 if (comt.length > 0) {
@@ -1559,56 +1559,56 @@ var // s = $('#bgvideo')[0],
                 pagination_a.classList.add("loading");
                 pagination_a.innerText = "";
                 // $('#pagination a').addClass("loading").text("");
-                fetch(pagination_a.getAttribute("href") + "#main").then(resp => resp.text()).then(text=>{
+                fetch(pagination_a.getAttribute("href") + "#main").then(resp => resp.text()).then(text => {
                     const parser = new DOMParser(),
                         DOM = parser.parseFromString(text, "text/html"),
                         result = DOM.querySelectorAll("#main .post"),
                         paga = DOM.querySelector("#pagination a"),
                         nextHref = paga && paga.getAttribute("href");
-                        for(let i=0;i<result.length;i++){
-                            let b = result[i];
-                            document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
-                        }
-                        if(Poi.pjax)_pjax.refresh(document.querySelector("#content"));
+                    for (let i = 0; i < result.length; i++) {
+                        let b = result[i];
+                        document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+                    }
+                    if (Poi.pjax) _pjax.refresh(document.querySelector("#content"));
                     //if (resp.ok) {
-                        // result = $(data).find("#main .post");
-                        // nextHref = $(data).find("#pagination a").attr("href");
-                        // $("#main").append(result.fadeIn(500));
-                        const dpga = document.querySelector("#pagination a"),
+                    // result = $(data).find("#main .post");
+                    // nextHref = $(data).find("#pagination a").attr("href");
+                    // $("#main").append(result.fadeIn(500));
+                    const dpga = document.querySelector("#pagination a"),
                         addps = document.querySelector("#add_post span");
-                        if(dpga){
-                            dpga.classList.remove("loading");
-                            dpga.innerText = "Previous";
-                        }
-                        if(addps){
-                            addps.classList.remove("loading");
-                            addps.innerText = "";
-                        }
-                        // $("#pagination a").removeClass("loading").text("Previous");
-                        // $('#add_post span').removeClass("loading").text("");
-                        lazyload();
-                        post_list_show_animation();
-                        if (nextHref != undefined) {
-                            pagination_a.setAttribute("href", nextHref);
-                            // $("#pagination a").attr("href", nextHref);
-                            //加载完成上滑
-                            let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
-                            // window.scrollTo(tempScrollTop);
-                            // $(window).scrollTop(tempScrollTop);
-                            window.scrollTo({
-                                top: tempScrollTop + 300,
-                                behavior: 'smooth'
-                            })
-                            // $body.animate({
-                            //     scrollTop: tempScrollTop + 300
-                            //
-                            // }, 666)
-                        } else {
-                            document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
-                            // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                        }
+                    if (dpga) {
+                        dpga.classList.remove("loading");
+                        dpga.innerText = "Previous";
+                    }
+                    if (addps) {
+                        addps.classList.remove("loading");
+                        addps.innerText = "";
+                    }
+                    // $("#pagination a").removeClass("loading").text("Previous");
+                    // $('#add_post span').removeClass("loading").text("");
+                    lazyload();
+                    post_list_show_animation();
+                    if (nextHref != undefined) {
+                        pagination_a.setAttribute("href", nextHref);
+                        // $("#pagination a").attr("href", nextHref);
+                        //加载完成上滑
+                        let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                        // window.scrollTo(tempScrollTop);
+                        // $(window).scrollTop(tempScrollTop);
+                        window.scrollTo({
+                            top: tempScrollTop + 300,
+                            behavior: 'smooth'
+                        })
+                        // $body.animate({
+                        //     scrollTop: tempScrollTop + 300
+                        //
+                        // }, 666)
+                    } else {
+                        document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
+                        // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                    }
                     //}
-                
+
                 })
                 /*  $.ajax({
                      type: "POST",
@@ -1929,27 +1929,27 @@ function headertop_down() {
         behavior: "smooth"
     });
 }
-window.headertop_down=headertop_down
+window.headertop_down = headertop_down
 
-window.addEventListener('load',()=>{
+window.addEventListener('load', () => {
     const preload = document.getElementById("preload");
     if (!preload) return;
-    document.documentElement.style.overflowY='unset';
-    if(mashiro_option.preload_blur==0){
-    preload.classList.add('hide');
-    preload.classList.remove('show');
-    setTimeout(()=>preload.remove(), 233);
-    }else{
+    document.documentElement.style.overflowY = 'unset';
+    if (mashiro_option.preload_blur == 0) {
+        preload.classList.add('hide');
+        preload.classList.remove('show');
+        setTimeout(() => preload.remove(), 233);
+    } else {
         preload.animate(
             [
-            {filter:"blur(0px)",backdropFilter:"blur(10px)",opacity:1},
-            {backdropFilter:"blur(0px)grayscale(0)",opacity:0.1},
-            {opacity:0,filter:"blur(100px)",}
-        ],
-            {duration:mashiro_option.preload_blur,fill:"forwards",easing:"ease"}
-            ).onfinish=()=>{
-                preload.remove()
-            }
+                { filter: "blur(0px)", backdropFilter: "blur(10px)", opacity: 1 },
+                { backdropFilter: "blur(0px)grayscale(0)", opacity: 0.1 },
+                { opacity: 0, filter: "blur(100px)", }
+            ],
+            { duration: mashiro_option.preload_blur, fill: "forwards", easing: "ease" }
+        ).onfinish = () => {
+            preload.remove()
+        }
     }
 })
 
