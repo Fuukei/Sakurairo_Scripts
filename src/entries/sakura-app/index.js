@@ -1937,3 +1937,20 @@ require('./global-func')if (mashiro_option.fancybox) {
     })
 }
 
+//收缩、展开
+/* jQuery(document).ready(
+function(jQuery){
+    jQuery('.collapseButton').click(function(){
+    jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+    });
+    }) */
+ready(function () {
+    const collapseButton = document.getElementsByClassName('collapseButton')
+    if (collapseButton.length > 0) {
+        import('jquery').then(({default:jQuery}) => {
+            jQuery('.collapseButton').on("click", function () {
+                jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+            })
+        })
+    }
+})
