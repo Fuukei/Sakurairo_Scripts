@@ -7,7 +7,33 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: define.dist_path,iife: true// 是否添加 IIFE 外层
+        path: define.dist_path, iife: true// 是否添加 IIFE 外层
+    },
+    optimization: {
+        /* runtimeChunk: {
+            name: 'runtime',
+        }, */
+        splitChunks: {
+            chunks: 'async',
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
+            maxSize: 244000,
+            cacheGroups: {
+                /* defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    reuseExistingChunk: true,
+                }, */
+                default: {
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
     },
     module: {
         rules: [
@@ -19,8 +45,8 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env'],
-                        cacheDirectory:true,
-                        cacheCompression:false
+                        cacheDirectory: true,
+                        cacheCompression: false
                     }
                 }
             }
