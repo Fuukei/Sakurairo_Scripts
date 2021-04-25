@@ -1929,6 +1929,7 @@ function headertop_down() {
         behavior: "smooth"
     });
 }
+window.headertop_down=headertop_down
 
 window.onload = function () {
     document.documentElement.style.overflowY = "unset";
