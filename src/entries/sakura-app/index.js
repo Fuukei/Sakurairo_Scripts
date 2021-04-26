@@ -1799,7 +1799,7 @@ var // s = $('#bgvideo')[0],
 if (Poi.pjax) {
     //NProgess CSS?
     const NProgress = require('nprogress')
-
+    const Pjax = require('pjax');
     new Pjax({
         selectors: ["#page", "title", ".footer-device"],
         elements: [
