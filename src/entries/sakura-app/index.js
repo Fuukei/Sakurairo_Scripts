@@ -1077,11 +1077,17 @@ function(jQuery){
     }) */
     const collapseButton = document.getElementsByClassName('collapseButton')
     if (collapseButton.length > 0) {
-        import('jquery').then(({ default: jQuery }) => {
-            jQuery('.collapseButton').on("click", function () {
-                jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+        for (const ele of collapseButton){
+            ele.addEventListener("click",(e)=>{
+                slideToogle(e.parentNode.parentNode.querySelector(".xContent"));
+                // e.parentNode.parentNode.querySelector(".xContent")
             })
-        })
+        }
+        // import('jquery').then(({ default: jQuery }) => {
+        //     jQuery('.collapseButton').on("click", function () {
+        //         jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+        //     })
+        // })
     }
     //init lightbox
 if (mashiro_option.baguetteBoxON) {
