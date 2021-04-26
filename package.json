@@ -23,6 +23,7 @@
     "@fancyapps/fancybox": "^3.5.7",
     "activate-power-mode": "github:disjukr/activate-power-mode",
     "aplayer": "^1.10.1",
+    "baguettebox.js": "^1.11.1",
     "fg-loadcss": "^3.1.0",
     "highlight.js": "^10.7.2",
     "hls.js": "^1.0.2",

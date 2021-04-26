@@ -1061,7 +1061,42 @@ loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 const POWERMODE = require('activate-power-mode/src/index')
-
+function article_attach(){
+    //收缩、展开
+/* jQuery(document).ready(
+function(jQuery){
+    jQuery('.collapseButton').click(function(){
+    jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+    });
+    }) */
+    const collapseButton = document.getElementsByClassName('collapseButton')
+    if (collapseButton.length > 0) {
+        import('jquery').then(({ default: jQuery }) => {
+            jQuery('.collapseButton').on("click", function () {
+                jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+            })
+        })
+    }
+    //init lightbox
+if (mashiro_option.baguetteBoxON) {
+    loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
+    import('baguettebox.js').then(({default:baguetteBox})=>{
+        baguetteBox.run('.entry-content', {
+        captions: function (element) {
+            return element.getElementsByTagName('img')[0].alt;
+        },
+        ignoreClass: 'fancybox',
+    });
+    })
+} else if (mashiro_option.fancybox) {
+    loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
+    import('jquery').then((jQuery) => {
+        window.jQuery = jQuery.default
+        window.$ = jQuery.default
+        import('@fancyapps/fancybox')
+    })
+}
+}
 var // s = $('#bgvideo')[0],
     s = document.getElementById("bgvideo"),
     Siren = {
@@ -1257,6 +1292,7 @@ var // s = $('#bgvideo')[0],
                     ignoreClass: 'fancybox',
                 });
             }*/
+            article_attach()
             const callback = function () {
                 //$('.js-toggle-search').toggleClass('is-active');
                 document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
@@ -1929,30 +1965,3 @@ function web_audio() {
     }
 }
 require('./global-func')
-//init fancybox
-if (mashiro_option.fancybox) {
-    loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
-    import('jquery').then((jQuery) => {
-        window.jQuery = jQuery.default
-        window.$ = jQuery.default
-        import('@fancyapps/fancybox')
-    })
-}
-
-//收缩、展开
-/* jQuery(document).ready(
-function(jQuery){
-    jQuery('.collapseButton').click(function(){
-    jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
-    });
-    }) */
-ready(function () {
-    const collapseButton = document.getElementsByClassName('collapseButton')
-    if (collapseButton.length > 0) {
-        import('jquery').then(({default:jQuery}) => {
-            jQuery('.collapseButton').on("click", function () {
-                jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
-            })
-        })
-    }
-})
