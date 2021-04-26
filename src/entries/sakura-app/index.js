@@ -625,6 +625,7 @@ function coverVideoIni() {
     }
 }
 
+const ClipboardJS = require('clipboard')
 function copy_code_block() {
     let ele = document.querySelectorAll("pre code");
     for (let j = 0; j < ele.length; j++) {
