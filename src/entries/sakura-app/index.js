@@ -154,7 +154,11 @@ mashiro_global.font_control = new function () {
 }
 mashiro_global.font_control.ini();
 
-function code_highlight_style() {
+async function code_highlight_style() {
+    const hljs = await import('highlight.js')
+    //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
+    window.hljs = hljs
+    await import('highlightjs-line-numbers.js')
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
     if (!pre.length) return;

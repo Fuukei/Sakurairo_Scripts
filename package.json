@@ -27,6 +27,7 @@
     "clipboard": "^2.0.8",
     "fg-loadcss": "^3.1.0",
     "highlight.js": "^10.7.2",
+    "highlightjs-line-numbers.js": "^2.8.0",
     "hls.js": "^1.0.2",
     "jquery": "^3.6.0",
     "lazyload": "^2.0.0-rc.2",
