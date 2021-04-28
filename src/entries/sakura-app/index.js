@@ -15,10 +15,11 @@
  * @date 2019.8.3
  * *** ***
  */
-const add_copyright = require('./copyright').default;
-const { loadCSS } = require('fg-loadcss');
-//require('lazyload')//源码是直接全局释放的
-const { lazyload } = require('lazyload');
+import buildAPI from './api'
+import { setCookie, getCookie, removeCookie, } from '../../module/cookie'
+import add_copyright from './copyright'
+import { loadCSS } from 'fg-loadcss'
+import { lazyload } from 'lazyload'
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -59,8 +60,61 @@ mashiro_global.ini = new function () {
         sm();
     }
 }
-const buildAPI = require('./api').default
-const { setCookie, getCookie, removeCookie, } = require('../../module/cookie')
+
+/**code highlight */
+
+const code_highlight_style = (() => {
+    async function importHighlightjs() {
+        window.hljs = await import('highlight.js')
+        await import('highlightjs-line-numbers.js')
+    }
+    function gen_top_bar(pre, code_a) {
+        const attributes = {
+            'autocomplete': 'off',
+            'autocorrect': 'off',
+            'autocapitalize': 'off',
+            'spellcheck': 'false',
+            'contenteditable': 'false',
+            'design': 'by Mashiro'
+        },
+            ele_name = pre.children[0].className
+        let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
+        if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
+        pre.classList.add("highlight-wrap");
+        for (const t in attributes) {
+            pre.setAttribute(t, attributes[t]);
+        }
+        code_a.setAttribute('data-rel', lang.toUpperCase());
+    }
+    return async function code_highlight_style() {
+        try {
+            //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
+            const pre = document.getElementsByTagName("pre"),
+                code = document.querySelectorAll("pre code");
+            if (!pre.length) return;
+            await importHighlightjs()
+            for (let i = 0; i < code.length; i++) {
+                hljs.highlightBlock(code[i]);
+            }
+            for (let i = 0; i < pre.length; i++) {
+                gen_top_bar(pre[i], code[i]);
+            }
+            hljs.initLineNumbersOnLoad();
+            const ec = document.querySelector(".entry-content");
+            ec && ec.addEventListener("click", function (e) {
+                //类型问题
+                //可以考虑换成 ec
+                if (!e.target.classList.contains("highlight-wrap")) return;
+                e.target.classList.toggle("code-block-fullscreen");
+                document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
+            })
+        } catch (reason) {
+            console.error(reason);
+        }
+
+    }
+})()
+
 function slideToogle(el, duration = 1000, mode = '', callback) {
     let dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
@@ -155,50 +209,7 @@ mashiro_global.font_control = new function () {
 }
 mashiro_global.font_control.ini();
 
-async function code_highlight_style() {
-    const hljs = await import('highlight.js')
-    //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
-    window.hljs = hljs
-    await import('highlightjs-line-numbers.js')
-    const pre = document.getElementsByTagName("pre"),
-        code = document.querySelectorAll("pre code");
-    if (!pre.length) return;
-    function gen_top_bar(i) {
-        let attributes = {
-            'autocomplete': 'off',
-            'autocorrect': 'off',
-            'autocapitalize': 'off',
-            'spellcheck': 'false',
-            'contenteditable': 'false',
-            'design': 'by Mashiro'
-        },
-            ele_name = pre[i].children[0].className,
-            lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', ''),
-            code_a = code[i];
-        if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
-        pre[i].classList.add("highlight-wrap");
-        for (let t in attributes) {
-            pre[i].setAttribute(t, attributes[t]);
-        }
-        code_a.setAttribute('data-rel', lang.toUpperCase());
-    }
-    for (let i = 0; i < code.length; i++) {
-        hljs.highlightBlock(code[i]);
-    }
-    for (let i = 0; i < pre.length; i++) {
-        gen_top_bar(i);
-    }
-    hljs.initLineNumbersOnLoad();
-    const ec = document.querySelector(".entry-content");
-    ec && ec.addEventListener("click", function (e) {
-        if (!e.target.classList.contains("highlight-wrap")) return;
-        e.target.classList.toggle("code-block-fullscreen");
-        document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
-    })
-}
-try {
-    code_highlight_style();
-} catch (e) { }
+code_highlight_style();
 
 const ready = function (fn) {
     if (document.readyState === 'complete') {
@@ -363,8 +374,7 @@ function checkSkinSecter() {
         }
     }
 }
-const { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode } = require('./darkmode')
-
+import { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -630,7 +640,7 @@ function coverVideoIni() {
     }
 }
 
-const ClipboardJS = require('clipboard')
+import ClipboardJS from 'clipboard'
 function copy_code_block() {
     let ele = document.querySelectorAll("pre code");
     for (let j = 0; j < ele.length; j++) {
@@ -1067,19 +1077,19 @@ loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
-const POWERMODE = require('activate-power-mode/src/index')
-function article_attach(){
+import POWERMODE from 'activate-power-mode/src/index'
+function article_attach() {
     //收缩、展开
-/* jQuery(document).ready(
-function(jQuery){
-    jQuery('.collapseButton').click(function(){
-    jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
-    });
-    }) */
+    /* jQuery(document).ready(
+    function(jQuery){
+        jQuery('.collapseButton').click(function(){
+        jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
+        });
+        }) */
     const collapseButton = document.getElementsByClassName('collapseButton')
     if (collapseButton.length > 0) {
-        for (const ele of collapseButton){
-            ele.addEventListener("click",(e)=>{
+        for (const ele of collapseButton) {
+            ele.addEventListener("click", (e) => {
                 slideToogle(e.parentNode.parentNode.querySelector(".xContent"));
                 // e.parentNode.parentNode.querySelector(".xContent")
             })
@@ -1091,24 +1101,24 @@ function(jQuery){
         // })
     }
     //init lightbox
-if (mashiro_option.baguetteBoxON) {
-    loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
-    import('baguettebox.js').then(({default:baguetteBox})=>{
-        baguetteBox.run('.entry-content', {
-        captions: function (element) {
-            return element.getElementsByTagName('img')[0].alt;
-        },
-        ignoreClass: 'fancybox',
-    });
-    })
-} else if (mashiro_option.fancybox) {
-    loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
-    import('jquery').then((jQuery) => {
-        window.jQuery = jQuery.default
-        window.$ = jQuery.default
-        import('@fancyapps/fancybox')
-    })
-}
+    if (mashiro_option.baguetteBoxON) {
+        loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
+        import('baguettebox.js').then(({ default: baguetteBox }) => {
+            baguetteBox.run('.entry-content', {
+                captions: function (element) {
+                    return element.getElementsByTagName('img')[0].alt;
+                },
+                ignoreClass: 'fancybox',
+            });
+        })
+    } else if (mashiro_option.fancybox) {
+        loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
+        import('jquery').then((jQuery) => {
+            window.jQuery = jQuery.default
+            window.$ = jQuery.default
+            import('@fancyapps/fancybox')
+        })
+    }
 }
 var // s = $('#bgvideo')[0],
     s = document.getElementById("bgvideo"),
@@ -1980,4 +1990,4 @@ function web_audio() {
         })
     }
 }
-require('./global-func')
+import './global-func'
