@@ -18,6 +18,7 @@
 const add_copyright = require('./copyright').default;
 const { loadCSS } = require('fg-loadcss');
 //require('lazyload')//源码是直接全局释放的
+const { lazyload } = require('lazyload');
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };

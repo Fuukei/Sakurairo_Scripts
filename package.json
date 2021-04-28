@@ -21,7 +21,7 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
-    "activate-power-mode": "github:disjukr/activate-power-mode",
+    "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "^1.10.1",
     "baguettebox.js": "^1.11.1",
     "clipboard": "^2.0.8",
@@ -30,12 +30,13 @@
     "highlightjs-line-numbers.js": "^2.8.0",
     "hls.js": "^1.0.2",
     "jquery": "^3.6.0",
-    "lazyload": "^2.0.0-rc.2",
+    "lazyload": "github:KotoriK/lazyload",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
     "pjax": "^0.2.8",
+    "smoothscroll-for-websites": "^1.4.10",
     "textarea-caret-position": "^0.1.1",
-    "tocbot": "^4.12.2"
+    "tocbot": "^4.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.16",
@@ -53,7 +54,7 @@
     "ts-jest": "^26.5.5",
     "ts-loader": "^9.1.1",
     "typescript": "^4.2.4",
-    "webpack": "^5.35.1",
+    "webpack": "^5.36.0",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
