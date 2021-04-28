@@ -672,13 +672,14 @@ function tableOfContentScroll(flag) {
                     id++;
                 }
             }
-            const tocbot = require('tocbot')
-            tocbot.init({
-                tocSelector: '.toc',
-                contentSelector: ['.entry-content', '.links'],
-                headingSelector: 'h1, h2, h3, h4, h5',
-                headingsOffset: heading_fix - window.innerHeight / 2,
-            });
+            import('tocbot').then(({default:tocbot})=>{
+                tocbot.init({
+                    tocSelector: '.toc',
+                    contentSelector: ['.entry-content', '.links'],
+                    headingSelector: 'h1, h2, h3, h4, h5',
+                    headingsOffset: heading_fix - window.innerHeight / 2,
+                });
+            })
         }
     }
 }
