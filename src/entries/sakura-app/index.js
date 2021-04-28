@@ -65,7 +65,7 @@ mashiro_global.ini = new function () {
 
 const code_highlight_style = (() => {
     async function importHighlightjs() {
-        window.hljs = await import('highlight.js')
+        if (!window.hljs) window.hljs = await import('highlight.js')
         await import('highlightjs-line-numbers.js')
     }
     function gen_top_bar(pre, code_a) {
