@@ -640,14 +640,15 @@ function coverVideoIni() {
     }
 }
 
-import ClipboardJS from 'clipboard'
 function copy_code_block() {
-    let ele = document.querySelectorAll("pre code");
+    const ele = document.querySelectorAll("pre code");
     for (let j = 0; j < ele.length; j++) {
         ele[j].setAttribute('id', 'hljs-' + j);
         ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#hljs-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
     };
-    let clipboard = new ClipboardJS('.copy-code');
+    import('clipboard').then(({ default: ClipboardJS }) => {
+        new ClipboardJS('.copy-code');
+    })
 }
 
 
