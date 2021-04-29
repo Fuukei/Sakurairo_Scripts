@@ -39,6 +39,15 @@ declare namespace mashiro_option{
     const template_url: string
     const windowheight: string
     const meting_api_url:string|undefined
+    const code_highlight:"prism"|"hljs"|"custom"
+    const code_highlight_prism:{
+        line_number_all:boolean
+        autoload_path:string,
+        css:{
+            light:string,
+            dark:string
+        }
+    }
 }
 declare namespace Poi{
     const pjax:string

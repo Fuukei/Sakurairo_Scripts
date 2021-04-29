@@ -195,6 +195,20 @@ const code_highlight_style = (() => {
         }
     }
 
+    return async function code_highlight_style() {
+        //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
+        const pre = document.getElementsByTagName("pre"),
+            code = document.querySelectorAll("pre code");
+        if (!pre.length) return;
+        switch (mashiro_option.code_highlight) {
+            case 'hljs':
+                return hljs_process(pre, code)
+            case 'prism':
+                return prism_process(code)
+            case 'custom': return
+            default:
+                console.warn(`mashiro_option.code_highlight这咋填的是个${mashiro_option.code_highlight}啊🤔`)
+        }
     }
 })()
 
