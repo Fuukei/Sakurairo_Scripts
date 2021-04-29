@@ -165,7 +165,7 @@ const code_highlight_style = (() => {
             console.warn(reason)
         }
     }
-    function loadPrismPluginLineNumbers(){
+    function loadPrismPluginLineNumbers() {
         loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
         return import('prismjs/plugins/line-numbers/prism-line-numbers')
     }
@@ -176,7 +176,7 @@ const code_highlight_style = (() => {
     async function prism_process(code) {
         try {
             await importPrismJS()
-            if(mashiro_option.code_highlight_prism.line_number_all){
+            if (mashiro_option.code_highlight_prism.line_number_all) {
                 document.querySelector('.entry-content').classList.add('line-numbers')
                 await loadPrismPluginLineNumbers()
             }
@@ -771,7 +771,7 @@ function tableOfContentScroll(flag) {
                     id++;
                 }
             }
-            import('tocbot').then(({default:tocbot})=>{
+            import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
                     tocSelector: '.toc',
                     contentSelector: ['.entry-content', '.links'],
