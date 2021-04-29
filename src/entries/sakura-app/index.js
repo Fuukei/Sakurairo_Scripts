@@ -108,9 +108,92 @@ const code_highlight_style = (() => {
                 e.target.classList.toggle("code-block-fullscreen");
                 document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
             })
-        } catch (reason) {
-            console.error(reason);
+        } catch (e) {
+            console.warn(e)
         }
+    }
+    const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path ?? 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/'
+    let current_prism_css = undefined
+    const themeCSS = (() => {
+        const { light, dark } = mashiro_option.code_highlight_prism?.theme ?? {}
+        const theme = {
+            light: light ?? 'themes/prism.min.css',
+            dark: dark ?? 'themes/prism-tomorrow.min.css',
+        }
+        for (const theme_name in theme) {
+            theme[theme_name] = new URL(theme[theme_name], PrismBaseUrl).toString()
+        }
+        return theme
+    })()
+    function loadPrismCSS(darkmodeOn) {
+        const nextCSS = darkmodeOn ? themeCSS.dark : themeCSS.light
+        if (current_prism_css) {
+            if (current_prism_css.href !== nextCSS) {
+                const nextCSSElement = loadCSS(nextCSS)
+                nextCSSElement.addEventListener('load', () => {
+                    current_prism_css.remove()
+                    current_prism_css = nextCSSElement
+                })
+            }
+        } else {
+            current_prism_css = loadCSS(nextCSS)
+        }
+    }
+    async function importPrismJS() {
+        try {
+            if (!window.Prism) {
+                const { default: Prism } = await import('prismjs')
+                window.Prism = Prism
+            }
+            //必备插件全家桶
+            await Promise.all([
+                import('prismjs/plugins/autoloader/prism-autoloader'),
+                import('prismjs/plugins/previewers/prism-previewers'),
+                import('prismjs/plugins/toolbar/prism-toolbar')
+                    .then(() => import('prismjs/plugins/show-language/prism-show-language'))
+            ])
+            loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
+            loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
+
+            Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
+            loadPrismCSS(isInDarkMode())
+            document.addEventListener('darkmode', (e) => {
+                loadPrismCSS(e.detail)
+            })
+        } catch (reason) {
+            console.warn(reason)
+        }
+    }
+    function loadPrismPluginLineNumbers(){
+        loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
+        return import('prismjs/plugins/line-numbers/prism-line-numbers')
+    }
+    /**
+     * 
+     * @param {NodeListOf<HTMLElement>} code document.querySelectorAll("pre code")
+     */
+    async function prism_process(code) {
+        try {
+            await importPrismJS()
+            if(mashiro_option.code_highlight_prism.line_number_all){
+                document.querySelector('.entry-content').classList.add('line-numbers')
+                await loadPrismPluginLineNumbers()
+            }
+            code.forEach(async ele => {
+                if (ele.parentElement.classList.contains('line-numbers')) {
+                    await loadPrismPluginLineNumbers()
+                }
+                if (ele.classList.contains('match-braces')) {
+                    await import('prismjs/plugins/match-braces/prism-match-braces')
+                    loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
+                }
+                Prism.highlightElement(ele)
+            })
+            Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
+        } catch (error) {
+            console.warn(error)
+        }
+    }
 
     }
 })()
@@ -374,7 +457,7 @@ function checkSkinSecter() {
         }
     }
 }
-import { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode } from './darkmode'
+import { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {

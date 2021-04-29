@@ -34,6 +34,7 @@
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
     "pjax": "^0.2.8",
+    "prismjs": "^1.23.0",
     "smoothscroll-for-websites": "^1.4.10",
     "textarea-caret-position": "^0.1.1",
     "tocbot": "^4.12.3"
