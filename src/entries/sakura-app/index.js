@@ -1856,9 +1856,10 @@ if (Poi.pjax) {
             loading.classList.add("hide");
             loading.classList.remove("show");
         }
-        if (Poi.codelamp == 'open') {
+        //未实际使用的选项
+        /* if (Poi.codelamp == 'open') {
             self.Prism.highlightAll(event)
-        };
+        }; */
         if (document.querySelector(".js-search.is-visible")) {
             document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
