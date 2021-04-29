@@ -697,10 +697,14 @@ const pjaxInit = function () {
     }
     try {
         code_highlight_style();
-    } catch { };
+    } catch (e) {
+        console.warn(e)
+    };
     try {
         getqqinfo();
-    } catch { };
+    } catch (e) {
+        console.warn(e)
+    };
     lazyload();
     let _div = document.getElementsByTagName("div"),
         tla = document.getElementById("to-load-aplayer");
