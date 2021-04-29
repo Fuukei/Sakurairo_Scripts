@@ -64,10 +64,6 @@ mashiro_global.ini = new function () {
 /**code highlight */
 
 const code_highlight_style = (() => {
-    async function importHighlightjs() {
-        if (!window.hljs) window.hljs = await import('highlight.js')
-        await import('highlightjs-line-numbers.js')
-    }
     function gen_top_bar(pre, code_a) {
         const attributes = {
             'autocomplete': 'off',
@@ -76,8 +72,9 @@ const code_highlight_style = (() => {
             'spellcheck': 'false',
             'contenteditable': 'false',
             'design': 'by Mashiro'
-        },
-            ele_name = pre.children[0].className
+        }
+        if (!pre.children[0]) return
+        const ele_name = pre.children[0].className
         let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
         if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
         pre.classList.add("highlight-wrap");
@@ -86,12 +83,16 @@ const code_highlight_style = (() => {
         }
         code_a.setAttribute('data-rel', lang.toUpperCase());
     }
-    return async function code_highlight_style() {
+    async function importHighlightjs() {
         try {
-            //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
-            const pre = document.getElementsByTagName("pre"),
-                code = document.querySelectorAll("pre code");
-            if (!pre.length) return;
+            if (!window.hljs) {
+                window.hljs = await import('highlight.js')
+                await import('highlightjs-line-numbers.js')
+            }
+        } catch (e) { console.warn(e) }
+    }
+    async function hljs_process(pre, code) {
+        try {
             await importHighlightjs()
             for (let i = 0; i < code.length; i++) {
                 hljs.highlightBlock(code[i]);
