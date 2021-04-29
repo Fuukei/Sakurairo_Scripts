@@ -43,7 +43,7 @@ declare namespace mashiro_option{
     const code_highlight_prism:{
         line_number_all:boolean
         autoload_path:string,
-        css:{
+        theme:{
             light:string,
             dark:string
         }
