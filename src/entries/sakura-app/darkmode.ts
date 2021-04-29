@@ -1,5 +1,14 @@
 import { getCookie, setCookie } from "../../module/cookie";
 const mediaQuery = window.matchMedia('(prefers-color-scheme:dark)')
+let inDarkMode = false
+export const isInDarkMode = () => inDarkMode
+function informDarkModeChange(nextValue: boolean) {
+    console.log("夜间模式" + (nextValue ? "开启" : "关闭"))
+    if (nextValue !== inDarkMode) {
+        document.dispatchEvent(new CustomEvent("darkmode", { detail: nextValue }))
+        inDarkMode = nextValue
+    }
+}
 function mediaQueryCallback() {
     const dark = getCookie("dark")
     //仅在暗色模式不是用户主动设置时触发
@@ -23,7 +32,7 @@ export function turnOnDarkMode(userTriggered?: boolean) {
         setCookie("dark", "1", 0.33);
         setCookie("bgImgSetting", "white-bg", 30);
     }
-    console.log('夜间模式开启');
+    informDarkModeChange(true)
 }
 export function turnOffDarkMode(userTriggered?: boolean) {
     const bgSetting = getCookie("bgImgSetting")
@@ -38,8 +47,7 @@ export function turnOffDarkMode(userTriggered?: boolean) {
 
             document.body.classList.remove("dynamic");
             document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
-
-            console.log('夜间模式关闭');
+            informDarkModeChange(false)
         }, 100);
     } else {
         document.documentElement.style.background = "unset";
@@ -50,6 +58,7 @@ export function turnOffDarkMode(userTriggered?: boolean) {
         } else {
             console.warn('#moblieDarkLight not found')
         }
+        informDarkModeChange(false)
     }
     if (userTriggered) setCookie("dark", "0", 0.33);
 }
