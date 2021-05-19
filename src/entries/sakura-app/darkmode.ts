@@ -1,4 +1,3 @@
-import { getCookie, setCookie } from "../../module/cookie";
 const mediaQuery = window.matchMedia('(prefers-color-scheme:dark)')
 let inDarkMode = false
 export const isInDarkMode = () => inDarkMode
@@ -10,7 +9,7 @@ function informDarkModeChange(nextValue: boolean) {
     }
 }
 function mediaQueryCallback() {
-    const dark = getCookie("dark")
+    const dark = localStorage.getItem("dark")
     //仅在暗色模式不是用户主动设置时触发
     if (!dark) {
         if (mediaQuery.matches && mashiro_option.darkmode) {
@@ -24,14 +23,24 @@ if (mashiro_option.dm_strategy === 'client') {
     mediaQuery.removeEventListener('change', mediaQueryCallback)
     mediaQuery.addEventListener('change', mediaQueryCallback)
 }
-export function turnOnDarkMode(userTriggered?: boolean) {
-    document.documentElement.style.background = "#333333";
-    (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "#333333";
-    document.body.classList.add("dark");
-    if (userTriggered) {
-        setCookie("dark", "1", 0.33);
-        setCookie("bgImgSetting", "white-bg", 30);
+function saveUserSetting(value: boolean) {
+    if (value == ifDarkmodeShouldOn()) {
+        //用户设置与自动切换暗色模式判断一致时，恢复自动切换
+        localStorage.removeItem('dark');
+    } else {
+        if (value == true) {
+            localStorage.setItem("dark", "1");
+        } else {
+            localStorage.setItem("dark", "0");
+        }
     }
+    localStorage.setItem("bgImgSetting", "white-bg");
+}
+export function turnOnDarkMode(userTriggered?: boolean) {
+    document.documentElement.style.background = "#333";
+    (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "#333";
+    document.body.classList.add("dark");
+    if (userTriggered) saveUserSetting(true)
     informDarkModeChange(true)
 }
 export function turnOffDarkMode(userTriggered?: boolean) {
@@ -44,7 +53,6 @@ export function turnOffDarkMode(userTriggered?: boolean) {
         saveUserSetting(false);
         document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
     }
-    if (userTriggered) setCookie("dark", "0", 0.33);
 }
 /**
  * 检查是否在深色模式时间
@@ -66,19 +74,19 @@ export function ifDarkmodeShouldOn() {
             return checkTime()
     }
 }
-export function checkDarkModeCookie() {
-    const dark = getCookie("dark"),
-        shouldDarkModeOn = ifDarkmodeShouldOn()
+export function checkDarkModeSetting() {
+    const dark = localStorage.getItem("dark")
     if (!dark) {
-        if (shouldDarkModeOn && mashiro_option.darkmode) {
+        //无用户设置时，自动切换暗色模式
+        if (ifDarkmodeShouldOn() && mashiro_option.darkmode) {
             turnOnDarkMode()
         } else {
             turnOffDarkMode()
         }
     } else {
-        if (dark == '1' && shouldDarkModeOn && mashiro_option.darkmode) {
+        if (dark == '1') {
             turnOnDarkMode()
-        } else if (dark == '0' || !shouldDarkModeOn) {
+        } else {
             turnOffDarkMode()
         }
     }

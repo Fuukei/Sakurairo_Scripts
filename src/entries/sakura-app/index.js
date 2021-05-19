@@ -483,7 +483,7 @@ function checkSkinSecter() {
         }
     }
 }
-import { checkDarkModeCookie, ifDarkmodeShouldOn, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
+import {  checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -503,17 +503,42 @@ function changeCoverBG() {
         if (type_mobile) cover_api.searchParams.set('type', 'mobile')
         centerbg.style.backgroundImage = "url(" + cover_api.toString() + ")";
     }
-}
+}   
+ function changeBG(bgid){
+        //@sideeffect
+        mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
+        checkSkinSecter();
+
+        let bg_url;
+        switch (bgid) {
+            /* case "white-bg":
+                temp = mashiro_option.skin_bg0;
+                document.body.classList.remove("dynamic");
+                break; */
+            case "diy1-bg":
+                bg_url = mashiro_option.skin_bg1;
+                break;
+            case "diy2-bg":
+                bg_url = mashiro_option.skin_bg2;
+                break;
+            case "diy3-bg":
+                bg_url = mashiro_option.skin_bg3;
+                break;
+            case "diy4-bg":
+                bg_url = mashiro_option.skin_bg4;
+                break;
+        }
+        document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+    }
 ready(function () {
     changeCoverBG();
-    let checkskin_bg = (a) => a == "none" ? "" : a;
-    function changeBG() {
+    //let checkskin_bg = (a) => a == "none" ? "" : a;
+
+    function addChangeBackgroundListener() {
         const cached = document.querySelectorAll(".menu-list li");
         cached.forEach(e => {
             e.addEventListener("click", function () {
                 const tagid = this.id;
-                mashiro_global.variables.skinSecter = tagid == "white-bg" || tagid == "dark-bg";
-                checkSkinSecter();
                 if (tagid == "dark-bg") {
                     /* document.documentElement.style.background = "#333333";
                     document.getElementsByClassName("site-content")[0].style.backgroundColor = "#333333";
@@ -523,52 +548,24 @@ ready(function () {
                 } else if (tagid == "white-bg") {
                     turnOffDarkMode(true)
                 } else {
-                    document.documentElement.style.background = "unset";
-                    document.getElementsByClassName("site-content")[0].style.backgroundColor = "rgba(255, 255, 255, .8)";
-                    document.body.classList.remove("dark");
-                    setCookie("dark", "0", 0.33);
-                    setCookie("bgImgSetting", tagid, 30);
-                    let temp;
-                    switch (tagid) {
-                        /* case "white-bg":
-                            temp = mashiro_option.skin_bg0;
-                            document.body.classList.remove("dynamic");
-                            break; */
-                        case "diy1-bg":
-                            temp = mashiro_option.skin_bg1;
-                            break;
-                        case "diy2-bg":
-                            temp = mashiro_option.skin_bg2;
-                            break;
-                        case "diy3-bg":
-                            temp = mashiro_option.skin_bg3;
-                            break;
-                        case "diy4-bg":
-                            temp = mashiro_option.skin_bg4;
-                            break;
-                    }
-                    document.body.style.backgroundImage = `url(${temp})`;
+                    turnOffDarkMode(true)
+                    changeBG(tagid)
+                    localStorage.setItem("bgImgSetting", tagid)
                 }
                 closeSkinMenu();
             });
         });
     }
-    changeBG();
+    addChangeBackgroundListener();
     function checkBgImgCookie() {
-        const bgurl = getCookie("bgImgSetting");
-        if (!bgurl || bgurl === 'white-bg') {
-            return
-        } else {
-            document.getElementById(bgurl).click();
+        const bgurl = localStorage.getItem("bgImgSetting");
+        if (bgurl) {
+            changeBG(bgurl);
         }
     }
     checkBgImgCookie()
-    if (!getCookie("darkcache") && ifDarkmodeShouldOn) {
-        removeCookie("dark");
-        setCookie("darkcache", "cached", 0.4);
-    }
     setTimeout(function () {
-        checkDarkModeCookie();
+        checkDarkModeSetting();
     }, 100);
 
     function closeSkinMenu() {
