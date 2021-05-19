@@ -10,7 +10,7 @@ function informDarkModeChange(nextValue: boolean) {
 }
 function mediaQueryCallback() {
     const dark = localStorage.getItem("dark")
-    //仅在暗色模式不是用户主动设置时触发
+    //仅在深色模式不是用户主动设置时触发
     if (!dark) {
         if (mediaQuery.matches && mashiro_option.darkmode) {
             turnOnDarkMode()
@@ -25,7 +25,7 @@ if (mashiro_option.dm_strategy === 'client') {
 }
 function saveUserSetting(value: boolean) {
     if (value == ifDarkmodeShouldOn()) {
-        //用户设置与自动切换暗色模式判断一致时，恢复自动切换
+        //用户设置与自动切换深色模式判断一致时，恢复自动切换
         localStorage.removeItem('dark');
     } else {
         if (value == true) {
@@ -77,7 +77,7 @@ export function ifDarkmodeShouldOn() {
 export function checkDarkModeSetting() {
     const dark = localStorage.getItem("dark")
     if (!dark) {
-        //无用户设置时，自动切换暗色模式
+        //无用户设置时，自动切换深色模式
         if (ifDarkmodeShouldOn() && mashiro_option.darkmode) {
             turnOnDarkMode()
         } else {
