@@ -376,21 +376,24 @@ function attach_image() {
 function clean_upload_images() {
     document.getElementById("upload-img-show").innerHTML = '';
 }
-
+/**
+ * 添加上传图片的提示
+ */
 function add_upload_tips() {
-    let form_subit = document.querySelector('.form-submit #submit');
-    if (form_subit == null) return;
-    form_subit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa fa-picture-o" aria-hidden="true"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
+    const form_submit = document.querySelector('.form-submit #submit');
+    if (form_submit == null) return;
+    form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa fa-picture-o" aria-hidden="true"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
     attach_image();
-    let file_subit = document.getElementById('upload-img-file'),
+    
+    const file_submit = document.getElementById('upload-img-file'),
         hover = document.getElementsByClassName('insert-image-tips')[0],
         Tip = document.getElementById('uploadTipPopup');
-    if (!file_subit) return;
-    file_subit.addEventListener("mouseenter", function () {
+    if (!file_submit) return;
+    file_submit.addEventListener("mouseenter", function () {
         hover.classList.toggle('insert-image-tips-hover');
         Tip.classList.toggle('show');
     });
-    file_subit.addEventListener("mouseleave", function () {
+    file_submit.addEventListener("mouseleave", function () {
         hover.classList.toggle('insert-image-tips-hover');
         Tip.classList.toggle('show');
     });
