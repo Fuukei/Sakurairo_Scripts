@@ -48,6 +48,10 @@ declare namespace mashiro_option{
             dark:string
         }
     }
+    /**
+     * 开启评论上传图片功能
+     */
+    const comment_upload_img:boolean
 }
 declare namespace Poi{
     const pjax:string

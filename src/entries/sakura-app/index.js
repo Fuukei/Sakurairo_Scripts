@@ -31,8 +31,8 @@ import { lazyload } from 'lazyload'
     }
     const version = UA.match(reg);
     Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax;
-    if(document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-        document.cookie="su_webp=1; expires=Fri, 31 Dec 9999 23:59:59 GMT; pach=/";
+    if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
+        document.cookie = "su_webp=1; expires=Fri, 31 Dec 9999 23:59:59 GMT; pach=/";
 })();
 
 mashiro_global.variables = new function () {
@@ -317,7 +317,9 @@ const ready = function (fn) {
     }
     document.addEventListener('DOMContentLoaded', fn, false);
 };
-
+/**
+ * 上传图片提示
+ */
 function attach_image() {
     let cached = document.getElementsByClassName("insert-image-tips")[0],
         upload_img = document.getElementById('upload-img-file');
@@ -380,11 +382,12 @@ function clean_upload_images() {
  * 添加上传图片的提示
  */
 function add_upload_tips() {
+    if (!mashiro_option.comment_upload_img) return
     const form_submit = document.querySelector('.form-submit #submit');
     if (form_submit == null) return;
     form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa fa-picture-o" aria-hidden="true"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
     attach_image();
-    
+
     const file_submit = document.getElementById('upload-img-file'),
         hover = document.getElementsByClassName('insert-image-tips')[0],
         Tip = document.getElementById('uploadTipPopup');
@@ -997,58 +1000,58 @@ function getqqinfo() {
             $reg = /^[1-9]\d{4,9}$/;
         if ($reg.test(qq)) {
             fetch(buildAPI(mashiro_option.qq_api_url, { qq }))
-            .then(async resp => {
-                const whileFailed = () => {
-                    qq.value = '';
-                    qq_check.style.display = 'none';
-                    gravatar_check.style.display = 'block';
-                    user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
-                    setCookie('user_qq', '', 30);
-                    setCookie('user_email', email.value, 30);
-                    setCookie('user_avatar', get_gravatar(email.value, 80), 30);
-                    /***/
-                    /*         qq.value = email.value = url.value = "";
-                            if (!qq.value) {
-                                qq_check.style.display = 'none';
-                                gravatar_check.style.display = 'block';
-                                setCookie('user_qq', '', 30);
-                                user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
-                                setCookie('user_avatar', get_gravatar(email.value, 80), 30);
-                            } */
-                }
-                if (resp.ok) {
-                    //success
-                    try {
-                        const data = JSON.parse(await resp.json())
-                        author.value = data.name;
-                        email.value = qq.trim() + '@qq.com';
-                        if (mashiro_option.qzone_autocomplete) {
-                            url.value = 'https://user.qzone.qq.com/' + qq.trim();
-                        }
-                        user_avatar_img.setAttribute('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
-                        is_get_by_qq = true;
-                        qq.value = qq.trim();
-                        if (qq.value) {
-                            qq_check.style.display = 'block';
-                            gravatar_check.style.display = 'none';
-                        }
-                        setCookie('user_author', data.name, 30);
-                        setCookie('user_qq', qq, 30);
-                        setCookie('is_user_qq', 'yes', 30);
-                        setCookie('user_qq_email', qq + '@qq.com', 30);
-                        setCookie('user_email', qq + '@qq.com', 30);
-                        emailAddressFlag = email.value();
+                .then(async resp => {
+                    const whileFailed = () => {
+                        qq.value = '';
+                        qq_check.style.display = 'none';
+                        gravatar_check.style.display = 'block';
+                        user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
+                        setCookie('user_qq', '', 30);
+                        setCookie('user_email', email.value, 30);
+                        setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                         /***/
-                        user_avatar_img.setAttribute('src', data.avatar);
-                        setCookie('user_avatar', data.avatar, 30);
-                    } catch (e) {
-                        console.warn(e)
+                        /*         qq.value = email.value = url.value = "";
+                                if (!qq.value) {
+                                    qq_check.style.display = 'none';
+                                    gravatar_check.style.display = 'block';
+                                    setCookie('user_qq', '', 30);
+                                    user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
+                                    setCookie('user_avatar', get_gravatar(email.value, 80), 30);
+                                } */
+                    }
+                    if (resp.ok) {
+                        //success
+                        try {
+                            const data = JSON.parse(await resp.json())
+                            author.value = data.name;
+                            email.value = qq.trim() + '@qq.com';
+                            if (mashiro_option.qzone_autocomplete) {
+                                url.value = 'https://user.qzone.qq.com/' + qq.trim();
+                            }
+                            user_avatar_img.setAttribute('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
+                            is_get_by_qq = true;
+                            qq.value = qq.trim();
+                            if (qq.value) {
+                                qq_check.style.display = 'block';
+                                gravatar_check.style.display = 'none';
+                            }
+                            setCookie('user_author', data.name, 30);
+                            setCookie('user_qq', qq, 30);
+                            setCookie('is_user_qq', 'yes', 30);
+                            setCookie('user_qq_email', qq + '@qq.com', 30);
+                            setCookie('user_email', qq + '@qq.com', 30);
+                            emailAddressFlag = email.value();
+                            /***/
+                            user_avatar_img.setAttribute('src', data.avatar);
+                            setCookie('user_avatar', data.avatar, 30);
+                        } catch (e) {
+                            console.warn(e)
+                            whileFailed()
+                        }
+                    } else {
                         whileFailed()
                     }
-                } else {
-                    whileFailed()
-                }
-            })
+                })
         }
     });
     if (getCookie('user_avatar') && getCookie('user_email') && getCookie('is_user_qq') == 'no' && !getCookie('user_qq_email')) {
