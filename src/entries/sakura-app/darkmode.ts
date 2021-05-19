@@ -35,30 +35,14 @@ export function turnOnDarkMode(userTriggered?: boolean) {
     informDarkModeChange(true)
 }
 export function turnOffDarkMode(userTriggered?: boolean) {
-    const bgSetting = getCookie("bgImgSetting")
-    if (!userTriggered && bgSetting && bgSetting !== "white-bg") return
-    if (document.body.clientWidth > 860) {
-        setTimeout(function () {
-            document.documentElement.style.background = "unset";
-            (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "rgba(255, 255, 255, .8)";
-            document.body.classList.remove("dark");
-            if (userTriggered) setCookie("dark", "0", 0.33);
-            setCookie("bgImgSetting", "white-bg", 30);
-
-            document.body.classList.remove("dynamic");
-            document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
-            informDarkModeChange(false)
-        }, 100);
-    } else {
-        document.documentElement.style.background = "unset";
-        document.body.classList.remove("dark");
-        const moblieDarkLight = document.getElementById("moblieDarkLight");
-        if (moblieDarkLight) {
-            moblieDarkLight.innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
-        } else {
-            console.warn('#moblieDarkLight not found')
-        }
-        informDarkModeChange(false)
+    document.documentElement.style.background = "unset";
+    (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "rgba(255, 255, 255, .8)";
+    document.body.classList.remove("dark");
+    document.body.classList.remove("dynamic");
+    informDarkModeChange(false)
+    if (userTriggered) {
+        saveUserSetting(false);
+        document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
     }
     if (userTriggered) setCookie("dark", "0", 0.33);
 }
