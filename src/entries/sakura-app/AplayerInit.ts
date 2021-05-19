@@ -103,8 +103,8 @@ function loadMeting() {
             params.set('server', element.dataset.server)
             params.set('type', element.dataset.type)
             params.set('id', element.dataset.id);
-            if (fetch) {
-                fetch(api_path.toString())
+/*             if (fetch) {
+ */                fetch(api_path.toString())
                 .then(async (resp) => {
                     if (resp.ok) {
                         initAplayer(element, await resp.json())
@@ -112,7 +112,7 @@ function loadMeting() {
                         console.warn(`(APlayer) HTTP ${resp.status}:${resp.statusText}`)
                     }
                 }).catch(console.error)
-            } else {
+            /* } else {
                 const xhr = new XMLHttpRequest;
                 xhr.onreadystatechange = function () {
                     if (4 === xhr.readyState && (200 <= xhr.status && 300 > xhr.status || 304 === xhr.status)) {
@@ -122,7 +122,7 @@ function loadMeting() {
                 },
                     xhr.open('get', api_path.toString(), !0)
                 xhr.send()
-            }
+            } */
         } else if (element.dataset.url) {
             const playlist_info = [{
                 name: element.dataset.name || element.dataset.title || 'Audio name',
