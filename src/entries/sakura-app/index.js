@@ -32,7 +32,7 @@ import { lazyload } from 'lazyload'
     const version = UA.match(reg);
     Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax;
     if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-        document.cookie = "su_webp=1; expires=Fri, 31 Dec 9999 23:59:59 GMT; pach=/";
+        setCookie('su_webp',1,114514)
 })();
 
 mashiro_global.variables = new function () {
