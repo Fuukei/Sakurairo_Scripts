@@ -16,7 +16,7 @@
  * *** ***
  */
 import buildAPI from './api'
-import { setCookie, getCookie, removeCookie, } from '../../module/cookie'
+import { setCookie, getCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
