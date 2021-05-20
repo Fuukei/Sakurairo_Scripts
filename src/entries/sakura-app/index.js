@@ -1186,11 +1186,12 @@ function article_attach() {
         }) */
     const collapseButton = document.getElementsByClassName('collapseButton')
     if (collapseButton.length > 0) {
+        const collapseListener = (e) => {
+            slideToogle(e.target.parentNode.parentNode.querySelector(".xContent"));
+            // e.parentNode.parentNode.querySelector(".xContent")
+        }
         for (const ele of collapseButton) {
-            ele.addEventListener("click", (e) => {
-                slideToogle(e.parentNode.parentNode.querySelector(".xContent"));
-                // e.parentNode.parentNode.querySelector(".xContent")
-            })
+            ele.addEventListener("click", collapseListener)
         }
         // import('jquery').then(({ default: jQuery }) => {
         //     jQuery('.collapseButton').on("click", function () {
