@@ -1923,7 +1923,7 @@ if (Poi.pjax) {
     new Pjax({
         selectors: ["#page", "title", ".footer-device"],
         elements: [
-            "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item)",
+            "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
             ".search-form",
             ".s-search",
         ],
