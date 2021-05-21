@@ -20,6 +20,8 @@ import { setCookie, getCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
+import NProgress from 'nprogress'
+import Pjax from 'pjax';
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -1917,9 +1919,6 @@ var // s = $('#bgvideo')[0],
         }
     }
 if (Poi.pjax) {
-    //NProgess CSS?
-    const NProgress = require('nprogress')
-    const Pjax = require('pjax');
     new Pjax({
         selectors: ["#page", "title", ".footer-device"],
         elements: [
