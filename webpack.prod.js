@@ -11,7 +11,7 @@ module.exports = merge(common, {
         terserOptions: {
           // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
           sourceMap: true,
-          ecma:2016
+          ecma:2015
         },
       })
     ]
