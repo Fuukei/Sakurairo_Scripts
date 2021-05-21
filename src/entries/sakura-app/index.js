@@ -21,7 +21,7 @@ import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import NProgress from 'nprogress'
-import Pjax from 'pjax';
+import {pjax} from './pjax';
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -1650,17 +1650,20 @@ var // s = $('#bgvideo')[0],
                 pagination_a.classList.add("loading");
                 pagination_a.innerText = "";
                 // $('#pagination a').addClass("loading").text("");
-                fetch(pagination_a.getAttribute("href") + "#main").then(resp => resp.text()).then(text => {
+                fetch(pagination_a.getAttribute("href") + "#main")
+                .then(resp => resp.text())
+                .then(text => {
                     const parser = new DOMParser(),
                         DOM = parser.parseFromString(text, "text/html"),
                         result = DOM.querySelectorAll("#main .post"),
                         paga = DOM.querySelector("#pagination a"),
+                        paga_innerText = paga && paga.innerText,
                         nextHref = paga && paga.getAttribute("href");
                     for (let i = 0; i < result.length; i++) {
                         let b = result[i];
                         document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
                     }
-                    if (Poi.pjax) Pjax.refresh(document.querySelector("#content"));
+                    if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
                     //if (resp.ok) {
                     // result = $(data).find("#main .post");
                     // nextHref = $(data).find("#pagination a").attr("href");
@@ -1919,17 +1922,6 @@ var // s = $('#bgvideo')[0],
         }
     }
 if (Poi.pjax) {
-    new Pjax({
-        selectors: ["#page", "title", ".footer-device"],
-        elements: [
-            "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
-            ".search-form",
-            ".s-search",
-        ],
-        timeout: 8000,
-        history: true,
-        cacheBust: false,
-    });
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
             element.pause();
