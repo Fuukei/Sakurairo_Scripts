@@ -21,7 +21,7 @@ import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import NProgress from 'nprogress'
-import {pjax} from './pjax';
+import { pjax } from './pjax';
 (() => {
     const UA = navigator.userAgent,
         version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -34,7 +34,7 @@ import {pjax} from './pjax';
     const version = UA.match(reg);
     Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax;
     if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-        setCookie('su_webp',1,114514)
+        setCookie('su_webp', 1, 114514)
 })();
 
 mashiro_global.variables = new function () {
@@ -485,7 +485,7 @@ function checkSkinSecter() {
         }
     }
 }
-import {  checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
+import { checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -505,33 +505,33 @@ function changeCoverBG() {
         if (type_mobile) cover_api.searchParams.set('type', 'mobile')
         centerbg.style.backgroundImage = "url(" + cover_api.toString() + ")";
     }
-}   
- function changeBG(bgid){
-        //@sideeffect
-        mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
-        checkSkinSecter();
+}
+function changeBG(bgid) {
+    //@sideeffect
+    mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
+    checkSkinSecter();
 
-        let bg_url;
-        switch (bgid) {
-            /* case "white-bg":
-                temp = mashiro_option.skin_bg0;
-                document.body.classList.remove("dynamic");
-                break; */
-            case "diy1-bg":
-                bg_url = mashiro_option.skin_bg1;
-                break;
-            case "diy2-bg":
-                bg_url = mashiro_option.skin_bg2;
-                break;
-            case "diy3-bg":
-                bg_url = mashiro_option.skin_bg3;
-                break;
-            case "diy4-bg":
-                bg_url = mashiro_option.skin_bg4;
-                break;
-        }
-        document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+    let bg_url;
+    switch (bgid) {
+        /* case "white-bg":
+            temp = mashiro_option.skin_bg0;
+            document.body.classList.remove("dynamic");
+            break; */
+        case "diy1-bg":
+            bg_url = mashiro_option.skin_bg1;
+            break;
+        case "diy2-bg":
+            bg_url = mashiro_option.skin_bg2;
+            break;
+        case "diy3-bg":
+            bg_url = mashiro_option.skin_bg3;
+            break;
+        case "diy4-bg":
+            bg_url = mashiro_option.skin_bg4;
+            break;
     }
+    document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+}
 ready(function () {
     changeCoverBG();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
@@ -595,7 +595,7 @@ function setBG() {
         cover_api_url.searchParams.set('type', 'mobile')
         document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + "&" + bgn + ")";
     } else {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + (cover_api_url.search === '' ? "?" + bgn : '&' + bgn) + ")";
+        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + (cover_api_url.search === '' ? "?" : '&') + bgn + ")";
     }
 }
 function nextBG() {
@@ -1651,59 +1651,59 @@ var // s = $('#bgvideo')[0],
                 pagination_a.innerText = "";
                 // $('#pagination a').addClass("loading").text("");
                 fetch(pagination_a.getAttribute("href") + "#main")
-                .then(resp => resp.text())
-                .then(text => {
-                    const parser = new DOMParser(),
-                        DOM = parser.parseFromString(text, "text/html"),
-                        result = DOM.querySelectorAll("#main .post"),
-                        paga = DOM.querySelector("#pagination a"),
-                        paga_innerText = paga && paga.innerText,
-                        nextHref = paga && paga.getAttribute("href");
-                    for (let i = 0; i < result.length; i++) {
-                        let b = result[i];
-                        document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
-                    }
-                    if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
-                    //if (resp.ok) {
-                    // result = $(data).find("#main .post");
-                    // nextHref = $(data).find("#pagination a").attr("href");
-                    // $("#main").append(result.fadeIn(500));
-                    const dpga = document.querySelector("#pagination a"),
-                        addps = document.querySelector("#add_post span");
-                    if (dpga) {
-                        dpga.classList.remove("loading");
-                        dpga.innerText = paga_innerText;
-                    }
-                    if (addps) {
-                        addps.classList.remove("loading");
-                        addps.innerText = "";
-                    }
-                    // $("#pagination a").removeClass("loading").text("Previous");
-                    // $('#add_post span').removeClass("loading").text("");
-                    lazyload();
-                    post_list_show_animation();
-                    if (nextHref != undefined) {
-                        pagination_a.setAttribute("href", nextHref);
-                        // $("#pagination a").attr("href", nextHref);
-                        //加载完成上滑
-                        let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
-                        // window.scrollTo(tempScrollTop);
-                        // $(window).scrollTop(tempScrollTop);
-                        window.scrollTo({
-                            top: tempScrollTop + 300,
-                            behavior: 'smooth'
-                        })
-                        // $body.animate({
-                        //     scrollTop: tempScrollTop + 300
-                        //
-                        // }, 666)
-                    } else {
-                        document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
-                        // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                    }
-                    //}
+                    .then(resp => resp.text())
+                    .then(text => {
+                        const parser = new DOMParser(),
+                            DOM = parser.parseFromString(text, "text/html"),
+                            result = DOM.querySelectorAll("#main .post"),
+                            paga = DOM.querySelector("#pagination a"),
+                            paga_innerText = paga && paga.innerText,
+                            nextHref = paga && paga.getAttribute("href");
+                        for (let i = 0; i < result.length; i++) {
+                            let b = result[i];
+                            document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+                        }
+                        if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
+                        //if (resp.ok) {
+                        // result = $(data).find("#main .post");
+                        // nextHref = $(data).find("#pagination a").attr("href");
+                        // $("#main").append(result.fadeIn(500));
+                        const dpga = document.querySelector("#pagination a"),
+                            addps = document.querySelector("#add_post span");
+                        if (dpga) {
+                            dpga.classList.remove("loading");
+                            dpga.innerText = paga_innerText;
+                        }
+                        if (addps) {
+                            addps.classList.remove("loading");
+                            addps.innerText = "";
+                        }
+                        // $("#pagination a").removeClass("loading").text("Previous");
+                        // $('#add_post span').removeClass("loading").text("");
+                        lazyload();
+                        post_list_show_animation();
+                        if (nextHref != undefined) {
+                            pagination_a.setAttribute("href", nextHref);
+                            // $("#pagination a").attr("href", nextHref);
+                            //加载完成上滑
+                            let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                            // window.scrollTo(tempScrollTop);
+                            // $(window).scrollTop(tempScrollTop);
+                            window.scrollTo({
+                                top: tempScrollTop + 300,
+                                behavior: 'smooth'
+                            })
+                            // $body.animate({
+                            //     scrollTop: tempScrollTop + 300
+                            //
+                            // }, 666)
+                        } else {
+                            document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
+                            // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                        }
+                        //}
 
-                })
+                    })
                 /*  $.ajax({
                      type: "POST",
                      url: $('#pagination a').attr("href") + "#main",
