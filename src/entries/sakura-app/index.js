@@ -1189,7 +1189,7 @@ function article_attach() {
     const collapseButton = document.getElementsByClassName('collapseButton')
     if (collapseButton.length > 0) {
         const collapseListener = (e) => {
-            slideToogle(e.target.parentNode.parentNode.querySelector(".xContent"));
+            slideToogle(e.target.parentNode.parentNode.parentNode.querySelector(".xContent"));
             // e.parentNode.parentNode.querySelector(".xContent")
         }
         for (const ele of collapseButton) {
