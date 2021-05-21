@@ -1669,7 +1669,7 @@ var // s = $('#bgvideo')[0],
                         addps = document.querySelector("#add_post span");
                     if (dpga) {
                         dpga.classList.remove("loading");
-                        dpga.innerText = "Previous";
+                        dpga.innerText = paga_innerText;
                     }
                     if (addps) {
                         addps.classList.remove("loading");
