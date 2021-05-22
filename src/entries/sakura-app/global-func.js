@@ -72,8 +72,8 @@ function motionSwitch(ele) {
     document.querySelector(ele + '-bar').classList.add("on-hover");
     document.querySelector(ele + '-container').style.display = 'block';
 }
-const get_avatar = require('./get_avatar')
-window.get_avatar = get_avatar
+import get_gravatar from './get_gravatar'
+window.get_gravatar = get_gravatar
 
 window.imgError = imgError
 window.cmt_showPopup = cmt_showPopup
