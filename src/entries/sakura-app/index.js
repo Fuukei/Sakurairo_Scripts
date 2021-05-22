@@ -1178,7 +1178,7 @@ loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
-import POWERMODE from 'activate-power-mode/src/index'
+import POWERMODE from 'activate-power-mode'
 function article_attach() {
     //收缩、展开
     /* jQuery(document).ready(
