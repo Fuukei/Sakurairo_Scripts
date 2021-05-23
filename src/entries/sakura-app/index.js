@@ -1449,20 +1449,21 @@ var // s = $('#bgvideo')[0],
                             query(QueryStorage, document.getElementById("search-input").value, Record);
                             div_href();
                         } else {
-                            var _xhr = new XMLHttpRequest();
-                            _xhr.open("GET", val, true)
-                            _xhr.send();
-                            _xhr.onreadystatechange = function () {
-                                if (_xhr.readyState == 4 && _xhr.status == 200) {
-                                    json = _xhr.responseText;
-                                    if (json != "") {
-                                        sessionStorage.setItem('search', json);
-                                        QueryStorage = JSON.parse(json);
-                                        query(QueryStorage, otxt.value, Record);
-                                        div_href();
+                            fetch(val)
+                                .then(async resp => {
+                                    if (resp.ok) {
+                                        const json = await resp.text()
+                                        if (json != "") {
+                                            sessionStorage.setItem('search', json);
+                                            QueryStorage = JSON.parse(json);
+                                            query(QueryStorage, otxt.value, Record);
+                                            div_href();
+                                        }
+                                    } else {
+                                        console.warn('HTTP ' + resp.status)
                                     }
-                                }
-                            }
+                                })
+                                .catch(reason => console.warn(reason))
                         }
                     }
                     if (!Object.values) Object.values = function (obj) {
@@ -1478,14 +1479,13 @@ var // s = $('#bgvideo')[0],
                         return val;
                     }
 
-                    function Cx(arr, q) {
-                        q = q.replace(q, "^(?=.*?" + q + ").+$").replace(/\s/g, ")(?=.*?");
-                        i = arr.filter(
+                    function Cx(array, query) {
+                        query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
+                        return array.filter(
                             v => Object.values(v).some(
-                                v => new RegExp(q + '').test(v)
+                                v => new RegExp(query + '').test(v)
                             )
-                        );
-                        return i;
+                        );;
                     }
 
                     function div_href() {
