@@ -1213,9 +1213,6 @@ var // s = $('#bgvideo')[0],
                     } catch { }
                 }
             } catch { }
-            try {
-                hermitInit()
-            } catch { }
             s.play();
         },
         spause: function () {
