@@ -23,20 +23,6 @@ import { lazyload } from 'lazyload'
 import NProgress from 'nprogress'
 import { pjax } from './pjax';
 import './global-func'
-(() => {
-    const UA = navigator.userAgent,
-        version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
-    let reg;
-    if (UA.indexOf('Chrome') != -1) {
-        reg = /(Chrome)\/(\d+)/i;
-    } else {
-        reg = /(Firefox|Chrome|Version|Opera)\/(\d+)/i;
-    }
-    const version = UA.match(reg);
-    Poi.pjax = version && (version[2] >= version_list[version[1]]) && Poi.pjax;
-    if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-        setCookie('su_webp', 1, 114514)
-})();
 
 mashiro_global.variables = new function () {
     this.has_hls = false;

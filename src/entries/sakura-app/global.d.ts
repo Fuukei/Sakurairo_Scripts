@@ -54,7 +54,7 @@ declare namespace mashiro_option{
     const comment_upload_img:boolean
 }
 declare namespace Poi{
-    const pjax:string
+    let pjax:string
     const movies:Object
     const windowHeight:string
     const codeLamp:string
