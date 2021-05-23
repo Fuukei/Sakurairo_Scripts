@@ -1480,12 +1480,18 @@ var // s = $('#bgvideo')[0],
                     } */
 
                     function Cx(array, query) {
+                        for (let s = 0;s < query.length;s++){
+                            if(['.','?','*'].indexOf(query[s])!= -1){
+                                query = query.slice(0, s) + "\\" + query.slice(s);
+                                s++;
+                        }
+                    }
                         query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
                         return array.filter(
                             v => Object.values(v).some(
                                 v => new RegExp(query + '').test(v)
                             )
-                        );;
+                        );
                     }
 
                     function div_href() {
