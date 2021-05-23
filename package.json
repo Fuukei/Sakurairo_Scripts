@@ -1,6 +1,6 @@
 {
   "name": "sakurairo-scripts",
-  "version": "1.0.0",
+  "version": "2.1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,6 @@
     "highlight.js": "^10.7.2",
     "highlightjs-line-numbers.js": "^2.8.0",
     "hls.js": "^1.0.2",
-    "jquery": "^3.6.0",
     "lazyload": "github:KotoriK/lazyload",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
@@ -46,7 +45,6 @@
     "@commitlint/config-conventional": "^12.1.1",
     "@types/fg-loadcss": "^3.1.1",
     "@types/md5": "^2.3.0",
-    "@types/node-fetch": "^2.5.10",
     "babel-loader": "^8.2.2",
     "compression-webpack-plugin": "^7.1.2",
     "cz-conventional-changelog": "^3.3.0",
