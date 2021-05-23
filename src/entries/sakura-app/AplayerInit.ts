@@ -76,6 +76,16 @@ function initAplayer(a: HTMLElement, b: string | any[]) {
         }
     });
 }
+export function destroyAllAplayer() {
+    try {
+        for (let i = 0; i < aplayers.length; i++) {
+            aplayers[i].destroy()
+        }
+        aplayers = [];
+    } catch (reason) {
+        console.warn(reason)
+    }
+}
 function loadMeting() {
     let meting_api_path: URL
     if (typeof meting_api == 'string') {
@@ -85,13 +95,7 @@ function loadMeting() {
         meting_api_path.searchParams.set('_wpnonce', Poi.nonce)
     }
 
-    for (let f = 0; f < aplayers.length; f++) try {
-        aplayers[f].destroy()
-    } catch (a) {
-        console.log(a)
-    }
-
-    aplayers = [];
+    destroyAllAplayer()
 
     let collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
     for (let e = 0; e < collection.length; e++) {
@@ -108,7 +112,7 @@ function loadMeting() {
                 .then(async (resp) => {
                     if (resp.ok) {
                         initAplayer(element, await resp.json())
-                    }else{
+                    } else {
                         console.warn(`(APlayer) HTTP ${resp.status}:${resp.statusText}`)
                     }
                 }).catch(console.error)

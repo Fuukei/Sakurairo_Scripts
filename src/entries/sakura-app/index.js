@@ -1200,19 +1200,21 @@ var // s = $('#bgvideo')[0],
             if (video_btn) {
                 video_btn.classList.add("video-pause");
                 video_btn.classList.remove("video-play");
+                video_btn.style.display = "";
             }
             try {
-                video_btn.style.display = "";
                 document.querySelector(".video-stu").style.bottom = "-100px";
                 document.querySelector(".focusinfo").style.top = "-999px";
-            } catch { }
-            try {
-                for (let i = 0; i < ap.length; i++) {
-                    try {
-                        ap[i].destroy()
-                    } catch { }
+                if (mashiro_option.float_player_on) {
+                    import('./AplayerInit').then(({ destroyAllAplayer }) => {
+                        destroyAllAplayer()
+                        s.play();
+                    })
+                    return
                 }
-            } catch { }
+            } catch (e) {
+                console.warn(e)
+            }
             s.play();
         },
         spause: function () {
@@ -1416,26 +1418,26 @@ var // s = $('#bgvideo')[0],
                                 .catch(reason => console.warn(reason))
                         }
                     }
-/*                     if (!Object.values) Object.values = function (obj) {
-                        if (obj !== Object(obj))
-                            throw new TypeError('Object.values called on a non-object');
-                        var val = [],
-                            key;
-                        for (key in obj) {
-                            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                                val.push(obj[key]);
-                            }
-                        }
-                        return val;
-                    } */
+                    /*                     if (!Object.values) Object.values = function (obj) {
+                                            if (obj !== Object(obj))
+                                                throw new TypeError('Object.values called on a non-object');
+                                            var val = [],
+                                                key;
+                                            for (key in obj) {
+                                                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                                                    val.push(obj[key]);
+                                                }
+                                            }
+                                            return val;
+                                        } */
 
                     function Cx(array, query) {
-                        for (let s = 0;s < query.length;s++){
-                            if(['.','?','*'].indexOf(query[s])!= -1){
+                        for (let s = 0; s < query.length; s++) {
+                            if (['.', '?', '*'].indexOf(query[s]) != -1) {
                                 query = query.slice(0, s) + "\\" + query.slice(s);
                                 s++;
+                            }
                         }
-                    }
                         query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
                         return array.filter(
                             v => Object.values(v).some(
