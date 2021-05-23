@@ -1020,7 +1020,7 @@ function getqqinfo() {
                             setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                         } */
             }
-            fetch(buildAPI(mashiro_option.qq_api_url, { qq:qq }))
+            fetch(buildAPI(mashiro_option.qq_api_url, { qq: qq }))
                 .then(async resp => {
                     if (resp.ok) {
                         //success
