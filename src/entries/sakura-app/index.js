@@ -1466,7 +1466,7 @@ var // s = $('#bgvideo')[0],
                                 .catch(reason => console.warn(reason))
                         }
                     }
-                    if (!Object.values) Object.values = function (obj) {
+/*                     if (!Object.values) Object.values = function (obj) {
                         if (obj !== Object(obj))
                             throw new TypeError('Object.values called on a non-object');
                         var val = [],
@@ -1477,7 +1477,7 @@ var // s = $('#bgvideo')[0],
                             }
                         }
                         return val;
-                    }
+                    } */
 
                     function Cx(array, query) {
                         query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
