@@ -553,10 +553,7 @@ ready(function () {
         }
     }
     checkBgImgCookie()
-    setTimeout(function () {
-        checkDarkModeSetting();
-    }, 100);
-
+    checkDarkModeSetting();
     function closeSkinMenu() {
         document.querySelector(".skin-menu").classList.remove("show");
         setTimeout(function () {
