@@ -4,11 +4,6 @@ declare var meting_api: string;
 import APlayer from 'aplayer'
 import { loadCSS } from 'fg-loadcss';
 let aplayers: any[] = []
-export function aplayerInit() {
-    //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
-    loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
-    loadMeting()
-}
 function initAplayer(a: HTMLElement, b: string | any[]) {
     const default_option: Record<string, any> = {
         container: a,
@@ -86,7 +81,9 @@ export function destroyAllAplayer() {
         console.warn(reason)
     }
 }
-function loadMeting() {
+export function aplayerInit() {
+    //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
+    loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
     let meting_api_path: URL
     if (typeof meting_api == 'string') {
         meting_api_path = new URL(meting_api)
@@ -107,26 +104,15 @@ function loadMeting() {
             params.set('server', element.dataset.server)
             params.set('type', element.dataset.type)
             params.set('id', element.dataset.id);
-/*             if (fetch) {
- */                fetch(api_path.toString())
+            fetch(api_path.toString())
                 .then(async (resp) => {
                     if (resp.ok) {
                         initAplayer(element, await resp.json())
                     } else {
                         console.warn(`(APlayer) HTTP ${resp.status}:${resp.statusText}`)
                     }
-                }).catch(console.error)
-            /* } else {
-                const xhr = new XMLHttpRequest;
-                xhr.onreadystatechange = function () {
-                    if (4 === xhr.readyState && (200 <= xhr.status && 300 > xhr.status || 304 === xhr.status)) {
-                        const b = JSON.parse(xhr.responseText);
-                        initAplayer(element, b)
-                    }
-                },
-                    xhr.open('get', api_path.toString(), !0)
-                xhr.send()
-            } */
+                })
+                .catch(console.error)
         } else if (element.dataset.url) {
             const playlist_info = [{
                 name: element.dataset.name || element.dataset.title || 'Audio name',
@@ -139,4 +125,4 @@ function loadMeting() {
             initAplayer(element, playlist_info)
         }
     }
-};
+}
