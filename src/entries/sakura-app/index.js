@@ -1790,7 +1790,6 @@ var // s = $('#bgvideo')[0],
                 }); */
                 return false;
             })
-            window.addComment = require('./AddComment').default
         },
         XCP: function () {
             document.body.addEventListener('click', function (e) {
