@@ -905,9 +905,7 @@ ready(() => {
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
-        import('./AplayerInit').then(({ aplayerInit }) => aplayerInit())
-        /* const { aplayerInit } = require('./AplayerInit')
-        aplayerInit() */
+        import('./aplayer').then(({ aplayerInit }) => aplayerInit())
     }
 }
 
@@ -1196,7 +1194,7 @@ var // s = $('#bgvideo')[0],
                 document.querySelector(".video-stu").style.bottom = "-100px";
                 document.querySelector(".focusinfo").style.top = "-999px";
                 if (mashiro_option.float_player_on) {
-                    import('./AplayerInit').then(({ destroyAllAplayer }) => {
+                    import('./aplayer').then(({ destroyAllAplayer }) => {
                         destroyAllAplayer()
                         s.play();
                     })
