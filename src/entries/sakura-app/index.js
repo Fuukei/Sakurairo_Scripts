@@ -24,6 +24,13 @@ import NProgress from 'nprogress'
 import { pjax } from './pjax';
 import './global-func'
 
+const ready = function (fn) {
+    if (document.readyState === 'complete') {
+        return fn();
+    }
+    document.addEventListener('DOMContentLoaded', fn, false);
+};
+
 mashiro_global.variables = new function () {
     this.has_hls = false;
     this.skinSecter = true;
@@ -299,13 +306,6 @@ mashiro_global.font_control = new function () {
 mashiro_global.font_control.ini();
 
 code_highlight_style();
-
-const ready = function (fn) {
-    if (document.readyState === 'complete') {
-        return fn();
-    }
-    document.addEventListener('DOMContentLoaded', fn, false);
-};
 /**
  * 上传图片提示
  */
@@ -482,8 +482,8 @@ function no_right_click() {
         }
     })
 }
-
 no_right_click();
+
 function changeCoverBG() {
     const centerbg = document.querySelector(".centerbg")
     if (centerbg) {
@@ -529,7 +529,7 @@ ready(function () {
                 const tagid = this.id;
                 if (tagid == "dark-bg") {
                     turnOnDarkMode(true)
-                } else  {
+                } else {
                     turnOffDarkMode(true)
                     changeBG(tagid)
                     localStorage.setItem("bgImgSetting", tagid)
