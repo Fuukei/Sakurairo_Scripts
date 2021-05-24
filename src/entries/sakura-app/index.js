@@ -22,6 +22,7 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import NProgress from 'nprogress'
 import { pjax } from './pjax';
+import {createButterbar} from './AddComment'
 import './global-func'
 
 const ready = function (fn) {
@@ -287,7 +288,7 @@ mashiro_global.font_control = new function () {
             cbss && cbss.classList.remove("selected");
             setCookie("font_family", "serif", 30);
             if (document.body.clientWidth <= 860) {
-                addComment.createButterbar("将从网络加载字体，流量请注意");
+                createButterbar("将从网络加载字体，流量请注意");
             }
         }
     }
@@ -315,7 +316,7 @@ function attach_image() {
     if (!upload_img) return;
     upload_img.addEventListener("change", (function () {
         if (this.files.length > 10) {
-            addComment.createButterbar("每次上传上限为10张.<br>10 files max per request.");
+            createButterbar("每次上传上限为10张.<br>10 files max per request.");
             return 0;
         }
         for (let i = 0; i < this.files.length; i++) {
@@ -331,7 +332,7 @@ function attach_image() {
             formData.append('cmt_img_file', f);
             xhr.addEventListener('loadstart', function () {
                 cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
-                addComment.createButterbar("上传中...<br>Uploading...");
+                createButterbar("上传中...<br>Uploading...");
             });
             xhr.open("POST", buildAPI(Poi.api + 'sakura/v1/image/upload'), true);
             xhr.send(formData);
@@ -346,10 +347,10 @@ function attach_image() {
                         let get_the_url = res.proxy;
                         document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/theme/colorful/load/inload.svg" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
                         lazyload();
-                        addComment.createButterbar("图片上传成功~<br>Uploaded successfully~");
+                        createButterbar("图片上传成功~<br>Uploaded successfully~");
                         grin(get_the_url, type = 'Img');
                     } else {
-                        addComment.createButterbar("上传失败！<br>Uploaded failed!<br> 文件名/Filename: " + f.name + "<br>code: " + res.status + "<br>" + res.message, 3000);
+                        createButterbar("上传失败！<br>Uploaded failed!<br> 文件名/Filename: " + f.name + "<br>code: " + res.status + "<br>" + res.message, 3000);
                     }
                 } else if (xhr.readyState == 4) {
                     cached.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
@@ -1683,7 +1684,7 @@ var // s = $('#bgvideo')[0],
             const __list = 'commentwrap';
             const form = document.getElementById("commentform")
             if (form) form.addEventListener('submit', function () {
-                addComment.createButterbar("提交中(Commiting)....")
+                createButterbar("提交中(Commiting)....")
                 const form = new FormData(this)
                 form.append('action', 'ajax_comment')
                 fetch(Poi.ajaxurl, {
@@ -1719,7 +1720,7 @@ var // s = $('#bgvideo')[0],
                                 //jQuery('.' + __list).prepend(data);
                             }
                         }
-                        addComment.createButterbar("提交成功(Succeed)");
+                        createButterbar("提交成功(Succeed)");
                         lazyload();
                         code_highlight_style();
                         click_to_view_image();
@@ -1733,16 +1734,16 @@ var // s = $('#bgvideo')[0],
                             //temp.parentNode.removeChild(temp)
                         }
                     } else {
-                        addComment.createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
+                        createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
                     }
                 }).catch(reason => {
-                    addComment.createButterbar(reason);
+                    createButterbar(reason);
                 })
                 /* jQuery.ajax({
                     url: Poi.ajaxurl,
                     data: jQuery(this).serialize() + "&action=ajax_comment",
                     type: jQuery(this).attr('method'),
-                    beforeSend: addComment.createButterbar("提交中(Commiting)...."),
+                    beforeSend: createButterbar("提交中(Commiting)...."),
                     error: function (request) {
                         var t = addComment;
                         t.createButterbar(request.responseText);

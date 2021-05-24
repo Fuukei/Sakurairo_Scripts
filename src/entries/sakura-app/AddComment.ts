@@ -1,16 +1,15 @@
 const AddComment = {
     respondId: '',
     moveForm: function (commId: string, parentId: any, respondId: string) {
-        const 
-            t = this,
+        const t = this,
             comm = document.getElementById(commId),
             respond = document.getElementById(respondId),
             cancel = document.getElementById('cancel-comment-reply-link'),
             parent = document.getElementById('comment_parent') as HTMLInputElement
-        let div
         //post = document.getElementById('comment_post_ID');
         t.respondId = respondId;
         if (!document.getElementById('wp-temp-form-div')) {
+            let div
             div = document.createElement('div');
             div.id = 'wp-temp-form-div';
             div.style.display = 'none';
@@ -18,7 +17,7 @@ const AddComment = {
         }
         if (!comm) {
             const temp = document.getElementById('wp-temp-form-div');
-           ( document.getElementById('comment_parent') as HTMLInputElement).value = '0'
+            (document.getElementById('comment_parent') as HTMLInputElement).value = '0'
             temp.parentNode.insertBefore(respond, temp)
             temp.remove()
         } else {
@@ -50,19 +49,20 @@ const AddComment = {
         } catch (e) { }
         return false;
     },
-    clearButterbar: function () {
-        const butterBar = document.getElementsByClassName("butterBar");
-        if (butterBar.length > 0) {
-            for (let i = 0; i < butterBar.length; i++) {
-                butterBar[i].remove();
-            }
-        }
-    },
-    createButterbar: function (message: string, showtime: number | undefined) {
-        const t = this;
-        t.clearButterbar();
-        document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-        setTimeout(() => { t.clearButterbar() }, showtime > 0 ? showtime : 6000);
-    }
+
 };
+function clearButterbar() {
+    const butterBar = document.getElementsByClassName("butterBar");
+    if (butterBar.length > 0) {
+        for (let i = 0; i < butterBar.length; i++) {
+            butterBar[i].remove();
+        }
+    }
+}
+function createButterbar(message: string, showtime: number | undefined) {
+    clearButterbar();
+    document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
+    setTimeout(() => { clearButterbar() }, showtime > 0 ? showtime : 6000);
+}
+export {clearButterbar,createButterbar}
 export default AddComment
