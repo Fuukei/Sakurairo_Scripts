@@ -34,7 +34,7 @@ function saveUserSetting(value: boolean) {
             localStorage.setItem("dark", "0");
         }
     }
-    localStorage.setItem("bgImgSetting", "white-bg");
+    //localStorage.setItem("bgImgSetting", "white-bg");
 }
 export function turnOnDarkMode(userTriggered?: boolean) {
     document.documentElement.style.background = "#333";
@@ -51,7 +51,7 @@ export function turnOffDarkMode(userTriggered?: boolean) {
     informDarkModeChange(false)
     if (userTriggered) {
         saveUserSetting(false);
-        document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
+        //document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
     }
 }
 /**

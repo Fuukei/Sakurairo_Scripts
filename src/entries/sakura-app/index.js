@@ -500,10 +500,9 @@ function changeBG(bgid) {
 
     let bg_url;
     switch (bgid) {
-        /* case "white-bg":
-            temp = mashiro_option.skin_bg0;
-            document.body.classList.remove("dynamic");
-            break; */
+        case "white-bg":
+            bg_url = mashiro_option.skin_bg0;
+            break;
         case "diy1-bg":
             bg_url = mashiro_option.skin_bg1;
             break;
@@ -529,14 +528,8 @@ ready(function () {
             e.addEventListener("click", function () {
                 const tagid = this.id;
                 if (tagid == "dark-bg") {
-                    /* document.documentElement.style.background = "#333333";
-                    document.getElementsByClassName("site-content")[0].style.backgroundColor = "#333333";
-                    document.body.classList.add("dark");
-                    setCookie("dark", "1", 0.33); */
                     turnOnDarkMode(true)
-                } else if (tagid == "white-bg") {
-                    turnOffDarkMode(true)
-                } else {
+                } else  {
                     turnOffDarkMode(true)
                     changeBG(tagid)
                     localStorage.setItem("bgImgSetting", tagid)
