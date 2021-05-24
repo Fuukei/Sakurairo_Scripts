@@ -105,8 +105,12 @@ function grin(tag, type, before, after) {
         myField.focus();
     }
 }
-import get_gravatar from './get_gravatar'
-window.get_gravatar = get_gravatar
+import MD5 from 'md5'
+/**
+ * Gravatar
+ * from a6cd66c 11.third-part-functions.js
+ */
+const get_gravatar = (email, size= 80) =>'https://' + Poi.gravatar_url + '/' + MD5(email) + '.jpg?s=' + size + '&d=mm';
 
 window.imgError = imgError
 window.cmt_showPopup = cmt_showPopup
@@ -116,3 +120,4 @@ window.mail_me = mail_me
 window.headertop_down = headertop_down
 window.motionSwitch = motionSwitch
 window.grin = grin
+window.get_gravatar = get_gravatar
