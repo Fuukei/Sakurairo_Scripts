@@ -1539,15 +1539,14 @@ var // s = $('#bgvideo')[0],
             } catch (e) { }
         },
         NH: function () {
-            let h1 = 0;
+            const thresold = 0,
+                siteHeader = document.querySelector(".site-header")
             window.addEventListener("scroll", () => {
-                let s = document.documentElement.scrollTop || window.pageYOffset,
-                    cached = document.querySelector(".site-header");
-                if (s == h1) {
-                    cached.classList.remove("yya");
-                }
-                if (s > h1) {
-                    cached.classList.add("yya");
+                const scrollTop = document.documentElement.scrollTop || window.pageYOffset;
+                if (scrollTop > thresold) {
+                    siteHeader.classList.add("yya");
+                } else {
+                    siteHeader.classList.remove("yya");
                 }
             })
             //     $(window).scroll(function () {
