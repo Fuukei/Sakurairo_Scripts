@@ -211,7 +211,7 @@ const code_highlight_style = (() => {
     }
 })()
 
-function slideToogle(el, duration = 1000, mode = '', callback) {
+function slideToggle(el, duration = 1000, mode = '', callback) {
     let dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
     const flag = dom.status != 'none';
@@ -606,7 +606,7 @@ function timeSeriesReload(flag) {
     if (flag == true) {
         archives.addEventListener("click", function (e) {
             if (e.target.classList.contains("al_mon")) {
-                slideToogle(e.target.nextElementSibling, 500);
+                slideToggle(e.target.nextElementSibling, 500);
                 e.preventDefault();
             }
         })
@@ -624,13 +624,13 @@ function timeSeriesReload(flag) {
             let al_post_list = archives.getElementsByClassName("al_post_list"),
                 al_post_list_f = al_post_list[0];
             for (let i = 0; i < al_post_list.length; i++) {
-                slideToogle(al_post_list[i], 500, 'hide', function () {
-                    slideToogle(al_post_list_f, 500, 'show');
+                slideToggle(al_post_list[i], 500, 'hide', function () {
+                    slideToggle(al_post_list_f, 500, 'show');
                 })
             }
             archives.addEventListener("click", function (e) {
                 if (e.target.classList.contains("al_mon")) {
-                    slideToogle(e.target.nextElementSibling, 500);
+                    slideToggle(e.target.nextElementSibling, 500);
                     e.preventDefault();
                 }
             })
@@ -638,7 +638,7 @@ function timeSeriesReload(flag) {
                 for (let i = 0; i < al_post_list.length; i++) {
                     let el = al_post_list[i];
                     el.parentNode.addEventListener('mouseover', function () {
-                        slideToogle(el, 500, 'show');
+                        slideToggle(el, 500, 'show');
                         return false;
                     })
                 }
@@ -646,7 +646,7 @@ function timeSeriesReload(flag) {
                     for (let i = 0; i < al_post_list.length; i++) {
                         let el = al_post_list[i];
                         el.parentNode.addEventListener('mouseover', function () {
-                            slideToogle(el, 500, 'hide');
+                            slideToggle(el, 500, 'hide');
                             return false;
                         })
                     }
@@ -656,13 +656,13 @@ function timeSeriesReload(flag) {
                     if (al_expand_collapse_click == 0) {
                         for (let i = 0; i < al_post_list.length; i++) {
                             let el = al_post_list[i];
-                            slideToogle(el, 500, 'show');
+                            slideToggle(el, 500, 'show');
                         };
                         al_expand_collapse_click++;
                     } else if (al_expand_collapse_click == 1) {
                         for (let i = 0; i < al_post_list.length; i++) {
                             let el = al_post_list[i];
-                            slideToogle(el, 500, 'hide');
+                            slideToggle(el, 500, 'hide');
                         };
                         al_expand_collapse_click--;
                     }
@@ -1131,7 +1131,7 @@ function article_attach() {
     const collapseButton = document.getElementsByClassName('collapseButton')
     if (collapseButton.length > 0) {
         const collapseListener = (e) => {
-            slideToogle(e.target.parentNode.parentNode.parentNode.querySelector(".xContent"));
+            slideToggle(e.target.parentNode.parentNode.parentNode.querySelector(".xContent"));
             // e.parentNode.parentNode.querySelector(".xContent")
         }
         for (const ele of collapseButton) {
