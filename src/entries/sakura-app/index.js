@@ -146,20 +146,19 @@ const code_highlight_style = (() => {
                 window.Prism = Prism
             }
             //必备插件全家桶
+            loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
+            loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
+            loadPrismCSS(isInDarkMode())
+            document.addEventListener('darkmode', (e) => {
+                loadPrismCSS(e.detail)
+            })
             await Promise.all([
                 import('prismjs/plugins/autoloader/prism-autoloader'),
                 import('prismjs/plugins/previewers/prism-previewers'),
                 import('prismjs/plugins/toolbar/prism-toolbar')
                     .then(() => import('prismjs/plugins/show-language/prism-show-language'))
             ])
-            loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
-            loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-
             Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
-            loadPrismCSS(isInDarkMode())
-            document.addEventListener('darkmode', (e) => {
-                loadPrismCSS(e.detail)
-            })
         } catch (reason) {
             console.warn(reason)
         }
