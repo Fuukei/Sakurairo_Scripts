@@ -56,7 +56,7 @@ declare namespace mashiro_option{
 declare namespace Poi{
     let pjax:string
     const movies:Object
-    const windowHeight:string
+    const windowheight:string
     const codeLamp:string
     const ajaxurl:string
     const order:string
