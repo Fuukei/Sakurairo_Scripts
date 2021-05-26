@@ -22,9 +22,9 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import NProgress from 'nprogress'
 import { pjax } from './pjax';
-import {createButterbar} from './AddComment'
+import { createButterbar } from './AddComment'
 import './global-func'
-
+import POWERMODE from 'activate-power-mode'
 const ready = function (fn) {
     if (document.readyState === 'complete') {
         return fn();
@@ -1113,13 +1113,11 @@ function load_bangumi() {
     }
 }
 
-
 mashiro_global.ini.normalize();
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
-import POWERMODE from 'activate-power-mode'
 function article_attach() {
     //收缩、展开
     /* jQuery(document).ready(
@@ -1163,709 +1161,709 @@ function article_attach() {
         })
     }
 }
-var // s = $('#bgvideo')[0],
-    s = document.getElementById("bgvideo"),
-    Siren = {
-        MN: function () {
-            let iconflat = document.querySelector(".iconflat");
-            iconflat && iconflat.addEventListener("click", function () {
-                document.body.classList.toggle("navOpen");
-                document.getElementById("main-container").classList.toggle("open");
-                document.getElementById("mo-nav").classList.toggle("open");
-                document.querySelector(".openNav").classList.toggle("open");
-            });
-        },
-        MNH: function () {
-            if (document.body.classList.contains("navOpen")) {
-                document.body.classList.toggle("navOpen");
-                document.getElementById("main-container").classList.toggle("open");
-                document.getElementById("mo-nav").classList.toggle("open");
-                document.querySelector(".openNav").classList.toggle("open");
+//#region Siren
+const s = document.getElementById("bgvideo");
+function MN() {
+    let iconflat = document.querySelector(".iconflat");
+    iconflat && iconflat.addEventListener("click", function () {
+        document.body.classList.toggle("navOpen");
+        document.getElementById("main-container").classList.toggle("open");
+        document.getElementById("mo-nav").classList.toggle("open");
+        document.querySelector(".openNav").classList.toggle("open");
+    });
+}
+function MNH() {
+    if (document.body.classList.contains("navOpen")) {
+        document.body.classList.toggle("navOpen");
+        document.getElementById("main-container").classList.toggle("open");
+        document.getElementById("mo-nav").classList.toggle("open");
+        document.querySelector(".openNav").classList.toggle("open");
+    }
+}
+function splay() {
+    let video_btn = document.getElementById("video-btn");
+    if (video_btn) {
+        video_btn.classList.add("video-pause");
+        video_btn.classList.remove("video-play");
+        video_btn.style.display = "";
+    }
+    try {
+        document.querySelector(".video-stu").style.bottom = "-100px";
+        document.querySelector(".focusinfo").style.top = "-999px";
+        if (mashiro_option.float_player_on) {
+            import('./aplayer').then(({ destroyAllAplayer }) => {
+                destroyAllAplayer()
+                s.play();
+            })
+            return
+        }
+    } catch (e) {
+        console.warn(e)
+    }
+    s.play();
+} function spause() {
+    let video_btn = document.getElementById("video-btn");
+    if (video_btn) {
+        video_btn.classList.add("video-play");
+        video_btn.classList.remove("video-pause");
+    }
+    try {
+        document.querySelector(".focusinfo").style.top = "49.3%";
+    } catch { }
+    s.pause();
+}
+function liveplay() {
+    if (s.oncanplay != undefined && document.querySelector(".haslive")) {
+        if (document.querySelector(".videolive")) {
+            splay();
+        }
+    }
+}
+function livepause() {
+    if (s.oncanplay != undefined && document.querySelector(".haslive")) {
+        spause();
+        let video_stu = document.getElementsByClassName("video-stu")[0];
+        video_stu.style.bottom = "0px";
+        video_stu.innerHTML = "已暂停 ...";
+    }
+}
+function addsource() {
+    let video_stu = document.getElementsByClassName("video-stu")[0];
+    video_stu.innerHTML = "正在载入视频 ...";
+    video_stu.style.bottom = "0px";
+    let t = Poi.movies.name.split(","),
+        _t = t[Math.floor(Math.random() * t.length)],
+        bgvideo = document.getElementById("bgvideo");
+    bgvideo.setAttribute("src", Poi.movies.url + '/' + _t + '.mp4');
+    bgvideo.setAttribute("video-name", _t);
+}
+function LV() {
+    let video_btn = document.getElementById("video-btn");
+    if (video_btn) video_btn.addEventListener("click", function () {
+        if (this.classList.contains("loadvideo")) {
+            this.classList.add("video-pause");
+            this.classList.remove("loadvideo");
+            addsource();
+            s.oncanplay = function () {
+                splay();
+                document.getElementById("video-add").style.display = "block";
+                video_btn.classList.add("videolive", "haslive");
             }
-        },
-        splay: function () {
-            let video_btn = document.getElementById("video-btn");
-            if (video_btn) {
-                video_btn.classList.add("video-pause");
-                video_btn.classList.remove("video-play");
-                video_btn.style.display = "";
-            }
-            try {
-                document.querySelector(".video-stu").style.bottom = "-100px";
-                document.querySelector(".focusinfo").style.top = "-999px";
-                if (mashiro_option.float_player_on) {
-                    import('./aplayer').then(({ destroyAllAplayer }) => {
-                        destroyAllAplayer()
-                        s.play();
-                    })
-                    return
-                }
-            } catch (e) {
-                console.warn(e)
-            }
-            s.play();
-        },
-        spause: function () {
-            let video_btn = document.getElementById("video-btn");
-            if (video_btn) {
-                video_btn.classList.add("video-play");
-                video_btn.classList.remove("video-pause");
-            }
-            try {
-                document.querySelector(".focusinfo").style.top = "49.3%";
-            } catch { }
-            s.pause();
-        },
-        liveplay: function () {
-            if (s.oncanplay != undefined && document.querySelector(".haslive")) {
-                if (document.querySelector(".videolive")) {
-                    Siren.splay();
-                }
-            }
-        },
-        livepause: function () {
-            if (s.oncanplay != undefined && document.querySelector(".haslive")) {
-                Siren.spause();
-                let video_stu = document.getElementsByClassName("video-stu")[0];
-                video_stu.style.bottom = "0px";
-                video_stu.innerHTML = "已暂停 ...";
-            }
-        },
-        addsource: function () {
-            let video_stu = document.getElementsByClassName("video-stu")[0];
-            video_stu.innerHTML = "正在载入视频 ...";
-            video_stu.style.bottom = "0px";
-            let t = Poi.movies.name.split(","),
-                _t = t[Math.floor(Math.random() * t.length)],
-                bgvideo = document.getElementById("bgvideo");
-            bgvideo.setAttribute("src", Poi.movies.url + '/' + _t + '.mp4');
-            bgvideo.setAttribute("video-name", _t);
-        },
-        LV: function () {
-            let video_btn = document.getElementById("video-btn");
-            if (video_btn) video_btn.addEventListener("click", function () {
-                if (this.classList.contains("loadvideo")) {
-                    this.classList.add("video-pause");
-                    this.classList.remove("loadvideo");
-                    Siren.addsource();
-                    s.oncanplay = function () {
-                        Siren.splay();
-                        document.getElementById("video-add").style.display = "block";
-                        video_btn.classList.add("videolive", "haslive");
-                    }
-                } else {
-                    if (this.classList.contains("video-pause")) {
-                        Siren.spause();
-                        video_btn.classList.remove("videolive");
-                        document.getElementsByClassName("video-stu")[0].style.bottom = "0px";
-                        document.getElementsByClassName("video-stu")[0].innerHTML = "已暂停 ...";
-                    } else {
-                        Siren.splay();
-                        video_btn.classList.add("videolive");
-                    }
-                }
-                s.onended = function () {
-                    s.setAttribute("src", "");
-                    document.getElementById("video-add").style.display = "none";
-                    video_btn && video_btn.classList.add("loadvideo");
-                    video_btn && video_btn.classList.remove("video-pause", "videolive", "haslive");
-                    document.querySelector(".focusinfo").style.top = "49.3%";
-                }
-            });
-            const video_add = document.getElementById("video-add")
-            if (video_add) video_add.addEventListener("click", function () {
-                Siren.addsource();
-            });
-        },
-        AH: function () {
-            if (Poi.windowheight == 'auto') {
-                if (document.querySelector("h1.main-title")) {
-                    //let _height = document.documentElement.clientHeight + "px";
-                    const centerbg = document.getElementById("centerbg")
-                    const bgvideo = document.getElementById("bgvideo")
-                    if (centerbg) centerbg.style.height = "100vh";
-                    if (bgvideo) bgvideo.style.minHeight = "100vh";
-                }
+        } else {
+            if (this.classList.contains("video-pause")) {
+                spause();
+                video_btn.classList.remove("videolive");
+                document.getElementsByClassName("video-stu")[0].style.bottom = "0px";
+                document.getElementsByClassName("video-stu")[0].innerHTML = "已暂停 ...";
             } else {
-                document.querySelector(".headertop") && document.querySelector(".headertop").classList.add("headertop-bar");
+                splay();
+                video_btn.classList.add("videolive");
             }
-        },
-        PE: function () {
-            if (document.querySelector(".headertop")) {
-                let headertop = document.querySelector(".headertop"),
-                    blank = document.querySelector(".blank");
-                if (document.querySelector(".main-title")) {
-                    try {
-                        blank.style.paddingTop = "0px";
-                    } catch (e) { }
-                    headertop.style.height = "auto";
-                    headertop.style.display = "";
-                    if (Poi.movies.live == 'open') Siren.liveplay();
-                } else {
-                    try {
-                        blank.style.paddingTop = "75px";
-                    } catch (e) { }
-                    headertop.style.height = "0px";
-                    headertop.style.display = "none";
-                    Siren.livepause();
-                }
-            }
-        },
-        CE: function () {
-            let comments_hidden = document.querySelector(".comments-hidden");
-            let comments_main = document.querySelector(".comments-main");
-            if (comments_hidden != null) {
-                comments_hidden.style.display = "block";
-                comments_main.style.display = "none";
-                comments_hidden.addEventListener("click", function () {
-                    slideToogle(comments_main, 500, 'show');
-                    comments_hidden.style.display = "none";
-                });
-            }
-            let archives = document.getElementsByClassName("archives");
-            if (archives.length > 0) {
-                for (let i = 0; i < archives.length; i++) {
-                    archives[i].style.display = "none";
-                }
-                archives[0].style.display = "";
-                let h3 = document.getElementById("archives-temp").getElementsByTagName("h3");
-                for (let i = 0; i < h3.length; i++) {
-                    h3[i].addEventListener("click", (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        slideToogle(e.target.nextElementSibling, 300);
-                    })
-                }
-            }
-            // $('.comments-hidden').show();
-            // $('.comments-main').hide();
-            // $('.comments-hidden').click(function () {
-            //     $('.comments-main').slideDown(500);
-            //     $('.comments-hidden').hide();
-            // });
-            // $('.archives').hide();
-            // $('.archives:first').show();
-            // $('#archives-temp h3').click(function () {
-            //     $(this).next().slideToggle('fast');
-            //     return false;
-            // });
-            /*if (mashiro_option.baguetteBoxON) {
-                baguetteBox.run('.entry-content', {
-                    captions: function (element) {
-                        return element.getElementsByTagName('img')[0].alt;
-                    },
-                    ignoreClass: 'fancybox',
-                });
-            }*/
-            article_attach()
-            const callback = function () {
-                //$('.js-toggle-search').toggleClass('is-active');
-                document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
-                //$('.js-search').toggleClass('is-visible');
-                document.getElementsByClassName('js-search')[0].classList.toggle('is-visible')
-                //$('html').css('overflow-y', 'hidden');
-                document.documentElement.style.overflowY = 'hidden'
-                if (mashiro_option.live_search) {
-                    var QueryStorage = [];
-                    search_a(buildAPI(Poi.api + "sakura/v1/cache_search/json"));
-
-                    var otxt = document.getElementById("search-input"),
-                        list = document.getElementById("PostlistBox"),
-                        Record = list.innerHTML,
-                        searchFlag = null;
-                    otxt.oninput = function () {
-                        if (searchFlag == null) {
-                            clearTimeout(searchFlag);
-                        }
-                        searchFlag = setTimeout(function () {
-                            query(QueryStorage, otxt.value, Record);
-                            div_href();
-                        }, 250);
-                    };
-
-                    function search_a(val) {
-                        if (sessionStorage.getItem('search') != null) {
-                            QueryStorage = JSON.parse(sessionStorage.getItem('search'));
-                            query(QueryStorage, document.getElementById("search-input").value, Record);
-                            div_href();
-                        } else {
-                            fetch(val)
-                                .then(async resp => {
-                                    if (resp.ok) {
-                                        const json = await resp.text()
-                                        if (json != "") {
-                                            sessionStorage.setItem('search', json);
-                                            QueryStorage = JSON.parse(json);
-                                            query(QueryStorage, otxt.value, Record);
-                                            div_href();
-                                        }
-                                    } else {
-                                        console.warn('HTTP ' + resp.status)
-                                    }
-                                })
-                                .catch(reason => console.warn(reason))
-                        }
-                    }
-                    /*                     if (!Object.values) Object.values = function (obj) {
-                                            if (obj !== Object(obj))
-                                                throw new TypeError('Object.values called on a non-object');
-                                            var val = [],
-                                                key;
-                                            for (key in obj) {
-                                                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                                                    val.push(obj[key]);
-                                                }
-                                            }
-                                            return val;
-                                        } */
-
-                    function Cx(array, query) {
-                        for (let s = 0; s < query.length; s++) {
-                            if (['.', '?', '*'].indexOf(query[s]) != -1) {
-                                query = query.slice(0, s) + "\\" + query.slice(s);
-                                s++;
-                            }
-                        }
-                        query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
-                        return array.filter(
-                            v => Object.values(v).some(
-                                v => new RegExp(query + '').test(v)
-                            )
-                        );
-                    }
-
-                    function div_href() {
-                        const search_close = document.querySelector(".search_close")
-                        const Ty = document.getElementById('Ty')
-                        for (const ele of document.getElementsByClassName('ins-selectable')) {
-                            ele.addEventListener("click", () => {
-                                Ty.href = ele.getAttribute('href')
-                                Ty.click()
-                                search_close.click()
-                            });
-                        }
-                        /* $(".ins-selectable").each(function () {
-                            $(this).click(function () {
-                                $("#Ty").attr('href', $(this).attr('href'));
-                                $("#Ty").click();
-                                $(".search_close").click();
-                            });
-                        }); */
-                    }
-
-                    function search_result(keyword, link, fa, title, iconfont, comments, text) {
-                        if (keyword) {
-                            var s = keyword.trim().split(" "),
-                                a = title.indexOf(s[s.length - 1]),
-                                b = text.indexOf(s[s.length - 1]);
-                            title = a < 60 ? title.slice(0, 80) : title.slice(a - 30, a + 30);
-                            title = title.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
-                            text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
-                            text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
-                        }
-                        return '<div class="ins-selectable ins-search-item" href="' + link + '"><header><i class="fa fa-' + fa + '" aria-hidden="true"></i>' + title + '<i class="iconfont icon-' + iconfont + '"> ' + comments + '</i>' + '</header><p class="ins-search-preview">' + text + '</p></div>';
-                    }
-
-                    function query(B, A, z) {
-                        var x, v, s, y = "",
-                            w = "",
-                            u = "",
-                            r = "",
-                            p = "",
-                            F = "",
-                            H = "",
-                            G = '<section class="ins-section"><header class="ins-section-header">',
-                            D = "</section>",
-                            E = "</header>",
-                            C = Cx(B, A.trim());
-                        for (x = 0; x < Object.keys(C).length; x++) {
-                            H = C[x];
-                            switch (v = H.type) {
-                                case "post":
-                                    w = w + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
-                                    break;
-                                case "tag":
-                                    p = p + search_result("", H.link, "tag", H.title, "none", "", "");
-                                    break;
-                                case "category":
-                                    r = r + search_result("", H.link, "folder", H.title, "none", "", "");
-                                    break;
-                                case "page":
-                                    u = u + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
-                                    break;
-                                case "comment":
-                                    F = F + search_result(A, H.link, "comment", H.title, "none", "", H.text);
-                                    break
-                            }
-                        }
-                        w && (y = y + G + "文章" + E + w + D), u && (y = y + G + "页面" + E + u + D), r && (y = y + G + "分类" + E + r + D), p && (y = y + G + "标签" + E + p + D), F && (y = y + G + "评论" + E + F + D), s = document.getElementById("PostlistBox"), s.innerHTML = y
-                    }
-                }
-            }
-            for (const ele of document.getElementsByClassName('js-toggle-search')) {
-                ele.addEventListener('click', callback);
-            }
-
-            const sc = document.querySelector(".search_close");
-            sc && sc.addEventListener("click", function () {
-                let js_search = document.getElementsByClassName("js-search")[0];
-                if (js_search.classList.contains("is-visible")) {
-                    document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
-                    js_search.classList.toggle("is-visible");
-                    document.documentElement.style.overflowY = "unset";
-                }
-            });
+        }
+        s.onended = function () {
+            s.setAttribute("src", "");
+            document.getElementById("video-add").style.display = "none";
+            video_btn && video_btn.classList.add("loadvideo");
+            video_btn && video_btn.classList.remove("video-pause", "videolive", "haslive");
+            document.querySelector(".focusinfo").style.top = "49.3%";
+        }
+    });
+    const video_add = document.getElementById("video-add")
+    if (video_add) video_add.addEventListener("click", function () {
+        addsource();
+    });
+}
+function AH() {
+    if (Poi.windowheight == 'auto') {
+        if (document.querySelector("h1.main-title")) {
+            //let _height = document.documentElement.clientHeight + "px";
+            const centerbg = document.getElementById("centerbg")
+            const bgvideo = document.getElementById("bgvideo")
+            if (centerbg) centerbg.style.height = "100vh";
+            if (bgvideo) bgvideo.style.minHeight = "100vh";
+        }
+    } else {
+        document.querySelector(".headertop") && document.querySelector(".headertop").classList.add("headertop-bar");
+    }
+}
+function PE() {
+    if (document.querySelector(".headertop")) {
+        let headertop = document.querySelector(".headertop"),
+            blank = document.querySelector(".blank");
+        if (document.querySelector(".main-title")) {
             try {
-                let show_Nav = document.getElementById("show-nav");
-                show_Nav.addEventListener("click", function () {
-                    if (show_Nav.classList.contains("showNav")) {
-                        show_Nav.classList.remove("showNav");
-                        show_Nav.classList.add("hideNav");
-                        let sln = document.querySelector(".site-top .lower nav");
-                        sln && sln.classList.add("navbar");
-                    } else {
-                        show_Nav.classList.remove("hideNav");
-                        show_Nav.classList.add("showNav");
-                        let sln = document.querySelector(".site-top .lower nav");
-                        sln && sln.classList.remove("navbar");
-                    }
-                });
-                document.getElementById("loading").addEventListener("click", function () {
-                    let loading = document.getElementById("loading");
-                    loading.classList.add("hide");
-                    loading.classList.remove("show");
-                });
+                blank.style.paddingTop = "0px";
             } catch (e) { }
-        },
-        NH: function () {
-            const thresold = 0,
-                siteHeader = document.querySelector(".site-header")
-            window.addEventListener("scroll", () => {
-                const scrollTop = document.documentElement.scrollTop || window.pageYOffset;
-                if (scrollTop > thresold) {
-                    siteHeader.classList.add("yya");
+            headertop.style.height = "auto";
+            headertop.style.display = "";
+            if (Poi.movies.live == 'open') liveplay();
+        } else {
+            try {
+                blank.style.paddingTop = "75px";
+            } catch (e) { }
+            headertop.style.height = "0px";
+            headertop.style.display = "none";
+            livepause();
+        }
+    }
+}
+function CE() {
+    let comments_hidden = document.querySelector(".comments-hidden");
+    let comments_main = document.querySelector(".comments-main");
+    if (comments_hidden != null) {
+        comments_hidden.style.display = "block";
+        comments_main.style.display = "none";
+        comments_hidden.addEventListener("click", function () {
+            slideToggle(comments_main, 500, 'show');
+            comments_hidden.style.display = "none";
+        });
+    }
+    let archives = document.getElementsByClassName("archives");
+    if (archives.length > 0) {
+        for (let i = 0; i < archives.length; i++) {
+            archives[i].style.display = "none";
+        }
+        archives[0].style.display = "";
+        let h3 = document.getElementById("archives-temp").getElementsByTagName("h3");
+        for (let i = 0; i < h3.length; i++) {
+            h3[i].addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                slideToggle(e.target.nextElementSibling, 300);
+            })
+        }
+    }
+    // $('.comments-hidden').show();
+    // $('.comments-main').hide();
+    // $('.comments-hidden').click(function () {
+    //     $('.comments-main').slideDown(500);
+    //     $('.comments-hidden').hide();
+    // });
+    // $('.archives').hide();
+    // $('.archives:first').show();
+    // $('#archives-temp h3').click(function () {
+    //     $(this).next().slideToggle('fast');
+    //     return false;
+    // });
+    /*if (mashiro_option.baguetteBoxON) {
+        baguetteBox.run('.entry-content', {
+            captions: function (element) {
+                return element.getElementsByTagName('img')[0].alt;
+            },
+            ignoreClass: 'fancybox',
+        });
+    }*/
+    article_attach()
+    const callback = function () {
+        //$('.js-toggle-search').toggleClass('is-active');
+        document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
+        //$('.js-search').toggleClass('is-visible');
+        document.getElementsByClassName('js-search')[0].classList.toggle('is-visible')
+        //$('html').css('overflow-y', 'hidden');
+        document.documentElement.style.overflowY = 'hidden'
+        if (mashiro_option.live_search) {
+            var QueryStorage = [];
+            search_a(buildAPI(Poi.api + "sakura/v1/cache_search/json"));
+
+            var otxt = document.getElementById("search-input"),
+                list = document.getElementById("PostlistBox"),
+                Record = list.innerHTML,
+                searchFlag = null;
+            otxt.oninput = function () {
+                if (searchFlag == null) {
+                    clearTimeout(searchFlag);
+                }
+                searchFlag = setTimeout(function () {
+                    query(QueryStorage, otxt.value, Record);
+                    div_href();
+                }, 250);
+            };
+
+            function search_a(val) {
+                if (sessionStorage.getItem('search') != null) {
+                    QueryStorage = JSON.parse(sessionStorage.getItem('search'));
+                    query(QueryStorage, document.getElementById("search-input").value, Record);
+                    div_href();
                 } else {
-                    siteHeader.classList.remove("yya");
+                    fetch(val)
+                        .then(async resp => {
+                            if (resp.ok) {
+                                const json = await resp.text()
+                                if (json != "") {
+                                    sessionStorage.setItem('search', json);
+                                    QueryStorage = JSON.parse(json);
+                                    query(QueryStorage, otxt.value, Record);
+                                    div_href();
+                                }
+                            } else {
+                                console.warn('HTTP ' + resp.status)
+                            }
+                        })
+                        .catch(reason => console.warn(reason))
                 }
-            })
-            //     $(window).scroll(function () {
-            //         var s = $(document).scrollTop(),
-            //             cached = $('.site-header');
-            //         if (s == h1) {
-            //             cached.removeClass('yya');
-            //         }
-            //         if (s > h1) {
-            //             cached.addClass('yya');
-            //         }
-            // });
-        },
-        XLS: function () {
-            let load_post_timer;
-            const intersectionObserver = new IntersectionObserver(function (entries) {
-                if (entries[0].intersectionRatio <= 0) return;
-                // var page_next = $('#pagination a').attr("href");
-                const _page_next = document.querySelector('#pagination a')
-                if (_page_next) {
-                    const page_next = _page_next.getAttribute("href"),
-                        load_key = document.getElementById("add_post_time");
-                    if (page_next != undefined && load_key) {
-                        const load_time = document.getElementById("add_post_time").title;
-                        if (load_time != "233") {
-                            console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
-                            load_post_timer = setTimeout(function () {
-                                load_post();
-                            }, load_time * 1000);
-                        }
-                    }
-                }
-            });
-            intersectionObserver.observe(
-                document.querySelector('.footer-device')
-            );
-            document.body.addEventListener("click", function (e) {
-                if (e.target == document.querySelector("#pagination a")) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    clearTimeout(load_post_timer);
-                    load_post();
-                }
-            })
-
-            function load_post() {
-                const pagination_a = document.querySelector('#pagination a');
-                pagination_a.classList.add("loading");
-                pagination_a.innerText = "";
-                // $('#pagination a').addClass("loading").text("");
-                fetch(pagination_a.getAttribute("href") + "#main")
-                    .then(resp => resp.text())
-                    .then(text => {
-                        const parser = new DOMParser(),
-                            DOM = parser.parseFromString(text, "text/html"),
-                            result = DOM.querySelectorAll("#main .post"),
-                            paga = DOM.querySelector("#pagination a"),
-                            paga_innerText = paga && paga.innerText,
-                            nextHref = paga && paga.getAttribute("href");
-                        for (let i = 0; i < result.length; i++) {
-                            let b = result[i];
-                            document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
-                        }
-                        if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
-                        //if (resp.ok) {
-                        // result = $(data).find("#main .post");
-                        // nextHref = $(data).find("#pagination a").attr("href");
-                        // $("#main").append(result.fadeIn(500));
-                        const dpga = document.querySelector("#pagination a"),
-                            addps = document.querySelector("#add_post span");
-                        if (dpga) {
-                            dpga.classList.remove("loading");
-                            dpga.innerText = paga_innerText;
-                        }
-                        if (addps) {
-                            addps.classList.remove("loading");
-                            addps.innerText = "";
-                        }
-                        // $("#pagination a").removeClass("loading").text("Previous");
-                        // $('#add_post span').removeClass("loading").text("");
-                        lazyload();
-                        post_list_show_animation();
-                        if (nextHref != undefined) {
-                            pagination_a.setAttribute("href", nextHref);
-                            // $("#pagination a").attr("href", nextHref);
-                            //加载完成上滑
-                            let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
-                            // window.scrollTo(tempScrollTop);
-                            // $(window).scrollTop(tempScrollTop);
-                            window.scrollTo({
-                                top: tempScrollTop + 300,
-                                behavior: 'smooth'
-                            })
-                            // $body.animate({
-                            //     scrollTop: tempScrollTop + 300
-                            //
-                            // }, 666)
-                        } else {
-                            document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
-                            // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                        }
-                        //}
-
-                    })
-                /*  $.ajax({
-                     type: "POST",
-                     url: $('#pagination a').attr("href") + "#main",
-                     success: function (data) {
-                         result = $(data).find("#main .post");
-                         nextHref = $(data).find("#pagination a").attr("href");
-                         $("#main").append(result.fadeIn(500));
-                         $("#pagination a").removeClass("loading").text("Previous");
-                         $('#add_post span').removeClass("loading").text("");
-                         lazyload();
-                         post_list_show_animation();
-                         if (nextHref != undefined) {
-                             $("#pagination a").attr("href", nextHref);
-                             //加载完成上滑
-                             var tempScrollTop = $(window).scrollTop();
-                             $(window).scrollTop(tempScrollTop);
-                             $body.animate({
-                                 scrollTop: tempScrollTop + 300
- 
-                             }, 666)
-                         } else {
-                             $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                         }
-                     }
-                 }); */
-                return false;
             }
-        },
-        XCS: function () {
-            const __list = 'commentwrap';
-            const form = document.getElementById("commentform")
-            if (form) form.addEventListener('submit', function () {
-                createButterbar("提交中(Commiting)....")
-                const form = new FormData(this)
-                form.append('action', 'ajax_comment')
-                fetch(Poi.ajaxurl, {
-                    method: this.attributes.method.value,
-                    body: form
-                }).then(async resp => {
-                    const data = await resp.text()
-                    if (resp.ok) {
-                        Array.from(document.getElementsByTagName('textarea'))
-                            .forEach((e) => e.value = '')
-                        const cancel = document.getElementById('cancel-comment-reply-link'),
-                            temp = document.getElementById('wp-temp-form-div'),
-                            respond = document.getElementById(addComment.respondId),
-                            //post = document.getElementById('comment_post_ID').value,
-                            parent = document.getElementById('comment_parent').value;
-                        if (parent != '0') {
-                            //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                            document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
-                        } else if (!document.getElementsByClassName(__list).length) {
-                            if (Poi.formpostion == 'bottom') {
-                                document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
-                                //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-                            } else {
-                                document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
-                                //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
-                            }
-                        } else {
-                            if (Poi.order == 'asc') {
-                                document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
-                                //jQuery('.' + __list).append(data);
-                            } else {
-                                document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
-                                //jQuery('.' + __list).prepend(data);
-                            }
-                        }
-                        createButterbar("提交成功(Succeed)");
-                        lazyload();
-                        code_highlight_style();
-                        click_to_view_image();
-                        clean_upload_images();
-                        cancel.style.display = 'none';
-                        cancel.onclick = null;
-                        document.getElementById('comment_parent').value = '0';
-                        if (temp && respond) {
-                            temp.parentNode.insertBefore(respond, temp);
-                            temp.remove();
-                            //temp.parentNode.removeChild(temp)
-                        }
-                    } else {
-                        createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
+            /*                     if (!Object.values) Object.values = function (obj) {
+                                    if (obj !== Object(obj))
+                                        throw new TypeError('Object.values called on a non-object');
+                                    var val = [],
+                                        key;
+                                    for (key in obj) {
+                                        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                                            val.push(obj[key]);
+                                        }
+                                    }
+                                    return val;
+                                } */
+
+            function Cx(array, query) {
+                for (let s = 0; s < query.length; s++) {
+                    if (['.', '?', '*'].indexOf(query[s]) != -1) {
+                        query = query.slice(0, s) + "\\" + query.slice(s);
+                        s++;
                     }
-                }).catch(reason => {
-                    createButterbar(reason);
-                })
-                /* jQuery.ajax({
-                    url: Poi.ajaxurl,
-                    data: jQuery(this).serialize() + "&action=ajax_comment",
-                    type: jQuery(this).attr('method'),
-                    beforeSend: createButterbar("提交中(Commiting)...."),
-                    error: function (request) {
-                        var t = addComment;
-                        t.createButterbar(request.responseText);
-                    },
-                    success: function (data) {
-                        jQuery('textarea').each(function () {
-                            this.value = ''
-                        });
-                        var t = addComment,
-                            cancel = t.I('cancel-comment-reply-link'),
-                            temp = t.I('wp-temp-form-div'),
-                            respond = t.I(t.respondId),
-                            post = t.I('comment_post_ID').value,
-                            parent = t.I('comment_parent').value;
-                        if (parent != '0') {
-                            jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                        } else if (!jQuery('.' + __list).length) {
-                            if (Poi.formpostion == 'bottom') {
-                                jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-                            } else {
-                                jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
-                            }
-                        } else {
-                            if (Poi.order == 'asc') {
-                                jQuery('.' + __list).append(data);
-                            } else {
-                                jQuery('.' + __list).prepend(data);
-                            }
-                        }
-                        t.createButterbar("提交成功(Succeed)");
-                        lazyload();
-                        code_highlight_style();
-                        click_to_view_image();
-                        clean_upload_images();
-                        cancel.style.display = 'none';
-                        cancel.onclick = null;
-                        t.I('comment_parent').value = '0';
-                        if (temp && respond) {
-                            temp.parentNode.insertBefore(respond, temp);
-                            temp.remove();
-                            //temp.parentNode.removeChild(temp)
-                        }
-                    }
+                }
+                query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
+                return array.filter(
+                    v => Object.values(v).some(
+                        v => new RegExp(query + '').test(v)
+                    )
+                );
+            }
+
+            function div_href() {
+                const search_close = document.querySelector(".search_close")
+                const Ty = document.getElementById('Ty')
+                for (const ele of document.getElementsByClassName('ins-selectable')) {
+                    ele.addEventListener("click", () => {
+                        Ty.href = ele.getAttribute('href')
+                        Ty.click()
+                        search_close.click()
+                    });
+                }
+                /* $(".ins-selectable").each(function () {
+                    $(this).click(function () {
+                        $("#Ty").attr('href', $(this).attr('href'));
+                        $("#Ty").click();
+                        $(".search_close").click();
+                    });
                 }); */
-                return false;
-            })
-        },
-        XCP: function () {
-            document.body.addEventListener('click', function (e) {
-                if (e.target.parentNode == document.getElementById("comments-navi") && e.target.nodeName.toLowerCase() == "a") {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    let _this = e.target,
-                        path = _this.pathname,
-                        _xhr = new XMLHttpRequest();
-                    _xhr.open("GET", _this.getAttribute('href'), true);
-                    _xhr.responseType = "document";
-                    _xhr.onloadstart = () => {
-                        let comments_navi = document.getElementById("comments-navi"),
-                            commentwrap = document.querySelector("ul.commentwrap"),
-                            loading_comments = document.getElementById("loading-comments"),
-                            comments_list = document.getElementById("comments-list-title");
-                        comments_navi.remove();
-                        commentwrap.remove();
-                        //comments_navi.parentNode.removeChild(comments_navi);
-                        //commentwrap.parentNode.removeChild(commentwrap);
-                        loading_comments.style.display = "block";
-                        slideToogle(loading_comments, 500, "show");
-                        window.scrollTo({
-                            top: comments_list.getBoundingClientRect().top + window.pageYOffset - comments_list.clientTop - 65,
-                            behavior: "smooth"
-                        });
-                    }
-                    _xhr.onreadystatechange = function () {
-                        if (_xhr.readyState == 4 && _xhr.status == 200) {
-                            let json = _xhr.response,
-                                result = json.querySelector("ul.commentwrap"),
-                                nextlink = json.getElementById("comments-navi"),
-                                loading_comments = document.getElementById("loading-comments");
-                            slideToogle(loading_comments, 200, "hide");
-                            document.getElementById("loading-comments").insertAdjacentHTML('afterend', result.outerHTML);
-                            document.querySelector("ul.commentwrap").insertAdjacentHTML('afterend', nextlink.outerHTML);
-                            lazyload();
-                            if (window.gtag) {
-                                gtag('config', Poi.google_analytics_id, {
-                                    'page_path': path
-                                });
-                            }
-                            code_highlight_style();
-                            click_to_view_image();
-                            let commentwrap = document.querySelector("ul.commentwrap");
-                            window.scrollTo({
-                                top: commentwrap && (commentwrap.getBoundingClientRect().top + window.pageYOffset - commentwrap.clientTop - 200),
-                                behavior: "smooth"
-                            });
-                        }
-                    }
-                    _xhr.send();
+            }
+
+            function search_result(keyword, link, fa, title, iconfont, comments, text) {
+                if (keyword) {
+                    var s = keyword.trim().split(" "),
+                        a = title.indexOf(s[s.length - 1]),
+                        b = text.indexOf(s[s.length - 1]);
+                    title = a < 60 ? title.slice(0, 80) : title.slice(a - 30, a + 30);
+                    title = title.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
+                    text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
+                    text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
                 }
-            });
-        },
-        IA: function () {
-            POWERMODE.colorful = true;
-            POWERMODE.shake = false;
-            document.body.addEventListener('input', POWERMODE)
-        },
-        GT: function () {
-            let mb_to_top = document.querySelector("#moblieGoTop"),
-                changskin = document.querySelector("#changskin");
-            window.addEventListener("scroll", () => {
-                let scroll = document.documentElement.scrollTop || document.body.scrollTop;
-                if (scroll > 20) {
-                    mb_to_top.style.transform = "scale(1)";
-                    changskin.style.transform = "scale(1)";
-                } else {
-                    mb_to_top.style.transform = "scale(0)";
-                    changskin.style.transform = "scale(0)";
+                return '<div class="ins-selectable ins-search-item" href="' + link + '"><header><i class="fa fa-' + fa + '" aria-hidden="true"></i>' + title + '<i class="iconfont icon-' + iconfont + '"> ' + comments + '</i>' + '</header><p class="ins-search-preview">' + text + '</p></div>';
+            }
+
+            function query(B, A, z) {
+                var x, v, s, y = "",
+                    w = "",
+                    u = "",
+                    r = "",
+                    p = "",
+                    F = "",
+                    H = "",
+                    G = '<section class="ins-section"><header class="ins-section-header">',
+                    D = "</section>",
+                    E = "</header>",
+                    C = Cx(B, A.trim());
+                for (x = 0; x < Object.keys(C).length; x++) {
+                    H = C[x];
+                    switch (v = H.type) {
+                        case "post":
+                            w = w + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
+                            break;
+                        case "tag":
+                            p = p + search_result("", H.link, "tag", H.title, "none", "", "");
+                            break;
+                        case "category":
+                            r = r + search_result("", H.link, "folder", H.title, "none", "", "");
+                            break;
+                        case "page":
+                            u = u + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
+                            break;
+                        case "comment":
+                            F = F + search_result(A, H.link, "comment", H.title, "none", "", H.text);
+                            break
+                    }
                 }
-            })
-            mb_to_top.onclick = function () {
-                topFunction();
+                w && (y = y + G + "文章" + E + w + D), u && (y = y + G + "页面" + E + u + D), r && (y = y + G + "分类" + E + r + D), p && (y = y + G + "标签" + E + p + D), F && (y = y + G + "评论" + E + F + D), s = document.getElementById("PostlistBox"), s.innerHTML = y
             }
         }
     }
+    for (const ele of document.getElementsByClassName('js-toggle-search')) {
+        ele.addEventListener('click', callback);
+    }
+
+    const sc = document.querySelector(".search_close");
+    sc && sc.addEventListener("click", function () {
+        let js_search = document.getElementsByClassName("js-search")[0];
+        if (js_search.classList.contains("is-visible")) {
+            document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
+            js_search.classList.toggle("is-visible");
+            document.documentElement.style.overflowY = "unset";
+        }
+    });
+    try {
+        let show_Nav = document.getElementById("show-nav");
+        show_Nav.addEventListener("click", function () {
+            if (show_Nav.classList.contains("showNav")) {
+                show_Nav.classList.remove("showNav");
+                show_Nav.classList.add("hideNav");
+                let sln = document.querySelector(".site-top .lower nav");
+                sln && sln.classList.add("navbar");
+            } else {
+                show_Nav.classList.remove("hideNav");
+                show_Nav.classList.add("showNav");
+                let sln = document.querySelector(".site-top .lower nav");
+                sln && sln.classList.remove("navbar");
+            }
+        });
+        document.getElementById("loading").addEventListener("click", function () {
+            let loading = document.getElementById("loading");
+            loading.classList.add("hide");
+            loading.classList.remove("show");
+        });
+    } catch (e) { }
+}
+function NH() {
+    const thresold = 0,
+        siteHeader = document.querySelector(".site-header")
+    window.addEventListener("scroll", () => {
+        const scrollTop = document.documentElement.scrollTop || window.pageYOffset;
+        if (scrollTop > thresold) {
+            siteHeader.classList.add("yya");
+        } else {
+            siteHeader.classList.remove("yya");
+        }
+    })
+    //     $(window).scroll(function () {
+    //         var s = $(document).scrollTop(),
+    //             cached = $('.site-header');
+    //         if (s == h1) {
+    //             cached.removeClass('yya');
+    //         }
+    //         if (s > h1) {
+    //             cached.addClass('yya');
+    //         }
+    // });
+}
+function XLS() {
+    let load_post_timer;
+    const intersectionObserver = new IntersectionObserver(function (entries) {
+        if (entries[0].intersectionRatio <= 0) return;
+        // var page_next = $('#pagination a').attr("href");
+        const _page_next = document.querySelector('#pagination a')
+        if (_page_next) {
+            const page_next = _page_next.getAttribute("href"),
+                load_key = document.getElementById("add_post_time");
+            if (page_next != undefined && load_key) {
+                const load_time = document.getElementById("add_post_time").title;
+                if (load_time != "233") {
+                    console.log("%c 自动加载时倒计时 %c", "background:#9a9da2; color:#ffffff; border-radius:4px;", "", "", load_time);
+                    load_post_timer = setTimeout(function () {
+                        load_post();
+                    }, load_time * 1000);
+                }
+            }
+        }
+    });
+    intersectionObserver.observe(
+        document.querySelector('.footer-device')
+    );
+    document.body.addEventListener("click", function (e) {
+        if (e.target == document.querySelector("#pagination a")) {
+            e.preventDefault();
+            e.stopPropagation();
+            clearTimeout(load_post_timer);
+            load_post();
+        }
+    })
+
+    function load_post() {
+        const pagination_a = document.querySelector('#pagination a');
+        pagination_a.classList.add("loading");
+        pagination_a.innerText = "";
+        // $('#pagination a').addClass("loading").text("");
+        fetch(pagination_a.getAttribute("href") + "#main")
+            .then(resp => resp.text())
+            .then(text => {
+                const parser = new DOMParser(),
+                    DOM = parser.parseFromString(text, "text/html"),
+                    result = DOM.querySelectorAll("#main .post"),
+                    paga = DOM.querySelector("#pagination a"),
+                    paga_innerText = paga && paga.innerText,
+                    nextHref = paga && paga.getAttribute("href");
+                for (let i = 0; i < result.length; i++) {
+                    let b = result[i];
+                    document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+                }
+                if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
+                //if (resp.ok) {
+                // result = $(data).find("#main .post");
+                // nextHref = $(data).find("#pagination a").attr("href");
+                // $("#main").append(result.fadeIn(500));
+                const dpga = document.querySelector("#pagination a"),
+                    addps = document.querySelector("#add_post span");
+                if (dpga) {
+                    dpga.classList.remove("loading");
+                    dpga.innerText = paga_innerText;
+                }
+                if (addps) {
+                    addps.classList.remove("loading");
+                    addps.innerText = "";
+                }
+                // $("#pagination a").removeClass("loading").text("Previous");
+                // $('#add_post span').removeClass("loading").text("");
+                lazyload();
+                post_list_show_animation();
+                if (nextHref != undefined) {
+                    pagination_a.setAttribute("href", nextHref);
+                    // $("#pagination a").attr("href", nextHref);
+                    //加载完成上滑
+                    let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                    // window.scrollTo(tempScrollTop);
+                    // $(window).scrollTop(tempScrollTop);
+                    window.scrollTo({
+                        top: tempScrollTop + 300,
+                        behavior: 'smooth'
+                    })
+                    // $body.animate({
+                    //     scrollTop: tempScrollTop + 300
+                    //
+                    // }, 666)
+                } else {
+                    document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
+                    // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                }
+                //}
+
+            })
+        /*  $.ajax({
+             type: "POST",
+             url: $('#pagination a').attr("href") + "#main",
+             success: function (data) {
+                 result = $(data).find("#main .post");
+                 nextHref = $(data).find("#pagination a").attr("href");
+                 $("#main").append(result.fadeIn(500));
+                 $("#pagination a").removeClass("loading").text("Previous");
+                 $('#add_post span').removeClass("loading").text("");
+                 lazyload();
+                 post_list_show_animation();
+                 if (nextHref != undefined) {
+                     $("#pagination a").attr("href", nextHref);
+                     //加载完成上滑
+                     var tempScrollTop = $(window).scrollTop();
+                     $(window).scrollTop(tempScrollTop);
+                     $body.animate({
+                         scrollTop: tempScrollTop + 300
+ 
+                     }, 666)
+                 } else {
+                     $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                 }
+             }
+         }); */
+        return false;
+    }
+}
+function XCS() {
+    const __list = 'commentwrap';
+    const form = document.getElementById("commentform")
+    if (form) form.addEventListener('submit', function () {
+        createButterbar("提交中(Commiting)....")
+        const form = new FormData(this)
+        form.append('action', 'ajax_comment')
+        fetch(Poi.ajaxurl, {
+            method: this.attributes.method.value,
+            body: form
+        }).then(async resp => {
+            const data = await resp.text()
+            if (resp.ok) {
+                Array.from(document.getElementsByTagName('textarea'))
+                    .forEach((e) => e.value = '')
+                const cancel = document.getElementById('cancel-comment-reply-link'),
+                    temp = document.getElementById('wp-temp-form-div'),
+                    respond = document.getElementById(addComment.respondId),
+                    //post = document.getElementById('comment_post_ID').value,
+                    parent = document.getElementById('comment_parent').value;
+                if (parent != '0') {
+                    //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                    document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
+                } else if (!document.getElementsByClassName(__list).length) {
+                    if (Poi.formpostion == 'bottom') {
+                        document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
+                        //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                    } else {
+                        document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
+                        //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                    }
+                } else {
+                    if (Poi.order == 'asc') {
+                        document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
+                        //jQuery('.' + __list).append(data);
+                    } else {
+                        document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
+                        //jQuery('.' + __list).prepend(data);
+                    }
+                }
+                createButterbar("提交成功(Succeed)");
+                lazyload();
+                code_highlight_style();
+                click_to_view_image();
+                clean_upload_images();
+                cancel.style.display = 'none';
+                cancel.onclick = null;
+                document.getElementById('comment_parent').value = '0';
+                if (temp && respond) {
+                    temp.parentNode.insertBefore(respond, temp);
+                    temp.remove();
+                    //temp.parentNode.removeChild(temp)
+                }
+            } else {
+                createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
+            }
+        }).catch(reason => {
+            createButterbar(reason);
+        })
+        /* jQuery.ajax({
+            url: Poi.ajaxurl,
+            data: jQuery(this).serialize() + "&action=ajax_comment",
+            type: jQuery(this).attr('method'),
+            beforeSend: createButterbar("提交中(Commiting)...."),
+            error: function (request) {
+                var t = addComment;
+                t.createButterbar(request.responseText);
+            },
+            success: function (data) {
+                jQuery('textarea').each(function () {
+                    this.value = ''
+                });
+                var t = addComment,
+                    cancel = t.I('cancel-comment-reply-link'),
+                    temp = t.I('wp-temp-form-div'),
+                    respond = t.I(t.respondId),
+                    post = t.I('comment_post_ID').value,
+                    parent = t.I('comment_parent').value;
+                if (parent != '0') {
+                    jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                } else if (!jQuery('.' + __list).length) {
+                    if (Poi.formpostion == 'bottom') {
+                        jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                    } else {
+                        jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                    }
+                } else {
+                    if (Poi.order == 'asc') {
+                        jQuery('.' + __list).append(data);
+                    } else {
+                        jQuery('.' + __list).prepend(data);
+                    }
+                }
+                t.createButterbar("提交成功(Succeed)");
+                lazyload();
+                code_highlight_style();
+                click_to_view_image();
+                clean_upload_images();
+                cancel.style.display = 'none';
+                cancel.onclick = null;
+                t.I('comment_parent').value = '0';
+                if (temp && respond) {
+                    temp.parentNode.insertBefore(respond, temp);
+                    temp.remove();
+                    //temp.parentNode.removeChild(temp)
+                }
+            }
+        }); */
+        return false;
+    })
+}
+function XCP() {
+    document.body.addEventListener('click', function (e) {
+        if (e.target.parentNode == document.getElementById("comments-navi") && e.target.nodeName.toLowerCase() == "a") {
+            e.preventDefault();
+            e.stopPropagation();
+            let _this = e.target,
+                path = _this.pathname,
+                _xhr = new XMLHttpRequest();
+            _xhr.open("GET", _this.getAttribute('href'), true);
+            _xhr.responseType = "document";
+            _xhr.onloadstart = () => {
+                let comments_navi = document.getElementById("comments-navi"),
+                    commentwrap = document.querySelector("ul.commentwrap"),
+                    loading_comments = document.getElementById("loading-comments"),
+                    comments_list = document.getElementById("comments-list-title");
+                comments_navi.remove();
+                commentwrap.remove();
+                //comments_navi.parentNode.removeChild(comments_navi);
+                //commentwrap.parentNode.removeChild(commentwrap);
+                loading_comments.style.display = "block";
+                slideToggle(loading_comments, 500, "show");
+                window.scrollTo({
+                    top: comments_list.getBoundingClientRect().top + window.pageYOffset - comments_list.clientTop - 65,
+                    behavior: "smooth"
+                });
+            }
+            _xhr.onreadystatechange = function () {
+                if (_xhr.readyState == 4 && _xhr.status == 200) {
+                    let json = _xhr.response,
+                        result = json.querySelector("ul.commentwrap"),
+                        nextlink = json.getElementById("comments-navi"),
+                        loading_comments = document.getElementById("loading-comments");
+                    slideToggle(loading_comments, 200, "hide");
+                    document.getElementById("loading-comments").insertAdjacentHTML('afterend', result.outerHTML);
+                    document.querySelector("ul.commentwrap").insertAdjacentHTML('afterend', nextlink.outerHTML);
+                    lazyload();
+                    if (window.gtag) {
+                        gtag('config', Poi.google_analytics_id, {
+                            'page_path': path
+                        });
+                    }
+                    code_highlight_style();
+                    click_to_view_image();
+                    let commentwrap = document.querySelector("ul.commentwrap");
+                    window.scrollTo({
+                        top: commentwrap && (commentwrap.getBoundingClientRect().top + window.pageYOffset - commentwrap.clientTop - 200),
+                        behavior: "smooth"
+                    });
+                }
+            }
+            _xhr.send();
+        }
+    });
+}
+function IA() {
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE)
+}
+function GT() {
+    let mb_to_top = document.querySelector("#moblieGoTop"),
+        changskin = document.querySelector("#changskin");
+    window.addEventListener("scroll", () => {
+        let scroll = document.documentElement.scrollTop || document.body.scrollTop;
+        if (scroll > 20) {
+            mb_to_top.style.transform = "scale(1)";
+            changskin.style.transform = "scale(1)";
+        } else {
+            mb_to_top.style.transform = "scale(0)";
+            changskin.style.transform = "scale(0)";
+        }
+    })
+    mb_to_top.onclick = function () {
+        topFunction();
+    }
+}
+
+
+//#endregion Siren
 if (Poi.pjax) {
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
@@ -1875,13 +1873,13 @@ if (Poi.pjax) {
         }
         document.getElementById("bar").style.width = "0%";
         if (mashiro_option.NProgressON) NProgress.start();
-        Siren.MNH();
+        MNH();
     });
     document.addEventListener("pjax:complete", function () {
-        Siren.AH();
-        Siren.PE();
-        Siren.CE();
-        //Siren.XLS();
+        AH();
+        PE();
+        CE();
+        //XLS();
         if (mashiro_option.NProgressON) NProgress.done();
         mashiro_global.ini.pjax();
         let loading = document.getElementById("loading");
@@ -1907,26 +1905,26 @@ if (Poi.pjax) {
         }
     });
     window.addEventListener('popstate', function (e) {
-        Siren.AH();
-        Siren.PE();
-        Siren.CE();
+        AH();
+        PE();
+        CE();
         sm();
         timeSeriesReload(true);
         post_list_show_animation();
     }, false);
 }
 ready(function () {
-    Siren.AH();
-    Siren.PE();
-    Siren.NH();
-    Siren.GT();
-    Siren.XLS();
-    Siren.XCS();
-    Siren.XCP();
-    Siren.CE();
-    Siren.MN();
-    Siren.IA();
-    Siren.LV();
+    AH();
+    PE();
+    NH();
+    GT();
+    XLS();
+    XCS();
+    XCP();
+    CE();
+    MN();
+    IA();
+    LV();
     console.log("%c Mashiro %c", "background:#24272A; color:#ffffff", "", "https://2heng.xin/");
     console.log("%c Github %c", "background:#24272A; color:#ffffff", "", "https://github.com/mashirozx");
 });
