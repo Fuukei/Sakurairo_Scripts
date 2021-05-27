@@ -1555,6 +1555,92 @@ function NH() {
     //         }
     // });
 }
+function load_post() {
+    const pagination_a = document.querySelector('#pagination a');
+    pagination_a.classList.add("loading");
+    pagination_a.innerText = "";
+    // $('#pagination a').addClass("loading").text("");
+    fetch(pagination_a.getAttribute("href") + "#main")
+        .then(async resp => {
+            const text = await resp.text()
+            const parser = new DOMParser(),
+                DOM = parser.parseFromString(text, "text/html"),
+                result = DOM.querySelectorAll("#main .post"),
+                paga = DOM.querySelector("#pagination a"),
+                paga_innerText = paga && paga.innerText,
+                nextHref = paga && paga.getAttribute("href");
+            for (let i = 0; i < result.length; i++) {
+                let b = result[i];
+                document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+            }
+            if (Poi.pjax) (await pjax).refresh(document.querySelector("#content"));
+            //if (resp.ok) {
+            // result = $(data).find("#main .post");
+            // nextHref = $(data).find("#pagination a").attr("href");
+            // $("#main").append(result.fadeIn(500));
+            const dpga = document.querySelector("#pagination a"),
+                addps = document.querySelector("#add_post span");
+            if (dpga) {
+                dpga.classList.remove("loading");
+                dpga.innerText = paga_innerText;
+            }
+            if (addps) {
+                addps.classList.remove("loading");
+                addps.innerText = "";
+            }
+            // $("#pagination a").removeClass("loading").text("Previous");
+            // $('#add_post span').removeClass("loading").text("");
+            lazyload();
+            post_list_show_animation();
+            if (nextHref != undefined) {
+                pagination_a.setAttribute("href", nextHref);
+                // $("#pagination a").attr("href", nextHref);
+                //加载完成上滑
+                let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                // window.scrollTo(tempScrollTop);
+                // $(window).scrollTop(tempScrollTop);
+                window.scrollTo({
+                    top: tempScrollTop + 300,
+                    behavior: 'smooth'
+                })
+                // $body.animate({
+                //     scrollTop: tempScrollTop + 300
+                //
+                // }, 666)
+            } else {
+                document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
+                // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+            }
+            //}
+
+        })
+    /*  $.ajax({
+         type: "POST",
+         url: $('#pagination a').attr("href") + "#main",
+         success: function (data) {
+             result = $(data).find("#main .post");
+             nextHref = $(data).find("#pagination a").attr("href");
+             $("#main").append(result.fadeIn(500));
+             $("#pagination a").removeClass("loading").text("Previous");
+             $('#add_post span').removeClass("loading").text("");
+             lazyload();
+             post_list_show_animation();
+             if (nextHref != undefined) {
+                 $("#pagination a").attr("href", nextHref);
+                 //加载完成上滑
+                 var tempScrollTop = $(window).scrollTop();
+                 $(window).scrollTop(tempScrollTop);
+                 $body.animate({
+                     scrollTop: tempScrollTop + 300
+
+                 }, 666)
+             } else {
+                 $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+             }
+         }
+     }); */
+    return false;
+}
 function XLS() {
     let load_post_timer;
     const intersectionObserver = new IntersectionObserver(function (entries) {
@@ -1586,93 +1672,6 @@ function XLS() {
             load_post();
         }
     })
-
-    function load_post() {
-        const pagination_a = document.querySelector('#pagination a');
-        pagination_a.classList.add("loading");
-        pagination_a.innerText = "";
-        // $('#pagination a').addClass("loading").text("");
-        fetch(pagination_a.getAttribute("href") + "#main")
-            .then(resp => resp.text())
-            .then(text => {
-                const parser = new DOMParser(),
-                    DOM = parser.parseFromString(text, "text/html"),
-                    result = DOM.querySelectorAll("#main .post"),
-                    paga = DOM.querySelector("#pagination a"),
-                    paga_innerText = paga && paga.innerText,
-                    nextHref = paga && paga.getAttribute("href");
-                for (let i = 0; i < result.length; i++) {
-                    let b = result[i];
-                    document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
-                }
-                if (Poi.pjax) pjax.refresh(document.querySelector("#content"));
-                //if (resp.ok) {
-                // result = $(data).find("#main .post");
-                // nextHref = $(data).find("#pagination a").attr("href");
-                // $("#main").append(result.fadeIn(500));
-                const dpga = document.querySelector("#pagination a"),
-                    addps = document.querySelector("#add_post span");
-                if (dpga) {
-                    dpga.classList.remove("loading");
-                    dpga.innerText = paga_innerText;
-                }
-                if (addps) {
-                    addps.classList.remove("loading");
-                    addps.innerText = "";
-                }
-                // $("#pagination a").removeClass("loading").text("Previous");
-                // $('#add_post span').removeClass("loading").text("");
-                lazyload();
-                post_list_show_animation();
-                if (nextHref != undefined) {
-                    pagination_a.setAttribute("href", nextHref);
-                    // $("#pagination a").attr("href", nextHref);
-                    //加载完成上滑
-                    let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
-                    // window.scrollTo(tempScrollTop);
-                    // $(window).scrollTop(tempScrollTop);
-                    window.scrollTo({
-                        top: tempScrollTop + 300,
-                        behavior: 'smooth'
-                    })
-                    // $body.animate({
-                    //     scrollTop: tempScrollTop + 300
-                    //
-                    // }, 666)
-                } else {
-                    document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
-                    // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                }
-                //}
-
-            })
-        /*  $.ajax({
-             type: "POST",
-             url: $('#pagination a').attr("href") + "#main",
-             success: function (data) {
-                 result = $(data).find("#main .post");
-                 nextHref = $(data).find("#pagination a").attr("href");
-                 $("#main").append(result.fadeIn(500));
-                 $("#pagination a").removeClass("loading").text("Previous");
-                 $('#add_post span').removeClass("loading").text("");
-                 lazyload();
-                 post_list_show_animation();
-                 if (nextHref != undefined) {
-                     $("#pagination a").attr("href", nextHref);
-                     //加载完成上滑
-                     var tempScrollTop = $(window).scrollTop();
-                     $(window).scrollTop(tempScrollTop);
-                     $body.animate({
-                         scrollTop: tempScrollTop + 300
- 
-                     }, 666)
-                 } else {
-                     $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
-                 }
-             }
-         }); */
-        return false;
-    }
 }
 function XCS() {
     const __list = 'commentwrap';
