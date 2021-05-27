@@ -1564,10 +1564,10 @@ function load_post() {
                 result = DOM.querySelectorAll("#main .post"),
                 paga = DOM.querySelector("#pagination a"),
                 paga_innerText = paga && paga.innerText,
-                nextHref = paga && paga.getAttribute("href");
+                nextHref = paga && paga.getAttribute("href"),
+                main = document.getElementById("main")
             for (let i = 0; i < result.length; i++) {
-                let b = result[i];
-                document.getElementById("main").insertAdjacentHTML('beforeend', b.outerHTML);
+                main.append(result[i])
             }
             if (Poi.pjax) (await pjax).refresh(document.querySelector("#content"));
             //if (resp.ok) {
