@@ -1563,9 +1563,11 @@ function NH() {
     // });
 }
 function load_post() {
+    const history_now_state = history.state.url
     const pagination_a = document.querySelector('#pagination a');
     pagination_a.classList.add("loading");
     pagination_a.innerText = "";
+
     // $('#pagination a').addClass("loading").text("");
     fetch(pagination_a.getAttribute("href") + "#main")
         .then(async resp => {
@@ -1577,6 +1579,8 @@ function load_post() {
                 paga_innerText = paga && paga.innerText,
                 nextHref = paga && paga.getAttribute("href"),
                 main = document.getElementById("main")
+            //在进行DOM操作前检查页面是否已经变化，防止错误加载到其他页面上
+            if (history_now_state != history.state.url) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
             for (let i = 0; i < result.length; i++) {
                 main.append(result[i])
             }
