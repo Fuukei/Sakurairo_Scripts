@@ -52,7 +52,12 @@ function cleanBlobUrl() {
 }
 export async function initCoverBG() {
     if (!mashiro_option.land_at_home) return
-    if (mashiro_option.site_bg_as_cover) centerbg.style.background = '#0000'
+    if (mashiro_option.site_bg_as_cover) {
+        centerbg.style.background = '#0000'
+        if(localStorage.getItem('bgImgSetting')!=='white-bg'){
+            return
+        }
+    }
     if (mashiro_option.cache_cover) {
         const coverBG = await get('cover')
         if (coverBG) {
