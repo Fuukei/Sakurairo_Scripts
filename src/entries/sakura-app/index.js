@@ -1677,113 +1677,122 @@ function XLS() {
 function XCS() {
     const __list = 'commentwrap';
     const form = document.getElementById("commentform")
-    if (form) form.addEventListener('submit', function () {
-        createButterbar("提交中(Commiting)....")
-        const form = new FormData(this)
-        form.append('action', 'ajax_comment')
-        fetch(Poi.ajaxurl, {
-            method: this.attributes.method.value,
-            body: form
-        }).then(async resp => {
-            const data = await resp.text()
-            if (resp.ok) {
-                Array.from(document.getElementsByTagName('textarea'))
-                    .forEach((e) => e.value = '')
-                const cancel = document.getElementById('cancel-comment-reply-link'),
-                    temp = document.getElementById('wp-temp-form-div'),
-                    respond = document.getElementById(addComment.respondId),
-                    //post = document.getElementById('comment_post_ID').value,
-                    parent = document.getElementById('comment_parent').value;
-                if (parent != '0') {
-                    //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                    document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
-                } else if (!document.getElementsByClassName(__list).length) {
-                    if (Poi.formpostion == 'bottom') {
-                        document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
-                        //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+    if (form) {
+        let statusSubmitting = false
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (statusSubmitting) return
+            const butterBarRef = createButterbar("提交中(Commiting)....", true)
+            const form = new FormData(this)
+            form.append('action', 'ajax_comment')
+            statusSubmitting = true
+            fetch(Poi.ajaxurl, {
+                method: this.attributes.method.value,
+                body: form
+            }).then(async resp => {
+                const data = await resp.text()
+                if (resp.ok) {
+                    Array.from(document.getElementsByTagName('textarea'))
+                        .forEach((e) => e.value = '')
+                    const cancel = document.getElementById('cancel-comment-reply-link'),
+                        temp = document.getElementById('wp-temp-form-div'),
+                        respond = document.getElementById(addComment.respondId),
+                        //post = document.getElementById('comment_post_ID').value,
+                        parent = document.getElementById('comment_parent').value;
+                    if (parent != '0') {
+                        //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                        document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
+                    } else if (!document.getElementsByClassName(__list).length) {
+                        if (Poi.formpostion == 'bottom') {
+                            document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
+                            //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                        } else {
+                            document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
+                            //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                        }
                     } else {
-                        document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
-                        //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                        if (Poi.order == 'asc') {
+                            document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
+                            //jQuery('.' + __list).append(data);
+                        } else {
+                            document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
+                            //jQuery('.' + __list).prepend(data);
+                        }
+                    }
+                    createButterbar("提交成功(Succeed)");
+                    lazyload();
+                    code_highlight_style();
+                    click_to_view_image();
+                    clean_upload_images();
+                    cancel.style.display = 'none';
+                    cancel.onclick = null;
+                    document.getElementById('comment_parent').value = '0';
+                    if (temp && respond) {
+                        temp.parentNode.insertBefore(respond, temp);
+                        temp.remove();
+                        //temp.parentNode.removeChild(temp)
                     }
                 } else {
-                    if (Poi.order == 'asc') {
-                        document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
-                        //jQuery('.' + __list).append(data);
+                    createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
+                }
+            }).catch(reason => {
+                createButterbar(reason);
+            }).finally(() => {
+                butterBarRef.remove()
+                statusSubmitting = false
+            })
+            /* jQuery.ajax({
+                url: Poi.ajaxurl,
+                data: jQuery(this).serialize() + "&action=ajax_comment",
+                type: jQuery(this).attr('method'),
+                beforeSend: createButterbar("提交中(Commiting)...."),
+                error: function (request) {
+                    var t = addComment;
+                    t.createButterbar(request.responseText);
+                },
+                success: function (data) {
+                    jQuery('textarea').each(function () {
+                        this.value = ''
+                    });
+                    var t = addComment,
+                        cancel = t.I('cancel-comment-reply-link'),
+                        temp = t.I('wp-temp-form-div'),
+                        respond = t.I(t.respondId),
+                        post = t.I('comment_post_ID').value,
+                        parent = t.I('comment_parent').value;
+                    if (parent != '0') {
+                        jQuery('#respond').before('<ol class="children">' + data + '</ol>');
+                    } else if (!jQuery('.' + __list).length) {
+                        if (Poi.formpostion == 'bottom') {
+                            jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
+                        } else {
+                            jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
+                        }
                     } else {
-                        document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
-                        //jQuery('.' + __list).prepend(data);
+                        if (Poi.order == 'asc') {
+                            jQuery('.' + __list).append(data);
+                        } else {
+                            jQuery('.' + __list).prepend(data);
+                        }
+                    }
+                    t.createButterbar("提交成功(Succeed)");
+                    lazyload();
+                    code_highlight_style();
+                    click_to_view_image();
+                    clean_upload_images();
+                    cancel.style.display = 'none';
+                    cancel.onclick = null;
+                    t.I('comment_parent').value = '0';
+                    if (temp && respond) {
+                        temp.parentNode.insertBefore(respond, temp);
+                        temp.remove();
+                        //temp.parentNode.removeChild(temp)
                     }
                 }
-                createButterbar("提交成功(Succeed)");
-                lazyload();
-                code_highlight_style();
-                click_to_view_image();
-                clean_upload_images();
-                cancel.style.display = 'none';
-                cancel.onclick = null;
-                document.getElementById('comment_parent').value = '0';
-                if (temp && respond) {
-                    temp.parentNode.insertBefore(respond, temp);
-                    temp.remove();
-                    //temp.parentNode.removeChild(temp)
-                }
-            } else {
-                createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
-            }
-        }).catch(reason => {
-            createButterbar(reason);
+            }); */
+            return false;
         })
-        /* jQuery.ajax({
-            url: Poi.ajaxurl,
-            data: jQuery(this).serialize() + "&action=ajax_comment",
-            type: jQuery(this).attr('method'),
-            beforeSend: createButterbar("提交中(Commiting)...."),
-            error: function (request) {
-                var t = addComment;
-                t.createButterbar(request.responseText);
-            },
-            success: function (data) {
-                jQuery('textarea').each(function () {
-                    this.value = ''
-                });
-                var t = addComment,
-                    cancel = t.I('cancel-comment-reply-link'),
-                    temp = t.I('wp-temp-form-div'),
-                    respond = t.I(t.respondId),
-                    post = t.I('comment_post_ID').value,
-                    parent = t.I('comment_parent').value;
-                if (parent != '0') {
-                    jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                } else if (!jQuery('.' + __list).length) {
-                    if (Poi.formpostion == 'bottom') {
-                        jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-                    } else {
-                        jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
-                    }
-                } else {
-                    if (Poi.order == 'asc') {
-                        jQuery('.' + __list).append(data);
-                    } else {
-                        jQuery('.' + __list).prepend(data);
-                    }
-                }
-                t.createButterbar("提交成功(Succeed)");
-                lazyload();
-                code_highlight_style();
-                click_to_view_image();
-                clean_upload_images();
-                cancel.style.display = 'none';
-                cancel.onclick = null;
-                t.I('comment_parent').value = '0';
-                if (temp && respond) {
-                    temp.parentNode.insertBefore(respond, temp);
-                    temp.remove();
-                    //temp.parentNode.removeChild(temp)
-                }
-            }
-        }); */
-        return false;
-    })
+    }
 }
 function XCP() {
     document.body.addEventListener('click', function (e) {
