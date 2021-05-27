@@ -1,9 +1,9 @@
-declare namespace mashiro_option{
+declare namespace mashiro_option {
     const NProgressON: boolean
     const audio: boolean
     const author_name: string
     const baguetteBoxON: boolean
-    const fancybox:boolean
+    const fancybox: boolean
     const clipboardCopyright: boolean
     const cookie_version_control: string
     const cover_api: string
@@ -11,14 +11,14 @@ declare namespace mashiro_option{
      * darmode
      */
     const darkmode: boolean
-    const dm_strategy:'client'|'time'|'eien'
+    const dm_strategy: 'client' | 'time' | 'eien'
     /**************************** */
     /**
      * preload blur
      * 为0时功能关闭，单位ms
      * @seealso https://developer.mozilla.org/en-US/docs/Web/API/EffectTiming/duration
      */
-    const preload_blur:number
+    const preload_blur: number
     const email_domain: string
     const email_name: string
     const entry_content_style: string
@@ -38,48 +38,50 @@ declare namespace mashiro_option{
     const skin_bg4: string
     const template_url: string
     const windowheight: string
-    const meting_api_url:string|undefined
-    const code_highlight:"prism"|"hljs"|"custom"
-    const code_highlight_prism:{
-        line_number_all:boolean
-        autoload_path:string,
-        theme:{
-            light:string,
-            dark:string
+    const meting_api_url: string | undefined
+    const code_highlight: "prism" | "hljs" | "custom"
+    const code_highlight_prism: {
+        line_number_all: boolean
+        autoload_path: string,
+        theme: {
+            light: string,
+            dark: string
         }
     }
     /**
      * 开启评论上传图片功能
      */
-    const comment_upload_img:boolean
+    const comment_upload_img: boolean
     /**
      * 
      */
-    const cache_cover:boolean
+    const cache_cover: boolean
+    const site_bg_as_cover: boolean
+    const rnd_site_bg: boolean
 }
-declare namespace Poi{
-    let pjax:string
-    const movies:Object
-    const windowheight:string
-    const codeLamp:string
-    const ajaxurl:string
-    const order:string
-    const formpostion:string
-    const reply_link_version:string
-    const api:string
-    const nonce:string
-    const google_analytics_id:string
-    const gravatar_url:string
+declare namespace Poi {
+    let pjax: string
+    const movies: Object
+    const windowheight: string
+    const codeLamp: string
+    const ajaxurl: string
+    const order: string
+    const formpostion: string
+    const reply_link_version: string
+    const api: string
+    const nonce: string
+    const google_analytics_id: string
+    const gravatar_url: string
 }
-declare namespace mashiro_global{
-//let font_control:FontControl
-let ini:{
-    normalize()
-    pjax()
+declare namespace mashiro_global {
+    //let font_control:FontControl
+    let ini: {
+        normalize()
+        pjax()
+    }
+    let variables: {
+        has_hls: boolean
+        skinSecter: boolean
+    }
 }
-let variables:{
-    has_hls:boolean
-    skinSecter:boolean
-}
-}
-declare let addComment:any
+declare let addComment: any
