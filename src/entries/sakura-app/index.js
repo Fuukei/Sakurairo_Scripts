@@ -35,8 +35,9 @@ if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image
 
 return Poi.pjax && import('pjax').then(({default:Pjax})=>
    new Pjax({
-    selectors: ["#page", "title", ".footer-device"],
-    //@ts-ignore
+    selectors: ["#page", "title", ".footer-device",
+    /**mashiro_option */
+    "#_mashiro_"],
     elements: [
         "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
         ".search-form",
