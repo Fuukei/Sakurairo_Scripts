@@ -19,9 +19,9 @@ import { nextBG, preBG, initCoverBG, getAPIPath } from './coverBackground'
 import buildAPI from './api'
 import { setCookie, getCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
+import { createButterbar } from './AddComment'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
-import { createButterbar } from './AddComment'
 import './global-func'
 
 const pjax = (() => {
@@ -733,17 +733,16 @@ function coverVideoIni() {
 
 function copy_code_block() {
     const ele = document.querySelectorAll("pre code");
-    if(ele.length>0){
-      for (let j = 0; j < ele.length; j++) {
-        ele[j].setAttribute('id', 'code-block-' + j);
-        ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
-    };
-    import('clipboard').then(({ default: ClipboardJS }) => {
-        new ClipboardJS('.copy-code');
-    })  
+    if (ele.length > 0) {
+        for (let j = 0; j < ele.length; j++) {
+            ele[j].setAttribute('id', 'code-block-' + j);
+            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+        };
+        import('clipboard').then(({ default: ClipboardJS }) => {
+            new ClipboardJS('.copy-code');
+        })
     }
 }
-
 
 function tableOfContentScroll(flag) {
     if (document.body.clientWidth <= 1200) {
