@@ -59,10 +59,19 @@ function clearButterbar() {
         }
     }
 }
-function createButterbar(message: string, showtime: number | undefined) {
+function createButterbar(message: string, keep?: boolean) {
     clearButterbar();
-    document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
-    setTimeout(() => { clearButterbar() }, showtime > 0 ? showtime : 6000);
+    /*     document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
+     */
+    const div = document.createElement('div')
+    div.classList.add('butterBar', 'butterBar--center')
+    const p = document.createElement('p')
+    p.classList.add('butterBar-message')
+    p.appendChild(document.createTextNode(message))
+    div.appendChild(p)
+    document.body.appendChild(div)
+    if (!keep) setTimeout(() => { clearButterbar() }, 6000);
+    return div
 }
-export {clearButterbar,createButterbar}
+export { clearButterbar, createButterbar }
 export default AddComment
