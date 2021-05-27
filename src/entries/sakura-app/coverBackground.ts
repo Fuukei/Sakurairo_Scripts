@@ -16,12 +16,14 @@ const centerbg: HTMLElement = document.querySelector(".centerbg")
 /**
  * 更改封面背景
  */
-const changeCoverBG =
+const changeCoverBG = mashiro_option.rnd_site_bg ? (url: string) => {
+    document.body.style.backgroundImage = `url(${url})`
+} :
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
     } : (console.warn(''), () => { })
 
-function getAPIPath(useBGN = false) {
+export function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
     if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
         cover_api_url.searchParams.set('type', 'mobile')
@@ -50,6 +52,7 @@ function cleanBlobUrl() {
 }
 export async function initCoverBG() {
     if (!mashiro_option.land_at_home) return
+    if (mashiro_option.site_bg_as_cover) centerbg.style.background = '#0000'
     if (mashiro_option.cache_cover) {
         const coverBG = await get('cover')
         if (coverBG) {
