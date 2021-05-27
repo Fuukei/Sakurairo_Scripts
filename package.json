@@ -8,7 +8,7 @@
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --config webpack.dev.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "profile":"webpack --config webpack.prof.js"
+    "profile": "webpack --config webpack.prof.js"
   },
   "keywords": [
     "wordpress"
@@ -30,16 +30,17 @@
     "highlight.js": "^10.7.2",
     "highlightjs-line-numbers.js": "^2.8.0",
     "hls.js": "^1.0.4",
+    "idb-keyval": "^5.0.5",
     "jquery": "^3.6.0",
     "lazyload": "github:KotoriK/lazyload",
-    "localforage": "^1.9.0",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
     "pjax": "^0.2.8",
     "prismjs": "^1.23.0",
     "smoothscroll-for-websites": "^1.4.10",
     "textarea-caret-position": "^0.1.1",
-    "tocbot": "^4.12.3"
+    "tocbot": "^4.12.3",
+    "tslib": "^1.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

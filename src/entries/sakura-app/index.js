@@ -22,32 +22,33 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import { createButterbar } from './AddComment'
 import './global-func'
-const pjax = (()=>{
 import { nextBG, preBG,initCoverBG } from './centerbg'
-    //检查是否应当开启Poi.pjax
-const UA = navigator.userAgent
-const version_list= { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
-const reg = UA.indexOf('Chrome') != -1?/(Chrome)\/(\d+)/i:/(Firefox|Chrome|Version|Opera)\/(\d+)/i
-const version = UA.match(reg);
-Poi.pjax = version && (parseInt(version[2]) >= version_list[version[1]]) && Poi.pjax;
-if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-    setCookie('su_webp', '1', 114514)
 
-return Poi.pjax && import('pjax').then(({default:Pjax})=>
-   new Pjax({
-    selectors: ["#page", "title", ".footer-device",
-    /**mashiro_option */
-    "#_mashiro_"],
-    elements: [
-        "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
-        ".search-form",
-        ".s-search",
-    ],
-    timeout: 8000,
-    history: true,
-    cacheBust: false,
-}) 
-) 
+const pjax = (() => {
+    //检查是否应当开启Poi.pjax
+    const UA = navigator.userAgent
+    const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
+    const reg = UA.indexOf('Chrome') != -1 ? /(Chrome)\/(\d+)/i : /(Firefox|Chrome|Version|Opera)\/(\d+)/i
+    const version = UA.match(reg);
+    Poi.pjax = version && (parseInt(version[2]) >= version_list[version[1]]) && Poi.pjax;
+    if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
+        setCookie('su_webp', '1', 114514)
+
+    return Poi.pjax && import('pjax').then(({ default: Pjax }) =>
+        new Pjax({
+            selectors: ["#page", "title", ".footer-device",
+                /**mashiro_option */
+                "#_mashiro_"],
+            elements: [
+                "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
+                ".search-form",
+                ".s-search",
+            ],
+            timeout: 8000,
+            history: true,
+            cacheBust: false,
+        })
+    )
 })()
 const ready = function (fn) {
     if (document.readyState === 'complete') {
@@ -1635,7 +1636,6 @@ function load_post() {
              }
          }
      }); */
-    return false;
 }
 function XLS() {
     let load_post_timer;
@@ -1884,7 +1884,7 @@ if (Poi.pjax) {
         AH();
         PE();
         CE();
-        if(mashiro_option.land_at_home) XLS();
+        if (mashiro_option.land_at_home) XLS();
         if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.done() })
         mashiro_global.ini.pjax();
         let loading = document.getElementById("loading");
@@ -1909,8 +1909,8 @@ if (Poi.pjax) {
             });
         }
     });
-    document.addEventListener("pjax:error",(e)=>{
-        createButterbar('文章加载出错了 HTTP '+e.request.status)
+    document.addEventListener("pjax:error", (e) => {
+        createButterbar('文章加载出错了 HTTP ' + e.request.status)
     })
     window.addEventListener('popstate', function (e) {
         AH();
