@@ -16,12 +16,12 @@ const centerbg: HTMLElement = document.querySelector(".centerbg")
 /**
  * 更改封面背景
  */
-export const changeCoverBG =
+const changeCoverBG =
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
     } : (console.warn(''), () => { })
 
-export function getAPIPath(useBGN = false) {
+function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
     if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
         cover_api_url.searchParams.set('type', 'mobile')
@@ -30,7 +30,7 @@ export function getAPIPath(useBGN = false) {
         return cover_api_url.toString() + (useBGN ? (cover_api_url.search === '' ? "?" : '&') + bgn : '');
     }
 }
-export async function fetchAndCache() {
+async function fetchAndCache() {
     try {
         const resp = await fetch(getAPIPath());
         if (resp.ok) {
