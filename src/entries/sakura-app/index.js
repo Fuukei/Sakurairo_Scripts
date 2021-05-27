@@ -20,11 +20,9 @@ import { setCookie, getCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
-import NProgress from 'nprogress'
 import { pjax } from './pjax';
 import { createButterbar } from './AddComment'
 import './global-func'
-import POWERMODE from 'activate-power-mode'
 const ready = function (fn) {
     if (document.readyState === 'complete') {
         return fn();
@@ -1847,7 +1845,8 @@ function XCP() {
         }
     });
 }
-function IA() {
+async function IA() {
+    const POWERMODE = (await import('activate-power-mode')).default
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
     document.body.addEventListener('input', POWERMODE)
@@ -1880,15 +1879,15 @@ if (Poi.pjax) {
             element.load = '';
         }
         document.getElementById("bar").style.width = "0%";
-        if (mashiro_option.NProgressON) NProgress.start();
+        if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.start() })
         MNH();
     });
     document.addEventListener("pjax:complete", function () {
         AH();
         PE();
         CE();
-        //XLS();
-        if (mashiro_option.NProgressON) NProgress.done();
+        if(mashiro_option.land_at_home) XLS();
+        if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.done() })
         mashiro_global.ini.pjax();
         let loading = document.getElementById("loading");
         if (loading) {
