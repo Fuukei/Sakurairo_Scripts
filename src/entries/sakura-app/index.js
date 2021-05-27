@@ -22,7 +22,7 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import { createButterbar } from './AddComment'
 import './global-func'
-import { nextBG, preBG,initCoverBG } from './centerbg'
+import { nextBG, preBG,initCoverBG } from './coverBackground'
 
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
