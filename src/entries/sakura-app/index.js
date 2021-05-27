@@ -1562,7 +1562,7 @@ function NH() {
     //         }
     // });
 }
-function load_post() {
+const load_post = onlyOnceATime(function load_post() {
     const history_now_state = history.state.url
     const pagination_a = document.querySelector('#pagination a');
     pagination_a.classList.add("loading");
@@ -1650,7 +1650,8 @@ function load_post() {
              }
          }
      }); */
-}
+})
+
 function XLS() {
     let load_post_timer;
     const intersectionObserver = new IntersectionObserver(function (entries) {
