@@ -724,13 +724,15 @@ function coverVideoIni() {
 
 function copy_code_block() {
     const ele = document.querySelectorAll("pre code");
-    for (let j = 0; j < ele.length; j++) {
+    if(ele.length>0){
+      for (let j = 0; j < ele.length; j++) {
         ele[j].setAttribute('id', 'code-block-' + j);
         ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
     };
     import('clipboard').then(({ default: ClipboardJS }) => {
         new ClipboardJS('.copy-code');
-    })
+    })  
+    }
 }
 
 
