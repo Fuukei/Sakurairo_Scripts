@@ -15,6 +15,7 @@
  * @date 2019.8.3
  * *** ***
  */
+import { nextBG, preBG, initCoverBG, getAPIPath } from './coverBackground'
 import buildAPI from './api'
 import { setCookie, getCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
@@ -22,7 +23,6 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import { createButterbar } from './AddComment'
 import './global-func'
-import { nextBG, preBG,initCoverBG } from './coverBackground'
 
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
@@ -517,7 +517,11 @@ function changeBG(bgid) {
     let bg_url;
     switch (bgid) {
         case "white-bg":
-            bg_url = mashiro_option.skin_bg0;
+            if (mashiro_option.rnd_site_bg) {
+                bg_url = getAPIPath()
+            } else {
+                bg_url = mashiro_option.skin_bg0;
+            }
             break;
         case "diy1-bg":
             bg_url = mashiro_option.skin_bg1;
