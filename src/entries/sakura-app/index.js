@@ -536,7 +536,12 @@ function changeBG(bgid) {
             bg_url = mashiro_option.skin_bg4;
             break;
     }
-    document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+    const now_bg_url = document.body.style.backgroundImage
+    if (now_bg_url != bg_url) {
+        if (!mashiro_option.cache_cover || !now_bg_url.match(/^url\("blob:/)) {
+            document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+        }
+    }
 }
 ready(function () {
     initCoverBG()
