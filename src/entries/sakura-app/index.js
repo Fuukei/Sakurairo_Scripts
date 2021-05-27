@@ -22,8 +22,8 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import { createButterbar } from './AddComment'
 import './global-func'
-import { nextBG, preBG, changeCoverBG, getAPIPath } from './centerbg'
 const pjax = (()=>{
+import { nextBG, preBG,initCoverBG } from './centerbg'
     //检查是否应当开启Poi.pjax
 const UA = navigator.userAgent
 const version_list= { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
@@ -508,15 +508,6 @@ function no_right_click() {
 }
 no_right_click();
 
-function changeCoverBG() {
-    const centerbg = document.querySelector(".centerbg")
-    if (centerbg) {
-        const type_mobile = document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true
-        const cover_api = new URL(mashiro_option.cover_api)
-        if (type_mobile) cover_api.searchParams.set('type', 'mobile')
-        centerbg.style.backgroundImage = "url(" + cover_api.toString() + ")";
-    }
-}
 function changeBG(bgid) {
     //@sideeffect
     mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
@@ -543,7 +534,7 @@ function changeBG(bgid) {
     document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
 }
 ready(function () {
-    changeCoverBG();
+    initCoverBG()
     //let checkskin_bg = (a) => a == "none" ? "" : a;
 
     function addChangeBackgroundListener() {
@@ -589,25 +580,6 @@ ready(function () {
     })
     add_upload_tips();
 });
-let bgn = 1;
-function setBG() {
-    const cover_api_url = new URL(mashiro_option.cover_api)
-    if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
-        cover_api_url.searchParams.set('type', 'mobile')
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + "&" + bgn + ")";
-    } else {
-        document.querySelector(".centerbg").style.backgroundImage = "url(" + cover_api_url.toString() + (cover_api_url.search === '' ? "?" : '&') + bgn + ")";
-    }
-}
-function nextBG() {
-    setBG()
-    bgn++;
-}
-
-function preBG() {
-    bgn--;
-    setBG()
-}
 function bgButtonAddListener() {
     const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");

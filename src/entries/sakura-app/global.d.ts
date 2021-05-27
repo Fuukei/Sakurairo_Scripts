@@ -52,6 +52,10 @@ declare namespace mashiro_option{
      * 开启评论上传图片功能
      */
     const comment_upload_img:boolean
+    /**
+     * 
+     */
+    const cache_cover:boolean
 }
 declare namespace Poi{
     let pjax:string
