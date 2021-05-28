@@ -1563,7 +1563,7 @@ function NH() {
     // });
 }
 const load_post = onlyOnceATime(function load_post() {
-    const history_now_state = history.state.url
+    const history_now_state = history.state?history.state.url:document.location.href
     const pagination_a = document.querySelector('#pagination a');
     pagination_a.classList.add("loading");
     pagination_a.innerText = "";
