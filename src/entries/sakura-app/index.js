@@ -1281,6 +1281,14 @@ function LV() {
     });
 }
 function AH() {
+    if (mashiro_option.yiyan){
+        fetch("https://api.maho.cc/yiyan/")
+        .then(res=>res.json())
+        .then(data=>{
+            yiyan = document.getElementById("footer_yiyan");
+            if(yiyan)yiyan.innerText=data['hitokoto']+"——"+data['from']
+        })
+    }
     if (Poi.windowheight == 'auto') {
         if (document.querySelector("h1.main-title")) {
             //let _height = document.documentElement.clientHeight + "px";
