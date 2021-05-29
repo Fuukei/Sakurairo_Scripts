@@ -1571,7 +1571,7 @@ function NH() {
     // });
 }
 const load_post = onlyOnceATime(function load_post() {
-    const history_now_state = history.state?history.state.url:document.location.href
+    const now_href = document.location.href
     const pagination_a = document.querySelector('#pagination a');
     pagination_a.classList.add("loading");
     pagination_a.innerText = "";
@@ -1588,7 +1588,7 @@ const load_post = onlyOnceATime(function load_post() {
                 nextHref = paga && paga.getAttribute("href"),
                 main = document.getElementById("main")
             //在进行DOM操作前检查页面是否已经变化，防止错误加载到其他页面上
-            if (history_now_state != history.state.url) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
+            if (now_href != document.location.href) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
             for (let i = 0; i < result.length; i++) {
                 main.append(result[i])
             }
