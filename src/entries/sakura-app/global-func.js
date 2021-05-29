@@ -110,7 +110,7 @@ import MD5 from 'md5'
  * Gravatar
  * from a6cd66c 11.third-part-functions.js
  */
-const get_gravatar = (email, size= 80) =>'https://' + Poi.gravatar_url + '/' + MD5(email) + '.jpg?s=' + size + '&d=mm';
+const get_gravatar = (email, size = 80) => 'https://' + Poi.gravatar_url + '/' + MD5(email) + '.jpg?s=' + size + '&d=mm';
 import addComment from './AddComment'
 window.addComment = addComment
 window.imgError = imgError
@@ -122,3 +122,7 @@ window.headertop_down = headertop_down
 window.motionSwitch = motionSwitch
 window.grin = grin
 window.get_gravatar = get_gravatar
+/* window.sys_call = (...args) =>
+    import('./_sys_call').then(({ default: func }) => 
+        func(...args)
+    ) */
