@@ -17,7 +17,7 @@
  */
 import { nextBG, preBG, initCoverBG, getAPIPath } from './coverBackground'
 import buildAPI from './api'
-import { setCookie, getCookie, } from '../../module/cookie'
+import { setCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
 import addComment from './AddComment'
 import {  createButterbar } from './butterbar'
@@ -298,38 +298,8 @@ function post_list_show_animation() {
         }
     }
 }
-mashiro_global.font_control = new function () {
-    const cbs = document.getElementsByClassName("control-btn-serif")[0],
-        cbss = document.getElementsByClassName("control-btn-sans-serif")[0];
-    this.change_font = function () {
-        if (document.body.classList.contains("serif")) {
-            document.body.classList.remove("serif");
-            cbs && cbs.classList.remove("selected");
-            cbss && cbss.classList.remove("selected");
-            setCookie("font_family", "sans-serif", 30);
-        } else {
-            document.body.classList.add("serif");
-            cbs && cbs.classList.add("selected");
-            cbss && cbss.classList.remove("selected");
-            setCookie("font_family", "serif", 30);
-            if (document.body.clientWidth <= 860) {
-                createButterbar("将从网络加载字体，流量请注意");
-            }
-        }
-    }
-    this.ini = function () {
-        if (document.body.clientWidth > 860) {
-            if (!getCookie("font_family") || getCookie("font_family") == "serif")
-                document.body.classList.add("serif");
-        }
-        if (getCookie("font_family") == "sans-serif") {
-            document.body.classList.remove("sans-serif");
-            cbs && cbs.classList.remove("selected");
-            cbss && cbss.classList.add("selected");
-        }
-    }
-}
-mashiro_global.font_control.ini();
+import {initFontControl,loadFontSetting} from './font_control'
+ready(initFontControl)
 
 code_highlight_style();
 /**
@@ -783,7 +753,7 @@ const pjaxInit = function () {
     no_right_click();
     click_to_view_image();
     original_emoji_click();
-    mashiro_global.font_control.ini();
+    loadFontSetting()
     let _p = document.getElementsByTagName("p");
     for (let i = 0; i < _p.length; i++) {
         _p[i].classList.remove("head-copyright");
@@ -1686,6 +1656,7 @@ function XLS() {
     intersectionObserver.observe(
         document.querySelector('.footer-device')
     );
+    //TODO:fix:监听器重复挂载
     document.body.addEventListener("click", function (e) {
         if (e.target == document.querySelector("#pagination a")) {
             e.preventDefault();
