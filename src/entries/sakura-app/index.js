@@ -1282,13 +1282,15 @@ function LV() {
     });
 }
 function AH() {
-    if (mashiro_option.yiyan){
-        fetch("https://api.maho.cc/yiyan/")
-        .then(res=>res.json())
-        .then(data=>{
-            yiyan = document.getElementById("footer_yiyan");
-            if(yiyan)yiyan.innerText=data['hitokoto']+"——"+data['from']
-        })
+    if (mashiro_option.yiyan) {
+        const yiyan = document.getElementById("footer_yiyan");
+        if (yiyan) {
+            fetch("https://api.maho.cc/yiyan/")
+                .then(async res => {
+                    const data = await res.json()
+                    yiyan.innerText = data['hitokoto'] + "——" + data['from']
+                })
+        }
     }
     if (Poi.windowheight == 'auto') {
         if (document.querySelector("h1.main-title")) {
