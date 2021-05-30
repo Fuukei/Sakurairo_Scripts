@@ -84,4 +84,3 @@ declare namespace mashiro_global {
         skinSecter: boolean
     }
 }
-declare let addComment: any

@@ -111,8 +111,6 @@ import MD5 from 'md5'
  * from a6cd66c 11.third-part-functions.js
  */
 const get_gravatar = (email, size= 80) =>'https://' + Poi.gravatar_url + '/' + MD5(email) + '.jpg?s=' + size + '&d=mm';
-import addComment from './AddComment'
-window.addComment = addComment
 window.imgError = imgError
 window.cmt_showPopup = cmt_showPopup
 window.coverVideo = coverVideo
