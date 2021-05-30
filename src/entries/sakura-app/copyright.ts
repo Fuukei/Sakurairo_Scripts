@@ -1,6 +1,7 @@
 /**
  * sakura-app.js L943-963
  */
+import { createButterbar } from "./butterbar";
 
 const txt = [
     "# 商业转载请联系作者获得授权，非商业转载请注明出处。",
@@ -31,7 +32,7 @@ function copytext(e: ClipboardEvent) {
         const selectionText = selection.toString()
         if (selectionText.length > 30) {
             setClipboardText(e, selectionText);
-            addComment.createButterbar("复制成功！<br>Copied to clipboard successfully!", 1000);
+            createButterbar("复制成功！\nCopied to clipboard successfully!", 1000);
         }
     }
 }
