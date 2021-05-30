@@ -20,11 +20,11 @@ import buildAPI from './api'
 import { setCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
 import addComment from './AddComment'
-import {  createButterbar } from './butterbar'
+import { createButterbar } from './butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
-import {onlyOnceATime,min} from '../../module/util'
+import { onlyOnceATime, min } from '../../module/util'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     const UA = navigator.userAgent
@@ -298,8 +298,7 @@ function post_list_show_animation() {
         }
     }
 }
-import {initFontControl,loadFontSetting} from './font_control'
-ready(initFontControl)
+import { initFontControl, loadFontSetting } from './font_control'
 
 code_highlight_style();
 /**
@@ -436,7 +435,7 @@ function scrollBar() {
                 sc = document.querySelector(".site-content"),
                 skinMenu = document.querySelector(".skin-menu");
             if (toc_container && sc) {
-                toc_container.style.height = min(sc.getBoundingClientRect()["height"],document.documentElement.offsetHeight-toc_container.offsetTop) + "px";
+                toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
             }
             skinMenu && skinMenu.classList.remove("show");
         })
@@ -514,60 +513,13 @@ function changeBG(bgid) {
         }
     }
 }
-ready(function () {
-    initCoverBG()
-    //let checkskin_bg = (a) => a == "none" ? "" : a;
 
-    function addChangeBackgroundListener() {
-        const cached = document.querySelectorAll(".menu-list li");
-        cached.forEach(e => {
-            e.addEventListener("click", function () {
-                const tagid = this.id;
-                if (tagid == "dark-bg") {
-                    turnOnDarkMode(true)
-                } else {
-                    turnOffDarkMode(true)
-                    changeBG(tagid)
-                    localStorage.setItem("bgImgSetting", tagid)
-                }
-                closeSkinMenu();
-            });
-        });
-    }
-    addChangeBackgroundListener();
-    function checkBgImgCookie() {
-        const bgurl = localStorage.getItem("bgImgSetting");
-        if (bgurl) {
-            changeBG(bgurl);
-        }
-    }
-    checkBgImgCookie()
-    checkDarkModeSetting();
-    function closeSkinMenu() {
-        document.querySelector(".skin-menu").classList.remove("show");
-        setTimeout(function () {
-            if (document.querySelector(".changeSkin-gear") != null) {
-                document.querySelector(".changeSkin-gear").style.visibility = "visible";
-            }
-        }, 300);
-    }
-    let changskin = document.querySelector("#changskin"),
-        close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
-    changskin && changskin.addEventListener("click", function () {
-        document.querySelector(".skin-menu").classList.toggle("show");
-    })
-    close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
-        closeSkinMenu();
-    })
-    add_upload_tips();
-});
 function bgButtonAddListener() {
     const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");
     if (next) { next.onclick = () => { nextBG() } };
     if (pre) { pre.onclick = () => { preBG() } };
 }
-ready(bgButtonAddListener);
 
 function topFunction() {
     window.scrollTo({
@@ -877,9 +829,7 @@ function smileBoxToggle() {
 smileBoxToggle();
 
 add_copyright()
-ready(() => {
-    getqqinfo();
-});
+
 
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
@@ -1251,17 +1201,7 @@ function LV() {
         addsource();
     });
 }
-function AH() {
-    if (mashiro_option.yiyan) {
-        const yiyan = document.getElementById("footer_yiyan");
-        if (yiyan) {
-            fetch("https://api.maho.cc/yiyan/")
-                .then(async res => {
-                    const data = await res.json()
-                    yiyan.innerText = data['hitokoto'] + "——" + data['from']
-                })
-        }
-    }
+function auto_height() {
     if (Poi.windowheight == 'auto') {
         if (document.querySelector("h1.main-title")) {
             //let _height = document.documentElement.clientHeight + "px";
@@ -1864,8 +1804,19 @@ function GT() {
     }
 }
 
-
 //#endregion Siren
+function hitokoto(){
+    if (mashiro_option.yiyan) {
+        const yiyan = document.getElementById("footer_yiyan");
+        if (yiyan) {
+            fetch("https://api.maho.cc/yiyan/")
+                .then(async res => {
+                    const data = await res.json()
+                    yiyan.innerText = data['hitokoto'] + "——" + data['from']
+                })
+        }
+    }
+}
 if (Poi.pjax) {
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
@@ -1878,7 +1829,8 @@ if (Poi.pjax) {
         MNH();
     });
     document.addEventListener("pjax:complete", function () {
-        AH();
+        auto_height();
+        hitokoto()
         PE();
         CE();
         if (mashiro_option.land_at_home) XLS();
@@ -1910,7 +1862,8 @@ if (Poi.pjax) {
         createButterbar('文章加载出错了 HTTP ' + e.request.status)
     })
     window.addEventListener('popstate', function (e) {
-        AH();
+        auto_height();
+        hitokoto()
         PE();
         CE();
         sm();
@@ -1918,21 +1871,7 @@ if (Poi.pjax) {
         post_list_show_animation();
     }, false);
 }
-ready(function () {
-    AH();
-    PE();
-    NH();
-    GT();
-    XLS();
-    XCS();
-    XCP();
-    CE();
-    MN();
-    IA();
-    LV();
-    console.log("%c Mashiro %c", "background:#24272A; color:#ffffff", "", "https://2heng.xin/");
-    console.log("%c Github %c", "background:#24272A; color:#ffffff", "", "https://github.com/mashirozx");
-});
+
 let isWebkit = navigator.userAgent.toLowerCase().indexOf('webkit') > -1,
     isOpera = navigator.userAgent.toLowerCase().indexOf('opera') > -1,
     isIe = navigator.userAgent.toLowerCase().indexOf('msie') > -1;
@@ -1955,65 +1894,61 @@ if ((isWebkit || isOpera || isIe) && document.getElementById && window.addEventL
 
 function web_audio() {
     if (mashiro_option.audio) {
-        ready(() => {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext,
-                function () {
-                    if (window.AudioContext) {
-                        let ctx = new AudioContext,
-                            t = "880 987 1046 987 1046 1318 987 659 659 880 784 880 1046 784 659 659 698 659 698 1046 659 1046 1046 1046 987 698 698 987 987 880 987 1046 987 1046 1318 987 659 659 880 784 880 1046 784 659 698 1046 987 1046 1174 1174 1174 1046 1046 880 987 784 880 1046 1174 1318 1174 1318 1567 1046 987 1046 1318 1318 1174 784 784 880 1046 987 1174 1046 784 784 1396 1318 1174 659 1318 1046 1318 1760 1567 1567 1318 1174 1046 1046 1174 1046 1174 1567 1318 1318 1760 1567 1318 1174 1046 1046 1174 1046 1174 987 880 880 987 880".split(" "),//天空之城
-                            /*t = "329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 329.628 293.665 293.665 329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 293.665 261.626 261.626 293.665 293.665 329.628 261.626 293.665 329.628 349.228 329.628 261.626 293.665 329.628 349.228 329.628 293.665 261.626 293.665 195.998 329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 293.665 261.626 261.626".split(" "),欢乐颂*/
-                            i = 0,
-                            o = 1,
-                            dom,
-                            a = "♪ ♩ ♫ ♬ ♭ € § ¶ ♯".split(" "),
-                            selects = document.querySelectorAll(".site-title, #moblieGoTop, .site-branding, .searchbox, .changeSkin-gear, .menu-list li");
-                        selects.forEach((select) => {
-                            select.addEventListener("mouseenter", (e) => {
-                                if (dom) return;
-                                let r = t[i]
-                                if (!r) {
-                                    (i = 0, r = t[i])
-                                }
-                                i += o
-                                const c = ctx.createOscillator(),
-                                    l = ctx.createGain();
-                                c.connect(l)
-                                l.connect(ctx.destination)
-                                c.type = "sine"
-                                c.frequency.value = r
-                                l.gain.setValueAtTime(0, ctx.currentTime)
-                                l.gain.linearRampToValueAtTime(1, ctx.currentTime + .01)
-                                c.start(ctx.currentTime)
-                                l.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + 1)
-                                c.stop(ctx.currentTime + 1)
-                                const d = Math.round(7 * Math.random());
-                                const h = e.pageX
-                                const p = e.pageY - 5
-                                dom = document.createElement("b");
-                                dom.textContent = a[d]
-                                dom.style.zIndex = "99999";
-                                dom.style.top = p - 100 + "px";
-                                dom.style.left = h + "px";
-                                dom.style.position = "absolute";
-                                dom.style.color = "#FF6EB4";
-                                document.body.appendChild(dom);
-                                dom.animate([
-                                    { top: p + "px" },
-                                    { opacity: 0 }
-                                ], {
-                                    duration: 500
-                                })
-                                setTimeout(() => {
-                                    dom.remove();
-                                    dom = null;
-                                }, 500)
-                                e.stopPropagation();
-
-                            })
-                        })
+        window.AudioContext = window.AudioContext || window.webkitAudioContext
+        if (window.AudioContext) {
+            let ctx = new AudioContext,
+                t = "880 987 1046 987 1046 1318 987 659 659 880 784 880 1046 784 659 659 698 659 698 1046 659 1046 1046 1046 987 698 698 987 987 880 987 1046 987 1046 1318 987 659 659 880 784 880 1046 784 659 698 1046 987 1046 1174 1174 1174 1046 1046 880 987 784 880 1046 1174 1318 1174 1318 1567 1046 987 1046 1318 1318 1174 784 784 880 1046 987 1174 1046 784 784 1396 1318 1174 659 1318 1046 1318 1760 1567 1567 1318 1174 1046 1046 1174 1046 1174 1567 1318 1318 1760 1567 1318 1174 1046 1046 1174 1046 1174 987 880 880 987 880".split(" "),//天空之城
+                /*t = "329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 329.628 293.665 293.665 329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 293.665 261.626 261.626 293.665 293.665 329.628 261.626 293.665 329.628 349.228 329.628 261.626 293.665 329.628 349.228 329.628 293.665 261.626 293.665 195.998 329.628 329.628 349.228 391.995 391.995 349.228 329.628 293.665 261.626 261.626 293.665 329.628 293.665 261.626 261.626".split(" "),欢乐颂*/
+                i = 0,
+                o = 1,
+                dom,
+                a = "♪ ♩ ♫ ♬ ♭ € § ¶ ♯".split(" "),
+                selects = document.querySelectorAll(".site-title, #moblieGoTop, .site-branding, .searchbox, .changeSkin-gear, .menu-list li");
+            selects.forEach((select) => {
+                select.addEventListener("mouseenter", (e) => {
+                    if (dom) return;
+                    let r = t[i]
+                    if (!r) {
+                        (i = 0, r = t[i])
                     }
-                }()
-        })
+                    i += o
+                    const c = ctx.createOscillator(),
+                        l = ctx.createGain();
+                    c.connect(l)
+                    l.connect(ctx.destination)
+                    c.type = "sine"
+                    c.frequency.value = r
+                    l.gain.setValueAtTime(0, ctx.currentTime)
+                    l.gain.linearRampToValueAtTime(1, ctx.currentTime + .01)
+                    c.start(ctx.currentTime)
+                    l.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + 1)
+                    c.stop(ctx.currentTime + 1)
+                    const d = Math.round(7 * Math.random());
+                    const h = e.pageX
+                    const p = e.pageY - 5
+                    dom = document.createElement("b");
+                    dom.textContent = a[d]
+                    dom.style.zIndex = "99999";
+                    dom.style.top = p - 100 + "px";
+                    dom.style.left = h + "px";
+                    dom.style.position = "absolute";
+                    dom.style.color = "#FF6EB4";
+                    document.body.appendChild(dom);
+                    dom.animate([
+                        { top: p + "px" },
+                        { opacity: 0 }
+                    ], {
+                        duration: 500
+                    })
+                    setTimeout(() => {
+                        dom.remove();
+                        dom = null;
+                    }, 500)
+                    e.stopPropagation();
+
+                })
+            })
+        }
     }
 }
 const preload = document.getElementById("preload");
@@ -2042,3 +1977,71 @@ if (preload) {
         setTimeout(() => preload.remove(), 233);
     })
 }
+//afterDOMContentLoaded
+ready(function () {
+    initCoverBG()
+    //let checkskin_bg = (a) => a == "none" ? "" : a;
+    function addChangeBackgroundListener() {
+        const cached = document.querySelectorAll(".menu-list li");
+        cached.forEach(e => {
+            e.addEventListener("click", function () {
+                const tagid = this.id;
+                if (tagid == "dark-bg") {
+                    turnOnDarkMode(true)
+                } else {
+                    turnOffDarkMode(true)
+                    changeBG(tagid)
+                    localStorage.setItem("bgImgSetting", tagid)
+                }
+                closeSkinMenu();
+            });
+        });
+    }
+    function checkBgImgCookie() {
+        const bgurl = localStorage.getItem("bgImgSetting");
+        if (bgurl) {
+            changeBG(bgurl);
+        }
+    }
+    function closeSkinMenu() {
+        document.querySelector(".skin-menu").classList.remove("show");
+        setTimeout(function () {
+            if (document.querySelector(".changeSkin-gear") != null) {
+                document.querySelector(".changeSkin-gear").style.visibility = "visible";
+            }
+        }, 300);
+    }
+    addChangeBackgroundListener();
+    checkBgImgCookie()
+    checkDarkModeSetting();
+
+    let changskin = document.querySelector("#changskin"),
+        close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
+    changskin && changskin.addEventListener("click", function () {
+        document.querySelector(".skin-menu").classList.toggle("show");
+    })
+    close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
+        closeSkinMenu();
+    })
+    add_upload_tips();
+});
+ready(function () {
+    auto_height();
+    PE();
+    NH();
+    GT();
+    XLS();
+    XCS();
+    XCP();
+    CE();
+    MN();
+    IA();
+    LV();
+    hitokoto()
+    initFontControl()
+    getqqinfo()
+    bgButtonAddListener()
+    web_audio()
+    console.log("%c Mashiro %c", "background:#24272A; color:#ffffff", "", "https://2heng.xin/");
+    console.log("%c Github %c", "background:#24272A; color:#ffffff", "", "https://github.com/mashirozx");
+});
