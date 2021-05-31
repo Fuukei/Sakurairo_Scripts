@@ -422,7 +422,7 @@ function scrollBar() {
                 result = parseInt(s / (a - b) * 100),
                 cached = document.getElementById('bar');
             cached.style.width = result + "%";
-            switch (true) {
+            /* switch (true) {
                 case (result <= 19): c = '#cccccc'; break;
                 case (result <= 39): c = '#50bcb6'; break;
                 case (result <= 59): c = '#85c440'; break;
@@ -431,7 +431,8 @@ function scrollBar() {
                 case (result == 100): c = '#5aaadb'; break;
                 default: c = "orange";
             }
-            cached.style.background = c;
+            cached.style.background = c; */
+            //炫彩scrollbar好像不是很好看，又被php那边的样式强制覆盖了，就先注释掉
             let toc_container = document.querySelector(".toc-container"),
                 sc = document.querySelector(".site-content"),
                 skinMenu = document.querySelector(".skin-menu");
