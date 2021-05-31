@@ -83,6 +83,7 @@ mashiro_global.ini = new function () {
         checkSkinSecter();
         load_bangumi();
         sm();
+        NH();
     }
 }
 
