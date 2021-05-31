@@ -35,21 +35,27 @@ function change_font_listener(btn: HTMLButtonElement) {
 
 export function loadFontSetting() {
     const nowFont = localStorage.getItem("font_family")
-    if (!nowFont || nowFont == "serif") { 
-        document.body.classList.add("serif"); 
+    if (!nowFont || nowFont == "serif") {
+        document.body.classList.add("serif");
     }
     else if (nowFont == "sans-serif") {
-        btnSerif.classList.remove("selected");
-        btnSansSerif.classList.add("selected");
+        btnSerif && btnSerif.classList.remove("selected");
+        btnSansSerif&& btnSansSerif.classList.add("selected");
     }
 }
-function initListener() {
+function initDOMCache() {
     btnSerif = document.getElementsByClassName("control-btn-serif")[0] as HTMLButtonElement
     btnSansSerif = document.getElementsByClassName("control-btn-sans-serif")[0] as HTMLButtonElement;
+    return btnSansSerif && btnSerif
+}
+function initListener() {
     btnSerif.addEventListener('click', change_font_listener(btnSerif))
     btnSansSerif.addEventListener('click', change_font_listener(btnSansSerif))
 }
 export function initFontControl() {
-    initListener()
-    loadFontSetting()
+    const result = initDOMCache()
+    if (result) {
+        initListener()
+        loadFontSetting()
+    }
 }
