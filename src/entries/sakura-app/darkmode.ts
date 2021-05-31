@@ -37,14 +37,14 @@ function saveUserSetting(value: boolean) {
     //localStorage.setItem("bgImgSetting", "white-bg");
 }
 export function turnOnDarkMode(userTriggered?: boolean) {
-    document.documentElement.style.background = "#333";
+    document.documentElement.style.backgroundColor = "#333";
     (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "#333";
     document.body.classList.add("dark");
     if (userTriggered) saveUserSetting(true)
     informDarkModeChange(true)
 }
 export function turnOffDarkMode(userTriggered?: boolean) {
-    document.documentElement.style.background = "unset";
+    document.documentElement.style.backgroundColor = "";
     (document.getElementsByClassName("site-content")[0] as HTMLElement).style.backgroundColor = "rgba(255, 255, 255, .8)";
     document.body.classList.remove("dark");
     document.body.classList.remove("dynamic");
