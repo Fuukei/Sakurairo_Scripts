@@ -20,8 +20,8 @@ function mediaQueryCallback() {
     }
 }
 if (mashiro_option.dm_strategy === 'client') {
-    mediaQuery.removeEventListener('change', mediaQueryCallback)
-    mediaQuery.addEventListener('change', mediaQueryCallback)
+    mediaQuery.removeEventListener?mediaQuery.removeEventListener('change', mediaQueryCallback):mediaQuery.removeListener(mediaQueryCallback)
+    mediaQuery.addEventListener?mediaQuery.addEventListener('change', mediaQueryCallback):mediaQuery.addListener(mediaQueryCallback)
 }
 function saveUserSetting(value: boolean) {
     if (value == ifDarkmodeShouldOn()) {
