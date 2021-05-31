@@ -414,13 +414,12 @@ function original_emoji_click() {
 original_emoji_click();
 
 function scrollBar() {
-    if (document.body.clientWidth > 860) {
+    const cached = document.getElementById('bar')
         window.addEventListener("scroll", () => {
-            let s = document.documentElement.scrollTop || document.body.scrollTop,
+            const s = document.documentElement.scrollTop || document.body.scrollTop,
                 a = document.documentElement.scrollHeight || document.body.scrollHeight,
-                b = window.innerHeight, c,
-                result = parseInt(s / (a - b) * 100),
-                cached = document.getElementById('bar');
+                b = window.innerHeight, /* c, */
+                result = parseInt(s / (a - b) * 100)
             cached.style.width = result + "%";
             /* switch (true) {
                 case (result <= 19): c = '#cccccc'; break;
@@ -441,7 +440,7 @@ function scrollBar() {
             }
             skinMenu && skinMenu.classList.remove("show");
         })
-    }
+    
 }
 
 function checkSkinSecter() {
