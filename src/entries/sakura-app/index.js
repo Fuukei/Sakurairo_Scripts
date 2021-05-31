@@ -489,7 +489,7 @@ function changeBG(bgid) {
     let bg_url;
     switch (bgid) {
         case "white-bg":
-            if (mashiro_option.rnd_site_bg) {
+            if (mashiro_option.site_bg_as_cover) {
                 //if(mashiro_option.cache_cover && now_bg_url.match(/^url\("blob:/)) return
                 bg_url = getAPIPath()
             } else {

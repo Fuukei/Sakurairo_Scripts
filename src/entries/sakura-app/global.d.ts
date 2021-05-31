@@ -57,7 +57,6 @@ declare namespace mashiro_option {
      */
     const cache_cover: boolean
     const site_bg_as_cover: boolean
-    const rnd_site_bg: boolean
 }
 declare namespace Poi {
     let pjax: string

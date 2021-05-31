@@ -16,7 +16,7 @@ const centerbg: HTMLElement = document.querySelector(".centerbg")
 /**
  * 更改封面背景
  */
-const changeCoverBG = mashiro_option.rnd_site_bg ? (url: string) => {
+const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
 } :
     centerbg ? (url: string) => {
