@@ -1614,6 +1614,7 @@ function XCS() {
     if (form) {
         let statusSubmitting = false
         form.addEventListener('submit', function (event) {
+            event.stopPropagation()
             event.preventDefault();
             if (statusSubmitting) return
             const butterBarRef = createButterbar("提交中(Commiting)....", true)
@@ -1724,7 +1725,6 @@ function XCS() {
                     }
                 }
             }); */
-            return false;
         })
     }
 }
