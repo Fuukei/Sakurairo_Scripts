@@ -15,7 +15,7 @@
  * @date 2019.8.3
  * *** ***
  */
-import { nextBG, preBG, initCoverBG, getAPIPath } from './coverBackground'
+import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
 import buildAPI from './api'
 import { setCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
@@ -481,7 +481,7 @@ function no_right_click() {
 }
 no_right_click();
 
-function changeBG(bgid) {
+async function changeBG(bgid) {
     //@sideeffect
     mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
     checkSkinSecter();
@@ -491,7 +491,7 @@ function changeBG(bgid) {
         case "white-bg":
             if (mashiro_option.site_bg_as_cover) {
                 //if(mashiro_option.cache_cover && now_bg_url.match(/^url\("blob:/)) return
-                bg_url = getAPIPath()
+                bg_url = await getCoverPath()
             } else {
                 bg_url = mashiro_option.skin_bg0;
             }
