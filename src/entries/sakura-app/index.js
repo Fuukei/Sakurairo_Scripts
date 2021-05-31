@@ -485,11 +485,12 @@ function changeBG(bgid) {
     //@sideeffect
     mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
     checkSkinSecter();
-
+    const now_bg_url = document.body.style.backgroundImage
     let bg_url;
     switch (bgid) {
         case "white-bg":
             if (mashiro_option.rnd_site_bg) {
+                //if(mashiro_option.cache_cover && now_bg_url.match(/^url\("blob:/)) return
                 bg_url = getAPIPath()
             } else {
                 bg_url = mashiro_option.skin_bg0;
@@ -508,11 +509,8 @@ function changeBG(bgid) {
             bg_url = mashiro_option.skin_bg4;
             break;
     }
-    const now_bg_url = document.body.style.backgroundImage
     if (now_bg_url != bg_url) {
-        if (!mashiro_option.cache_cover || !now_bg_url.match(/^url\("blob:/)) {
             document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
-        }
     }
 }
 
