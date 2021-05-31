@@ -14,7 +14,7 @@ export function createButterbar(message: string, keep?: boolean | number) {
     div.classList.add('butterBar', 'butterBar--center')
     const p = document.createElement('p')
     p.classList.add('butterBar-message')
-    p.appendChild(document.createTextNode(message))
+    p.innerHTML=message
     div.appendChild(p)
     document.body.appendChild(div)
     if (keep !== true) setTimeout(() => { clearButterbar() }, typeof keep == 'number' ? keep : 6000);

@@ -32,7 +32,7 @@ function copytext(e: ClipboardEvent) {
         const selectionText = selection.toString()
         if (selectionText.length > 30) {
             setClipboardText(e, selectionText);
-            createButterbar("复制成功！\nCopied to clipboard successfully!", 1000);
+            createButterbar("复制成功！<br>Copied to clipboard successfully!", 1000);
         }
     }
 }
