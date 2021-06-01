@@ -7,14 +7,12 @@ function Serif() {
         createButterbar("将从网络加载字体，流量请注意");
     }
     document.body.classList.add("serif");
-    btnSerif && btnSerif.classList.add("selected");
-    btnSansSerif && btnSansSerif.classList.remove("selected");
+    setButtonState('serif')
     localStorage.setItem("font_family", "serif");
 }
 function SansSerif() {
     document.body.classList.remove("serif");
-    btnSerif && btnSerif.classList.remove("selected");
-    btnSansSerif && btnSansSerif.classList.add("selected");
+    setButtonState('sans-serif')
     localStorage.setItem("font_family", "sans-serif");
 }
 function change_font_listener(btn: HTMLButtonElement) {
@@ -38,9 +36,14 @@ export function loadFontSetting() {
     if (!nowFont || nowFont == "serif") {
         document.body.classList.add("serif");
     }
-    else if (nowFont == "sans-serif") {
-        btnSerif && btnSerif.classList.remove("selected");
-        btnSansSerif&& btnSansSerif.classList.add("selected");
+}
+function setButtonState(font_name?: string) {
+    if (font_name ?? localStorage.getItem("font_family") == 'sans-serif') {
+        btnSerif.classList.remove("selected");
+        btnSansSerif.classList.add("selected");
+    } else {
+        btnSansSerif.classList.remove("selected");
+        btnSerif.classList.add("selected");
     }
 }
 function initDOMCache() {
@@ -54,8 +57,10 @@ function initListener() {
 }
 export function initFontControl() {
     const result = initDOMCache()
+    if (!result) localStorage.removeItem('font_family') //样式菜单“简单”时，使用默认字体 “A”
+    loadFontSetting()
     if (result) {
+        setButtonState()
         initListener()
-        loadFontSetting()
     }
 }
