@@ -1997,11 +1997,8 @@ ready(function () {
             });
         });
     }
-    function checkBgImgCookie() {
-        const bgurl = localStorage.getItem("bgImgSetting");
-        if (bgurl) {
-            changeBG(bgurl);
-        }
+    function checkBgImgSetting() {
+        changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
     }
     function closeSkinMenu() {
         document.querySelector(".skin-menu").classList.remove("show");
@@ -2012,7 +2009,7 @@ ready(function () {
         }, 300);
     }
     addChangeBackgroundListener();
-    checkBgImgCookie()
+    checkBgImgSetting()
     checkDarkModeSetting();
 
     let changskin = document.querySelector("#changskin"),
