@@ -2,13 +2,11 @@ import { get, set, del } from './cache'
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
-    cleanBlobUrl()
     changeCoverBG(await getCoverPath(true))
     bgn++;
 }
 
 export async function preBG() {
-    cleanBlobUrl()
     bgn--;
     changeCoverBG(await getCoverPath(true))
 }
