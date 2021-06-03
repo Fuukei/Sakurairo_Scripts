@@ -1740,12 +1740,6 @@ function XCP() {
         }
     });
 }
-async function IA() {
-    const POWERMODE = (await import('activate-power-mode')).default
-    POWERMODE.colorful = true;
-    POWERMODE.shake = false;
-    document.body.addEventListener('input', POWERMODE)
-}
 function GT() {
     let mb_to_top = document.querySelector("#moblieGoTop"),
         changskin = document.querySelector("#changskin");
@@ -1977,7 +1971,6 @@ ready(function () {
     XCP();
     CE();
     MN();
-    IA();
     LV();
     hitokoto()
     initFontControl()
