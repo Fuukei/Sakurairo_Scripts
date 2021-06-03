@@ -70,7 +70,7 @@ mashiro_global.ini = new function () {
         load_bangumi();
     }
 }
-if(mashiro_option.land_at_home){
+if(!mashiro_option.land_at_home){
     import('./post/index').then(({whileLoaded})=>{
         whileLoaded()
     })
