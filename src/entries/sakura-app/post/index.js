@@ -1,3 +1,4 @@
+import article_attach from './article_attach.js'
 async function IA() {
     const POWERMODE = (await import('activate-power-mode')).default
     POWERMODE.colorful = true;
@@ -342,10 +343,13 @@ function XCP() {
     });
 }
 function whilePopstate(){
+    article_attach()
 }
+    article_attach()
     XCS()
     XCP()
     IA()
+        article_attach()
         code_highlight_style()
         click_to_view_image()
     window.addEventListener('popstate',whilePopstate)
