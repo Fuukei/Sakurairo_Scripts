@@ -1,8 +1,13 @@
 import article_attach from './article_attach.js'
+import { slideToggle } from '../../../module/util'
+import { lazyload } from 'lazyload'
+import { createButterbar } from '../butterbar'
 import POWERMODE from 'activate-power-mode'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
+import { isInDarkMode } from './darkmode'
+
 function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
