@@ -466,7 +466,14 @@ function attach_image() {
         };
     }));
 }
-
+function smileBoxToggle() {
+    let et = document.getElementById("emotion-toggle");
+    et && et.addEventListener('click', function () {
+        document.querySelector('.emotion-toggle-off').classList.toggle("emotion-hide");
+        document.querySelector('.emotion-toggle-on').classList.toggle("emotion-show");
+        document.querySelector('.emotion-box').classList.toggle("emotion-box-show");
+    })
+}
 /**
  * 添加上传图片的提示
  */
@@ -517,6 +524,7 @@ export function whilePjaxComplete() {
 sm()
         original_emoji_click()
         copy_code_block()
+        smileBoxToggle()
     } catch (e) {
         console.warn(e)
 
@@ -529,4 +537,5 @@ export function whileLoaded() {
 
 sm()
     original_emoji_click()
+    smileBoxToggle()
 }

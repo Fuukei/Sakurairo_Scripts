@@ -421,7 +421,6 @@ const pjaxInit = function () {
         openNav[0].style.height = '50px';
     }
     bgButtonAddListener()
-    smileBoxToggle();
     timeSeriesReload();
     add_copyright();
     tableOfContentScroll(true);
@@ -445,16 +444,6 @@ comta.forEach((e) => {
         e.parentNode.style.display = "none";
     })
 })
-function smileBoxToggle() {
-    let et = document.getElementById("emotion-toggle");
-    et && et.addEventListener('click', function () {
-        document.querySelector('.emotion-toggle-off').classList.toggle("emotion-hide");
-        document.querySelector('.emotion-toggle-on').classList.toggle("emotion-show");
-        document.querySelector('.emotion-box').classList.toggle("emotion-box-show");
-    })
-}
-smileBoxToggle();
-
 add_copyright()
 
 
