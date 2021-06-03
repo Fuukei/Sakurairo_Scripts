@@ -1260,6 +1260,7 @@ ready(function () {
     initFontControl()
     bgButtonAddListener()
     web_audio()
+    preload_screen()
     if (!mashiro_option.land_at_home) {
         import('./post/index').then(({ whileReady }) => {
             whileReady()
@@ -1268,6 +1269,5 @@ ready(function () {
         })
         return
     }
-    preload_screen()
     about_us()
 });
