@@ -1247,8 +1247,7 @@ ready(function () {
     close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
         closeSkinMenu();
     })
-});
-ready(function () {
+
     auto_height();
     PE();
     NH();
