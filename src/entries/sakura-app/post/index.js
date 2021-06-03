@@ -345,13 +345,25 @@ function XCP() {
 function whilePopstate(){
     article_attach()
 }
+export function whileReady() {
     article_attach()
     XCS()
     XCP()
     IA()
+}
+export function whilePjaxComplete() {
+    try {
         article_attach()
         code_highlight_style()
         click_to_view_image()
+    } catch (e) {
+        console.warn(e)
+
+    }
+}
+export function whileLoaded() {
     window.addEventListener('popstate',whilePopstate)
     click_to_view_image()
     code_highlight_style()
+
+}

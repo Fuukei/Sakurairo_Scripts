@@ -73,7 +73,11 @@ mashiro_global.ini = new function () {
         sm();
     }
 }
-
+if(mashiro_option.land_at_home){
+    import('./post/index').then(({whileLoaded})=>{
+        whileLoaded()
+    })
+}
 function post_list_show_animation() {
     if (document.querySelector('article') && document.querySelector('article').classList.contains("post-list-thumb")) {
         const options = {
@@ -1409,6 +1413,11 @@ if (Poi.pjax) {
         sm();
         NH();
         //#endregion
+        if(!mashiro_option.land_at_home){
+            import('./post/index').then(({whilePjaxComplete})=>{
+                whilePjaxComplete()
+            })
+        }
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
@@ -1584,6 +1593,14 @@ ready(function () {
     getqqinfo()
     bgButtonAddListener()
     web_audio()
+    if (!mashiro_option.land_at_home) {
+        import('./post/index').then(({ whileReady }) => {
+            whileReady()
+        }).finally(() => {
+            about_us()
+        })
+        return
+    }
     preload_screen()
     about_us()
 });
