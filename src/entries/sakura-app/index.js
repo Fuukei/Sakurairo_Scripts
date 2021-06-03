@@ -72,17 +72,6 @@ mashiro_global.ini = new function () {
         load_bangumi();
         sm();
     }
-    this.pjax = function () { // pjax reload functions (pjax 重载函数)
-        pjaxInit();
-        post_list_show_animation();
-        copy_code_block();
-        web_audio();
-        coverVideoIni();
-        checkSkinSecter();
-        load_bangumi();
-        sm();
-        NH();
-    }
 }
 
 /**code highlight */
@@ -1806,7 +1795,17 @@ if (Poi.pjax) {
         CE();
         if (mashiro_option.land_at_home) XLS();
         if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.done() })
-        mashiro_global.ini.pjax();
+        //#region mashiro_global.ini.pjax();
+        pjaxInit();
+        post_list_show_animation();
+        copy_code_block();
+        web_audio();
+        coverVideoIni();
+        checkSkinSecter();
+        load_bangumi();
+        sm();
+        NH();
+        //#endregion
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
