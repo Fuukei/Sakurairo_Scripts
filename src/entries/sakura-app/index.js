@@ -59,22 +59,6 @@ mashiro_global.variables = new function () {
     this.has_hls = false;
     this.skinSecter = true;
 }
-mashiro_global.ini = new function () {
-    this.normalize = function () { // initial functions when page first load (首次加载页面时的初始化函数)
-        lazyload();
-        post_list_show_animation();
-        web_audio();
-        coverVideoIni();
-        checkSkinSecter();
-        scrollBar();
-        load_bangumi();
-    }
-}
-if(!mashiro_option.land_at_home){
-    import('./post/index').then(({whileLoaded})=>{
-        whileLoaded()
-    })
-}
 function post_list_show_animation() {
     if (document.querySelector('article') && document.querySelector('article').classList.contains("post-list-thumb")) {
         const options = {
@@ -469,7 +453,6 @@ function load_bangumi() {
     }
 }
 
-mashiro_global.ini.normalize();
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
@@ -1168,7 +1151,14 @@ function web_audio() {
         }
     }
 }
-
+//#region mashiro_global.ini.normalize();
+lazyload();
+post_list_show_animation();
+coverVideoIni();
+checkSkinSecter();
+scrollBar();
+load_bangumi();
+//#endregion
 //afterDOMContentLoaded
 function addChangeBackgroundListener() {
     const cached = document.querySelectorAll(".menu-list li");
