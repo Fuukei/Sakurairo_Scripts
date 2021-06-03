@@ -63,11 +63,9 @@ function headertop_down() {
         behavior: "smooth"
     });
 }
-import {get_gravatar} from './gravatar'
 window.imgError = imgError
 window.cmt_showPopup = cmt_showPopup
 window.coverVideo = coverVideo
 window.killCoverVideo = killCoverVideo
 window.mail_me = mail_me
 window.headertop_down = headertop_down
-window.get_gravatar = get_gravatar
