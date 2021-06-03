@@ -194,18 +194,6 @@ function add_upload_tips() {
     });
 }
 
-function click_to_view_image() {
-    const comment_inline = document.getElementsByClassName('comment_inline_img');
-    if (!comment_inline.length) return;
-    document.getElementsByClassName("comments-main")[0].addEventListener("click", function (e) {
-        if (e.target.classList.contains("comment_inline_img")) {
-            window.open(e.target.src);
-        }
-    })
-}
-click_to_view_image();
-
-
 function original_emoji_click() {
     const emoji = document.getElementsByClassName('emoji-item');
     if (!emoji.length) return;
@@ -507,7 +495,6 @@ tableOfContentScroll(true);
 const pjaxInit = function () {
     add_upload_tips();
     no_right_click();
-    click_to_view_image();
     original_emoji_click();
     loadFontSetting()
     let _p = document.getElementsByTagName("p");

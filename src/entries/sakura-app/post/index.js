@@ -155,6 +155,15 @@ const code_highlight_style = (() => {
         }
     }
 })()
+function click_to_view_image() {
+    const comment_inline = document.getElementsByClassName('comment_inline_img');
+    if (!comment_inline.length) return;
+    document.getElementsByClassName("comments-main")[0].addEventListener("click", function (e) {
+        if (e.target.classList.contains("comment_inline_img")) {
+            window.open(e.target.src);
+        }
+    })
+}
 function clean_upload_images() {
     document.getElementById("upload-img-show").innerHTML = '';
 }
@@ -336,4 +345,6 @@ function XCP() {
     XCP()
     IA()
         code_highlight_style()
+        click_to_view_image()
+    click_to_view_image()
     code_highlight_style()
