@@ -25,6 +25,7 @@ import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
 import { onlyOnceATime, min } from '../../module/util'
+import about_us from './about_us'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     const UA = navigator.userAgent
@@ -510,7 +511,7 @@ async function changeBG(bgid) {
             break;
     }
     if (now_bg_url != bg_url) {
-            document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
+        document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
     }
 }
 
@@ -1141,14 +1142,14 @@ function splay() {
     s.pause();
 }
 function liveplay() {
-    if (s.oncanplay != undefined && document.querySelector(".haslive")) {
+    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {
         if (document.querySelector(".videolive")) {
             splay();
         }
     }
 }
 function livepause() {
-    if (s.oncanplay != undefined && document.querySelector(".haslive")) {
+    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {
         spause();
         let video_stu = document.getElementsByClassName("video-stu")[0];
         video_stu.style.bottom = "0px";
@@ -1805,7 +1806,7 @@ function GT() {
 }
 
 //#endregion Siren
-function hitokoto(){
+function hitokoto() {
     if (mashiro_option.yiyan) {
         const yiyan = document.getElementById("footer_yiyan");
         if (yiyan) {
@@ -2039,6 +2040,5 @@ ready(function () {
     getqqinfo()
     bgButtonAddListener()
     web_audio()
-    console.log("%c Mashiro %c", "background:#24272A; color:#ffffff", "", "https://2heng.xin/");
-    console.log("%c Github %c", "background:#24272A; color:#ffffff", "", "https://github.com/mashirozx");
+    about_us()
 });
