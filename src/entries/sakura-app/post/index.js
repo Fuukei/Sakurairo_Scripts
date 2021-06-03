@@ -416,6 +416,38 @@ function sm() {
         }
     })
 }
+function tableOfContentScroll(flag) {
+    if (document.body.clientWidth <= 1200) {
+        return;
+    } else if (!document.querySelector("div.have-toc") && !document.querySelector("div.has-toc")) {
+        let ele = document.getElementsByClassName("toc-container")[0];
+        if (ele) {
+            ele.remove();
+            ele = null;
+        }
+    } else {
+        if (flag) {
+            let id = 1,
+                heading_fix = mashiro_option.entry_content_theme == "sakura" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment-img") ? -75 : 200) : 375) : window.innerHeight / 2;
+            let _els = document.querySelectorAll('.entry-content,.links');
+            for (let i = 0; i < _els.length; i++) {
+                let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
+                for (let j = 0; j < _el.length; j++) {
+                    _el[j].id = "toc-head-" + id;
+                    id++;
+                }
+            }
+            import('tocbot').then(({ default: tocbot }) => {
+                tocbot.init({
+                    tocSelector: '.toc',
+                    contentSelector: ['.entry-content', '.links'],
+                    headingSelector: 'h1, h2, h3, h4, h5',
+                    headingsOffset: heading_fix - window.innerHeight / 2,
+                });
+            })
+        }
+    }
+}
 /**
  * 上传图片提示
  */
@@ -525,6 +557,7 @@ export function whilePjaxComplete() {
         add_upload_tips()
         article_attach()
         code_highlight_style()
+        tableOfContentScroll(true);
         click_to_view_image()
         getqqinfo()
 sm()
@@ -544,4 +577,5 @@ export function whileLoaded() {
 sm()
     original_emoji_click()
     smileBoxToggle()
+    tableOfContentScroll(true);
 }
