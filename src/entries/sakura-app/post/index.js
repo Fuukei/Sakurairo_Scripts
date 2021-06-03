@@ -170,6 +170,15 @@ function click_to_view_image() {
 function clean_upload_images() {
     document.getElementById("upload-img-show").innerHTML = '';
 }
+function original_emoji_click() {
+    const emoji = document.getElementsByClassName('emoji-item');
+    if (!emoji.length) return;
+    document.querySelector(".menhera-container").addEventListener("click", function (e) {
+        if (e.target.classList.contains("emoji-item")) {
+            grin(e.target.innerText, "custom", "`", "` ");
+        }
+    })
+}
 function XCS() {
     const __list = 'commentwrap';
     const form = document.getElementById("commentform")
@@ -407,6 +416,7 @@ export function whilePjaxComplete() {
         click_to_view_image()
         getqqinfo()
 sm()
+        original_emoji_click()
     } catch (e) {
         console.warn(e)
 
@@ -418,4 +428,5 @@ export function whileLoaded() {
     code_highlight_style()
 
 sm()
+    original_emoji_click()
 }

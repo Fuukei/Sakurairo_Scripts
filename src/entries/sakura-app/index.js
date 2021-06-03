@@ -197,17 +197,6 @@ function add_upload_tips() {
     });
 }
 
-function original_emoji_click() {
-    const emoji = document.getElementsByClassName('emoji-item');
-    if (!emoji.length) return;
-    document.querySelector(".menhera-container").addEventListener("click", function (e) {
-        if (e.target.classList.contains("emoji-item")) {
-            grin(e.target.innerText, "custom", "`", "` ");
-        }
-    })
-}
-original_emoji_click();
-
 function scrollBar() {
     if (document.body.clientWidth > 860) {
         window.addEventListener("scroll", () => {
@@ -498,7 +487,6 @@ tableOfContentScroll(true);
 const pjaxInit = function () {
     add_upload_tips();
     no_right_click();
-    original_emoji_click();
     loadFontSetting()
     let _p = document.getElementsByTagName("p");
     for (let i = 0; i < _p.length; i++) {
