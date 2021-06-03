@@ -1,5 +1,6 @@
 import article_attach from './article_attach.js'
 import POWERMODE from 'activate-power-mode'
+import './global-func'
 function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
