@@ -53,7 +53,14 @@ const pjax = (() => {
         })
     )
 })()
-
+if(!mashiro_option.land_at_home){
+    import(/* webpackPrefetch: true */'./post/index').then(({whileLoaded})=>{
+        whileLoaded()
+    })
+}
+loadCSS(mashiro_option.jsdelivr_css_src);
+loadCSS(mashiro_option.entry_content_style_src);
+loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 mashiro_global.variables = new function () {
     this.has_hls = false;
@@ -1179,7 +1186,7 @@ function addChangeBackgroundListener() {
 function checkBgImgSetting() {
     changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
 }
-addChangeBackgroundListener();
+
 checkBgImgSetting()
 checkDarkModeSetting();
 
@@ -1193,6 +1200,7 @@ function closeSkinMenu() {
 }
 ready(function () {
     initCoverBG()
+    addChangeBackgroundListener();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
     let changskin = document.querySelector("#changskin"),
         close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
