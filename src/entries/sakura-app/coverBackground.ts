@@ -2,13 +2,11 @@ import { get, set, del } from './cache'
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
-    cleanBlobUrl()
     changeCoverBG(await getCoverPath(true))
     bgn++;
 }
 
 export async function preBG() {
-    cleanBlobUrl()
     bgn--;
     changeCoverBG(await getCoverPath(true))
 }
@@ -32,8 +30,8 @@ function getAPIPath(useBGN = false) {
         return cover_api_url.toString() + (useBGN ? (cover_api_url.search === '' ? "?" : '&') + bgn : '');
     }
 }
-export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) => {
-    return get('cover').then(coverBG => {
+export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) => 
+     get('cover').then(coverBG => {
         if (coverBG) {
             if (typeof coverBG == 'object' && coverBG instanceof Blob) {
                 cleanBlobUrl()
@@ -47,7 +45,7 @@ export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) 
     }).finally(() => {
         fetchAndCache(useBGN)
     })
-} : getAPIPath
+ : getAPIPath
 async function fetchAndCache(useBGN = false) {
     try {
         const resp = await fetch(getAPIPath(useBGN));

@@ -19,14 +19,12 @@ import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
 import buildAPI from './api'
 import { setCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
-import addComment from './AddComment'
 import { createButterbar } from './butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
-import { onlyOnceATime, min } from '../../module/util'
+import { onlyOnceATime, min,ready ,slideToggle } from '../../module/util'
 import about_us from './about_us'
-import { ready ,slideToggle} from '../../module/util'
 import preload_screen from './preload_screen'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
@@ -54,188 +52,19 @@ const pjax = (() => {
         })
     )
 })()
-
+if(!mashiro_option.land_at_home){
+    import(/* webpackPrefetch: true */'./post/index').then(({whileLoaded})=>{
+        whileLoaded()
+    })
+}
+loadCSS(mashiro_option.jsdelivr_css_src);
+loadCSS(mashiro_option.entry_content_style_src);
+loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 mashiro_global.variables = new function () {
     this.has_hls = false;
     this.skinSecter = true;
 }
-mashiro_global.ini = new function () {
-    this.normalize = function () { // initial functions when page first load (首次加载页面时的初始化函数)
-        lazyload();
-        post_list_show_animation();
-        copy_code_block();
-        web_audio();
-        coverVideoIni();
-        checkSkinSecter();
-        scrollBar();
-        load_bangumi();
-        sm();
-    }
-    this.pjax = function () { // pjax reload functions (pjax 重载函数)
-        pjaxInit();
-        post_list_show_animation();
-        copy_code_block();
-        web_audio();
-        coverVideoIni();
-        checkSkinSecter();
-        load_bangumi();
-        sm();
-        NH();
-    }
-}
-
-/**code highlight */
-
-const code_highlight_style = (() => {
-    function gen_top_bar(pre, code_a) {
-        const attributes = {
-            'autocomplete': 'off',
-            'autocorrect': 'off',
-            'autocapitalize': 'off',
-            'spellcheck': 'false',
-            'contenteditable': 'false',
-            'design': 'by Mashiro'
-        }
-        if (!pre.children[0]) return
-        const ele_name = pre.children[0].className
-        let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
-        if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
-        pre.classList.add("highlight-wrap");
-        for (const t in attributes) {
-            pre.setAttribute(t, attributes[t]);
-        }
-        code_a.setAttribute('data-rel', lang.toUpperCase());
-    }
-    async function importHighlightjs() {
-        try {
-            if (!window.hljs) {
-                window.hljs = await import('highlight.js')
-                await import('highlightjs-line-numbers.js')
-            }
-        } catch (e) { console.warn(e) }
-    }
-    async function hljs_process(pre, code) {
-        try {
-            await importHighlightjs()
-            for (let i = 0; i < code.length; i++) {
-                hljs.highlightBlock(code[i]);
-            }
-            for (let i = 0; i < pre.length; i++) {
-                gen_top_bar(pre[i], code[i]);
-            }
-            hljs.initLineNumbersOnLoad();
-            const ec = document.querySelector(".entry-content");
-            ec && ec.addEventListener("click", function (e) {
-                //类型问题
-                //可以考虑换成 ec
-                if (!e.target.classList.contains("highlight-wrap")) return;
-                e.target.classList.toggle("code-block-fullscreen");
-                document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
-            })
-        } catch (e) {
-            console.warn(e)
-        }
-    }
-    const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path ?? 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/'
-    let current_prism_css = undefined
-    const themeCSS = (() => {
-        const { light, dark } = mashiro_option.code_highlight_prism?.theme ?? {}
-        const theme = {
-            light: light ?? 'themes/prism.min.css',
-            dark: dark ?? 'themes/prism-tomorrow.min.css',
-        }
-        for (const theme_name in theme) {
-            theme[theme_name] = new URL(theme[theme_name], PrismBaseUrl).toString()
-        }
-        return theme
-    })()
-    function loadPrismCSS(darkmodeOn) {
-        const nextCSS = darkmodeOn ? themeCSS.dark : themeCSS.light
-        if (current_prism_css) {
-            if (current_prism_css.href !== nextCSS) {
-                const nextCSSElement = loadCSS(nextCSS)
-                nextCSSElement.addEventListener('load', () => {
-                    current_prism_css.remove()
-                    current_prism_css = nextCSSElement
-                })
-            }
-        } else {
-            current_prism_css = loadCSS(nextCSS)
-        }
-    }
-    async function importPrismJS() {
-        try {
-            if (!window.Prism) {
-                const { default: Prism } = await import('prismjs')
-                window.Prism = Prism
-            }
-            //必备插件全家桶
-            loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
-            loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-            loadPrismCSS(isInDarkMode())
-            document.addEventListener('darkmode', (e) => {
-                loadPrismCSS(e.detail)
-            })
-            await Promise.all([
-                import('prismjs/plugins/autoloader/prism-autoloader'),
-                import('prismjs/plugins/previewers/prism-previewers'),
-                import('prismjs/plugins/toolbar/prism-toolbar')
-                    .then(() => import('prismjs/plugins/show-language/prism-show-language'))
-            ])
-            Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
-        } catch (reason) {
-            console.warn(reason)
-        }
-    }
-    function loadPrismPluginLineNumbers() {
-        loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
-        return import('prismjs/plugins/line-numbers/prism-line-numbers')
-    }
-    /**
-     * 
-     * @param {NodeListOf<HTMLElement>} code document.querySelectorAll("pre code")
-     */
-    async function prism_process(code) {
-        try {
-            await importPrismJS()
-            if (mashiro_option.code_highlight_prism.line_number_all) {
-                document.querySelector('.entry-content').classList.add('line-numbers')
-                await loadPrismPluginLineNumbers()
-            }
-            code.forEach(async ele => {
-                if (ele.parentElement.classList.contains('line-numbers')) {
-                    await loadPrismPluginLineNumbers()
-                }
-                if (ele.classList.contains('match-braces')) {
-                    await import('prismjs/plugins/match-braces/prism-match-braces')
-                    loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
-                }
-                Prism.highlightElement(ele)
-            })
-            Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
-        } catch (error) {
-            console.warn(error)
-        }
-    }
-
-    return async function code_highlight_style() {
-        //hljs.requireLanguage('javascript',await import('highlight.js/lib/languages/javascript'))
-        const pre = document.getElementsByTagName("pre"),
-            code = document.querySelectorAll("pre code");
-        if (!pre.length) return;
-        switch (mashiro_option.code_highlight) {
-            case 'hljs':
-                return hljs_process(pre, code)
-            case 'prism':
-                return prism_process(code)
-            case 'custom': return
-            default:
-                console.warn(`mashiro_option.code_highlight这咋填的是个${mashiro_option.code_highlight}啊🤔`)
-        }
-    }
-})()
-
 function post_list_show_animation() {
     if (document.querySelector('article') && document.querySelector('article').classList.contains("post-list-thumb")) {
         const options = {
@@ -271,118 +100,6 @@ function post_list_show_animation() {
     }
 }
 import { initFontControl, loadFontSetting } from './font_control'
-
-code_highlight_style();
-/**
- * 上传图片提示
- */
-function attach_image() {
-    let cached = document.getElementsByClassName("insert-image-tips")[0],
-        upload_img = document.getElementById('upload-img-file');
-    if (!upload_img) return;
-    upload_img.addEventListener("change", (function () {
-        if (this.files.length > 10) {
-            createButterbar("每次上传上限为10张.<br>10 files max per request.");
-            return 0;
-        }
-        for (let i = 0; i < this.files.length; i++) {
-            if (this.files[i].size >= 5242880) {
-                alert('图片上传大小限制为5 MB.\n5 MB max per file.\n\n「' + this.files[i].name + '」\n\n这张图太大啦~请重新上传噢！\nThis image is too large~Please reupload!');
-                return;
-            }
-        }
-        for (let i = 0; i < this.files.length; i++) {
-            let f = this.files[i],
-                formData = new FormData(),
-                xhr = new XMLHttpRequest();
-            formData.append('cmt_img_file', f);
-            xhr.addEventListener('loadstart', function () {
-                cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
-                createButterbar("上传中...<br>Uploading...");
-            });
-            xhr.open("POST", buildAPI(Poi.api + 'sakura/v1/image/upload'), true);
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
-                    cached.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>';
-                    setTimeout(function () {
-                        cached.innerHTML = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
-                    }, 1000);
-                    let res = JSON.parse(xhr.responseText);
-                    if (res.status == 200) {
-                        let get_the_url = res.proxy;
-                        document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/theme/colorful/load/inload.svg" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
-                        lazyload();
-                        createButterbar("图片上传成功~<br>Uploaded successfully~");
-                        grin(get_the_url, type = 'Img');
-                    } else {
-                        createButterbar("上传失败！<br>Uploaded failed!<br> 文件名/Filename: " + f.name + "<br>code: " + res.status + "<br>" + res.message, 3000);
-                    }
-                } else if (xhr.readyState == 4) {
-                    cached.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-                    alert("上传失败，请重试.\nUpload failed, please try again.");
-                    setTimeout(function () {
-                        cached.innerHTML = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
-                    }, 1000);
-                }
-            }
-        };
-    }));
-}
-
-
-function clean_upload_images() {
-    document.getElementById("upload-img-show").innerHTML = '';
-}
-/**
- * 添加上传图片的提示
- */
-function add_upload_tips() {
-    const form_submit = document.querySelector('.form-submit #submit');
-    if (form_submit == null) return;
-    if (!mashiro_option.comment_upload_img) {
-        form_submit.style.width = '100%'
-        return
-    }
-    form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa fa-picture-o" aria-hidden="true"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
-    attach_image();
-
-    const file_submit = document.getElementById('upload-img-file'),
-        hover = document.getElementsByClassName('insert-image-tips')[0],
-        Tip = document.getElementById('uploadTipPopup');
-    if (!file_submit) return;
-    file_submit.addEventListener("mouseenter", function () {
-        hover.classList.toggle('insert-image-tips-hover');
-        Tip.classList.toggle('show');
-    });
-    file_submit.addEventListener("mouseleave", function () {
-        hover.classList.toggle('insert-image-tips-hover');
-        Tip.classList.toggle('show');
-    });
-}
-
-function click_to_view_image() {
-    const comment_inline = document.getElementsByClassName('comment_inline_img');
-    if (!comment_inline.length) return;
-    document.getElementsByClassName("comments-main")[0].addEventListener("click", function (e) {
-        if (e.target.classList.contains("comment_inline_img")) {
-            window.open(e.target.src);
-        }
-    })
-}
-click_to_view_image();
-
-
-function original_emoji_click() {
-    const emoji = document.getElementsByClassName('emoji-item');
-    if (!emoji.length) return;
-    document.querySelector(".menhera-container").addEventListener("click", function (e) {
-        if (e.target.classList.contains("emoji-item")) {
-            grin(e.target.innerText, "custom", "`", "` ");
-        }
-    })
-}
-original_emoji_click();
 
 function scrollBar() {
     if (document.body.clientWidth > 860) {
@@ -440,7 +157,7 @@ function checkSkinSecter() {
         }
     }
 }
-import { checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
+import { checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode,  } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -624,73 +341,13 @@ function coverVideoIni() {
         }
     }
 }
-
-function copy_code_block() {
-    const ele = document.querySelectorAll("pre code");
-    if (ele.length > 0) {
-        for (let j = 0; j < ele.length; j++) {
-            ele[j].setAttribute('id', 'code-block-' + j);
-            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
-        };
-        import('clipboard').then(({ default: ClipboardJS }) => {
-            new ClipboardJS('.copy-code');
-        })
-    }
-}
-
-function tableOfContentScroll(flag) {
-    if (document.body.clientWidth <= 1200) {
-        return;
-    } else if (!document.querySelector("div.have-toc") && !document.querySelector("div.has-toc")) {
-        let ele = document.getElementsByClassName("toc-container")[0];
-        if (ele) {
-            ele.remove();
-            ele = null;
-        }
-    } else {
-        if (flag) {
-            let id = 1,
-                heading_fix = mashiro_option.entry_content_theme == "sakura" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment-img") ? -75 : 200) : 375) : window.innerHeight / 2;
-            let _els = document.querySelectorAll('.entry-content,.links');
-            for (let i = 0; i < _els.length; i++) {
-                let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
-                for (let j = 0; j < _el.length; j++) {
-                    _el[j].id = "toc-head-" + id;
-                    id++;
-                }
-            }
-            import('tocbot').then(({ default: tocbot }) => {
-                tocbot.init({
-                    tocSelector: '.toc',
-                    contentSelector: ['.entry-content', '.links'],
-                    headingSelector: 'h1, h2, h3, h4, h5',
-                    headingsOffset: heading_fix - window.innerHeight / 2,
-                });
-            })
-        }
-    }
-}
-tableOfContentScroll(true);
 const pjaxInit = function () {
-    add_upload_tips();
     no_right_click();
-    click_to_view_image();
-    original_emoji_click();
     loadFontSetting()
     let _p = document.getElementsByTagName("p");
     for (let i = 0; i < _p.length; i++) {
         _p[i].classList.remove("head-copyright");
     }
-    try {
-        code_highlight_style();
-    } catch (e) {
-        console.warn(e)
-    };
-    try {
-        getqqinfo();
-    } catch (e) {
-        console.warn(e)
-    };
     lazyload();
     let _div = document.getElementsByTagName("div"),
         tla = document.getElementById("to-load-aplayer");
@@ -719,56 +376,8 @@ const pjaxInit = function () {
         openNav[0].style.height = '50px';
     }
     bgButtonAddListener()
-    smileBoxToggle();
     timeSeriesReload();
     add_copyright();
-    tableOfContentScroll(true);
-}
-
-function sm() {
-    let sm = document.getElementsByClassName('sm'),
-        cm = document.querySelector(".comments-main");
-    if (!sm.length) return;
-    if (Poi.reply_link_version == 'new') {
-        if (cm) cm.addEventListener("click", function (e) {
-            if (e.target.classList.contains("comment-reply-link")) {
-                e.preventDefault();
-                e.stopPropagation();
-                let data_commentid = e.target.getAttribute("data-commentid");
-                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
-            }
-        })
-    }
-    cm && cm.addEventListener("click", (e) => {
-        let list = e.target.parentNode;
-        if (list.classList.contains("sm")) {
-            let msg = "您真的要设为私密吗？";
-            if (confirm(msg) == true) {
-                if (list.classList.contains('private_now')) {
-                    alert('您之前已设过私密评论');
-                    return false;
-                } else {
-                    list.classList.add('private_now');
-                    let idp = list.getAttribute("data-idp"),
-                        actionp = list.getAttribute("data-actionp"),
-                        rateHolderp = list.getElementsByClassName('has_set_private')[0];
-                    let ajax_data = "action=siren_private&p_id=" + idp + "&p_action=" + actionp;
-                    let request = new XMLHttpRequest();
-                    request.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            rateHolderp.innerHTML = request.responseText;
-                        }
-                    };
-                    request.open('POST', '/wp-admin/admin-ajax.php', true);
-                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    request.send(ajax_data);
-                    return false;
-                }
-            } else {
-                alert("已取消");
-            }
-        }
-    })
 }
 
 let comt = document.getElementsByClassName("comt-addsmilies");
@@ -789,16 +398,6 @@ comta.forEach((e) => {
         e.parentNode.style.display = "none";
     })
 })
-function smileBoxToggle() {
-    let et = document.getElementById("emotion-toggle");
-    et && et.addEventListener('click', function () {
-        document.querySelector('.emotion-toggle-off').classList.toggle("emotion-hide");
-        document.querySelector('.emotion-toggle-on').classList.toggle("emotion-show");
-        document.querySelector('.emotion-box').classList.toggle("emotion-box-show");
-    })
-}
-smileBoxToggle();
-
 add_copyright()
 
 
@@ -806,158 +405,6 @@ if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
         import('./aplayer').then(({ aplayerInit }) => aplayerInit())
     }
-}
-
-function getqqinfo() {
-    let is_get_by_qq = false;
-    const i_author = document.querySelector("input#author"),
-        i_qq = document.querySelector("input#qq"),
-        i_email = document.querySelector("input#email"),
-        i_url = document.querySelector("input#url"),
-        qq_check = document.querySelector(".qq-check"),
-        gravatar_check = document.querySelector(".gravatar-check"),
-        user_avatar_img = document.querySelector("div.comment-user-avatar img");
-    if (i_author == null) return;
-    if (!localStorage.getItem('user_qq') && !localStorage.getItem('user_qq_email') && !localStorage.getItem('user_author')) {
-        i_qq.value = i_author.value = i_email.value = i_url.value = "";
-    }
-    if (localStorage.getItem('user_avatar') && localStorage.getItem('user_qq') && localStorage.getItem('user_qq_email')) {
-        user_avatar_img.setAttribute('src', localStorage.getItem('user_avatar'));
-        i_author.value = localStorage.getItem('user_author');
-        i_email.value = localStorage.getItem('user_qq') + '@qq.com';
-        i_qq.value = localStorage.getItem('user_qq');
-        if (mashiro_option.qzone_autocomplete) {
-            i_url.value = 'https://user.qzone.qq.com/' + localStorage.getItem('user_qq');
-        }
-        if (i_qq.value) {
-            qq_check.style.display = "block";
-            gravatar_check.style.display = "none";
-        }
-    }
-    let emailAddressFlag = i_email.value;
-    //var emailAddressFlag = cached.filter('#email').val();
-    i_author.addEventListener('blur', () => {
-        // })
-        //cached.filter('#author').on('blur', function () {
-        const qq = i_author.value,
-            reg_QQ = /^[1-9]\d{4,9}$/;
-        if (reg_QQ.test(qq)) {
-            const whileFailed = () => {
-                i_qq.value = '';
-                qq_check.style.display = 'none';
-                gravatar_check.style.display = 'block';
-                user_avatar_img.setAttribute('src', get_gravatar(i_email.value, 80));
-                localStorage.setItem('user_qq', '');
-                localStorage.setItem('user_email', i_email.value);
-                localStorage.setItem('user_avatar', get_gravatar(i_email.value, 80));
-                /***/
-                /*         qq.value = email.value = url.value = "";
-                        if (!qq.value) {
-                            qq_check.style.display = 'none';
-                            gravatar_check.style.display = 'block';
-                            setCookie('user_qq', '', 30);
-                            user_avatar_img.setAttribute('src', get_gravatar(email.value, 80));
-                            setCookie('user_avatar', get_gravatar(email.value, 80), 30);
-                        } */
-            }
-            fetch(buildAPI(mashiro_option.qq_api_url, { qq: qq }))
-                .then(async resp => {
-                    if (resp.ok) {
-                        //success
-                        try {
-                            const data = await resp.json()
-                            i_author.value = data.name;
-                            i_email.value = qq.trim() + '@qq.com';
-                            if (mashiro_option.qzone_autocomplete) {
-                                i_url.value = 'https://user.qzone.qq.com/' + qq.trim();
-                            }
-                            user_avatar_img.setAttribute('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');
-                            is_get_by_qq = true;
-                            i_qq.value = qq.trim();
-                            if (i_qq.value) {
-                                qq_check.style.display = 'block';
-                                gravatar_check.style.display = 'none';
-                            }
-                            localStorage.setItem('user_author', data.name);
-                            localStorage.setItem('user_qq', qq);
-                            localStorage.setItem('is_user_qq', 'yes');
-                            localStorage.setItem('user_qq_email', qq + '@qq.com');
-                            localStorage.setItem('user_email', qq + '@qq.com');
-                            emailAddressFlag = i_email.value;
-                            /***/
-                            user_avatar_img.setAttribute('src', data.avatar);
-                            localStorage.setItem('user_avatar', data.avatar);
-                        } catch (e) {
-                            console.warn(e)
-                            whileFailed()
-                        }
-                    } else {
-                        whileFailed()
-                    }
-                })
-        }
-    });
-    if (localStorage.getItem('user_avatar') && localStorage.getItem('user_email') && localStorage.getItem('is_user_qq') == 'no' && !localStorage.getItem('user_qq_email')) {
-        user_avatar_img.setAttribute("src", localStorage.getItem('user_avatar'));
-        i_email.value = localStorage.getItem('user_mail');
-        i_qq.value = '';
-        if (!i_qq.value) {
-            qq_check.style.display = "none";
-            gravatar_check.style.display = "block";
-        }
-        // $('div.comment-user-avatar img').attr('src', getCookie('user_avatar'));
-        // cached.filter('#email').val(getCookie('user_email'));
-        // cached.filter('#qq').val('');
-        // if (!cached.filter('#qq').val()) {
-        //     $('.qq-check').css('display', 'none');
-        //     $('.gravatar-check').css('display', 'block');
-        // }
-    }
-    i_email.addEventListener("blur", function () {
-        //cached.filter('#email').on('blur', function () {
-        let emailAddress = i_email.value;
-        // var emailAddress = cached.filter('#email').val();
-        if ((is_get_by_qq == false || emailAddressFlag != emailAddress) && emailAddress != '') {
-            user_avatar_img.setAttribute("src", get_gravatar(emailAddress, 80));
-            //$('div.comment-user-avatar img').attr('src', get_gravatar(emailAddress, 80));
-            localStorage.setItem('user_avatar', get_gravatar(emailAddress, 80));
-            localStorage.setItem('user_email', emailAddress);
-            localStorage.setItem('user_qq_email', '');
-            localStorage.setItem('is_user_qq', 'no');
-            i_qq.value = '';
-            // cached.filter('#qq').val('');
-            if (!i_qq.value) {
-                qq_check.style.display = "none";
-                gravatar_check.style.display = "block";
-                // $('.qq-check').css('display', 'none');
-                // $('.gravatar-check').css('display', 'block');
-            }
-        }
-    });
-    if (localStorage.getItem('user_url')) {
-        i_url.value = localStorage.getItem("user_url");
-        // cached.filter('#url').val(getCookie('user_url'));
-    }
-    i_url.addEventListener("blur", function () {
-        //cached.filter('#url').on('blur', function () {
-        let URL_Address = i_url.value;
-        i_url.value = URL_Address;
-        // var URL_Address = cached.filter('#url').val();
-        // cached.filter('#url').val(URL_Address);
-        localStorage.setItem('user_url', URL_Address);
-    });
-    if (localStorage.getItem('user_author')) {
-        i_author.value = localStorage.getItem('user_author');
-        // cached.filter('#author').val(getCookie('user_author'));
-    }
-    i_author.addEventListener("blur", function () {
-        // cached.filter('#author').on('blur', function () {
-        let user_name = i_author.value;
-        i_author.value = user_name;
-        // var user_name = cached.filter('#author').val();
-        // cached.filter('#author').val(user_name);
-        localStorage.setItem('user_author', user_name);
-    });
 }
 
 function activate_widget() {
@@ -1012,54 +459,6 @@ function load_bangumi() {
     }
 }
 
-mashiro_global.ini.normalize();
-loadCSS(mashiro_option.jsdelivr_css_src);
-loadCSS(mashiro_option.entry_content_style_src);
-loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
-
-function article_attach() {
-    //收缩、展开
-    /* jQuery(document).ready(
-    function(jQuery){
-        jQuery('.collapseButton').click(function(){
-        jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
-        });
-        }) */
-    const collapseButton = document.getElementsByClassName('collapseButton')
-    if (collapseButton.length > 0) {
-        const collapseListener = (e) => {
-            slideToggle(e.target.parentNode.parentNode.parentNode.querySelector(".xContent"));
-            // e.parentNode.parentNode.querySelector(".xContent")
-        }
-        for (const ele of collapseButton) {
-            ele.addEventListener("click", collapseListener)
-        }
-        // import('jquery').then(({ default: jQuery }) => {
-        //     jQuery('.collapseButton').on("click", function () {
-        //         jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
-        //     })
-        // })
-    }
-    //init lightbox
-    if (mashiro_option.baguetteBoxON) {
-        loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
-        import('baguettebox.js').then(({ default: baguetteBox }) => {
-            baguetteBox.run('.entry-content', {
-                captions: function (element) {
-                    return element.getElementsByTagName('img')[0].alt;
-                },
-                ignoreClass: 'fancybox',
-            });
-        })
-    } else if (mashiro_option.fancybox) {
-        loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
-        import('jquery').then((jQuery) => {
-            window.jQuery = jQuery.default
-            window.$ = jQuery.default
-            import('@fancyapps/fancybox')
-        })
-    }
-}
 //#region Siren
 const s = document.getElementById("bgvideo");
 function MN() {
@@ -1252,7 +651,6 @@ function CE() {
             ignoreClass: 'fancybox',
         });
     }*/
-    article_attach()
     const callback = function () {
         //$('.js-toggle-search').toggleClass('is-active');
         document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
@@ -1577,186 +975,7 @@ function XLS() {
         }
     })
 }
-function XCS() {
-    const __list = 'commentwrap';
-    const form = document.getElementById("commentform")
-    if (form) {
-        let statusSubmitting = false
-        form.addEventListener('submit', function (event) {
-            event.stopPropagation()
-            event.preventDefault();
-            if (statusSubmitting) return
-            const butterBarRef = createButterbar("提交中(Commiting)....", true)
-            const form = new FormData(this)
-            form.append('action', 'ajax_comment')
-            statusSubmitting = true
-            fetch(Poi.ajaxurl, {
-                method: this.attributes.method.value,
-                body: form
-            }).then(async resp => {
-                const data = await resp.text()
-                if (resp.ok) {
-                    Array.from(document.getElementsByTagName('textarea'))
-                        .forEach((e) => e.value = '')
-                    const cancel = document.getElementById('cancel-comment-reply-link'),
-                        temp = document.getElementById('wp-temp-form-div'),
-                        respond = document.getElementById(addComment.respondId),
-                        //post = document.getElementById('comment_post_ID').value,
-                        parent = document.getElementById('comment_parent').value;
-                    if (parent != '0') {
-                        //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                        document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
-                    } else if (!document.getElementsByClassName(__list).length) {
-                        if (Poi.formpostion == 'bottom') {
-                            document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
-                            //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-                        } else {
-                            document.getElementById("respond").insertAdjacentHTML('afterend', '<ol class="' + __list + '">' + data + '</ol>');
-                            //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
-                        }
-                    } else {
-                        if (Poi.order == 'asc') {
-                            document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
-                            //jQuery('.' + __list).append(data);
-                        } else {
-                            document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('afterbegin', data);
-                            //jQuery('.' + __list).prepend(data);
-                        }
-                    }
-                    createButterbar("提交成功(Succeed)");
-                    lazyload();
-                    code_highlight_style();
-                    click_to_view_image();
-                    clean_upload_images();
-                    cancel.style.display = 'none';
-                    cancel.onclick = null;
-                    document.getElementById('comment_parent').value = '0';
-                    if (temp && respond) {
-                        temp.parentNode.insertBefore(respond, temp);
-                        temp.remove();
-                        //temp.parentNode.removeChild(temp)
-                    }
-                } else {
-                    createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
-                }
-            }).catch(reason => {
-                createButterbar(reason);
-            }).finally(() => {
-                butterBarRef.remove()
-                statusSubmitting = false
-            })
-            /* jQuery.ajax({
-                url: Poi.ajaxurl,
-                data: jQuery(this).serialize() + "&action=ajax_comment",
-                type: jQuery(this).attr('method'),
-                beforeSend: createButterbar("提交中(Commiting)...."),
-                error: function (request) {
-                    var t = addComment;
-                    t.createButterbar(request.responseText);
-                },
-                success: function (data) {
-                    jQuery('textarea').each(function () {
-                        this.value = ''
-                    });
-                    var t = addComment,
-                        cancel = t.I('cancel-comment-reply-link'),
-                        temp = t.I('wp-temp-form-div'),
-                        respond = t.I(t.respondId),
-                        post = t.I('comment_post_ID').value,
-                        parent = t.I('comment_parent').value;
-                    if (parent != '0') {
-                        jQuery('#respond').before('<ol class="children">' + data + '</ol>');
-                    } else if (!jQuery('.' + __list).length) {
-                        if (Poi.formpostion == 'bottom') {
-                            jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
-                        } else {
-                            jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
-                        }
-                    } else {
-                        if (Poi.order == 'asc') {
-                            jQuery('.' + __list).append(data);
-                        } else {
-                            jQuery('.' + __list).prepend(data);
-                        }
-                    }
-                    t.createButterbar("提交成功(Succeed)");
-                    lazyload();
-                    code_highlight_style();
-                    click_to_view_image();
-                    clean_upload_images();
-                    cancel.style.display = 'none';
-                    cancel.onclick = null;
-                    t.I('comment_parent').value = '0';
-                    if (temp && respond) {
-                        temp.parentNode.insertBefore(respond, temp);
-                        temp.remove();
-                        //temp.parentNode.removeChild(temp)
-                    }
-                }
-            }); */
-        })
-    }
-}
-function XCP() {
-    document.body.addEventListener('click', function (e) {
-        if (e.target.parentNode == document.getElementById("comments-navi") && e.target.nodeName.toLowerCase() == "a") {
-            e.preventDefault();
-            e.stopPropagation();
-            let _this = e.target,
-                path = _this.pathname,
-                _xhr = new XMLHttpRequest();
-            _xhr.open("GET", _this.getAttribute('href'), true);
-            _xhr.responseType = "document";
-            _xhr.onloadstart = () => {
-                let comments_navi = document.getElementById("comments-navi"),
-                    commentwrap = document.querySelector("ul.commentwrap"),
-                    loading_comments = document.getElementById("loading-comments"),
-                    comments_list = document.getElementById("comments-list-title");
-                comments_navi.remove();
-                commentwrap.remove();
-                //comments_navi.parentNode.removeChild(comments_navi);
-                //commentwrap.parentNode.removeChild(commentwrap);
-                loading_comments.style.display = "block";
-                slideToggle(loading_comments, 500, "show");
-                window.scrollTo({
-                    top: comments_list.getBoundingClientRect().top + window.pageYOffset - comments_list.clientTop - 65,
-                    behavior: "smooth"
-                });
-            }
-            _xhr.onreadystatechange = function () {
-                if (_xhr.readyState == 4 && _xhr.status == 200) {
-                    let json = _xhr.response,
-                        result = json.querySelector("ul.commentwrap"),
-                        nextlink = json.getElementById("comments-navi"),
-                        loading_comments = document.getElementById("loading-comments");
-                    slideToggle(loading_comments, 200, "hide");
-                    document.getElementById("loading-comments").insertAdjacentHTML('afterend', result.outerHTML);
-                    document.querySelector("ul.commentwrap").insertAdjacentHTML('afterend', nextlink.outerHTML);
-                    lazyload();
-                    if (window.gtag) {
-                        gtag('config', Poi.google_analytics_id, {
-                            'page_path': path
-                        });
-                    }
-                    code_highlight_style();
-                    click_to_view_image();
-                    let commentwrap = document.querySelector("ul.commentwrap");
-                    window.scrollTo({
-                        top: commentwrap && (commentwrap.getBoundingClientRect().top + window.pageYOffset - commentwrap.clientTop - 200),
-                        behavior: "smooth"
-                    });
-                }
-            }
-            _xhr.send();
-        }
-    });
-}
-async function IA() {
-    const POWERMODE = (await import('activate-power-mode')).default
-    POWERMODE.colorful = true;
-    POWERMODE.shake = false;
-    document.body.addEventListener('input', POWERMODE)
-}
+
 function GT() {
     let mb_to_top = document.querySelector("#moblieGoTop"),
         changskin = document.querySelector("#changskin");
@@ -1806,7 +1025,20 @@ if (Poi.pjax) {
         CE();
         if (mashiro_option.land_at_home) XLS();
         if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.done() })
-        mashiro_global.ini.pjax();
+        //#region mashiro_global.ini.pjax();
+        pjaxInit();
+        post_list_show_animation();
+        web_audio();
+        coverVideoIni();
+        checkSkinSecter();
+        load_bangumi();
+        NH();
+        //#endregion
+        if(!mashiro_option.land_at_home){
+            import(/* webpackPrefetch: true */'./post/index').then(({whilePjaxComplete})=>{
+                whilePjaxComplete()
+            })
+        }
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
@@ -1837,7 +1069,6 @@ if (Poi.pjax) {
         hitokoto()
         PE();
         CE();
-        sm();
         timeSeriesReload(true);
         post_list_show_animation();
     }, false);
@@ -1922,7 +1153,14 @@ function web_audio() {
         }
     }
 }
-
+//#region mashiro_global.ini.normalize();
+lazyload();
+post_list_show_animation();
+coverVideoIni();
+checkSkinSecter();
+scrollBar();
+load_bangumi();
+//#endregion
 //afterDOMContentLoaded
 function addChangeBackgroundListener() {
     const cached = document.querySelectorAll(".menu-list li");
@@ -1943,6 +1181,10 @@ function addChangeBackgroundListener() {
 function checkBgImgSetting() {
     changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
 }
+
+checkBgImgSetting()
+checkDarkModeSetting();
+
 function closeSkinMenu() {
     document.querySelector(".skin-menu").classList.remove("show");
     setTimeout(function () {
@@ -1953,11 +1195,8 @@ function closeSkinMenu() {
 }
 ready(function () {
     initCoverBG()
-    //let checkskin_bg = (a) => a == "none" ? "" : a;
     addChangeBackgroundListener();
-    checkBgImgSetting()
-    checkDarkModeSetting();
-
+    //let checkskin_bg = (a) => a == "none" ? "" : a;
     let changskin = document.querySelector("#changskin"),
         close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
     changskin && changskin.addEventListener("click", function () {
@@ -1966,25 +1205,27 @@ ready(function () {
     close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
         closeSkinMenu();
     })
-    add_upload_tips();
-});
-ready(function () {
+
     auto_height();
     PE();
     NH();
     GT();
     XLS();
-    XCS();
-    XCP();
     CE();
     MN();
-    IA();
     LV();
     hitokoto()
-    initFontControl()
-    getqqinfo()
     bgButtonAddListener()
+    initFontControl()
     web_audio()
     preload_screen()
+    if (!mashiro_option.land_at_home) {
+        import(/* webpackPrefetch: true */'./post/index').then(({ whileReady }) => {
+            whileReady()
+        }).finally(() => {
+            about_us()
+        })
+        return
+    }
     about_us()
 });
