@@ -27,6 +27,7 @@ import './global-func'
 import { onlyOnceATime, min } from '../../module/util'
 import about_us from './about_us'
 import { ready } from '../../module/util'
+import preload_screen from './preload_screen'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     const UA = navigator.userAgent
@@ -1948,32 +1949,7 @@ function web_audio() {
         }
     }
 }
-const preload = document.getElementById("preload");
-if (preload) {
-    window.addEventListener('load', () => {
-        document.documentElement.style.overflowY = 'unset';
-        if (mashiro_option.preload_blur != 0) {
-            try {
-                preload.animate(
-                    [
-                        { filter: "blur(0px)", backdropFilter: "blur(10px)", opacity: 1 },
-                        { backdropFilter: "blur(0px)grayscale(0)", opacity: 0.1 },
-                        { opacity: 0, filter: "blur(100px)", }
-                    ],
-                    { duration: mashiro_option.preload_blur, fill: "forwards", easing: "ease" }
-                ).onfinish = () => {
-                    preload.remove()
-                }
-                return
-            } catch (error) {
-                console.warn(error)
-            }
-        }
-        preload.classList.add('hide');
-        preload.classList.remove('show');
-        setTimeout(() => preload.remove(), 233);
-    })
-}
+
 //afterDOMContentLoaded
 function addChangeBackgroundListener() {
     const cached = document.querySelectorAll(".menu-list li");
@@ -2036,5 +2012,6 @@ ready(function () {
     getqqinfo()
     bgButtonAddListener()
     web_audio()
+    preload_screen()
     about_us()
 });
