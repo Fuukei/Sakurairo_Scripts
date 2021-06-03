@@ -155,6 +155,9 @@ const code_highlight_style = (() => {
         }
     }
 })()
+function clean_upload_images() {
+    document.getElementById("upload-img-show").innerHTML = '';
+}
 function XCS() {
     const __list = 'commentwrap';
     const form = document.getElementById("commentform")

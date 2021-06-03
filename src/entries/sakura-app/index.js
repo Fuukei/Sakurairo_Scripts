@@ -167,10 +167,6 @@ function attach_image() {
     }));
 }
 
-
-function clean_upload_images() {
-    document.getElementById("upload-img-show").innerHTML = '';
-}
 /**
  * 添加上传图片的提示
  */
