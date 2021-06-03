@@ -1189,6 +1189,10 @@ function addChangeBackgroundListener() {
 function checkBgImgSetting() {
     changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
 }
+addChangeBackgroundListener();
+checkBgImgSetting()
+checkDarkModeSetting();
+
 function closeSkinMenu() {
     document.querySelector(".skin-menu").classList.remove("show");
     setTimeout(function () {
@@ -1200,10 +1204,6 @@ function closeSkinMenu() {
 ready(function () {
     initCoverBG()
     //let checkskin_bg = (a) => a == "none" ? "" : a;
-    addChangeBackgroundListener();
-    checkBgImgSetting()
-    checkDarkModeSetting();
-
     let changskin = document.querySelector("#changskin"),
         close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
     changskin && changskin.addEventListener("click", function () {
