@@ -1,6 +1,3 @@
-/**
- * sakura-app.js L943-963
- */
 import { createButterbar } from "./butterbar";
 
 const txt = [
