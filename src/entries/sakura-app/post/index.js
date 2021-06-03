@@ -1,6 +1,6 @@
 import article_attach from './article_attach.js'
-async function IA() {
-    const POWERMODE = (await import('activate-power-mode')).default
+import POWERMODE from 'activate-power-mode'
+function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
     document.body.addEventListener('input', POWERMODE)
@@ -349,7 +349,7 @@ export function whileReady() {
     article_attach()
     XCS()
     XCP()
-    IA()
+    powermode()
 }
 export function whilePjaxComplete() {
     try {
