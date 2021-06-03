@@ -23,9 +23,8 @@ import { createButterbar } from './butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
-import { onlyOnceATime, min } from '../../module/util'
+import { onlyOnceATime, min,ready ,slideToggle } from '../../module/util'
 import about_us from './about_us'
-import { ready ,slideToggle} from '../../module/util'
 import preload_screen from './preload_screen'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
@@ -158,7 +157,7 @@ function checkSkinSecter() {
         }
     }
 }
-import { checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode, isInDarkMode } from './darkmode'
+import { checkDarkModeSetting, turnOnDarkMode, turnOffDarkMode,  } from './darkmode'
 function no_right_click() {
     const pri = document.getElementById("primary");
     if (pri) pri.addEventListener("contextmenu", function (e) {
@@ -459,10 +458,6 @@ function load_bangumi() {
         });
     }
 }
-
-loadCSS(mashiro_option.jsdelivr_css_src);
-loadCSS(mashiro_option.entry_content_style_src);
-loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 //#region Siren
 const s = document.getElementById("bgvideo");
@@ -1040,7 +1035,7 @@ if (Poi.pjax) {
         NH();
         //#endregion
         if(!mashiro_option.land_at_home){
-            import('./post/index').then(({whilePjaxComplete})=>{
+            import(/* webpackPrefetch: true */'./post/index').then(({whilePjaxComplete})=>{
                 whilePjaxComplete()
             })
         }
@@ -1220,12 +1215,12 @@ ready(function () {
     MN();
     LV();
     hitokoto()
-    initFontControl()
     bgButtonAddListener()
+    initFontControl()
     web_audio()
     preload_screen()
     if (!mashiro_option.land_at_home) {
-        import('./post/index').then(({ whileReady }) => {
+        import(/* webpackPrefetch: true */'./post/index').then(({ whileReady }) => {
             whileReady()
         }).finally(() => {
             about_us()

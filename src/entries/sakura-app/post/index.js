@@ -6,16 +6,17 @@ import POWERMODE from 'activate-power-mode'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
-import { isInDarkMode } from './darkmode'
+import { isInDarkMode } from '../darkmode'
+import { loadCSS } from 'fg-loadcss'
 
 function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
     document.body.addEventListener('input', POWERMODE)
 }
-const load_code_highlight_style = ()=>{
+/* const load_code_highlight_style = ()=>{
 
-}
+} */
 const code_highlight_style = (() => {
     function gen_top_bar(pre, code_a) {
         const attributes = {
@@ -556,25 +557,23 @@ export function whilePjaxComplete() {
     try {
         add_upload_tips()
         article_attach()
-        code_highlight_style()
         tableOfContentScroll(true);
         click_to_view_image()
         getqqinfo()
-sm()
+        sm()
         original_emoji_click()
+        code_highlight_style()
         copy_code_block()
         smileBoxToggle()
     } catch (e) {
         console.warn(e)
-
     }
 }
 export function whileLoaded() {
-    window.addEventListener('popstate',whilePopstate)
+    window.addEventListener('popstate', whilePopstate)
     click_to_view_image()
     code_highlight_style()
-
-sm()
+    sm()
     original_emoji_click()
     smileBoxToggle()
     tableOfContentScroll(true);
