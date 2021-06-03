@@ -26,6 +26,7 @@ import { lazyload } from 'lazyload'
 import './global-func'
 import { onlyOnceATime, min } from '../../module/util'
 import about_us from './about_us'
+import { ready } from '../../module/util'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     const UA = navigator.userAgent
@@ -52,12 +53,7 @@ const pjax = (() => {
         })
     )
 })()
-const ready = function (fn) {
-    if (document.readyState === 'complete') {
-        return fn();
-    }
-    document.addEventListener('DOMContentLoaded', fn, false);
-};
+
 
 mashiro_global.variables = new function () {
     this.has_hls = false;
