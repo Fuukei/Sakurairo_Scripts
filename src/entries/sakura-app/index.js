@@ -1979,36 +1979,36 @@ if (preload) {
     })
 }
 //afterDOMContentLoaded
+function addChangeBackgroundListener() {
+    const cached = document.querySelectorAll(".menu-list li");
+    cached.forEach(e => {
+        e.addEventListener("click", function () {
+            const tagid = this.id;
+            if (tagid == "dark-bg") {
+                turnOnDarkMode(true)
+            } else {
+                turnOffDarkMode(true)
+                changeBG(tagid)
+                localStorage.setItem("bgImgSetting", tagid)
+            }
+            closeSkinMenu();
+        });
+    });
+}
+function checkBgImgSetting() {
+    changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
+}
+function closeSkinMenu() {
+    document.querySelector(".skin-menu").classList.remove("show");
+    setTimeout(function () {
+        if (document.querySelector(".changeSkin-gear") != null) {
+            document.querySelector(".changeSkin-gear").style.visibility = "visible";
+        }
+    }, 300);
+}
 ready(function () {
     initCoverBG()
     //let checkskin_bg = (a) => a == "none" ? "" : a;
-    function addChangeBackgroundListener() {
-        const cached = document.querySelectorAll(".menu-list li");
-        cached.forEach(e => {
-            e.addEventListener("click", function () {
-                const tagid = this.id;
-                if (tagid == "dark-bg") {
-                    turnOnDarkMode(true)
-                } else {
-                    turnOffDarkMode(true)
-                    changeBG(tagid)
-                    localStorage.setItem("bgImgSetting", tagid)
-                }
-                closeSkinMenu();
-            });
-        });
-    }
-    function checkBgImgSetting() {
-        changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
-    }
-    function closeSkinMenu() {
-        document.querySelector(".skin-menu").classList.remove("show");
-        setTimeout(function () {
-            if (document.querySelector(".changeSkin-gear") != null) {
-                document.querySelector(".changeSkin-gear").style.visibility = "visible";
-            }
-        }, 300);
-    }
     addChangeBackgroundListener();
     checkBgImgSetting()
     checkDarkModeSetting();
