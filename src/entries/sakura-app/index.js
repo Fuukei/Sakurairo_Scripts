@@ -64,7 +64,6 @@ mashiro_global.ini = new function () {
     this.normalize = function () { // initial functions when page first load (首次加载页面时的初始化函数)
         lazyload();
         post_list_show_animation();
-        copy_code_block();
         web_audio();
         coverVideoIni();
         checkSkinSecter();
@@ -351,19 +350,6 @@ function coverVideoIni() {
                 })
                 .catch(reason => console.warn('Hls load failed: ', reason))
         }
-    }
-}
-
-function copy_code_block() {
-    const ele = document.querySelectorAll("pre code");
-    if (ele.length > 0) {
-        for (let j = 0; j < ele.length; j++) {
-            ele[j].setAttribute('id', 'code-block-' + j);
-            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
-        };
-        import('clipboard').then(({ default: ClipboardJS }) => {
-            new ClipboardJS('.copy-code');
-        })
     }
 }
 
@@ -1104,7 +1090,6 @@ if (Poi.pjax) {
         //#region mashiro_global.ini.pjax();
         pjaxInit();
         post_list_show_animation();
-        copy_code_block();
         web_audio();
         coverVideoIni();
         checkSkinSecter();

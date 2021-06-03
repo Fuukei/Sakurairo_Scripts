@@ -158,6 +158,18 @@ const code_highlight_style = (() => {
         }
     }
 })()
+function copy_code_block() {
+    const ele = document.querySelectorAll("pre code");
+    if (ele.length > 0) {
+        for (let j = 0; j < ele.length; j++) {
+            ele[j].setAttribute('id', 'code-block-' + j);
+            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+        };
+        import('clipboard').then(({ default: ClipboardJS }) => {
+            new ClipboardJS('.copy-code');
+        })
+    }
+}
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
     if (!comment_inline.length) return;
@@ -493,6 +505,7 @@ export function whileReady() {
     powermode()
     getqqinfo()
     add_upload_tips()
+    copy_code_block()
 }
 export function whilePjaxComplete() {
     try {
@@ -503,6 +516,7 @@ export function whilePjaxComplete() {
         getqqinfo()
 sm()
         original_emoji_click()
+        copy_code_block()
     } catch (e) {
         console.warn(e)
 
