@@ -1,6 +1,7 @@
 import article_attach from './article_attach.js'
 import POWERMODE from 'activate-power-mode'
 import './global-func'
+import getqqinfo from './getqqinfo'
 function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
@@ -351,12 +352,14 @@ export function whileReady() {
     XCS()
     XCP()
     powermode()
+    getqqinfo()
 }
 export function whilePjaxComplete() {
     try {
         article_attach()
         code_highlight_style()
         click_to_view_image()
+        getqqinfo()
     } catch (e) {
         console.warn(e)
 
