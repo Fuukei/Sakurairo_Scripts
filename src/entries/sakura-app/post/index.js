@@ -2,6 +2,7 @@ import article_attach from './article_attach.js'
 import POWERMODE from 'activate-power-mode'
 import './global-func'
 import getqqinfo from './getqqinfo'
+import addComment from './AddComment'
 function powermode() {
     POWERMODE.colorful = true;
     POWERMODE.shake = false;
