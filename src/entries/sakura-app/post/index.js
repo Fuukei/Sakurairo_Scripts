@@ -341,10 +341,13 @@ function XCP() {
         }
     });
 }
+function whilePopstate(){
+}
     XCS()
     XCP()
     IA()
         code_highlight_style()
         click_to_view_image()
+    window.addEventListener('popstate',whilePopstate)
     click_to_view_image()
     code_highlight_style()
