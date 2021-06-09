@@ -106,10 +106,7 @@ function XCS() {
                         }
                     }
                     createButterbar("提交成功(Succeed)");
-                    lazyload();
-                    code_highlight_style();
-                    click_to_view_image();
-                    clean_upload_images();
+                    document.dispatchEvent(new CustomEvent('ajax_comment_complete',))
                     cancel.style.display = 'none';
                     cancel.onclick = null;
                     document.getElementById('comment_parent').value = '0';
@@ -416,6 +413,13 @@ function addComtListener() {
         })
     })
 }
+function afterAjaxCommentComplete() {
+    lazyload();
+    code_highlight_style();
+    click_to_view_image();
+    clean_upload_images();
+}
+
 function whilePopstate() {
     article_attach()
     sm()
@@ -455,4 +459,4 @@ export function whileLoaded() {
     smileBoxToggle()
     tableOfContentScroll(true);
     addComtListener()
-}
+}}
