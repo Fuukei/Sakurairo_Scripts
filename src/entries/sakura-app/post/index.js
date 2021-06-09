@@ -441,6 +441,7 @@ export function whilePjaxComplete() {
         code_highlight_style()
         copy_code_block()
         smileBoxToggle()
+        XCS()
     } catch (e) {
         console.warn(e)
     }
