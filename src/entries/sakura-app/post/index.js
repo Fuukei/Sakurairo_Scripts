@@ -176,6 +176,7 @@ function XCS() {
         })
     }
 }
+
 function XCP() {
     document.body.addEventListener('click', function (e) {
         if (e.target.parentNode == document.getElementById("comments-navi") && e.target.nodeName.toLowerCase() == "a") {
@@ -420,6 +421,7 @@ function afterAjaxCommentComplete() {
     clean_upload_images();
 }
 
+// #region LifeCycle
 function whilePopstate() {
     article_attach()
     sm()
@@ -459,4 +461,6 @@ export function whileLoaded() {
     smileBoxToggle()
     tableOfContentScroll(true);
     addComtListener()
-}}
+    document.addEventListener('ajax_comment_complete',afterAjaxCommentComplete)
+}
+//#endregion

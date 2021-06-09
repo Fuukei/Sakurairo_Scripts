@@ -396,7 +396,6 @@ const pjaxInit = function () {
 }
 add_copyright()
 
-
 if (mashiro_option.float_player_on) {
     if (document.body.clientWidth > 860) {
         import('./aplayer').then(({ aplayerInit }) => aplayerInit())

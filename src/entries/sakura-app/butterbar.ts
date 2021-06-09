@@ -11,10 +11,10 @@ export function createButterbar(message: string, keep?: boolean | number) {
     /*     document.body.insertAdjacentHTML('beforeend', '<div class="butterBar butterBar--center"><p class="butterBar-message">' + message + '</p></div>');
      */
     const div = document.createElement('div')
-    div.classList.add('butterBar', 'butterBar--center')
     const p = document.createElement('p')
+    div.classList.add('butterBar', 'butterBar--center')
     p.classList.add('butterBar-message')
-    p.innerHTML=message
+    p.innerHTML = message
     div.appendChild(p)
     document.body.appendChild(div)
     if (keep !== true) setTimeout(() => { clearButterbar() }, typeof keep == 'number' ? keep : 6000);
