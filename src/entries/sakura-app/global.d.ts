@@ -57,6 +57,8 @@ declare namespace mashiro_option {
      */
     const cache_cover: boolean
     const site_bg_as_cover: boolean
+    const float_player_on:boolean
+    const yiyan:boolean
 }
 declare namespace Poi {
     let pjax: string
