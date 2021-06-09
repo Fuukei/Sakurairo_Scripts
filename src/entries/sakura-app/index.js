@@ -395,25 +395,6 @@ const pjaxInit = function () {
     timeSeriesReload();
     add_copyright();
 }
-
-let comt = document.getElementsByClassName("comt-addsmilies");
-if (comt.length > 0) {
-    Array.from(comt, (e) => {
-        e.addEventListener("click", () => {
-            if (e.stlye.display == "block") {
-                e.style.display = "none";
-            } else {
-                e.style.display = "block";
-            }
-        })
-    })
-}
-let comta = document.querySelectorAll(".comt-smilies a");
-comta.forEach((e) => {
-    e.addEventListener("click", () => {
-        e.parentNode.style.display = "none";
-    })
-})
 add_copyright()
 
 

@@ -400,7 +400,22 @@ function add_upload_tips() {
         Tip.classList.toggle('show');
     });
 }
-
+function addComtListener() {
+    document.querySelectorAll(".comt-addsmilies").forEach((e) => {
+        e.addEventListener("click", () => {
+            if (e.stlye.display == "block") {
+                e.style.display = "none";
+            } else {
+                e.style.display = "block";
+            }
+        })
+    })
+    document.querySelectorAll(".comt-smilies a").forEach((e) => {
+        e.addEventListener("click", () => {
+            e.parentNode.style.display = "none";
+        })
+    })
+}
 function whilePopstate() {
     article_attach()
     sm()
@@ -438,4 +453,5 @@ export function whileLoaded() {
     original_emoji_click()
     smileBoxToggle()
     tableOfContentScroll(true);
+    addComtListener()
 }
