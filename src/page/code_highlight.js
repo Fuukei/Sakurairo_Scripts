@@ -1,4 +1,4 @@
-import { isInDarkMode } from '../darkmode'
+import { isInDarkMode } from '../sakura-app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 function gen_top_bar(pre, code_a) {
     const attributes = {

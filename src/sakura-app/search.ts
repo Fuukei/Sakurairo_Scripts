@@ -1,4 +1,4 @@
-import buildAPI from './api'
+import buildAPI from '../common/api'
 export interface Query {
     comments: string
     link: string

@@ -1,4 +1,4 @@
-import { createButterbar } from "./butterbar";
+import { createButterbar } from "../common/butterbar";
 
 let btnSerif: HTMLButtonElement,
     btnSansSerif: HTMLButtonElement;

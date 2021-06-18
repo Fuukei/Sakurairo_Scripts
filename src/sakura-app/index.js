@@ -34,7 +34,7 @@
 import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
 import { setCookie, } from '../../module/cookie'
 import add_copyright from './copyright'
-import { createButterbar } from './butterbar'
+import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
@@ -68,7 +68,7 @@ const pjax = (() => {
     )
 })()
 if (!mashiro_option.land_at_home) {
-    import(/* webpackPrefetch: true */'./post/index').then(({ whileLoaded }) => {
+    import(/* webpackPrefetch: true */'../page/index').then(({ whileLoaded }) => {
         whileLoaded()
     })
 }
@@ -888,7 +888,7 @@ if (Poi.pjax) {
         NH();
         //#endregion
         if (!mashiro_option.land_at_home) {
-            import(/* webpackPrefetch: true */'./post/index').then(({ whilePjaxComplete }) => {
+            import(/* webpackPrefetch: true */'../page/index').then(({ whilePjaxComplete }) => {
                 whilePjaxComplete()
             })
         }
@@ -1073,7 +1073,7 @@ ready(function () {
     web_audio()
     preload_screen()
     if (!mashiro_option.land_at_home) {
-        import(/* webpackPrefetch: true */'./post/index').then(({ whileReady }) => {
+        import(/* webpackPrefetch: true */'../page/index').then(({ whileReady }) => {
             whileReady()
         }).finally(() => {
             about_us()
