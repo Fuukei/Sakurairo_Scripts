@@ -1,8 +1,8 @@
 const define = require('./define')
 module.exports = {
     entry: {
-        app: './src/entries/sakura-app/',
-        login:"./src/entries/login.js",
+        app: './src/sakura-app/',
+        login:"./src/login.js",
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"

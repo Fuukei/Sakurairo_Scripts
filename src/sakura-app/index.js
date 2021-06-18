@@ -32,13 +32,13 @@
  */
 
 import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
-import { setCookie, } from '../../module/cookie'
+import { setCookie, } from '../common/cookie'
 import add_copyright from './copyright'
 import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
-import { onlyOnceATime, min, ready, slideToggle } from '../../module/util'
+import { onlyOnceATime, min, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
 const pjax = (() => {

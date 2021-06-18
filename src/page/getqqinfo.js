@@ -1,4 +1,4 @@
-import buildAPI from '../api'
+import buildAPI from '../common/api'
 import {get_gravatar} from './gravatar'
 
 export default function getqqinfo() {
