@@ -2,16 +2,10 @@ import article_attach from './article_attach'
 import { slideToggle } from '../common/util'
 import { lazyload } from 'lazyload'
 import { createButterbar } from '../common/butterbar'
-import POWERMODE from 'activate-power-mode'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
 import { hljs_process, prism_process } from './code_highlight'
-function powermode() {
-    POWERMODE.colorful = true;
-    POWERMODE.shake = false;
-    document.body.addEventListener('input', POWERMODE)
-}
 function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
@@ -430,7 +424,6 @@ export function whileReady() {
     article_attach()
     XCS()
     XCP()
-    powermode()
     getqqinfo()
     add_upload_tips()
     copy_code_block()

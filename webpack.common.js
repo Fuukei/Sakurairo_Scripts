@@ -3,6 +3,7 @@ module.exports = {
     entry: {
         app: './src/sakura-app/',
         login:"./src/login.js",
+        //page:""
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
@@ -22,7 +23,7 @@ module.exports = {
             minChunks: 1,
             maxAsyncRequests: 30,
             maxInitialRequests: 30,
-            enforceSizeThreshold: 50000,
+            //enforceSizeThreshold: 50000,
             maxSize: 244000,
             cacheGroups: {
                 defaultVendors: {

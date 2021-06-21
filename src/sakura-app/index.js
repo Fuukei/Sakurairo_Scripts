@@ -1046,6 +1046,13 @@ function closeSkinMenu() {
         }
     }, 300);
 }
+import POWERMODE from 'activate-power-mode'
+
+function powermode() {
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE)
+}
 ready(function () {
     initCoverBG()
     addChangeBackgroundListener();
@@ -1080,5 +1087,6 @@ ready(function () {
         })
         return
     }
+    powermode()
     about_us()
 });
