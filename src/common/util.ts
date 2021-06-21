@@ -1,3 +1,8 @@
+/**
+ * 传入的函数同时间只能运行一个
+ * @param func 要包装的函数
+ * @returns 包装后的函数
+ */
 export const onlyOnceATime = <T extends Function>(func: T) => {
     let isRunning = false
     return (...args: any) => {
