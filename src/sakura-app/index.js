@@ -894,7 +894,7 @@ if (Poi.pjax) {
             document.documentElement.style.overflowY = "unset";
         }
         new Promise(
-            () => mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index')
+            (resolve) => resolve(mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index'))
                 .then(({ whilePjaxComplete }) => { whilePjaxComplete() }))
             .finally(() => {
                 hitokoto()
@@ -1066,12 +1066,12 @@ ready(function () {
     initFontControl()
     web_audio()
     preload_screen()
-    new Promise(() => {
-        return mashiro_option.land_at_home
+    new Promise((resolve) => {
+        resolve(mashiro_option.land_at_home
             || import(/* webpackPrefetch: true */'../page/index')
                 .then(({ whileReady }) => {
                     whileReady()
-                })
+                }))
     }).finally(() => {
         lazyload();
         powermode()
