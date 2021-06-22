@@ -1071,17 +1071,18 @@ ready(function () {
     initFontControl()
     web_audio()
     preload_screen()
-    if (!mashiro_option.land_at_home) {
-        import(/* webpackPrefetch: true */'../page/index').then(({ whileReady }) => {
-            whileReady()
-        }).finally(() => {
-            about_us()
-        })
-        return
-    }
-    lazyload();
-    powermode()
-    about_us()
+    new Promise(() => {
+        return mashiro_option.land_at_home
+            || import(/* webpackPrefetch: true */'../page/index')
+                .then(({ whileReady }) => {
+                    whileReady()
+                })
+    }).finally(() => {
+        lazyload();
+        powermode()
+        about_us()
+    })
+
 });
 //#region mashiro_global.ini.normalize();
 post_list_show_animation();
