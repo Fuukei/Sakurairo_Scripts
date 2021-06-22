@@ -363,7 +363,6 @@ const pjaxInit = function () {
     for (let i = 0; i < _p.length; i++) {
         _p[i].classList.remove("head-copyright");
     }
-    lazyload();
     let _div = document.getElementsByTagName("div"),
         tla = document.getElementById("to-load-aplayer");
     tla && tla.addEventListener("click", () => {
@@ -906,6 +905,7 @@ if (Poi.pjax) {
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
             document.documentElement.style.overflowY = "unset";
         }
+        lazyload();
     });
     document.addEventListener("pjax:success", function () {
         if (window.gtag) {
