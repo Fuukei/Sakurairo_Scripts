@@ -893,14 +893,13 @@ if (Poi.pjax) {
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
             document.documentElement.style.overflowY = "unset";
         }
-        if (!mashiro_option.land_at_home) {
-            import(/* webpackPrefetch: true */'../page/index').then(({ whilePjaxComplete }) => {
-                whilePjaxComplete()
-            }).finally(()=>lazyload())
-            return 
-        }
-        hitokoto()
-        lazyload();
+        new Promise(
+            () => mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index')
+                .then(({ whilePjaxComplete }) => { whilePjaxComplete() }))
+            .finally(() => {
+                hitokoto()
+                lazyload();
+            })
     });
     document.addEventListener("pjax:success", function () {
         if (window.gtag) {
