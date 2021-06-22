@@ -1007,7 +1007,6 @@ function web_audio() {
     }
 }
 //#region mashiro_global.ini.normalize();
-lazyload();
 post_list_show_animation();
 coverVideoIni();
 checkSkinSecter();
@@ -1087,6 +1086,7 @@ ready(function () {
         })
         return
     }
+    lazyload();
     powermode()
     about_us()
 });
