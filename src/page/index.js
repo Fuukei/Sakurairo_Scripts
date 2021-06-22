@@ -274,7 +274,12 @@ function resizeTOC(){
     const toc_container = document.querySelector(".toc-container"),
     sc = document.querySelector(".site-content")
     if (toc_container && sc) {
-        toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
+        const resize=()=>{
+            toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
+        }
+        resize()
+        //TODO:性能
+        window.addEventListener('resize',resize,{passive:true})
     }
 }
 function tableOfContentScroll(flag) {
