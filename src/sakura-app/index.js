@@ -356,43 +356,6 @@ function coverVideoIni() {
         }
     }
 }
-const pjaxInit = function () {
-    no_right_click();
-    loadFontSetting()
-    let _p = document.getElementsByTagName("p");
-    for (let i = 0; i < _p.length; i++) {
-        _p[i].classList.remove("head-copyright");
-    }
-    let _div = document.getElementsByTagName("div"),
-        tla = document.getElementById("to-load-aplayer");
-    tla && tla.addEventListener("click", () => {
-        /* try {
-            reloadHermit();
-        } catch (e) { }; */
-        for (let i = 0; i < _div.length; i++) {
-            _div[i].classList.remove("load-aplayer");
-        }
-    });
-    /* for (let i = 0; i < _div.length; i++) {
-        if (_div[i].classList.contains("aplayer")) {
-            try {
-                reloadHermit();
-            } catch { };
-        }
-    } */
-    let iconflat = document.getElementsByClassName("iconflat");
-    if (iconflat.length != 0) {
-        iconflat[0].style.width = '50px';
-        iconflat[0].style.height = '50px';
-    }
-    let openNav = document.getElementsByClassName("openNav");
-    if (openNav.length != 0) {
-        openNav[0].style.height = '50px';
-    }
-    bgButtonAddListener()
-    timeSeriesReload();
-    add_copyright();
-}
 add_copyright()
 
 if (mashiro_option.float_player_on) {
@@ -877,7 +840,43 @@ if (Poi.pjax) {
         if (mashiro_option.land_at_home) XLS();
         if (mashiro_option.NProgressON) import('nprogress').then(({ default: NProgress }) => { NProgress.done() })
         //#region mashiro_global.ini.pjax();
-        pjaxInit();
+        //#region pjaxInit
+        no_right_click();
+        loadFontSetting()
+        let _p = document.getElementsByTagName("p");
+        for (let i = 0; i < _p.length; i++) {
+            _p[i].classList.remove("head-copyright");
+        }
+        let _div = document.getElementsByTagName("div"),
+            tla = document.getElementById("to-load-aplayer");
+        tla && tla.addEventListener("click", () => {
+            /* try {
+                reloadHermit();
+            } catch (e) { }; */
+            for (let i = 0; i < _div.length; i++) {
+                _div[i].classList.remove("load-aplayer");
+            }
+        });
+        /* for (let i = 0; i < _div.length; i++) {
+            if (_div[i].classList.contains("aplayer")) {
+                try {
+                    reloadHermit();
+                } catch { };
+            }
+        } */
+        let iconflat = document.getElementsByClassName("iconflat");
+        if (iconflat.length != 0) {
+            iconflat[0].style.width = '50px';
+            iconflat[0].style.height = '50px';
+        }
+        let openNav = document.getElementsByClassName("openNav");
+        if (openNav.length != 0) {
+            openNav[0].style.height = '50px';
+        }
+        bgButtonAddListener()
+        timeSeriesReload();
+        add_copyright();
+        //#endregion pjaxInit
         post_list_show_animation();
         web_audio();
         coverVideoIni();
