@@ -872,7 +872,6 @@ if (Poi.pjax) {
     });
     document.addEventListener("pjax:complete", function () {
         auto_height();
-        hitokoto()
         PE();
         CE();
         if (mashiro_option.land_at_home) XLS();
@@ -906,6 +905,7 @@ if (Poi.pjax) {
             }).finally(()=>lazyload())
             return 
         }
+        hitokoto()
         lazyload();
     });
     document.addEventListener("pjax:success", function () {
