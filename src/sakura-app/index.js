@@ -136,12 +136,7 @@ function scrollBar() {
             }
             cached.style.background = c; */
             //炫彩scrollbar好像不是很好看，又被php那边的样式强制覆盖了，就先注释掉
-            let toc_container = document.querySelector(".toc-container"),
-                sc = document.querySelector(".site-content"),
-                skinMenu = document.querySelector(".skin-menu");
-            if (toc_container && sc) {
-                toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
-            }
+            const skinMenu = document.querySelector(".skin-menu");
             skinMenu && skinMenu.classList.remove("show");
         })
     }

@@ -270,6 +270,13 @@ function sm() {
         }
     })
 }
+function resizeTOC(){
+    const toc_container = document.querySelector(".toc-container"),
+    sc = document.querySelector(".site-content")
+    if (toc_container && sc) {
+        toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
+    }
+}
 function tableOfContentScroll(flag) {
     if (document.body.clientWidth <= 1200) {
         return;
@@ -427,6 +434,7 @@ export function whileReady() {
     getqqinfo()
     add_upload_tips()
     copy_code_block()
+    resizeTOC()
 }
 export function whilePjaxComplete() {
     try {
