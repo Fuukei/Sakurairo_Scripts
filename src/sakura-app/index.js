@@ -1006,13 +1006,6 @@ function web_audio() {
         }
     }
 }
-//#region mashiro_global.ini.normalize();
-post_list_show_animation();
-coverVideoIni();
-checkSkinSecter();
-scrollBar();
-load_bangumi();
-//#endregion
 //afterDOMContentLoaded
 function addChangeBackgroundListener() {
     const cached = document.querySelectorAll(".menu-list li");
@@ -1090,3 +1083,10 @@ ready(function () {
     powermode()
     about_us()
 });
+//#region mashiro_global.ini.normalize();
+post_list_show_animation();
+coverVideoIni();
+checkSkinSecter();
+scrollBar();
+load_bangumi();
+//#endregion
