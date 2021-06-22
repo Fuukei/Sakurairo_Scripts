@@ -894,8 +894,8 @@ if (Poi.pjax) {
             document.documentElement.style.overflowY = "unset";
         }
         new Promise(
-            (resolve) => resolve(mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index'))
-                .then(({ whilePjaxComplete }) => { whilePjaxComplete() }))
+            (resolve) => resolve(mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index')))
+                .then(({ whilePjaxComplete }) => { whilePjaxComplete() })
             .finally(() => {
                 hitokoto()
                 lazyload();
