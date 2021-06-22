@@ -886,11 +886,6 @@ if (Poi.pjax) {
         load_bangumi();
         NH();
         //#endregion
-        if (!mashiro_option.land_at_home) {
-            import(/* webpackPrefetch: true */'../page/index').then(({ whilePjaxComplete }) => {
-                whilePjaxComplete()
-            })
-        }
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
@@ -904,6 +899,12 @@ if (Poi.pjax) {
             document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
             document.documentElement.style.overflowY = "unset";
+        }
+        if (!mashiro_option.land_at_home) {
+            import(/* webpackPrefetch: true */'../page/index').then(({ whilePjaxComplete }) => {
+                whilePjaxComplete()
+            }).finally(()=>lazyload())
+            return 
         }
         lazyload();
     });
