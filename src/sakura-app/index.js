@@ -553,7 +553,7 @@ function PE() {
         }
     }
 }
-import {jsSearchCallback} from './search'
+import { jsSearchCallback } from './search'
 function CE() {
     let comments_hidden = document.querySelector(".comments-hidden");
     let comments_main = document.querySelector(".comments-main");
