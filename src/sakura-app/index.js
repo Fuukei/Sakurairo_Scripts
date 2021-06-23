@@ -42,13 +42,10 @@ import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
 import { dispatch } from './sakurairo_global'
+import {isSupported} from './browser_detect'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
-    const UA = navigator.userAgent
-    const version_list = { Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 };
-    const reg = UA.indexOf('Chrome') != -1 ? /(Chrome)\/(\d+)/i : /(Firefox|Chrome|Version|Opera)\/(\d+)/i
-    const version = UA.match(reg);
-    Poi.pjax = version && (parseInt(version[2]) >= version_list[version[1]]) && Poi.pjax;
+    Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
     if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
         setCookie('su_webp', '1', 114514)
 
