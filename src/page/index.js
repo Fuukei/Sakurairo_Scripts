@@ -292,7 +292,7 @@ function tableOfContentScroll(flag) {
             ele = null;
         }
     } else {
-        if (flag) {
+        if (flag && document.getElementsByClassName('toc').length>0) {
             let id = 1,
                 heading_fix = mashiro_option.entry_content_theme == "sakura" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment-img") ? -75 : 200) : 375) : window.innerHeight / 2;
             let _els = document.querySelectorAll('.entry-content,.links');
