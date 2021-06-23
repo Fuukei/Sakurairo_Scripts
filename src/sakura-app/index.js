@@ -902,7 +902,7 @@ if (Poi.pjax) {
         }
     });
     document.addEventListener("pjax:error", (e) => {
-        createButterbar('文章加载出错了 HTTP ' + e.request.status)
+        createButterbar('页面加载出错了 HTTP ' + e.request.status)
     })
     window.addEventListener('popstate', function (e) {
         auto_height();
