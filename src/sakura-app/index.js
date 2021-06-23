@@ -41,6 +41,7 @@ import './global-func'
 import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
+import { dispatch } from './sakurairo_global'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     const UA = navigator.userAgent
@@ -67,11 +68,6 @@ const pjax = (() => {
         })
     )
 })()
-if (!mashiro_option.land_at_home) {
-    import(/* webpackPrefetch: true */'../page/index').then(({ whileLoaded }) => {
-        whileLoaded()
-    })
-}
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
@@ -893,13 +889,10 @@ if (Poi.pjax) {
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
             document.documentElement.style.overflowY = "unset";
         }
-        new Promise(
-            (resolve) => resolve(mashiro_option.land_at_home || import(/* webpackPrefetch: true */'../page/index')))
-                .then(({ whilePjaxComplete }) => { whilePjaxComplete() })
-            .finally(() => {
-                hitokoto()
-                lazyload();
-            })
+        dispatch('pjaxComplete').finally(() => {
+            hitokoto()
+            lazyload();
+        })
     });
     document.addEventListener("pjax:success", function () {
         if (window.gtag) {
@@ -1066,13 +1059,7 @@ ready(function () {
     initFontControl()
     web_audio()
     preload_screen()
-    new Promise((resolve) => {
-        resolve(mashiro_option.land_at_home
-            || import(/* webpackPrefetch: true */'../page/index')
-                .then(({ whileReady }) => {
-                    whileReady()
-                }))
-    }).finally(() => {
+    dispatch('ready').finally(() => {
         lazyload();
         powermode()
         about_us()

@@ -432,7 +432,7 @@ function whilePopstate() {
     article_attach()
     sm()
 }
-export function whileReady() {
+ function whileReady() {
     article_attach()
     XCS()
     XCP()
@@ -441,7 +441,7 @@ export function whileReady() {
     copy_code_block()
     resizeTOC()
 }
-export function whilePjaxComplete() {
+ function whilePjaxComplete() {
     try {
         add_upload_tips()
         article_attach()
@@ -458,7 +458,7 @@ export function whilePjaxComplete() {
         console.warn(e)
     }
 }
-export function whileLoaded() {
+ function whileLoaded() {
     window.addEventListener('popstate', whilePopstate)
     click_to_view_image()
     code_highlight_style()
@@ -467,6 +467,11 @@ export function whileLoaded() {
     smileBoxToggle()
     tableOfContentScroll(true);
     addComtListener()
-    document.addEventListener('ajax_comment_complete',afterAjaxCommentComplete)
+    document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
+import {on} from '../sakura-app/sakurairo_global'
+whileLoaded()
+on('pjaxComplete',whilePjaxComplete)
+on('ready',whileReady)
+
 //#endregion
