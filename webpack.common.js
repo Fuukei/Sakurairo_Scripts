@@ -2,8 +2,8 @@ const define = require('./define')
 module.exports = {
     entry: {
         app: './src/sakura-app/',
-        login:"./src/login.js",
-        //page:""
+        login: "./src/login.js",
+        page: {import:"./src/page/",dependOn:'app'}
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
@@ -30,8 +30,8 @@ module.exports = {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     reuseExistingChunk: true,
-                    minChunks:2,
-                    chunks:"all"
+                    minChunks: 2,
+                    chunks: "all"
                 },
                 default: {
                     priority: -20,
