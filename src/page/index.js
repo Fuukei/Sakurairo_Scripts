@@ -1,5 +1,5 @@
 import article_attach from './article_attach'
-import { slideToggle } from '../common/util'
+import { min, slideToggle } from '../common/util'
 import { lazyload } from 'lazyload'
 import { createButterbar } from '../common/butterbar'
 import './global-func'

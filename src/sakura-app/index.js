@@ -38,7 +38,7 @@ import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
 import { lazyload } from 'lazyload'
 import './global-func'
-import { onlyOnceATime, min, ready, slideToggle } from '../common/util'
+import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
 const pjax = (() => {
