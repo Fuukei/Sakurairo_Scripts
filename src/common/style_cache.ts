@@ -1,6 +1,6 @@
 export type StyleName = Exclude<keyof CSSStyleDeclaration, 'length' | 'parentRule' | number
-    | 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | '__proto__' | 'cssText' | 'cssFloat'>
-export type StyleCache = Array<[StyleName, string | number]>
+    | 'getPropertyPriority' | 'getPropertyValue' | 'item' | 'removeProperty' | 'setProperty' | '__proto__' | 'cssText' | 'cssFloat' | symbol>
+export type StyleCache = Array<[StyleName, string]>
 export const cache_style = (element: HTMLElement, ...styleNames: StyleName[]): StyleCache =>
     styleNames.map(name => [name, element.style[name]])
 

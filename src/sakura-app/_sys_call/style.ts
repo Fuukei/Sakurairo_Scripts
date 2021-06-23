@@ -1,4 +1,4 @@
-import { cache_style, recover_from_cache, StyleCache, StyleName } from "../../../module/style_cache"
+import { cache_style, recover_from_cache, StyleCache, StyleName } from "../../common/style_cache"
 function _style_mem(element: HTMLElement, relateStyles: StyleName[], func: (element: HTMLElement) => void) {
     let former_style: StyleCache
     return (turnOn: boolean) => {
