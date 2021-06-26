@@ -11,6 +11,7 @@ export default async function hitokoto() {
                 try {
                     const txt = await _hitokoto(api_path)
                     yiyan.innerText = txt
+                    return
                 } catch (e) {
                     console.warn(`一言api: 尝试联系"${api_path}"时出错。\n`, e)
                     continue
