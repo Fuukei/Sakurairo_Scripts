@@ -51,12 +51,24 @@ async function fetchAndCache(useBGN = false) {
         const resp = await fetch(getAPIPath(useBGN));
         if (resp.ok) {
             const buf = await resp.arrayBuffer();
+            try {
                 set('cover', buf);
                 /**
                  * @problem Safari暂时不支持indexdb存储blob
                  * DataCloneError: Failed to store record in an IDBObjectStore: BlobURLs are not yet supported.
                  * @seealso https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/indexeddb-best-practices#keeping_your_app_predictable
                  */
+            } catch (e) {
+                //catch: FireFox无痕模式下数据库不允许修改
+                /**
+                 * @problem FireFox无痕模式下数据库不允许修改
+                 * DOMException: A mutation operation was attempted on a database that did not allow mutations
+                 * Chrome不会报错
+                 * 像是火狐的设计 https://wiki.mozilla.org/Private_Browsing#Persistent_Storage
+                 * 变通方法 https://bugzilla.mozilla.org/show_bug.cgi?id=1639542#c9
+                */
+                console.warn(e)
+            }
         }
     } catch (e) {
         if (typeof e == 'object' && e instanceof TypeError) {
