@@ -59,6 +59,7 @@ declare namespace mashiro_option {
     const site_bg_as_cover: boolean
     const float_player_on:boolean
     const yiyan:boolean
+    const yiyan_api:Array<string>
 }
 declare namespace Poi {
     let pjax: string
@@ -76,10 +77,10 @@ declare namespace Poi {
 }
 declare namespace mashiro_global {
     //let font_control:FontControl
-    let ini: {
+/*     let ini: {
         normalize()
         pjax()
-    }
+    } */
     let variables: {
         has_hls: boolean
         skinSecter: boolean
