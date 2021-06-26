@@ -42,7 +42,8 @@ import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
 import { dispatch } from './sakurairo_global'
-import {isSupported} from './browser_detect'
+import { isSupported } from './browser_detect'
+import hitokoto from './hitokoto'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
@@ -798,18 +799,6 @@ function GT() {
 }
 
 //#endregion Siren
-function hitokoto() {
-    if (mashiro_option.yiyan) {
-        const yiyan = document.getElementById("footer_yiyan");
-        if (yiyan) {
-            fetch("https://api.maho.cc/yiyan/")
-                .then(async res => {
-                    const data = await res.json()
-                    yiyan.innerText = data['hitokoto'] + "——" + data['from']
-                })
-        }
-    }
-}
 if (Poi.pjax) {
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
