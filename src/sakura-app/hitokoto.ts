@@ -24,7 +24,7 @@ const _hitokoto = (api: string) =>
         .then(async res => {
             if (res.ok) {
                 const data = await res.json()
-                const from_who = data.from_who || ''
+                const from_who = (data.from_who == 'null' ? null : data.from_who) || ''
                 const from = data.from != data.from_who ? `「${data['from']}」` : ''
                 const hitokoto = data.hitokoto
                 return hitokoto + '——' + from_who + from
