@@ -30,12 +30,12 @@ function getAPIPath(useBGN = false) {
         return cover_api_url.toString() + (useBGN ? (cover_api_url.search === '' ? "?" : '&') + bgn : '');
     }
 }
-export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) => 
-     get('cover').then(coverBG => {
+export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) =>
+    get('cover').then(coverBG => {
         if (coverBG) {
-            if (typeof coverBG == 'object' && coverBG instanceof Blob) {
+            if (coverBG instanceof ArrayBuffer) {
                 cleanBlobUrl()
-                blob_url = URL.createObjectURL(coverBG)
+                blob_url = URL.createObjectURL(new Blob([coverBG]))
                 return blob_url
             }
         } else {
@@ -45,13 +45,18 @@ export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) 
     }).finally(() => {
         fetchAndCache(useBGN)
     })
- : getAPIPath
+    : getAPIPath
 async function fetchAndCache(useBGN = false) {
     try {
         const resp = await fetch(getAPIPath(useBGN));
         if (resp.ok) {
-            const blob = await resp.blob();
-            set('cover', blob);
+            const buf = await resp.arrayBuffer();
+                set('cover', buf);
+                /**
+                 * @problem Safari暂时不支持indexdb存储blob
+                 * DataCloneError: Failed to store record in an IDBObjectStore: BlobURLs are not yet supported.
+                 * @seealso https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/indexeddb-best-practices#keeping_your_app_predictable
+                 */
         }
     } catch (e) {
         if (typeof e == 'object' && e instanceof TypeError) {
