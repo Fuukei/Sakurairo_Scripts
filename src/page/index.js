@@ -454,6 +454,7 @@ function whilePopstate() {
         copy_code_block()
         smileBoxToggle()
         XCS()
+        resizeTOC()
     } catch (e) {
         console.warn(e)
     }
