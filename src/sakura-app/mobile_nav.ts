@@ -17,5 +17,6 @@ export function open() {
 }
 export function close() {
     toggle()
+    document.documentElement.style.overflow = ""
     mainContainer.removeEventListener('click',mainContainer_navOpened_clicked)
 }
