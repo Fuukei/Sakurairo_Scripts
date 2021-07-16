@@ -1,4 +1,5 @@
 import { get, set, del } from './cache'
+import { __ } from './sakurairo_global';
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
@@ -72,7 +73,7 @@ async function fetchAndCache(useBGN = false) {
         }
     } catch (e) {
         if (typeof e == 'object' && e instanceof TypeError) {
-            console.warn('你的封面API好像不支持跨域调用,这种情况下缓存是不会生效的哦')
+            console.warn(__('你的封面API好像不支持跨域调用,这种情况下缓存是不会生效的哦'))
             del('cover')
         }
     }

@@ -41,7 +41,7 @@ import './global-func'
 import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
-import { dispatch } from './sakurairo_global'
+import { dispatch, _$, __ } from './sakurairo_global'
 import { isSupported } from './browser_detect'
 import hitokoto from './hitokoto'
 const pjax = (() => {
@@ -713,7 +713,7 @@ const load_post = onlyOnceATime(function load_post() {
                 //
                 // }, 666)
             } else {
-                document.getElementById("pagination").innerHTML = "<span>很高兴你翻到这里，但是真的没有了...</span>";
+                document.getElementById("pagination").innerHTML = "<span>"+__("很高兴你翻到这里，但是真的没有了...")+"</span>";
                 // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
             }
             //}
@@ -897,7 +897,7 @@ if (Poi.pjax) {
         }
     });
     document.addEventListener("pjax:error", (e) => {
-        createButterbar('页面加载出错了 HTTP ' + e.request.status)
+        createButterbar(_$('页面加载出错了 HTTP {0}',e.request.status))
     })
     window.addEventListener('popstate', function (e) {
         auto_height();

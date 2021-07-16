@@ -10,9 +10,11 @@ export type WhileListenerEventName = 'pjaxComplete' | 'ready' /* | 'load' */
 export type WhileListenerCallback = () => Promise<void> | void
 export type WhileMap = Map<WhileListenerEventName, Set<WhileListenerCallback>>
 export type WhileFunction = (eventName: WhileListenerEventName, cb: WhileListenerCallback) => void
+export type I18nFunction = (defaultStr: string) => string
 export interface SakurairoGlobal {
     opt: SakurairoOption
     on: WhileFunction
+    __: I18nFunction
 /*     _sys_call:typeof sys_call
  */}
 const _map: WhileMap = new Map([['pjaxComplete', new Set()], ['ready', new Set()]/* , ['load', new Set()] */])
@@ -31,9 +33,30 @@ export function dispatch(eventName: WhileListenerEventName) {
 export const on: WhileFunction = (eventName, cb) => {
     _getListenerList(eventName).add(cb)
 }
+/**
+ * 
+ * @param key 这段句子的中文表述（默认语言）
+ */
+export const __ = (defaultStr: string) => _sakurairoi18n[defaultStr] ?? defaultStr
+/**
+ * 
+ * 占位符格式 {index} ex.{0}
+ * @param defaultStr 这段句子的中文表述（默认语言）
+ * @param replacements 句子中占位符的替代元素
+ */
+export const _$ = (defaultStr: string, ...replacements: string[]) => {
+    let template = __(defaultStr)
+    for (const index in replacements) {
+        template = template.replace('{' + index + '}', replacements[index])
+    }
+    return template
+}
+export type SakurairoI18n  = Record<string, string>
+
 const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
     on,
+    __
 /*     _sys_call:sys_call
  */}
 
@@ -44,5 +67,6 @@ if ('_sakurairo' in window) {
         sakurairoGlobal.opt = _sakurairo.opt
     }
 }
+declare const _sakurairoi18n:SakurairoI18n
 //@ts-ignore
 window._sakurairo = sakurairoGlobal

@@ -6,6 +6,8 @@ import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
 import { hljs_process, prism_process } from './code_highlight'
+import {_$, __} from '../sakura-app/sakurairo_global'
+
 function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
@@ -25,7 +27,7 @@ function copy_code_block() {
     if (ele.length > 0) {
         for (let j = 0; j < ele.length; j++) {
             ele[j].setAttribute('id', 'code-block-' + j);
-            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="拷贝代码"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="'+__("拷贝代码")+'"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
         import('clipboard').then(({ default: ClipboardJS }) => {
             new ClipboardJS('.copy-code');
@@ -62,7 +64,7 @@ function XCS() {
             event.stopPropagation()
             event.preventDefault();
             if (statusSubmitting) return
-            const butterBarRef = createButterbar("提交中(Commiting)....", true)
+            const butterBarRef = createButterbar(__("提交中...."), true)
             const form = new FormData(this)
             form.append('action', 'ajax_comment')
             statusSubmitting = true
@@ -99,7 +101,7 @@ function XCS() {
                             //jQuery('.' + __list).prepend(data);
                         }
                     }
-                    createButterbar("提交成功(Succeed)");
+                    createButterbar(__("提交成功"));
                     document.dispatchEvent(new CustomEvent('ajax_comment_complete',))
                     cancel.style.display = 'none';
                     cancel.onclick = null;
@@ -323,12 +325,12 @@ function attach_image() {
     if (!upload_img) return;
     upload_img.addEventListener("change", (function () {
         if (this.files.length > 10) {
-            createButterbar("每次上传上限为10张.<br>10 files max per request.");
+            createButterbar(__("每次上传上限为10张"));
             return 0;
         }
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i].size >= 5242880) {
-                alert('图片上传大小限制为5 MB.\n5 MB max per file.\n\n「' + this.files[i].name + '」\n\n这张图太大啦~请重新上传噢！\nThis image is too large~Please reupload!');
+                alert(_$('图片上传大小限制为5 MB\n\n「{0}」\n\n这张图太大啦~请重新上传噢！',this.files[i].name));
                 return;
             }
         }
@@ -339,7 +341,7 @@ function attach_image() {
             formData.append('cmt_img_file', f);
             xhr.addEventListener('loadstart', function () {
                 cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
-                createButterbar("上传中...<br>Uploading...");
+                createButterbar(__("上传中..."));
             });
             xhr.open("POST", buildAPI(Poi.api + 'sakura/v1/image/upload'), true);
             xhr.send(formData);
@@ -354,14 +356,14 @@ function attach_image() {
                         let get_the_url = res.proxy;
                         document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/theme/colorful/load/inload.svg" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
                         lazyload();
-                        createButterbar("图片上传成功~<br>Uploaded successfully~");
+                        createButterbar(__("图片上传成功~"));
                         grin(get_the_url, type = 'Img');
                     } else {
-                        createButterbar("上传失败！<br>Uploaded failed!<br> 文件名/Filename: " + f.name + "<br>code: " + res.status + "<br>" + res.message, 3000);
+                        createButterbar(_$('上传失败！\n文件名: {0}\ncode: {1}\n{2}',f.name,res.status,res.message),3000)
                     }
                 } else if (xhr.readyState == 4) {
                     cached.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-                    alert("上传失败，请重试.\nUpload failed, please try again.");
+                    alert(__("上传失败，请重试."));
                     setTimeout(function () {
                         cached.innerHTML = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
                     }, 1000);

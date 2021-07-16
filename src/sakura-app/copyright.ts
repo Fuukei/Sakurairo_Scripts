@@ -1,4 +1,5 @@
 import { createButterbar } from "../common/butterbar";
+import { __ } from "./sakurairo_global";
 
 const txt = [
     "# 商业转载请联系作者获得授权，非商业转载请注明出处。",
@@ -29,7 +30,7 @@ function copytext(e: ClipboardEvent) {
         const selectionText = selection.toString()
         if (selectionText.length > 30) {
             setClipboardText(e, selectionText);
-            createButterbar("复制成功！<br>Copied to clipboard successfully!", 1000);
+            createButterbar(__("复制成功！"), 1000);
         }
     }
 }
