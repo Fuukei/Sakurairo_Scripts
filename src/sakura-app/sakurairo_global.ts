@@ -1,7 +1,10 @@
 /* import sys_call from './_sys_call'
  */export interface SakurairoOption_WebAudio {
     main_gain?: number
-    notes?: string | Array<number>
+    /**
+     * 乐谱🎼
+     */
+    sheet?: string | Array<number>
 }
 export interface SakurairoOption {
     web_audio?: SakurairoOption_WebAudio
@@ -53,7 +56,7 @@ export const _$ = (defaultStr: string, ...replacements: string[]) => {
 }
 export type SakurairoI18n  = Record<string, string>
 
-const sakurairoGlobal: SakurairoGlobal = {
+export const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
     on,
     __
