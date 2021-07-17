@@ -64,13 +64,11 @@ function checkTime() {
 }
 export function ifDarkmodeShouldOn() {
     switch (mashiro_option.dm_strategy) {
-        case 'time':
-            return checkTime()
         case 'client':
             return mediaQuery.matches
         case 'eien':
             return true
-        default:
+        default:/**case time */
             return checkTime()
     }
 }
