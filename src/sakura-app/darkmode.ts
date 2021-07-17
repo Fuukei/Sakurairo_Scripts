@@ -2,7 +2,6 @@ const mediaQuery = window.matchMedia('(prefers-color-scheme:dark)')
 let inDarkMode = false
 export const isInDarkMode = () => inDarkMode
 function informDarkModeChange(nextValue: boolean) {
-    console.log("夜间模式" + (nextValue ? "开启" : "关闭"))
     if (nextValue !== inDarkMode) {
         document.dispatchEvent(new CustomEvent("darkmode", { detail: nextValue }))
         inDarkMode = nextValue
