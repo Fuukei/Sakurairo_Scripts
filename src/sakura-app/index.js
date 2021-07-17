@@ -71,7 +71,6 @@ loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 mashiro_global.variables = new function () {
-    this.has_hls = false;
     this.skinSecter = true;
 }
 function post_list_show_animation() {
@@ -312,34 +311,18 @@ function loadHls() {
         });
     }
 }
-/* function loadJS(url, callback) {
-    let script = document.createElement("script"),
-        fn = callback || function () { };
-    script.type = "text/javascript";
-    script.onload = function () {
-        fn();
-    };
-    script.src = url;
-    document.head.appendChild(script);
-} */
 
 function coverVideoIni() {
     let video = document.getElementsByTagName('video')[0];
     if (video && video.classList.contains('hls')) {
-        if (mashiro_global.variables.has_hls) {
+        if (window.Hls) {
             loadHls();
         } else {
-            /*             //不保证可用 需测试
-                        loadJS("https://cdn.jsdelivr.net/gh/mashirozx/Sakura@3.3.3/cdn/js/src/16.hls.js", function () {
-                            loadHls();
-                            mashiro_global.variables.has_hls = true;
-                        }) */
             import('hls.js')
                 .then(hls => {
                     //export to GLOBAL
                     window.Hls = hls.default
                     loadHls();
-                    mashiro_global.variables.has_hls = true;
                 })
                 .catch(reason => console.warn('Hls load failed: ', reason))
         }
@@ -713,7 +696,7 @@ const load_post = onlyOnceATime(function load_post() {
                 //
                 // }, 666)
             } else {
-                document.getElementById("pagination").innerHTML = "<span>"+__("很高兴你翻到这里，但是真的没有了...")+"</span>";
+                document.getElementById("pagination").innerHTML = "<span>" + __("很高兴你翻到这里，但是真的没有了...") + "</span>";
                 // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
             }
             //}
@@ -882,11 +865,11 @@ if (Poi.pjax) {
     });
     document.addEventListener("pjax:success", function () {
         //pjax加载时自动拉取page.js
-        if(!mashiro_option.land_at_home && !document.getElementById('app-page-js')){
+        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
             // id需要与php侧同步
             const script_app = document.getElementById('app-js')
             const script_app_page = document.createElement('script')
-            script_app_page.src = script_app.src.replace('/app.js','/page.js')
+            script_app_page.src = script_app.src.replace('/app.js', '/page.js')
             script_app_page.id = 'app-page-js'
             document.body.appendChild(script_app_page)
         }
@@ -897,7 +880,7 @@ if (Poi.pjax) {
         }
     });
     document.addEventListener("pjax:error", (e) => {
-        createButterbar(_$('页面加载出错了 HTTP {0}',e.request.status))
+        createButterbar(_$('页面加载出错了 HTTP {0}', e.request.status))
     })
     window.addEventListener('popstate', function (e) {
         auto_height();
