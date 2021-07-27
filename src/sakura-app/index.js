@@ -796,6 +796,7 @@ if (Poi.pjax) {
     });
     document.addEventListener("pjax:complete", function () {
         auto_height();
+        initCoverBG()
         PE();
         CE();
         if (mashiro_option.land_at_home) XLS();
