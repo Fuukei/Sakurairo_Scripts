@@ -28,7 +28,7 @@ export const onlyOnceATime = <T extends Function>(func: T) => {
  * @seealso https://developer.mozilla.org/zh-CN/docs/Web/API/Document/readyState
  * @param fn 要延迟执行的函数
  */
-export const ready = function (fn:Function) {
+export const ready = function (fn: Function) {
     //interactive:等价于事件DOMContentLoaded
     //complete:等价于事件load
     if (document.readyState !== 'loading') {

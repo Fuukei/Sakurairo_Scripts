@@ -84,7 +84,7 @@ function cleanBlobUrl() {
 }
 export async function initCoverBG() {
     if (mashiro_option.site_bg_as_cover) {
-        if(centerbg)centerbg.style.background = '#0000'
+        if (centerbg) centerbg.style.background = '#0000'
         if (localStorage.getItem('bgImgSetting') !== 'white-bg') {
             return
         }
