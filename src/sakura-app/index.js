@@ -913,7 +913,7 @@ window.addEventListener('hashchange', function () {
 }, false);
 /* } */
 
-function addChangeBackgroundListener() {
+function addSkinMenuListener() {
     const cached = document.querySelectorAll(".menu-list li");
     cached.forEach(e => {
         e.addEventListener("click", function () {
@@ -955,7 +955,7 @@ function powermode() {
 
 ready(function () {
     initCoverBG()
-    addChangeBackgroundListener();
+    addSkinMenuListener();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
     let changskin = document.querySelector("#changskin"),
         close_SkinMenu = document.querySelector(".skin-menu #close-skinMenu");
