@@ -1,4 +1,6 @@
 const define = require('./define')
+const webpack = require('webpack')
+const {commitHash} = require('./commit_hash')
 module.exports = {
     entry: {
         app: './src/sakura-app/',
@@ -60,6 +62,10 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.json', '.ts'] // 自动判断后缀名，引入时可以不带后缀
     },
-    plugins: [],
+    plugins: [new webpack.BannerPlugin({
+        raw:true,
+        entryOnly:true,
+        banner:`//! build ${commitHash} ${new Date().toLocaleDateString()}`
+    })],
     target: "web", devtool: "source-map",
 };
