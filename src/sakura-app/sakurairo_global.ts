@@ -40,7 +40,7 @@ export const on: WhileFunction = (eventName, cb) => {
  * 
  * @param key 这段句子的中文表述（默认语言）
  */
-export const __ = (defaultStr: string) => _sakurairoi18n[defaultStr] ?? defaultStr
+export const __ = (defaultStr: string) => (_sakurairoi18n && _sakurairoi18n[defaultStr]) || defaultStr
 /**
  * 
  * 占位符格式 {index} ex.{0}
