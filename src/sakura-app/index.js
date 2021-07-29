@@ -45,6 +45,7 @@ import { dispatch, _$, __ } from './sakurairo_global'
 import { isSupported } from './browser_detect'
 import hitokoto from './hitokoto'
 import {web_audio} from './web_audio'
+import { open, close } from './mobile_nav'
 const pjax = (() => {
     //检查是否应当开启Poi.pjax
     Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
@@ -393,19 +394,19 @@ function load_bangumi() {
 const s = document.getElementById("bgvideo");
 function MN() {
     let iconflat = document.querySelector(".iconflat");
-    iconflat && iconflat.addEventListener("click", function () {
-        document.body.classList.toggle("navOpen");
-        document.getElementById("main-container").classList.toggle("open");
-        document.getElementById("mo-nav").classList.toggle("open");
-        document.querySelector(".openNav").classList.toggle("open");
+    iconflat && iconflat.addEventListener("click", (e) => {
+        e.stopPropagation()
+        if (document.body.classList.contains("navOpen")) {
+            close()
+        } else {
+            open()
+        }
     });
 }
+
 function MNH() {
     if (document.body.classList.contains("navOpen")) {
-        document.body.classList.toggle("navOpen");
-        document.getElementById("main-container").classList.toggle("open");
-        document.getElementById("mo-nav").classList.toggle("open");
-        document.querySelector(".openNav").classList.toggle("open");
+        close()
     }
 }
 function splay() {
