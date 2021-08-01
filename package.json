@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack --config webpack.dev.js",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 2",
     "profile": "webpack --config webpack.prof.js"
   },
   "keywords": [
@@ -17,14 +17,16 @@
     {
       "name": "KotoriK",
       "url": "https://github.com/KotoriK"
-    },{
-      "name":"bymoye",
+    },
+    {
+      "name": "bymoye",
       "url": "https://github.com/bymoye"
     }
   ],
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
+    "@sliphua/pjax": "^0.13.0",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "^1.10.1",
     "baguettebox.js": "^1.11.1",
@@ -38,7 +40,6 @@
     "lazyload": "github:KotoriK/lazyload",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
-    "pjax": "^0.2.8",
     "prismjs": "^1.23.0",
     "smoothscroll-for-websites": "^1.4.10",
     "textarea-caret-position": "^0.1.1",

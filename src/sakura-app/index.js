@@ -52,7 +52,7 @@ const pjax = (() => {
     if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
         setCookie('su_webp', '1', 114514)
 
-    return Poi.pjax && import('pjax').then(({ default: Pjax }) =>
+    return Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
         new Pjax({
             selectors: ["#page", "title", ".footer-device",
                 /**mashiro_option */
