@@ -18,10 +18,14 @@ export default function about_us() {
                     console.log(zhHant)
                     return
                 default:
-                    if (matchResult[3].toLowerCase() == 'cn') {
-                        console.log(zhHans)
+                    if (matchResult[3]) {
+                        if (matchResult[3].toLowerCase() == 'cn') {
+                            console.log(zhHans)
+                        } else {
+                            console.log(zhHant)
+                        }
                     } else {
-                        console.log(zhHant)
+                        console.log(zhHans)
                     }
             }
         } else {
