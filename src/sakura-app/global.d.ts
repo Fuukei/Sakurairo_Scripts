@@ -62,7 +62,11 @@ declare namespace mashiro_option {
 }
 declare namespace Poi {
     let pjax: string
-    const movies: Object
+    const movies: {
+        url:string,
+        name:string,
+        live:string
+    }
     const windowheight: string
     const codeLamp: string
     const ajaxurl: string
