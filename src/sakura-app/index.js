@@ -44,30 +44,20 @@ import preload_screen from './preload_screen'
 import { dispatch, _$, __ } from './sakurairo_global'
 import { isSupported } from './browser_detect'
 import hitokoto from './hitokoto'
-import {web_audio} from './web_audio'
+import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
-const pjax = (() => {
-    //检查是否应当开启Poi.pjax
-    Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
-    if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-        setCookie('su_webp', '1', 114514)
+//检查是否应当开启Poi.pjax
+Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
+if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
+    setCookie('su_webp', '1', 114514)
 
-    return Poi.pjax && import('pjax').then(({ default: Pjax }) =>
-        new Pjax({
-            selectors: ["#page", "title", ".footer-device",
-                /**mashiro_option */
-                "#_mashiro_"],
-            elements: [
-                "a:not([target='_top']):not(.comment-reply-link):not(#pagination a):not(#comments-navi a):not(.user-menu-option a):not(.header-user-avatar a):not(.emoji-item):not(.no-pjax)",
-                ".search-form",
-                ".s-search",
-            ],
-            timeout: 8000,
-            history: true,
-            cacheBust: false,
-        })
-    )
-})()
+Poi.pjax && import('@sliphua/pjax/dist/pjax.esm').then(({ default: Pjax }) =>
+    new Pjax({
+        selectors: ["#page", "title", ".footer-device","#_mashiro_"],
+        scripts: "#_mashiro_",
+        timeout: 8000,
+    })
+)
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
@@ -663,7 +653,6 @@ const load_post = onlyOnceATime(function load_post() {
             for (let i = 0; i < result.length; i++) {
                 main.append(result[i])
             }
-            if (Poi.pjax) (await pjax).refresh(document.querySelector("#content"));
             //if (resp.ok) {
             // result = $(data).find("#main .post");
             // nextHref = $(data).find("#pagination a").attr("href");
@@ -796,6 +785,15 @@ if (Poi.pjax) {
         MNH();
     });
     document.addEventListener("pjax:complete", function () {
+        //pjax加载时自动拉取page.js
+        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
+            // id需要与php侧同步
+            const script_app = document.getElementById('app-js')
+            const script_app_page = document.createElement('script')
+            script_app_page.src = script_app.src.replace('/app.js', '/page.js')
+            script_app_page.id = 'app-page-js'
+            document.body.appendChild(script_app_page)
+        }
         auto_height();
         initCoverBG()
         PE();
@@ -867,15 +865,6 @@ if (Poi.pjax) {
         })
     });
     document.addEventListener("pjax:success", function () {
-        //pjax加载时自动拉取page.js
-        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
-            // id需要与php侧同步
-            const script_app = document.getElementById('app-js')
-            const script_app_page = document.createElement('script')
-            script_app_page.src = script_app.src.replace('/app.js', '/page.js')
-            script_app_page.id = 'app-page-js'
-            document.body.appendChild(script_app_page)
-        }
         if (window.gtag) {
             gtag('config', Poi.google_analytics_id, {
                 'page_path': window.location.pathname
