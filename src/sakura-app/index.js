@@ -446,14 +446,14 @@ function livepause() {
         video_stu.innerHTML = "已暂停 ...";
     }
 }
-function addsource() {
+function readCoverVideoSourceFromPoi() {
     const video_stu = document.getElementsByClassName("video-stu")[0];
     const titles = Poi.movies.name.split(","),
         title = titles[Math.floor(Math.random() * titles.length)],
         bgvideo = document.getElementById("bgvideo");
     video_stu.innerHTML = "正在载入视频 ...";
     video_stu.style.bottom = "0px";
-    bgvideo.setAttribute("src", new URL(title, Poi.movies.url).toString());
+    bgvideo.setAttribute("src", new URL(title, Poi.movies.url || location.origin).toString());
     bgvideo.setAttribute("video-name", title);
 }
 function LV() {
@@ -462,7 +462,7 @@ function LV() {
         if (this.classList.contains("loadvideo")) {
             this.classList.add("video-pause");
             this.classList.remove("loadvideo");
-            addsource();
+            readCoverVideoSourceFromPoi();
             s.oncanplay = function () {
                 splay();
                 document.getElementById("video-add").style.display = "block";
@@ -489,7 +489,7 @@ function LV() {
     });
     const video_add = document.getElementById("video-add")
     if (video_add) video_add.addEventListener("click", function () {
-        addsource();
+        readCoverVideoSourceFromPoi();
     });
 }
 function auto_height() {
