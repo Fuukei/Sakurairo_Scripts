@@ -785,15 +785,6 @@ if (Poi.pjax) {
         MNH();
     });
     document.addEventListener("pjax:complete", function () {
-        //pjax加载时自动拉取page.js
-        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
-            // id需要与php侧同步
-            const script_app = document.getElementById('app-js')
-            const script_app_page = document.createElement('script')
-            script_app_page.src = script_app.src.replace('/app.js', '/page.js')
-            script_app_page.id = 'app-page-js'
-            document.body.appendChild(script_app_page)
-        }
         auto_height();
         initCoverBG()
         PE();
@@ -865,6 +856,15 @@ if (Poi.pjax) {
         })
     });
     document.addEventListener("pjax:success", function () {
+        //pjax加载时自动拉取page.js
+        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
+            // id需要与php侧同步
+            const script_app = document.getElementById('app-js')
+            const script_app_page = document.createElement('script')
+            script_app_page.src = script_app.src.replace('/app.js', '/page.js')
+            script_app_page.id = 'app-page-js'
+            document.body.appendChild(script_app_page)
+        }
         //发送页面浏览事件
         //Google Analytics
         if (window.gtag) {
