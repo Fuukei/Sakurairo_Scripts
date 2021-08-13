@@ -447,14 +447,14 @@ function livepause() {
     }
 }
 function addsource() {
-    let video_stu = document.getElementsByClassName("video-stu")[0];
+    const video_stu = document.getElementsByClassName("video-stu")[0];
+    const titles = Poi.movies.name.split(","),
+        title = titles[Math.floor(Math.random() * titles.length)],
+        bgvideo = document.getElementById("bgvideo");
     video_stu.innerHTML = "正在载入视频 ...";
     video_stu.style.bottom = "0px";
-    let t = Poi.movies.name.split(","),
-        _t = t[Math.floor(Math.random() * t.length)],
-        bgvideo = document.getElementById("bgvideo");
-    bgvideo.setAttribute("src", Poi.movies.url + '/' + _t + '.mp4');
-    bgvideo.setAttribute("video-name", _t);
+    bgvideo.setAttribute("src", new URL(title, Poi.movies.url).toString());
+    bgvideo.setAttribute("video-name", title);
 }
 function LV() {
     let video_btn = document.getElementById("video-btn");
