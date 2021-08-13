@@ -865,10 +865,16 @@ if (Poi.pjax) {
         })
     });
     document.addEventListener("pjax:success", function () {
+        //发送页面浏览事件
+        //Google Analytics
         if (window.gtag) {
             gtag('config', Poi.google_analytics_id, {
                 'page_path': window.location.pathname
             });
+        }
+        //百度统计
+        if(window._hmt){
+            _hmt.push(['_trackPageview', pageURL]);
         }
     });
     document.addEventListener("pjax:error", (e) => {
