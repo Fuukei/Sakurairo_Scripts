@@ -46,18 +46,8 @@ import { isSupported } from './browser_detect'
 import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
-//检查是否应当开启Poi.pjax
-Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
 if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
     setCookie('su_webp', '1', 114514)
-
-Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
-    new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
-        scripts: "#_mashiro_",
-        timeout: 8000,
-    })
-)
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
@@ -771,8 +761,16 @@ function GT() {
         topFunction();
     }
 }
-
 //#endregion Siren
+//检查是否应当开启Poi.pjax
+Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
+Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
+    new Pjax({
+        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
+        scripts: "#_mashiro_",
+        timeout: 8000,
+    })
+)
 if (Poi.pjax) {
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
