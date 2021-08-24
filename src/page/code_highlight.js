@@ -85,19 +85,12 @@ const prism_darkmode_callback = (e) => {
 async function importPrismJS() {
     try {
         if (!window.Prism) {
-            const { default: Prism } = await import('prismjs')
-            window.Prism = Prism
             loadPrismCSS(isInDarkMode())
             document.addEventListener('darkmode', prism_darkmode_callback)
             //必备插件全家桶
             loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
             loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-            await Promise.all([
-                import('prismjs/plugins/autoloader/prism-autoloader'),
-                import('prismjs/plugins/previewers/prism-previewers'),
-                import('prismjs/plugins/toolbar/prism-toolbar')
-                    .then(() => import('prismjs/plugins/show-language/prism-show-language'))
-            ])
+            await import('./prism_pack')
             Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
         }
     } catch (reason) {
