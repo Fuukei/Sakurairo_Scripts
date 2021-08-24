@@ -55,7 +55,29 @@ async function lightbox() {
         import('@fancyapps/fancybox')
     }
 }
+async function math() {
+    if (document.getElementsByTagName('math').length > 0) {
+        if (!('MathJax' in window)) {
+            //@ts-ignore
+            window.MathJax = {
+                svg: {
+                    fontCache: 'global'
+                }, startup: {
+                    typeset: false,           // Perform initial typeset?
+                }, chtml: {
+                    fontURL: "https://cdn.jsdelivr.net/npm/mathjax/es5/output/chtml/fonts/woff-v2",
+                    mathmlSpacing: true// true for MathML spacing rules, false for TeX rules
+                }
+            }
+        }
+        //@ts-ignore
+        await import('mathjax/es5/mml-chtml')
+        //@ts-ignore
+        window.MathJax.typeset()
+    }
+}
 export default function article_attach() {
     collapse()
     lightbox()
+    math()
 }
