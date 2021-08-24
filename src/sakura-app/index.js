@@ -41,7 +41,7 @@ import './global-func'
 import { onlyOnceATime, ready, slideToggle } from '../common/util'
 import about_us from './about_us'
 import preload_screen from './preload_screen'
-import { dispatch, _$, __ } from './sakurairo_global'
+import { _$, __ } from './sakurairo_global'
 import { isSupported } from './browser_detect'
 import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
@@ -848,10 +848,8 @@ if (Poi.pjax) {
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
             document.documentElement.style.overflowY = "unset";
         }
-        dispatch('pjaxComplete').finally(() => {
-            hitokoto()
-            lazyload();
-        })
+        hitokoto()
+        lazyload();
     });
     document.addEventListener("pjax:success", function () {
         //pjax加载时自动拉取page.js
@@ -881,7 +879,6 @@ if (Poi.pjax) {
         if (window._hmt) {
             _hmt.push(['_trackPageview', pageURL]);
         }
-        dispatch('pjaxSuccess')
     });
     document.addEventListener("pjax:error", (e) => {
         createButterbar(_$('页面加载出错了 HTTP {0}', e.request.status))
@@ -982,11 +979,9 @@ ready(function () {
     initFontControl()
     web_audio()
     preload_screen()
-    dispatch('ready').finally(() => {
-        lazyload();
-        powermode()
-        about_us()
-    })
+    lazyload();
+    powermode()
+    about_us()
 
 });
 //#region mashiro_global.ini.normalize();

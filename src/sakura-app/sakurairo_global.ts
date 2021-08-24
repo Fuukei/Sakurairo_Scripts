@@ -16,26 +16,9 @@ export type WhileFunction = (eventName: WhileListenerEventName, cb: WhileListene
 export type I18nFunction = (defaultStr: string) => string
 export interface SakurairoGlobal {
     opt: SakurairoOption
-    on: WhileFunction
     __: I18nFunction
 /*     _sys_call:typeof sys_call
  */}
-const _map: WhileMap = new Map([['pjaxComplete', new Set()], ['ready', new Set()]/* , ['load', new Set()] */,  ['pjaxSuccess', new Set()] ])
-function _getListenerList(eventName: WhileListenerEventName) {
-    const listener_list = _map.get(eventName)
-    if (listener_list) {
-        return listener_list
-    } else {
-        throw new TypeError('[Sakurairo] unknown name.')
-    }
-}
-export function dispatch(eventName: WhileListenerEventName) {
-    const list = _getListenerList(eventName)
-    return Promise.all(Array.from(list.values()).map(cb => cb()))
-}
-export const on: WhileFunction = (eventName, cb) => {
-    _getListenerList(eventName).add(cb)
-}
 /**
  * 
  * @param key 这段句子的中文表述（默认语言）
@@ -59,7 +42,6 @@ export type SakurairoI18n  = Record<string, string>
 
 export const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
-    on,
     __
 /*     _sys_call:sys_call
  */}

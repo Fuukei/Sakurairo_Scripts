@@ -1,5 +1,5 @@
 import article_attach from './article_attach'
-import { min, slideToggle } from '../common/util'
+import { min, ready, slideToggle } from '../common/util'
 import { lazyload } from 'lazyload'
 import { createButterbar } from '../common/butterbar'
 import './global-func'
@@ -472,9 +472,7 @@ function whileLoaded() {
     addComtListener()
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
-import {on} from '../sakura-app/sakurairo_global'
 whileLoaded()
-on('pjaxComplete',whilePjaxComplete)
-on('ready',whileReady)
-
+document.addEventListener('pjax:complete',whilePjaxComplete)
+ready(whileReady)
 //#endregion
