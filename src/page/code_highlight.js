@@ -49,8 +49,9 @@ export async function hljs_process(pre, code) {
         console.warn(e)
     }
 }
+//Prism
 const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path ?? 'https://cdn.jsdelivr.net/npm/prismjs@1.23.0/'
-let current_prism_css = undefined
+let currentPrismThemeCSS = undefined
 const themeCSS = (() => {
     const { light, dark } = mashiro_option.code_highlight_prism?.theme ?? {}
     const theme = {
@@ -62,40 +63,44 @@ const themeCSS = (() => {
     }
     return theme
 })()
+
 function loadPrismCSS(darkmodeOn) {
     const nextCSS = darkmodeOn ? themeCSS.dark : themeCSS.light
-    if (current_prism_css) {
-        if (current_prism_css.href !== nextCSS) {
+    if (currentPrismThemeCSS) {
+        if (currentPrismThemeCSS.href !== nextCSS) {
             const nextCSSElement = loadCSS(nextCSS)
             nextCSSElement.addEventListener('load', () => {
-                current_prism_css.remove()
-                current_prism_css = nextCSSElement
+                currentPrismThemeCSS.remove()
+                currentPrismThemeCSS = nextCSSElement
             })
         }
     } else {
-        current_prism_css = loadCSS(nextCSS)
+        currentPrismThemeCSS = loadCSS(nextCSS)
     }
 }
+
+const _prism_darkmode_callback = (e) => {
+    loadPrismCSS(e.detail)
+}
+
 async function importPrismJS() {
     try {
         if (!window.Prism) {
             const { default: Prism } = await import('prismjs')
             window.Prism = Prism
+            //必备插件全家桶
+            loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
+            loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
+            loadPrismCSS(isInDarkMode())
+            document.addEventListener('darkmode', _prism_darkmode_callback)
+            await Promise.all([
+                import('prismjs/plugins/autoloader/prism-autoloader'),
+                import('prismjs/plugins/previewers/prism-previewers'),
+                import('prismjs/plugins/toolbar/prism-toolbar')
+                    .then(() => import('prismjs/plugins/show-language/prism-show-language'))
+            ])
+            Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
         }
-        //必备插件全家桶
-        loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
-        loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-        loadPrismCSS(isInDarkMode())
-        document.addEventListener('darkmode', (e) => {
-            loadPrismCSS(e.detail)
-        })
-        await Promise.all([
-            import('prismjs/plugins/autoloader/prism-autoloader'),
-            import('prismjs/plugins/previewers/prism-previewers'),
-            import('prismjs/plugins/toolbar/prism-toolbar')
-                .then(() => import('prismjs/plugins/show-language/prism-show-language'))
-        ])
-        Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
     } catch (reason) {
         console.warn(reason)
     }
@@ -104,6 +109,10 @@ function loadPrismPluginLineNumbers() {
     loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
     return import('prismjs/plugins/line-numbers/prism-line-numbers')
 }
+function loadPrismMatchBraces() {
+    loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
+    return import('prismjs/plugins/match-braces/prism-match-braces')
+}
 /**
  * 
  * @param {NodeListOf<HTMLElement>} code document.querySelectorAll("pre code")
@@ -111,20 +120,29 @@ function loadPrismPluginLineNumbers() {
 export async function prism_process(code) {
     try {
         await importPrismJS()
+        let loadLineNumber = false
+        let loadMatchBraces = false
         if (mashiro_option.code_highlight_prism.line_number_all) {
             document.querySelector('.entry-content').classList.add('line-numbers')
-            await loadPrismPluginLineNumbers()
+            loadLineNumber = true
         }
-        code.forEach(async ele => {
+        for (const ele of code) {
             if (ele.parentElement.classList.contains('line-numbers')) {
-                await loadPrismPluginLineNumbers()
+                loadLineNumber = true
             }
             if (ele.classList.contains('match-braces')) {
-                await import('prismjs/plugins/match-braces/prism-match-braces')
-                loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
+                loadMatchBraces = true
+                if (loadLineNumber == true) {
+                    break
+                }
             }
+        }
+        if (loadLineNumber) await loadPrismPluginLineNumbers()
+        if (loadMatchBraces) await loadPrismMatchBraces()
+
+        for (const ele of code) {
             Prism.highlightElement(ele)
-        })
+        }
         Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
     } catch (error) {
         console.warn(error)
