@@ -29,10 +29,11 @@ function collapse() {
         // })
     }
 }
+let lightBoxCSS: HTMLLinkElement
 async function lightbox() {
     //init lightbox
     if (mashiro_option.baguetteBoxON) {
-        loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
+        if (!lightBoxCSS) lightBoxCSS = loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
         //@ts-ignore
         const { default: baguetteBox } = await import('baguettebox.js')
         baguetteBox.run('.entry-content', {
@@ -42,7 +43,7 @@ async function lightbox() {
             ignoreClass: 'fancybox',
         });
     } else if (mashiro_option.fancybox) {
-        loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
+        if (!lightBoxCSS) lightBoxCSS = loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
 
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
             //@ts-ignore
