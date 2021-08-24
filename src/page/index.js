@@ -6,7 +6,7 @@ import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
 import { hljs_process, prism_process } from './code_highlight'
-import {_$, __} from '../sakura-app/sakurairo_global'
+import { _$, __ } from '../sakura-app/sakurairo_global'
 
 function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
@@ -27,7 +27,7 @@ function copy_code_block() {
     if (ele.length > 0) {
         for (let j = 0; j < ele.length; j++) {
             ele[j].setAttribute('id', 'code-block-' + j);
-            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="'+__("拷贝代码")+'"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
         import('clipboard').then(({ default: ClipboardJS }) => {
             new ClipboardJS('.copy-code');
@@ -294,7 +294,7 @@ function tableOfContentScroll(flag) {
             ele = null;
         }
     } else {
-        if (flag && document.getElementsByClassName('toc').length>0) {
+        if (flag && document.getElementsByClassName('toc').length > 0) {
             let id = 1,
                 heading_fix = mashiro_option.entry_content_theme == "sakura" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment-img") ? -75 : 200) : 375) : window.innerHeight / 2;
             let _els = document.querySelectorAll('.entry-content,.links');
@@ -330,7 +330,7 @@ function attach_image() {
         }
         for (let i = 0; i < this.files.length; i++) {
             if (this.files[i].size >= 5242880) {
-                alert(_$('图片上传大小限制为5 MB\n\n「{0}」\n\n这张图太大啦~请重新上传噢！',this.files[i].name));
+                alert(_$('图片上传大小限制为5 MB\n\n「{0}」\n\n这张图太大啦~请重新上传噢！', this.files[i].name));
                 return;
             }
         }
@@ -359,7 +359,7 @@ function attach_image() {
                         createButterbar(__("图片上传成功~"));
                         grin(get_the_url, type = 'Img');
                     } else {
-                        createButterbar(_$('上传失败！\n文件名: {0}\ncode: {1}\n{2}',f.name,res.status,res.message),3000)
+                        createButterbar(_$('上传失败！\n文件名: {0}\ncode: {1}\n{2}', f.name, res.status, res.message), 3000)
                     }
                 } else if (xhr.readyState == 4) {
                     cached.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
@@ -434,7 +434,7 @@ function whilePopstate() {
     article_attach()
     sm()
 }
- function whileReady() {
+function whileReady() {
     article_attach()
     XCS()
     XCP()
@@ -443,7 +443,7 @@ function whilePopstate() {
     copy_code_block()
     resizeTOC()
 }
- function whilePjaxComplete() {
+function whilePjaxComplete() {
     try {
         add_upload_tips()
         article_attach()
@@ -461,7 +461,7 @@ function whilePopstate() {
         console.warn(e)
     }
 }
- function whileLoaded() {
+function whileLoaded() {
     window.addEventListener('popstate', whilePopstate)
     click_to_view_image()
     code_highlight_style()
