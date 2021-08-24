@@ -137,9 +137,7 @@ export async function prism_process(code) {
                 }
             }
         }
-        if (loadLineNumber) await loadPrismPluginLineNumbers()
-        if (loadMatchBraces) await loadPrismMatchBraces()
-
+        await Promise.all([loadLineNumber && loadPrismPluginLineNumbers(), loadMatchBraces && loadPrismMatchBraces()])
         for (const ele of code) {
             Prism.highlightElement(ele)
         }
