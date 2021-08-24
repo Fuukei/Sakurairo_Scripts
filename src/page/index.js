@@ -8,26 +8,26 @@ import addComment from './AddComment'
 import { hljs_process, prism_process } from './code_highlight'
 import { _$, __ } from '../sakura-app/sakurairo_global'
 
-function code_highlight_style() {
+async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
     if (!pre.length) return;
     switch (mashiro_option.code_highlight) {
         case 'hljs':
-            return hljs_process(pre, code)
+            await hljs_process(pre, code)
+            break
         case 'prism':
-            return prism_process(code)
+            await prism_process(code)
+            break
         case 'custom': return
         default:
             console.warn(`mashiro_option.code_highlight这咋填的是个${mashiro_option.code_highlight}啊🤔`)
     }
-}
-function copy_code_block() {
-    const ele = document.querySelectorAll("pre code");
-    if (ele.length > 0) {
-        for (let j = 0; j < ele.length; j++) {
-            ele[j].setAttribute('id', 'code-block-' + j);
-            ele[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+    //copy_code_block
+    if (code.length > 0) {
+        for (let j = 0; j < code.length; j++) {
+            code[j].setAttribute('id', 'code-block-' + j);
+            code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
         import('clipboard').then(({ default: ClipboardJS }) => {
             new ClipboardJS('.copy-code');
@@ -440,7 +440,6 @@ function whileReady() {
     XCP()
     getqqinfo()
     add_upload_tips()
-    copy_code_block()
     resizeTOC()
 }
 function whilePjaxComplete() {
@@ -453,7 +452,6 @@ function whilePjaxComplete() {
         sm()
         original_emoji_click()
         code_highlight_style()
-        copy_code_block()
         smileBoxToggle()
         XCS()
         resizeTOC()
@@ -473,6 +471,6 @@ function whileLoaded() {
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()
-document.addEventListener('pjax:complete',whilePjaxComplete)
+document.addEventListener('pjax:complete', whilePjaxComplete)
 ready(whileReady)
 //#endregion
