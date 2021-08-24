@@ -51,9 +51,9 @@ Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9
 if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
     setCookie('su_webp', '1', 114514)
 
-Poi.pjax && import('@sliphua/pjax/dist/pjax.esm').then(({ default: Pjax }) =>
+Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
-        selectors: ["#page", "title", ".footer-device","#_mashiro_"],
+        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
         scripts: "#_mashiro_",
         timeout: 8000,
     })
@@ -866,14 +866,21 @@ if (Poi.pjax) {
             document.body.appendChild(script_app_page)
         }
         //发送页面浏览事件
-        //Google Analytics
+
+        /**
+         * Google Analytics
+         * @seealso https://developers.google.com/analytics/devguides/collection/gtagjs/pages
+         */
         if (window.gtag) {
             gtag('config', Poi.google_analytics_id, {
                 'page_path': window.location.pathname
             });
         }
-        //百度统计
-        if(window._hmt){
+        /**
+         * 百度统计
+         * @seealso https://tongji.baidu.com/web/help/article?id=235
+         */
+        if (window._hmt) {
             _hmt.push(['_trackPageview', pageURL]);
         }
     });
