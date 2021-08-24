@@ -23,6 +23,14 @@ export const onlyOnceATime = <T extends Function>(func: T) => {
         }
     }
 }
+let readyFunctionList: Function[] = []
+const whileReady = () => {
+    document.removeEventListener('DOMContentLoaded', whileReady)
+    for (const fn of readyFunctionList) {
+        fn()
+    }
+    readyFunctionList = []
+}
 /**
  * 延迟函数到DOM树加载完成后执行
  * @seealso https://developer.mozilla.org/zh-CN/docs/Web/API/Document/readyState
@@ -34,8 +42,10 @@ export const ready = function (fn: Function) {
     if (document.readyState !== 'loading') {
         return fn();
     }
-    //@ts-ignore
-    document.addEventListener('DOMContentLoaded', fn, false);
+    if (readyFunctionList.length == 0) {
+        document.addEventListener('DOMContentLoaded', whileReady, false);
+    }
+    readyFunctionList.push(fn)
 };
 export function slideToggle(el: any, duration = 1000, mode = '', callback?: () => void) {
     let dom = el;
