@@ -9,7 +9,7 @@
 export interface SakurairoOption {
     web_audio?: SakurairoOption_WebAudio
 }
-export type WhileListenerEventName = 'pjaxComplete' | 'ready' /* | 'load' */
+export type WhileListenerEventName = 'pjaxComplete' | 'ready' /* | 'load' */ | 'pjaxSuccess'//pjaxSuccess的触发顺序在pjaxComplete之后
 export type WhileListenerCallback = () => Promise<void> | void
 export type WhileMap = Map<WhileListenerEventName, Set<WhileListenerCallback>>
 export type WhileFunction = (eventName: WhileListenerEventName, cb: WhileListenerCallback) => void
@@ -20,7 +20,7 @@ export interface SakurairoGlobal {
     __: I18nFunction
 /*     _sys_call:typeof sys_call
  */}
-const _map: WhileMap = new Map([['pjaxComplete', new Set()], ['ready', new Set()]/* , ['load', new Set()] */])
+const _map: WhileMap = new Map([['pjaxComplete', new Set()], ['ready', new Set()]/* , ['load', new Set()] */,  ['pjaxSuccess', new Set()] ])
 function _getListenerList(eventName: WhileListenerEventName) {
     const listener_list = _map.get(eventName)
     if (listener_list) {

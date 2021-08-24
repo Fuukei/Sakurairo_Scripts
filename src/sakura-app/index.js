@@ -883,6 +883,7 @@ if (Poi.pjax) {
         if (window._hmt) {
             _hmt.push(['_trackPageview', pageURL]);
         }
+        dispatch('pjaxSuccess')
     });
     document.addEventListener("pjax:error", (e) => {
         createButterbar(_$('页面加载出错了 HTTP {0}', e.request.status))
