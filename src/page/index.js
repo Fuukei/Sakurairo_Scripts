@@ -29,9 +29,8 @@ async function code_highlight_style() {
             code[j].setAttribute('id', 'code-block-' + j);
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
-        import('clipboard').then(({ default: ClipboardJS }) => {
-            new ClipboardJS('.copy-code');
-        })
+        const { default: ClipboardJS } = await import('clipboard')
+        new ClipboardJS('.copy-code');
     }
 }
 function click_to_view_image() {
