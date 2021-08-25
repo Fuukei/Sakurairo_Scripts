@@ -624,6 +624,7 @@ function NH() {
 const load_post = onlyOnceATime(function load_post() {
     const now_href = document.location.href
     const pagination_a = document.querySelector('#pagination a');
+    if (pagination_a.classList.contains("loading")) return;
     pagination_a.classList.add("loading");
     pagination_a.innerText = "";
 
@@ -735,7 +736,7 @@ function XLS() {
     );
     //TODO:fix:监听器重复挂载
     document.body.addEventListener("click", function (e) {
-        if (e.target == document.querySelector("#pagination a")) {
+        if (e.target === document.querySelector("#pagination a")) {
             e.preventDefault();
             e.stopPropagation();
             clearTimeout(load_post_timer);
