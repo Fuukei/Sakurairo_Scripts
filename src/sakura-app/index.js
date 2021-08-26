@@ -518,14 +518,14 @@ function PE() {
 }
 import { jsSearchCallback } from './search'
 function CE() {
-    let comments_hidden = document.querySelector(".comments-hidden");
+    let comments_fold = document.querySelector(".comments-fold");
     let comments_main = document.querySelector(".comments-main");
-    if (comments_hidden != null) {
-        comments_hidden.style.display = "block";
+    if (comments_fold != null) {
+        comments_fold.style.display = "block";
         comments_main.style.display = "none";
-        comments_hidden.addEventListener("click", function () {
+        comments_fold.addEventListener("click", function () {
             slideToggle(comments_main, 500, 'show');
-            comments_hidden.style.display = "none";
+            comments_fold.style.display = "none";
         });
     }
     let archives = document.getElementsByClassName("archives");
