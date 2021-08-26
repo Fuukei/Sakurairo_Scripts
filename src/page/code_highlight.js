@@ -1,18 +1,21 @@
 import { isInDarkMode } from '../sakura-app/darkmode'
 import { loadCSS } from 'fg-loadcss'
+const attributes = {
+    'autocomplete': 'off',
+    'autocorrect': 'off',
+    'autocapitalize': 'off',
+    'spellcheck': 'false',
+    'contenteditable': 'false',
+    'design': 'by Mashiro'
+}
 function gen_top_bar(pre, code_a) {
-    const attributes = {
-        'autocomplete': 'off',
-        'autocorrect': 'off',
-        'autocapitalize': 'off',
-        'spellcheck': 'false',
-        'contenteditable': 'false',
-        'design': 'by Mashiro'
-    }
     if (!pre.children[0]) return
-    const ele_name = pre.children[0].className
-    let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
-    if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
+    const className = pre.children[0].className
+    const matchResult = className.match(/language-(\w+)/i)
+    let lang = 'text'
+    if(matchResult){
+        lang = matchResult[1]
+    }
     pre.classList.add("highlight-wrap");
     for (const t in attributes) {
         pre.setAttribute(t, attributes[t]);
