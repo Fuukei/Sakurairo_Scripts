@@ -32,6 +32,21 @@ async function importHighlightjs() {
         console.warn(e)
     }
 }
+const hljs_click_callback = (e) => {
+    const element = e.target
+    if (!element.classList.contains("highlight-wrap")) return;
+    if (element.classList.contains('code-block-fullscreen')) {
+        element.remove()
+    } else {
+        const cloneElement = element.cloneNode(true)
+        cloneElement.classList.toggle("code-block-fullscreen")
+        document.body.append(cloneElement)
+    }
+    document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
+}
+export function deattchHljsCallback() {
+    document.body.removeEventListener("click", hljs_click_callback)
+}
 export async function hljs_process(pre, code) {
     try {
         await importHighlightjs()
@@ -42,14 +57,7 @@ export async function hljs_process(pre, code) {
             gen_top_bar(pre[i], code[i]);
         }
         hljs.initLineNumbersOnLoad();
-        const ec = document.querySelector(".entry-content");
-        ec && ec.addEventListener("click", function (e) {
-            //类型问题
-            //可以考虑换成 ec
-            if (!e.target.classList.contains("highlight-wrap")) return;
-            e.target.classList.toggle("code-block-fullscreen");
-            document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
-        })
+        document.body.addEventListener("click", hljs_click_callback)
     } catch (e) {
         console.warn(e)
     }
