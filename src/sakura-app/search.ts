@@ -140,7 +140,7 @@ export function jsSearchCallback() {
         var otxt = document.getElementById("search-input") as HTMLInputElement,
             //list = document.getElementById("PostlistBox"),
             //Record = list.innerHTML,
-            searchFlag:number = null;
+            searchFlag:ReturnType<typeof setTimeout> = null;
         otxt.oninput = function () {
             if (searchFlag != null) {
                 clearTimeout(searchFlag);

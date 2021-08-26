@@ -44,7 +44,13 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.ts$/, use: 'ts-loader' },
+            {
+                test: /\.ts$/, use: {
+                    loader: 'ts-loader', options: {
+                        allowTsInNodeModules: true
+                    }
+                }
+            },
             {
                 test: /\.m?js$/,
                 exclude: /(node_modules)/,
