@@ -5,13 +5,16 @@ import { createButterbar } from '../common/butterbar'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
-import { hljs_process, prism_process } from './code_highlight'
+import { hljs_process, prism_process, deattachPrismCallback } from './code_highlight'
 import { _$, __ } from '../sakura-app/sakurairo_global'
 
 async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
-    if (!pre.length) return;
+    if (!pre.length) {
+        if (mashiro_option.code_highlight == 'prism') deattachPrismCallback()
+        return
+    }
     switch (mashiro_option.code_highlight) {
         case 'hljs':
             await hljs_process(pre, code)

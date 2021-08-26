@@ -1,18 +1,21 @@
 import { isInDarkMode } from '../sakura-app/darkmode'
 import { loadCSS } from 'fg-loadcss'
+const attributes = {
+    'autocomplete': 'off',
+    'autocorrect': 'off',
+    'autocapitalize': 'off',
+    'spellcheck': 'false',
+    'contenteditable': 'false',
+    'design': 'by Mashiro'
+}
 function gen_top_bar(pre, code_a) {
-    const attributes = {
-        'autocomplete': 'off',
-        'autocorrect': 'off',
-        'autocapitalize': 'off',
-        'spellcheck': 'false',
-        'contenteditable': 'false',
-        'design': 'by Mashiro'
-    }
     if (!pre.children[0]) return
-    const ele_name = pre.children[0].className
-    let lang = ele_name.substr(0, ele_name.indexOf(" ")).replace('language-', '')
-    if (lang.toLowerCase() == "hljs") lang = code_a.className.replace('hljs', '') ? code_a.className.replace('hljs', '') : "text";
+    let lang = 'text'
+    const className = pre.children[0].className
+    const matchResult = className.match(/language-(\w+)/i)
+    if (matchResult) {
+        lang = matchResult[1]
+    }
     pre.classList.add("highlight-wrap");
     for (const t in attributes) {
         pre.setAttribute(t, attributes[t]);
@@ -22,16 +25,18 @@ function gen_top_bar(pre, code_a) {
 async function importHighlightjs() {
     try {
         if (!window.hljs) {
-            window.hljs = await import('highlight.js')
+            window.hljs = (await import('highlight.js')).default
             await import('highlightjs-line-numbers.js')
         }
-    } catch (e) { console.warn(e) }
+    } catch (e) {
+        console.warn(e)
+    }
 }
 export async function hljs_process(pre, code) {
     try {
         await importHighlightjs()
         for (let i = 0; i < code.length; i++) {
-            hljs.highlightBlock(code[i]);
+            hljs.highlightElement(code[i]);
         }
         for (let i = 0; i < pre.length; i++) {
             gen_top_bar(pre[i], code[i]);
@@ -82,6 +87,7 @@ function loadPrismCSS(darkmodeOn) {
 const prism_darkmode_callback = (e) => {
     loadPrismCSS(e.detail)
 }
+export const deattachPrismCallback = () => document.removeEventListener('darkmode', prism_darkmode_callback)
 async function importPrismJS() {
     try {
         if (!window.Prism) {

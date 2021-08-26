@@ -48,6 +48,15 @@ import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
     setCookie('su_webp', '1', 114514)
+//检查是否应当开启Poi.pjax
+Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
+Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
+    new Pjax({
+        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
+        scripts: "#_mashiro_",
+        timeout: 8000,
+    })
+)
 loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
@@ -351,7 +360,7 @@ function load_bangumi() {
                 target.classList.add("loading");
                 target.textContent = "";
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', target.href + "&_wpnonce=" + Poi.nonce, true);
+                xhr.open('POST', target.dataset.href + "&_wpnonce=" + Poi.nonce, true);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         let html = JSON.parse(xhr.responseText),
@@ -518,14 +527,14 @@ function PE() {
 }
 import { jsSearchCallback } from './search'
 function CE() {
-    let comments_hidden = document.querySelector(".comments-hidden");
+    let comments_fold = document.querySelector(".comments-fold");
     let comments_main = document.querySelector(".comments-main");
-    if (comments_hidden != null) {
-        comments_hidden.style.display = "block";
+    if (comments_fold != null) {
+        comments_fold.style.display = "block";
         comments_main.style.display = "none";
-        comments_hidden.addEventListener("click", function () {
+        comments_fold.addEventListener("click", function () {
             slideToggle(comments_main, 500, 'show');
-            comments_hidden.style.display = "none";
+            comments_fold.style.display = "none";
         });
     }
     let archives = document.getElementsByClassName("archives");
@@ -762,16 +771,8 @@ function GT() {
         topFunction();
     }
 }
+
 //#endregion Siren
-//检查是否应当开启Poi.pjax
-Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
-Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
-    new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
-        scripts: "#_mashiro_",
-        timeout: 8000,
-    })
-)
 if (Poi.pjax) {
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {

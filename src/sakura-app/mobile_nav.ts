@@ -1,9 +1,6 @@
 const mainContainer = document.getElementById("main-container")
 
-const  mainContainer_navOpened_clicked = ()=>{
-    close()
-}
-function toggle(){
+function toggle() {
     document.body.classList.toggle("navOpen");
     mainContainer.classList.toggle("open");
     document.getElementById("mo-nav").classList.toggle("open");
@@ -13,10 +10,10 @@ function toggle(){
 export function open() {
     toggle()
     document.documentElement.style.overflow = "hidden"
-    mainContainer.addEventListener('click',mainContainer_navOpened_clicked)
+    mainContainer.addEventListener('click', close)
 }
 export function close() {
     toggle()
     document.documentElement.style.overflow = ""
-    mainContainer.removeEventListener('click',mainContainer_navOpened_clicked)
+    mainContainer.removeEventListener('click', close)
 }
