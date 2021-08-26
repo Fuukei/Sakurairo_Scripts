@@ -1,11 +1,11 @@
 const define = require('./define')
 const webpack = require('webpack')
-const {commitHash} = require('./commit_hash')
+const { commitHash } = require('./commit_hash')
 module.exports = {
     entry: {
         app: './src/sakura-app/',
         login: "./src/login.js",
-        page: {import:"./src/page/",dependOn:'app'}
+        page: { import: "./src/page/", dependOn: 'app' }
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
@@ -53,7 +53,13 @@ module.exports = {
                     options: {
                         presets: ['@babel/preset-env'],
                         cacheDirectory: true,
-                        cacheCompression: false
+                        cacheCompression: false,
+                        assumptions: {
+                            //https://babeljs.io/docs/en/assumptions
+                            noDocumentAll: true,
+                            noClassCalls: true,
+                            noIncompleteNsImportDetection: true
+                        }
                     }
                 }
             }
@@ -63,9 +69,9 @@ module.exports = {
         extensions: ['.js', '.json', '.ts'] // 自动判断后缀名，引入时可以不带后缀
     },
     plugins: [new webpack.BannerPlugin({
-        raw:true,
-        entryOnly:true,
-        banner:`//! build ${commitHash} ${new Date().toLocaleDateString()}`
+        raw: true,
+        entryOnly: true,
+        banner: `//! build ${commitHash} ${new Date().toLocaleDateString()}`
     })],
     target: "web", devtool: "source-map",
 };
