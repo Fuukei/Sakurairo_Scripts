@@ -14,7 +14,8 @@ module.exports = merge(common, {
           sourceMap: true,
           ecma:2015,
           module:true,
-          toplevel:true
+          toplevel:true,
+          compress:{passes:2}
         },
       })
     ]
