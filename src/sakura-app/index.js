@@ -199,8 +199,8 @@ async function changeBG(bgid) {
 function bgButtonAddListener() {
     const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");
-    if (next) { next.onclick = () => { nextBG() } };
-    if (pre) { pre.onclick = () => { preBG() } };
+    if (next) { next.onclick = nextBG };
+    if (pre) { pre.onclick = preBG };
 }
 
 function topFunction() {
