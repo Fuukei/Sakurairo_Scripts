@@ -1,4 +1,5 @@
 import { createButterbar } from "../common/butterbar";
+import { lazyload } from 'lazyload'
 
 const bgmlistener = (e: any) => {
     const target: HTMLElement = e.target;
@@ -18,6 +19,8 @@ const bgmlistener = (e: any) => {
                 if (res.ok) {
                     document.getElementById("bangumi-pagination").remove();
                     document.querySelector(".row").insertAdjacentHTML('beforeend', data);
+                    //@ts-ignore
+                    lazyload()
                 } else {
                     throw Error(`Error，Status：${res.status}`);
                 }
