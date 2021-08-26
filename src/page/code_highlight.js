@@ -22,7 +22,7 @@ function gen_top_bar(pre, code_a) {
 async function importHighlightjs() {
     try {
         if (!window.hljs) {
-            window.hljs = await import('highlight.js')
+            window.hljs = (await import('highlight.js')).default
             await import('highlightjs-line-numbers.js')
         }
     } catch (e) { console.warn(e) }
@@ -31,7 +31,7 @@ export async function hljs_process(pre, code) {
     try {
         await importHighlightjs()
         for (let i = 0; i < code.length; i++) {
-            hljs.highlightBlock(code[i]);
+            hljs.highlightElement(code[i]);
         }
         for (let i = 0; i < pre.length; i++) {
             gen_top_bar(pre[i], code[i]);
