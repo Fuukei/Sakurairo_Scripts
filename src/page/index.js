@@ -7,7 +7,7 @@ import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
 import { hljs_process, prism_process, deattachPrismCallback, deattchHljsCallback } from './code_highlight'
 import { _$, __ } from '../sakura-app/sakurairo_global'
-
+import load_bangumi from './bangumi'
 async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
@@ -455,6 +455,7 @@ function whilePjaxComplete() {
     try {
         add_upload_tips()
         article_attach()
+        load_bangumi();
         tableOfContentScroll(true);
         click_to_view_image()
         getqqinfo()
@@ -472,6 +473,7 @@ function whileLoaded() {
     window.addEventListener('popstate', whilePopstate)
     click_to_view_image()
     code_highlight_style()
+    load_bangumi();
     sm()
     original_emoji_click()
     smileBoxToggle()
