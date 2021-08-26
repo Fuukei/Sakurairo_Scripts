@@ -342,6 +342,35 @@ setTimeout(function () {
     activate_widget();
 }, 100);
 
+const bgmlistener = (e) =>{
+    const target = e.target;
+    if (target === document.querySelector("#bangumi-pagination a")) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (target.classList.contains("loading")) return;
+        target.classList.add("loading");
+        target.textContent = "";
+
+        fetch(target.dataset.href + "&_wpnonce=" + Poi.nonce,{
+            method:"POST"}
+        )
+        .then(async res=>{
+            const data = await res.json();
+            if (res.ok){
+                document.getElementById("bangumi-pagination").remove();
+                document.querySelector(".row").insertAdjacentHTML('beforeend', data);
+            }else{
+                throw Error(`Error，Status：${res.status}`);
+            }
+        })
+        .catch(e=>{
+            console.error(e);
+            target.classList.remove("loading");
+            target.innerHTML = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR ';
+        })
+    }
+}
+
 function load_bangumi() {
     const sections = document.getElementsByTagName("section")
     let _flag = false;
@@ -352,30 +381,7 @@ function load_bangumi() {
         }
     }
     if (_flag) {
-        document.addEventListener('click', function (e) {
-            const target = e.target;
-            if (target === document.querySelector("#bangumi-pagination a")) {
-                e.preventDefault();
-                e.stopPropagation();
-                target.classList.add("loading");
-                target.textContent = "";
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', target.dataset.href + "&_wpnonce=" + Poi.nonce, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        let html = JSON.parse(xhr.responseText),
-                            bfan = document.getElementById("bangumi-pagination"),
-                            row = document.getElementsByClassName("row")[0];
-                        bfan.remove();
-                        row.insertAdjacentHTML('beforeend', html);
-                    } else {
-                        target.classList.remove("loading");
-                        target.innerHTML = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR ';
-                    }
-                };
-                xhr.send();
-            }
-        });
+        document.addEventListener('click', bgmlistener);
     }
 }
 
