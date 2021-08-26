@@ -24,6 +24,7 @@ const bgmlistener = (e: any) => {
             })
             .catch(e => {
                 console.error(e);
+                createButterbar(e);
                 target.classList.remove("loading");
                 target.innerHTML = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> ERROR ';
             })
