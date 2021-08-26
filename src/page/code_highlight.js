@@ -10,10 +10,10 @@ const attributes = {
 }
 function gen_top_bar(pre, code_a) {
     if (!pre.children[0]) return
+    let lang = 'text'
     const className = pre.children[0].className
     const matchResult = className.match(/language-(\w+)/i)
-    let lang = 'text'
-    if(matchResult){
+    if (matchResult) {
         lang = matchResult[1]
     }
     pre.classList.add("highlight-wrap");
@@ -28,7 +28,9 @@ async function importHighlightjs() {
             window.hljs = (await import('highlight.js')).default
             await import('highlightjs-line-numbers.js')
         }
-    } catch (e) { console.warn(e) }
+    } catch (e) {
+        console.warn(e)
+    }
 }
 export async function hljs_process(pre, code) {
     try {
