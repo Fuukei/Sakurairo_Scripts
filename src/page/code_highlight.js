@@ -87,6 +87,7 @@ function loadPrismCSS(darkmodeOn) {
 const prism_darkmode_callback = (e) => {
     loadPrismCSS(e.detail)
 }
+export const deattachPrismCallback = () => document.removeEventListener('darkmode', prism_darkmode_callback)
 async function importPrismJS() {
     try {
         if (!window.Prism) {
