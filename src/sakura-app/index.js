@@ -360,7 +360,7 @@ function load_bangumi() {
                 target.classList.add("loading");
                 target.textContent = "";
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', target.href + "&_wpnonce=" + Poi.nonce, true);
+                xhr.open('POST', target.dataset.href + "&_wpnonce=" + Poi.nonce, true);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         let html = JSON.parse(xhr.responseText),
