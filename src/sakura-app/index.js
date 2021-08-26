@@ -388,7 +388,7 @@ function load_bangumi() {
 //#region Siren
 const s = document.getElementById("bgvideo");
 function MN() {
-    let iconflat = document.querySelector(".iconflat");
+    const iconflat = document.querySelector(".iconflat");
     iconflat && iconflat.addEventListener("click", (e) => {
         e.stopPropagation()
         if (document.body.classList.contains("navOpen")) {

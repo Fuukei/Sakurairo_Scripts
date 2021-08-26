@@ -14,6 +14,6 @@ export function open() {
 }
 export function close() {
     toggle()
-    document.documentElement.style.overflow = ""
+    document.documentElement.style.overflow = "unset"
     mainContainer.removeEventListener('click', close)
 }
