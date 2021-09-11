@@ -56,16 +56,16 @@ declare namespace mashiro_option {
      */
     const cache_cover: boolean
     const site_bg_as_cover: boolean
-    const float_player_on:boolean
-    const yiyan:boolean
-    const yiyan_api:Array<string>
+    const float_player_on: boolean
+    const yiyan: boolean
+    const yiyan_api: Array<string>
 }
 declare namespace Poi {
     let pjax: string
     const movies: {
-        url:string,
-        name:string,
-        live:string
+        url: string,
+        name: string,
+        live: string
     }
     const windowheight: string
     const codeLamp: string
@@ -80,12 +80,18 @@ declare namespace Poi {
 }
 declare namespace mashiro_global {
     //let font_control:FontControl
-/*     let ini: {
-        normalize()
-        pjax()
-    } */
+    /*     let ini: {
+            normalize()
+            pjax()
+        } */
     let variables: {
         has_hls: boolean
         skinSecter: boolean
     }
+}
+interface Document {
+    /**
+     * getElementById的泛型版本
+     */
+    getElementById<E extends HTMLElement = HTMLElement>(elementId: string): E | null;
 }
