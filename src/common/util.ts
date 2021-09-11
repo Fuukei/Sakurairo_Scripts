@@ -75,3 +75,9 @@ export function slideToggle(el: any, duration = 1000, mode = '', callback?: () =
 }
 /* export const max = (a: number, b: number) => a > b ? a : b
  */export const min = (a: number, b: number) => a < b ? a : b
+/**
+ * 获取文件名的主名部分（即去除扩展名）
+ * @param fileName 文件名
+ * @returns 主名
+ */
+export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
