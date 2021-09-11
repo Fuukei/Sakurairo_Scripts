@@ -32,7 +32,6 @@
  */
 
 import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
-import { setCookie, } from '../common/cookie'
 import add_copyright from './copyright'
 import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
@@ -47,8 +46,7 @@ import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 import { XLS,post_list_show_animation } from './posts'
-if (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0)
-    setCookie('su_webp', '1', 114514)
+
 //检查是否应当开启Poi.pjax
 Poi.pjax = isSupported({ Firefox: 84, Edg: 88, Chrome: 88, Opera: 74, Version: 9 }) && Poi.pjax;
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
