@@ -1,5 +1,5 @@
-import buildAPI from '../common/api'
-import {get_gravatar} from './gravatar'
+import { buildAPI } from '../common/util'
+import { get_gravatar } from './gravatar'
 
 export default function getqqinfo() {
     let is_get_by_qq = false;

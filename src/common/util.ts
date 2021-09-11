@@ -1,3 +1,5 @@
+let readyFunctionList: Function[] = []
+
 /**
  * 传入的函数同时间只能运行一个
  * @param func 要包装的函数
@@ -23,7 +25,6 @@ export const onlyOnceATime = <T extends Function>(func: T) => {
         }
     }
 }
-let readyFunctionList: Function[] = []
 const whileReady = () => {
     document.removeEventListener('DOMContentLoaded', whileReady)
     for (const fn of readyFunctionList) {
@@ -47,6 +48,15 @@ export const ready = function (fn: Function) {
     }
     readyFunctionList.push(fn)
 };
+
+/* export const max = (a: number, b: number) => a > b ? a : b
+ */export const min = (a: number, b: number) => a < b ? a : b
+/**
+ * 获取文件名的主名部分（即去除扩展名）
+ * @param fileName 文件名
+ * @returns 主名
+ */
+export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
 export function slideToggle(el: any, duration = 1000, mode = '', callback?: () => void) {
     let dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
@@ -73,11 +83,12 @@ export function slideToggle(el: any, duration = 1000, mode = '', callback?: () =
     }, duration);
     if (callback) callback();
 }
-/* export const max = (a: number, b: number) => a > b ? a : b
- */export const min = (a: number, b: number) => a < b ? a : b
-/**
- * 获取文件名的主名部分（即去除扩展名）
- * @param fileName 文件名
- * @returns 主名
- */
-export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
+export function buildAPI (apiPath: string, params: Record<string, string>={}, nonce: boolean = true) {
+    const path = new URL(apiPath)
+    const { searchParams } = path
+    for (const [key, value] of Object.entries(params)) {
+        searchParams.set(key, value)
+    }
+    if (nonce) searchParams.set("_wpnonce", Poi.nonce)
+    return path.toString()
+}
