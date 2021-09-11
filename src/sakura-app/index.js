@@ -252,40 +252,6 @@ function timeSeriesReload(flag) {
 
 timeSeriesReload();
 
-function loadHls() {
-    const video = document.getElementById('coverVideo'),
-        video_src = document.getElementById("coverVideo").getAttribute("data-src");
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(video_src);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = video_src;
-        video.addEventListener('loadedmetadata', function () {
-            video.play();
-        });
-    }
-}
-
-function coverVideoIni() {
-    let video = document.getElementsByTagName('video')[0];
-    if (video && video.classList.contains('hls')) {
-        if (window.Hls) {
-            loadHls();
-        } else {
-            import('hls.js')
-                .then(hls => {
-                    //export to GLOBAL
-                    window.Hls = hls.default
-                    loadHls();
-                })
-                .catch(reason => console.warn('Hls load failed: ', reason))
-        }
-    }
-}
 add_copyright()
 
 if (mashiro_option.float_player_on) {
@@ -310,7 +276,7 @@ setTimeout(function () {
 }, 100);
 
 //#region Siren
-const s = document.getElementById("bgvideo");
+import {liveplay,livepause,coverVideo,coverVideoIni} from './video'
 function MN() {
     const iconflat = document.querySelector(".iconflat");
     iconflat && iconflat.addEventListener("click", (e) => {
@@ -327,99 +293,6 @@ function MNH() {
     if (document.body.classList.contains("navOpen")) {
         close()
     }
-}
-function splay() {
-    let video_btn = document.getElementById("video-btn");
-    if (video_btn) {
-        video_btn.classList.add("video-pause");
-        video_btn.classList.remove("video-play");
-        video_btn.style.display = "";
-    }
-    try {
-        document.querySelector(".video-stu").style.bottom = "-100px";
-        document.querySelector(".focusinfo").style.top = "-999px";
-        if (mashiro_option.float_player_on) {
-            import('./aplayer').then(({ destroyAllAplayer }) => {
-                destroyAllAplayer()
-                s.play();
-            })
-            return
-        }
-    } catch (e) {
-        console.warn(e)
-    }
-    s.play();
-} function spause() {
-    let video_btn = document.getElementById("video-btn");
-    if (video_btn) {
-        video_btn.classList.add("video-play");
-        video_btn.classList.remove("video-pause");
-    }
-    try {
-        document.querySelector(".focusinfo").style.top = "49.3%";
-    } catch { }
-    s.pause();
-}
-function liveplay() {
-    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {
-        if (document.querySelector(".videolive")) {
-            splay();
-        }
-    }
-}
-function livepause() {
-    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {
-        spause();
-        let video_stu = document.getElementsByClassName("video-stu")[0];
-        video_stu.style.bottom = "0px";
-        video_stu.innerHTML = "已暂停 ...";
-    }
-}
-function readCoverVideoSourceFromPoi() {
-    const video_stu = document.getElementsByClassName("video-stu")[0];
-    const titles = Poi.movies.name.split(","),
-        title = titles[Math.floor(Math.random() * titles.length)],
-        bgvideo = document.getElementById("bgvideo");
-    video_stu.innerHTML = "正在载入视频 ...";
-    video_stu.style.bottom = "0px";
-    bgvideo.setAttribute("src", new URL(title, Poi.movies.url || location.origin).toString());
-    bgvideo.setAttribute("video-name", title);
-}
-function LV() {
-    let video_btn = document.getElementById("video-btn");
-    if (video_btn) video_btn.addEventListener("click", function () {
-        if (this.classList.contains("loadvideo")) {
-            this.classList.add("video-pause");
-            this.classList.remove("loadvideo");
-            readCoverVideoSourceFromPoi();
-            s.oncanplay = function () {
-                splay();
-                document.getElementById("video-add").style.display = "block";
-                video_btn.classList.add("videolive", "haslive");
-            }
-        } else {
-            if (this.classList.contains("video-pause")) {
-                spause();
-                video_btn.classList.remove("videolive");
-                document.getElementsByClassName("video-stu")[0].style.bottom = "0px";
-                document.getElementsByClassName("video-stu")[0].innerHTML = "已暂停 ...";
-            } else {
-                splay();
-                video_btn.classList.add("videolive");
-            }
-        }
-        s.onended = function () {
-            s.setAttribute("src", "");
-            document.getElementById("video-add").style.display = "none";
-            video_btn && video_btn.classList.add("loadvideo");
-            video_btn && video_btn.classList.remove("video-pause", "videolive", "haslive");
-            document.querySelector(".focusinfo").style.top = "49.3%";
-        }
-    });
-    const video_add = document.getElementById("video-add")
-    if (video_add) video_add.addEventListener("click", function () {
-        readCoverVideoSourceFromPoi();
-    });
 }
 function auto_height() {
     if (Poi.windowheight == 'auto') {
@@ -780,7 +653,7 @@ ready(function () {
     XLS();
     CE();
     MN();
-    LV();
+    coverVideo();
     hitokoto()
     bgButtonAddListener()
     initFontControl()
