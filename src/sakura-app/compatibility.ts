@@ -5,10 +5,9 @@ import { setCookie } from '../common/cookie'
 
 function setAcceptImage() {
     const acceptList = []
-    const canvas = document.createElement('canvas')
     if (isSupported({ Chrome: 59, Opera: 46, Firefox: 3, Edg: 79, Version: 8 })) {
         acceptList.push('image/apng')
-        if (canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0) {
+        if (isSupported({ Chrome: 32, Opera: 19, Firefox: 65, Edg: 18, Version: 14 })) {
             setCookie('su_webp', '1', 114514)
             acceptList.push('image/webp')
             if (isSupported({ Chrome: 85, Opera: 71, Firefox: 93 })) {
