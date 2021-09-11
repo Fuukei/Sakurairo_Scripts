@@ -1,4 +1,5 @@
 import { get, set, del } from './cache'
+import { Accept_Image } from './compatibility';
 import { __ } from './sakurairo_global';
 let bgn = 1;
 let blob_url = ''
@@ -49,7 +50,7 @@ export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) 
     : getAPIPath
 async function fetchAndCache(useBGN = false) {
     try {
-        const resp = await fetch(getAPIPath(useBGN));
+        const resp = await fetch(getAPIPath(useBGN), { headers: { Accept: Accept_Image } });
         if (resp.ok) {
             const buf = await resp.arrayBuffer();
             try {
