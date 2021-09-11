@@ -14,6 +14,8 @@ const load_post = onlyOnceATime(function load_post() {
     fetch(pagination_a.getAttribute("href") + "#main")
         .then(async resp => {
             const text = await resp.text()
+            //在进行DOM操作前检查页面是否已经变化，防止错误加载到其他页面上
+            if (now_href != document.location.href) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
             const parser = new DOMParser(),
                 DOM = parser.parseFromString(text, "text/html"),
                 result = DOM.querySelectorAll("#main .post"),
@@ -21,8 +23,6 @@ const load_post = onlyOnceATime(function load_post() {
                 paga_innerText = paga && paga.innerText,
                 nextHref = paga && paga.getAttribute("href"),
                 main = document.getElementById("main")
-            //在进行DOM操作前检查页面是否已经变化，防止错误加载到其他页面上
-            if (now_href != document.location.href) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
             for (let i = 0; i < result.length; i++) {
                 main.append(result[i])
             }
