@@ -18,7 +18,7 @@ export default async function hitokoto() {
     }
 }
 const _hitokoto = async (api: string) => {
-    const res = await fetch(api)
+    const res = await fetch(api, { headers: { Accept: "application/json" } })
     if (res.ok) {
         const data = await res.json()
         const from_who = (data.from_who == 'null' ? null : data.from_who) || ''
