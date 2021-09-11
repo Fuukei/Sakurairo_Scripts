@@ -1,6 +1,12 @@
-import {createStore,get as idbget,set as idbset,del as idbdel} from 'idb-keyval'
-const store = createStore('sakurairo','cache')
-const get = (key:IDBValidKey)=>idbget(key,store)
-const set = (key:IDBValidKey,value: any)=>idbset(key,value,store)
-const del = (key: IDBValidKey)=>idbdel(key,store)
-export {get,set,del}
+import { createStore, promisifyRequest } from 'idb-keyval'
+const store = createStore('sakurairo', 'cache')
+const get = (key: IDBValidKey) => store('readonly', (store) => promisifyRequest(store.get(key)))
+const set = (key: IDBValidKey, value: any) => store('readwrite', (store) => {
+    store.put(value, key);
+    return promisifyRequest(store.transaction);
+});
+const del = (key: IDBValidKey) => store('readwrite', (store) => {
+    store.delete(key);
+    return promisifyRequest(store.transaction);
+})
+export { get, set, del }
