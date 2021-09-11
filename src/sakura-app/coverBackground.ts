@@ -11,7 +11,7 @@ export async function preBG() {
     bgn--;
     changeCoverBG(await getCoverPath(true))
 }
-const centerbg: HTMLElement = document.querySelector(".centerbg")
+const centerbg = document.querySelector<HTMLElement>(".centerbg")
 /**
  * 更改封面背景
  */
@@ -72,7 +72,7 @@ async function fetchAndCache(useBGN = false) {
             }
         }
     } catch (e) {
-        if (typeof e == 'object' && e instanceof TypeError) {
+        if (e instanceof TypeError) {
             console.warn(__('你的封面API好像不支持跨域调用,这种情况下缓存是不会生效的哦'))
             del('cover')
         }
