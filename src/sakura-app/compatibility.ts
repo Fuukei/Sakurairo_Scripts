@@ -13,7 +13,7 @@ const uaMatches = UA.matchAll(reg) as IterableIterator<[string, VersionName, str
 import { setCookie } from '../common/cookie'
 
 function setAcceptImage() {
-    const acceptList = []
+    const acceptList = ['image/*,*/*;q=0.8']
     if (isSupported({ Chrome: 59, OPR: 46, Firefox: 3, Edg: 79, AppleWebkit: 600/**Safari 8 */ })) {
         acceptList.push('image/apng')
         if (isSupported({ Chrome: 32, OPR: 19, Firefox: 65, Edg: 18, AppleWebkit: 605/**Safari 14 */ })) {
@@ -24,7 +24,7 @@ function setAcceptImage() {
             }
         }
     }
-    return acceptList.reverse().join(',') + ',image/*,*/*;q=0.8'
+    return acceptList.reverse().join(',')
 }
 export type VersionName = 'Firefox' | 'Edg' | 'Chrome' | 'OPR' | 'AppleWebkit'
 export type VersionCheck = Partial<Record<VersionName, number>>
