@@ -1,5 +1,5 @@
 import { getFileNameMain } from '../common/util';
-const videoList = Poi.movies.name.split(",")
+const videoList = Poi.movies.name && Poi.movies.name.split(",")
 //from Siren
 declare global {
     interface Window {
