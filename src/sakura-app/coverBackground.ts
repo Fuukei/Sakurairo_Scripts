@@ -22,6 +22,11 @@ const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
     } : () => { }
+/**
+ * 返回当前封面背景的URL
+ */
+export const getCurrentBG = mashiro_option.site_bg_as_cover ? () => document.body.style.backgroundImage
+    : () => document.querySelector<HTMLElement>(".centerbg")?.style.backgroundImage
 
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
