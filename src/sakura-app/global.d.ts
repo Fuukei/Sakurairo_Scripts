@@ -66,7 +66,7 @@ declare namespace Poi {
         url: string,
         name: string,
         live: string
-    }
+    }/*  | 'close' */
     const windowheight: string
     const codeLamp: string
     const ajaxurl: string
