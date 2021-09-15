@@ -1,6 +1,7 @@
 import { getFileNameMain } from '../common/util';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
 const videoList: Array<string> = Poi.movies.name?.split(",") ?? []// 视频列表
+let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
 //from Siren
 declare global {
     interface Window {
@@ -9,12 +10,20 @@ declare global {
     const Hls: any
 }
 //#region 背景视频
+const _getNextRandomVideo = () => {
+    if (unplayedIndex.length == 0) {
+        unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
+    }
+    const nextIndex = Math.floor(Math.random() * unplayedIndex.length)
+    return videoList[unplayedIndex.splice(nextIndex, 1)[0]]
+}
 
 function getVideo() {
     const video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
-    const fileName = videoList[Math.floor(Math.random() * videoList.length)]// 随机抽取视频
+    const fileName = _getNextRandomVideo()// 随机抽取视频
     video_stu.innerHTML = "正在载入视频 ...";
     video_stu.style.bottom = "0px";
+    //这里不需要检验Poi.movies是不是字符串，因为应该在前边检查
     bgvideo.setAttribute("src", new URL(fileName, Poi.movies.url || location.origin).toString());
     bgvideo.setAttribute("video-name", getFileNameMain(fileName));
 }
@@ -98,18 +107,21 @@ export function coverVideo() {
                 video_btn.classList.add("videolive");// 用于判断切换页面时的状态
             }
         }
-        bgvideo.onended = function () {// 播放结束后
-                bgvideo.setAttribute("src", "");
+        bgvideo.onended = function () {// 播放结束后 
+            bgvideo.setAttribute("src", "");
             document.getElementById("video-add").style.display = "none";
-            video_btn && video_btn.classList.add("loadvideo");
-            video_btn && video_btn.classList.remove("video-pause", "videolive", "haslive");
             document.querySelector<HTMLElement>(".focusinfo").style.top = "49.3%";
+            if (video_btn) {
+                video_btn.classList.add("loadvideo");
+                video_btn.classList.remove("video-pause", "videolive", "haslive");
+                if (Poi.movies.loop) {
+                    video_btn.click()
+                }
+            }
         }
     });
     const video_add = document.getElementById("video-add")
-    if (video_add) video_add.addEventListener("click", function () {
-        getVideo();
-    });
+    if (video_add) video_add.addEventListener("click", getVideo);
 }
 //#endregion
 function loadHls() {
