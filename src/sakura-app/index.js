@@ -47,8 +47,11 @@ import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 import { XLS,post_list_show_animation } from './posts'
 
-//检查是否应当开启Poi.pjax
-Poi.pjax = Poi.pjax && isSupported({ Firefox: 84, Edg: 88, Chrome: 88, OPR: 74, AppleWebKit: 601/**Safari 9 */ });
+/**
+ * 检查是否应当开启Poi.pjax
+ * @seealso https://github.com/PaperStrike/Pjax#compatibility
+ */
+Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, AppleWebKit: 606/**Safari 12 */ });
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
         selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
