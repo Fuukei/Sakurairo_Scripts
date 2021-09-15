@@ -31,7 +31,7 @@
  * 
  */
 
-import { nextBG, preBG, initCoverBG, getCoverPath } from './coverBackground'
+import { nextBG, preBG, initCoverBG, getCoverPath, getCurrentBG } from './coverBackground'
 import add_copyright from './copyright'
 import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
@@ -45,7 +45,7 @@ import { isSupported } from './compatibility'
 import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
-import { XLS,post_list_show_animation } from './posts'
+import { XLS, post_list_show_animation } from './posts'
 
 /**
  * 检查是否应当开启Poi.pjax
@@ -277,7 +277,7 @@ setTimeout(function () {
 }, 100);
 
 //#region Siren
-import {liveplay,livepause,coverVideo,coverVideoIni} from './video'
+import { liveplay, livepause, coverVideo, coverVideoIni } from './video'
 function MN() {
     const iconflat = document.querySelector(".iconflat");
     iconflat && iconflat.addEventListener("click", (e) => {
@@ -635,7 +635,12 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
-    initCoverBG()
+    initCoverBG().then(() => {
+        if (isSupported({ AppleWebKit: 605 })) import('./theme-color').then(({ init, updateThemeSkin }) => {
+            init()
+            updateThemeSkin(getCurrentBG())
+        })
+    })
     addSkinMenuListener();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
     let changskin = document.querySelector("#changskin"),
