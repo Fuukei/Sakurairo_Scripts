@@ -1,5 +1,6 @@
 import { getFileNameMain } from '../common/util';
-const videoList = Poi.movies.name && Poi.movies.name.split(",")// 视频列表
+const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
+const videoList: Array<string> = Poi.movies.name?.split(",") ?? []// 视频列表
 //from Siren
 declare global {
     interface Window {
@@ -7,14 +8,11 @@ declare global {
     }
     const Hls: any
 }
-const s = document.getElementById<HTMLVideoElement>("bgvideo");
-
 //#region 背景视频
 
 function getVideo() {
     const video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
-    const fileName = videoList[Math.floor(Math.random() * videoList.length)],// 随机抽取视频
-        bgvideo = document.getElementById("bgvideo");
+    const fileName = videoList[Math.floor(Math.random() * videoList.length)]// 随机抽取视频
     video_stu.innerHTML = "正在载入视频 ...";
     video_stu.style.bottom = "0px";
     bgvideo.setAttribute("src", new URL(fileName, Poi.movies.url || location.origin).toString());
@@ -36,15 +34,15 @@ function splay() {
         if (mashiro_option.float_player_on) {
             import('./aplayer').then(({ destroyAllAplayer }) => {
                 destroyAllAplayer()
-                s.play();
+                bgvideo.play();
             })
             return
         }
     } catch (e) {
         console.warn(e)
     }
-    s.play();
-} 
+    bgvideo.play();
+}
 /**
  * 暂停
  */
@@ -57,20 +55,20 @@ function spause() {
     try {
         document.querySelector<HTMLElement>(".focusinfo").style.top = "49.3%";
     } catch { }
-    s.pause();
+    bgvideo.pause();
 }
 /**
  * 自动续播 - 播放
  */
 export function liveplay() {
-    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {// 检查视频数据
+    if (bgvideo && bgvideo.oncanplay != undefined && document.querySelector(".haslive")) {// 检查视频数据
         if (document.querySelector(".videolive")) {// 检查播放状态
             splay();
         }
     }
 }
 export function livepause() {
-    if (s && s.oncanplay != undefined && document.querySelector(".haslive")) {// 检查视频数据
+    if (bgvideo && bgvideo.oncanplay != undefined && document.querySelector(".haslive")) {// 检查视频数据
         spause();
         let video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
         video_stu.style.bottom = "0px";
@@ -84,7 +82,7 @@ export function coverVideo() {
             this.classList.add("video-pause");
             this.classList.remove("loadvideo");
             getVideo();
-            s.oncanplay = function () {// 数据可用时
+            bgvideo.oncanplay = function () {// 数据可用时
                 splay();
                 document.getElementById("video-add").style.display = "block";
                 video_btn.classList.add("videolive", "haslive");// MDZZ
@@ -100,8 +98,8 @@ export function coverVideo() {
                 video_btn.classList.add("videolive");// 用于判断切换页面时的状态
             }
         }
-        s.onended = function () {// 播放结束后
-            s.setAttribute("src", "");
+        bgvideo.onended = function () {// 播放结束后
+                bgvideo.setAttribute("src", "");
             document.getElementById("video-add").style.display = "none";
             video_btn && video_btn.classList.add("loadvideo");
             video_btn && video_btn.classList.remove("video-pause", "videolive", "haslive");
