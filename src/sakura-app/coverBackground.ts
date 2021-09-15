@@ -18,9 +18,11 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
  */
 const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
+    document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
+        document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
     } : () => { }
 /**
  * 返回当前封面背景的URL
