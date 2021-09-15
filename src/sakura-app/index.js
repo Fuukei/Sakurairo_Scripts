@@ -315,7 +315,7 @@ function PE() {
             } catch (e) { }
             headertop.style.height = "auto";
             headertop.style.display = "";
-            if (Poi.movies.live == 'open') liveplay();
+            if (Poi.movies.live) liveplay();
         } else {
             try {
                 blank.style.paddingTop = "75px";

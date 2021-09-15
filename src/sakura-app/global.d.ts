@@ -65,7 +65,10 @@ declare namespace Poi {
     const movies: {
         url: string,
         name: string,
-        live: string
+        /**自动续播 */
+        live: boolean,
+        /**列表循环 */
+        loop: boolean
     }/*  | 'close' */
     const windowheight: string
     const codeLamp: string
