@@ -12,7 +12,6 @@ export interface SakurairoOption {
 export type I18nFunction = (defaultStr: string) => string
 export interface SakurairoGlobal {
     opt: SakurairoOption
-    __: I18nFunction
 /*     _sys_call:typeof sys_call
  */}
 /**
@@ -38,7 +37,6 @@ export type SakurairoI18n  = Record<string, string>
 
 export const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
-    __
 /*     _sys_call:sys_call
  */}
 
