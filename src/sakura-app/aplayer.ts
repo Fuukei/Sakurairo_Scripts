@@ -3,11 +3,19 @@ declare var meting_api: string;
 //@ts-ignore
 import APlayer from 'aplayer'
 import { loadCSS } from 'fg-loadcss';
+import { registerOnGlobal } from './sakurairo_global';
+export interface APlayerAudio {
+    artist: string
+    cover: string
+    lrc: string
+    name: string
+    url: string
+}
 let aplayers: any[] = []
-function initAplayer(a: HTMLElement, b: string | any[]) {
+function initAplayer(element: HTMLElement, audio: APlayerAudio[]) {
     const default_option: Record<string, any> = {
-        container: a,
-        audio: b,
+        container: element,
+        audio: audio,
         mini: null,
         fixed: null,
         autoplay: !1,
@@ -23,14 +31,14 @@ function initAplayer(a: HTMLElement, b: string | any[]) {
         customAudioType: null,
         storageName: 'metingjs'
     };
-    if (b.length) {
-        b[0].lrc || (default_option.lrcType = 0);
+    if (audio.length) {
+        audio[0].lrc || (default_option.lrcType = 0);
 
         let d: Record<string, any> = {};
         for (const key in default_option) {
             let key_lowercase = key.toLowerCase();
-            if (a.dataset.hasOwnProperty(key_lowercase) || a.dataset.hasOwnProperty(key) || default_option[key] !== null) {
-                d[key] = a.dataset[key_lowercase] || a.dataset[key] || default_option[key]
+            if (element.dataset.hasOwnProperty(key_lowercase) || element.dataset.hasOwnProperty(key) || default_option[key] !== null) {
+                d[key] = element.dataset[key_lowercase] || element.dataset[key] || default_option[key]
                 if ('true' === d[key] || 'false' === d[key]) {
                     d[key] = 'true' == d[key]
                 }
@@ -125,4 +133,15 @@ export function aplayerInit() {
             initAplayer(element, playlist_info)
         }
     }
+    registerMethods()
+}
+function loadAPlayer(playlist: APlayerAudio[]) {
+    let collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
+    for (const e of collection) {
+        initAplayer(e, playlist)
+    }
+}
+function registerMethods() {
+    registerOnGlobal('destroyAllAplayer', destroyAllAplayer)
+    registerOnGlobal('loadAPlayer',loadAPlayer)
 }
