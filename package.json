@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js --progress",
     "dev": "webpack --config webpack.dev.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 2",
     "profile": "webpack --config webpack.prof.js"
@@ -28,7 +28,7 @@
     "@fancyapps/fancybox": "^3.5.7",
     "@sliphua/pjax": "^2.0.3",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
-    "aplayer": "^1.10.1",
+    "aplayer": "github:Fuukei/APlayer",
     "baguettebox.js": "^1.11.1",
     "clipboard": "^2.0.8",
     "fg-loadcss": "^3.1.0",
