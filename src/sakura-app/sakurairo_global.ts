@@ -39,6 +39,19 @@ export const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
 /*     _sys_call:sys_call
  */}
+ 
+ /**
+  * 在sakurairoGlobal注册一个对象
+  * @param key 
+  * @param value 
+  * @returns 
+  */
+export const registerOnGlobal = (key:string,value:any)=>
+    Object.defineProperty(sakurairoGlobal,key,{
+        value:value,
+        writable:false,
+        enumerable:true,
+    })
 
 if ('_sakurairo' in window) {
     //@ts-ignore
