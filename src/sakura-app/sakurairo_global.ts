@@ -9,10 +9,6 @@
 export interface SakurairoOption {
     web_audio?: SakurairoOption_WebAudio
 }
-export type WhileListenerEventName = 'pjaxComplete' | 'ready' /* | 'load' */ | 'pjaxSuccess'//pjaxSuccess的触发顺序在pjaxComplete之后
-export type WhileListenerCallback = () => Promise<void> | void
-export type WhileMap = Map<WhileListenerEventName, Set<WhileListenerCallback>>
-export type WhileFunction = (eventName: WhileListenerEventName, cb: WhileListenerCallback) => void
 export type I18nFunction = (defaultStr: string) => string
 export interface SakurairoGlobal {
     opt: SakurairoOption
