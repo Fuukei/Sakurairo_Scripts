@@ -44,6 +44,7 @@ const load_post = onlyOnceATime(function load_post() {
             // $('#add_post span').removeClass("loading").text("");
             lazyload();
             post_list_show_animation();
+            document.dispatchEvent(new CustomEvent('ajax_post_loaded',))
             if (nextHref != undefined) {
                 pagination_a.setAttribute("href", nextHref);
                 // $("#pagination a").attr("href", nextHref);
