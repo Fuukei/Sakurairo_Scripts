@@ -91,7 +91,7 @@ export function destroyAllAplayer() {
 }
 export function aplayerInit() {
     //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
-    loadCSS("https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css");
+    loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
     let meting_api_path: URL
     if (typeof meting_api == 'string') {
         meting_api_path = new URL(meting_api)
@@ -143,5 +143,5 @@ function loadAPlayer(playlist: APlayerAudio[]) {
 }
 function registerMethods() {
     registerOnGlobal('destroyAllAplayer', destroyAllAplayer)
-    registerOnGlobal('loadAPlayer',loadAPlayer)
+    registerOnGlobal('loadAPlayer', loadAPlayer)
 }
