@@ -4,7 +4,6 @@ const { commitHash } = require('./commit_hash')
 module.exports = {
     entry: {
         app: './src/sakura-app/',
-        login: "./src/login.js",
         page: { import: "./src/page/", dependOn: 'app' }
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
