@@ -57,6 +57,9 @@ Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
         selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
         scripts: "#_mashiro_",
         timeout: 8000,
+        defaultTrigger: {
+            exclude: 'a[data-no-pjax]',
+        }
     })
 )
 loadCSS(mashiro_option.jsdelivr_css_src);
