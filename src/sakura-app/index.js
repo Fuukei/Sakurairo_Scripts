@@ -54,7 +54,7 @@ import { XLS, post_list_show_animation } from './posts'
 Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, AppleWebKit: 606/**Safari 12 */ });
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#_mashiro_"],
+        selectors: ["#page", "title", ".footer-device", "#_mashiro_","#login-link"],
         scripts: "#_mashiro_",
         timeout: 8000,
         defaultTrigger: {
