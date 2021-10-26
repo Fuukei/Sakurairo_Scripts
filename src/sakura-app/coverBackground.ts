@@ -39,14 +39,12 @@ function getAPIPath(useBGN = false) {
         return cover_api_url.toString() + (useBGN ? (cover_api_url.search === '' ? "?" : '&') + bgn : '');
     }
 }
-export const getCoverPath = mashiro_option.cache_cover ? async (useBGN = false) =>
+export const getCoverPath = mashiro_option.cache_cover ? (useBGN = false) =>
     get('cover').then(coverBG => {
-        if (coverBG) {
-            if (coverBG instanceof ArrayBuffer) {
-                cleanBlobUrl()
-                blob_url = URL.createObjectURL(new Blob([coverBG]))
-                return blob_url
-            }
+        if (coverBG && coverBG instanceof ArrayBuffer) {
+            cleanBlobUrl()
+            blob_url = URL.createObjectURL(new Blob([coverBG]))
+            return blob_url
         } else {
             //fallback
             return getAPIPath(useBGN)
