@@ -78,5 +78,6 @@ module.exports = {
         entryOnly: true,
         banner: `//! build ${commitHash} ${new Date().toLocaleDateString()}`
     })],
-    target: "web", devtool: "source-map",
+    target: "browserslist", 
+    devtool: "source-map",
 };
