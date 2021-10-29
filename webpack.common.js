@@ -4,7 +4,8 @@ const { commitHash } = require('./commit_hash')
 module.exports = {
     entry: {
         app: './src/sakura-app/',
-        page: { import: "./src/page/", dependOn: 'app' }
+        page: { import: "./src/page/", dependOn: 'app' },
+        anf:'./src/404/404.ts'
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
@@ -25,7 +26,6 @@ module.exports = {
             maxAsyncRequests: 30,
             maxInitialRequests: 30,
             //enforceSizeThreshold: 50000,
-            maxSize: 244000,
             cacheGroups: {
                 defaultVendors: {
                     test: /[\\/]node_modules[\\/]/,

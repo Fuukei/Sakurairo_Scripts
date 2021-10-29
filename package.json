@@ -38,6 +38,7 @@
     "idb-keyval": "^6.0.3",
     "jquery": "^3.6.0",
     "lazyload": "github:KotoriK/lazyload",
+    "lottie-web": "^5.7.14",
     "mathjax": "^3.2.0",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
