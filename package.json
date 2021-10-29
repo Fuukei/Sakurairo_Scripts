@@ -34,7 +34,7 @@
     "fg-loadcss": "^3.1.0",
     "highlight.js": "^11.3.1",
     "highlightjs-line-numbers.js": "^2.8.0",
-    "hls.js": "^1.0.11",
+    "hls.js": "^1.0.12",
     "idb-keyval": "^6.0.3",
     "jquery": "^3.6.0",
     "lazyload": "github:KotoriK/lazyload",
