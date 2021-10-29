@@ -1,16 +1,14 @@
 const AddComment = {
     respondId: '',
     moveForm: function (commId: string, parentId: any, respondId: string) {
-        const t = this,
-            comm = document.getElementById(commId),
+        const comm = document.getElementById(commId),
             respond = document.getElementById(respondId),
             cancel = document.getElementById('cancel-comment-reply-link'),
             parent = document.getElementById('comment_parent') as HTMLInputElement
         //post = document.getElementById('comment_post_ID');
-        t.respondId = respondId;
+        this.respondId = respondId;
         if (!document.getElementById('wp-temp-form-div')) {
-            let div
-            div = document.createElement('div');
+            const div = document.createElement('div');
             div.id = 'wp-temp-form-div';
             div.style.display = 'none';
             respond.parentNode.insertBefore(div, respond)

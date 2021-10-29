@@ -8,7 +8,6 @@ const txt = [
     "# 作者(Author)：" + mashiro_option.author_name,
     "# 链接(URL)：" + window.location.href,
     "# 来源(Source)：" + mashiro_option.site_name,
-
 ]
 type WindowWithClipboardData = Window & typeof globalThis & { clipboardData: DataTransfer }
 

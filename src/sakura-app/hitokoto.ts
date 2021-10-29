@@ -7,7 +7,7 @@ export default async function hitokoto() {
         } else if (yiyan) {
             for (const api_path of mashiro_option.yiyan_api) {
                 try {
-                    const txt = await _hitokoto(api_path)
+                    const txt = await request(api_path)
                     yiyan.innerText = txt
                     break
                 } catch (e) {
@@ -18,7 +18,7 @@ export default async function hitokoto() {
         }
     }
 }
-const _hitokoto = async (api: string) => {
+const request = async (api: string) => {
     const res = await fetch(api, { headers: { Accept: "application/json" } })
     if (res.ok) {
         const data = await res.json()
