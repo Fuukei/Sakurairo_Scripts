@@ -444,18 +444,12 @@ function GT() {
     let mb_to_top = document.querySelector("#moblieGoTop"),
         changskin = document.querySelector("#changskin");
     window.addEventListener("scroll", () => {
-        let scroll = document.documentElement.scrollTop || document.body.scrollTop;
-        if (scroll > 20) {
-            mb_to_top.style.transform = "scale(1)";
-            changskin.style.transform = "scale(1)";
-        } else {
-            mb_to_top.style.transform = "scale(0)";
-            changskin.style.transform = "scale(0)";
-        }
+        const scroll = document.documentElement.scrollTop || document.body.scrollTop;
+        const cssText = scroll > 20 ? "scale(1)" : "scale(0)"
+        mb_to_top.style.transform = cssText;
+        changskin.style.transform = cssText;
     })
-    mb_to_top.onclick = function () {
-        topFunction();
-    }
+    mb_to_top.onclick = topFunction
 }
 
 //#endregion Siren
