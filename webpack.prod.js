@@ -1,8 +1,6 @@
 const { merge } = require('webpack-merge')
-const zlib = require('zlib')
 const common = require('./webpack.common.js')
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = merge(common, {
   mode: 'production',
@@ -19,7 +17,7 @@ module.exports = merge(common, {
       })
     ]
   },
- plugins: [new CompressionPlugin({
+ plugins: [/* new CompressionPlugin({
     test: /\.js(\?.*)?$/i,
     threshold: 8192,
 
@@ -33,6 +31,6 @@ module.exports = merge(common, {
         [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
       },
     },
-  })],
+  }) */],
 
 })
