@@ -5,7 +5,7 @@ module.exports = {
     entry: {
         app: './src/sakura-app/',
         page: { import: "./src/page/", dependOn: 'app' },
-        anf:'./src/404/404.ts'
+        anf:'./src/404.ts'
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
