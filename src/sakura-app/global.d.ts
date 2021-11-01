@@ -4,6 +4,7 @@ declare namespace mashiro_option {
     const author_name: string
     const baguetteBoxON: boolean
     const fancybox: boolean
+    const lightGallery: Record<string, any> | false | undefined
     const clipboardCopyright: boolean
     const cookie_version_control: string
     const cover_api: string

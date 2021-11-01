@@ -1,10 +1,14 @@
 import { loadCSS } from 'fg-loadcss';
 import { slideToggle } from '../common/util';
+import { LightGallerySettings } from 'lightgallery/lg-settings'
 declare namespace window {
     let jQuery: Function
     let $: Function
 }
-
+type LightGalleryOptions = LightGallerySettings & {
+    //TODO:Fix types
+    plugins?: Array<string>
+}
 function collapse() {
     //收缩、展开
     /* jQuery(document).ready(
@@ -53,6 +57,21 @@ async function lightbox() {
         }
         //@ts-ignore
         import('@fancyapps/fancybox')
+    } else if (mashiro_option.lightGallery) {
+        //@ts-ignore
+        const { default: lightGallery } = await import('lightgallery/lib/index.js') 
+        const { plugins, ...opts } = mashiro_option.lightGallery as LightGalleryOptions
+        loadCSS('https://cdn.jsdelivr.net/npm/lightgallery@2.3.0/css/lightgallery-bundle.min.css')
+        lightGallery(
+            document.querySelector('.entry-content'),
+            {
+                plugins: (await Promise.allSettled(plugins.map(moduleName =>
+                    import(
+                        /* webpackChunkName: "lg-plugin-" */
+                        `lightgallery/plugins/${moduleName}/lg-${moduleName}.es5.js`)
+                ))).map(result => result.status == 'fulfilled' ? result.value.default : console.error('加载lightGallery的插件时出错啦！', result.reason)),
+                ...opts
+            });
     }
 }
 async function math() {
