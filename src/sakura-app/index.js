@@ -611,7 +611,7 @@ function addSkinMenuListener() {
     });
 }
 function checkBgImgSetting() {
-    changeBG(localStorage.getItem("bgImgSetting") ?? 'white-bg');
+    changeBG(localStorage.getItem("bgImgSetting") || 'white-bg');
 }
 
 checkBgImgSetting()
