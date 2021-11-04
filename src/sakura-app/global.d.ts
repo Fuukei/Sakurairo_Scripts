@@ -89,7 +89,6 @@ declare namespace mashiro_global {
             pjax()
         } */
     let variables: {
-        has_hls: boolean
         skinSecter: boolean
     }
 }
