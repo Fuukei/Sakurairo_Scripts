@@ -124,36 +124,39 @@ export function coverVideo() {
     if (video_add) video_add.addEventListener("click", getVideo);
 }
 //#endregion
+/**
+ * 假设video.hls存在至少一个
+ */
 function loadHls() {
-    const video = document.getElementById<HTMLVideoElement>('coverVideo'),
-        video_src = video.dataset.src;
+    const videos = document.querySelectorAll<HTMLVideoElement>('video.hls')
     if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(video_src);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = video_src;
-        video.addEventListener('loadedmetadata', function () {
-            video.play();
-        });
+        for (const video of videos) {
+            const hls = new Hls();
+            hls.loadSource(video.dataset.src || video.src);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                video.play();
+            });
+        }
+    } else if (videos[0].canPlayType('application/vnd.apple.mpegurl')) {
+        for (const video of videos) {
+            video.src = video.dataset.src || video.src;
+            video.autoplay = true
+        }
     }
 }
-export function coverVideoIni() {
-    let video = document.getElementsByTagName('video')[0];
-    if (video && video.classList.contains('hls')) {
-        if (window.Hls) {
+export async function coverVideoIni() {
+    const videos = document.querySelectorAll('video.hls');
+    if (videos.length == 0) return
+    if (window.Hls) {
+        loadHls();
+    } else {
+        try {
+            const { default: Hls } = await import('hls.js')
+            window.Hls = Hls
             loadHls();
-        } else {
-            import('hls.js')
-                .then(hls => {
-                    //export to GLOBAL
-                    window.Hls = hls.default
-                    loadHls();
-                })
-                .catch(reason => console.warn('Hls load failed: ', reason))
+        } catch (reason) {
+            console.warn('Hls load failed: ', reason)
         }
     }
 }
