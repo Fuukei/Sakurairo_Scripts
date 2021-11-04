@@ -49,7 +49,7 @@ import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 import { XLS, post_list_show_animation } from './posts'
-
+import { init, updateThemeSkin } from './theme-color'
 /**
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
@@ -636,10 +636,10 @@ function powermode() {
 
 ready(function () {
     initCoverBG().then(() => {
-        if (isSupported({ AppleWebKit: 605 })) import('./theme-color').then(({ init, updateThemeSkin }) => {
+        if (isSupported({ AppleWebKit: 605 })) {
             init()
             updateThemeSkin(getCurrentBG())
-        })
+        }
     })
     addSkinMenuListener();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
