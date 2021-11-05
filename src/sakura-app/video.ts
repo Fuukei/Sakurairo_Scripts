@@ -124,12 +124,25 @@ export function coverVideo() {
     if (video_add) video_add.addEventListener("click", getVideo);
 }
 //#endregion
-/**
- * 假设video.hls存在至少一个
- */
-function loadHls() {
-    const videos = document.querySelectorAll<HTMLVideoElement>('video.hls')
-    if (Hls.isSupported()) {
+export async function coverVideoIni() {
+    const videos = document.querySelectorAll<HTMLVideoElement>('video.hls');
+    if (videos.length == 0) return
+    //检查浏览器是否原生支持
+    if (videos[0].canPlayType('application/vnd.apple.mpegurl')) {
+        for (const video of videos) {
+            video.src = video.dataset.src || video.src;
+            video.autoplay = true
+        }
+    } else {
+        if (!window.Hls) {
+            try {
+                const { default: Hls } = await import('hls.js')
+                window.Hls = Hls
+            } catch (reason) {
+                console.warn('Hls load failed: ', reason)
+            }
+        }
+        if (!Hls.isSupported()) console.error('Hls: Media Source Extensions is unsupported.')
         for (const video of videos) {
             const hls = new Hls();
             hls.loadSource(video.dataset.src || video.src);
@@ -137,26 +150,6 @@ function loadHls() {
             hls.on(Hls.Events.MANIFEST_PARSED, function () {
                 video.play();
             });
-        }
-    } else if (videos[0].canPlayType('application/vnd.apple.mpegurl')) {
-        for (const video of videos) {
-            video.src = video.dataset.src || video.src;
-            video.autoplay = true
-        }
-    }
-}
-export async function coverVideoIni() {
-    const videos = document.querySelectorAll('video.hls');
-    if (videos.length == 0) return
-    if (window.Hls) {
-        loadHls();
-    } else {
-        try {
-            const { default: Hls } = await import('hls.js')
-            window.Hls = Hls
-            loadHls();
-        } catch (reason) {
-            console.warn('Hls load failed: ', reason)
         }
     }
 }
