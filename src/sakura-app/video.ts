@@ -125,6 +125,22 @@ export function coverVideo() {
 }
 //#endregion
 export async function coverVideoIni() {
+    initHLS()
+    lazyloadPatch()
+}
+function canPlayHandler(this: HTMLVideoElement) {
+    this.poster = ''
+}
+/**
+ * 用户代理可能会禁止自动播放，此时需要撤掉poster
+ */
+async function lazyloadPatch() {
+    const videos = document.querySelectorAll<HTMLVideoElement>('video.lazyload')
+    videos.forEach(
+        video => video.addEventListener('canplay',canPlayHandler)
+        )
+}
+async function initHLS() {
     const videos = document.querySelectorAll<HTMLVideoElement>('video.hls');
     if (videos.length == 0) return
     //检查浏览器是否原生支持
