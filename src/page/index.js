@@ -240,46 +240,49 @@ function sm() {
     let sm = document.getElementsByClassName('sm'),
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
-    if (Poi.reply_link_version == 'new') {
-        if (cm) cm.addEventListener("click", function (e) {
-            if (e.target.classList.contains("comment-reply-link")) {
-                e.preventDefault();
-                e.stopPropagation();
-                let data_commentid = e.target.getAttribute("data-commentid");
-                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+    if (cm) {
+        if (Poi.reply_link_version == 'new') {
+            cm.addEventListener("click", function (e) {
+                if (e.target.classList.contains("comment-reply-link")) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let data_commentid = e.target.getAttribute("data-commentid");
+                    addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+                }
+            })
+        }
+        cm.addEventListener("click", (e) => {
+            let list = e.target.parentNode;
+            if (list.classList.contains("sm")) {
+                let msg = __("您真的要设为私密吗？");
+                if (confirm(msg) == true) {
+                    if (list.classList.contains('private_now')) {
+                        alert(__('您之前已设过私密评论'));
+                        return false;
+                    } else {
+                        list.classList.add('private_now');
+                        let idp = list.getAttribute("data-idp"),
+                            actionp = list.getAttribute("data-actionp"),
+                            rateHolderp = list.getElementsByClassName('has_set_private')[0];
+                        let ajax_data = "action=siren_private&p_id=" + idp + "&p_action=" + actionp;
+                        let request = new XMLHttpRequest();
+                        request.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                rateHolderp.innerHTML = request.responseText;
+                            }
+                        };
+                        request.open('POST', '/wp-admin/admin-ajax.php', true);
+                        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        request.send(ajax_data);
+                        return false;
+                    }
+                } else {
+                    alert(__("已取消"));
+                }
             }
         })
     }
-    cm && cm.addEventListener("click", (e) => {
-        let list = e.target.parentNode;
-        if (list.classList.contains("sm")) {
-            let msg = __("您真的要设为私密吗？");
-            if (confirm(msg) == true) {
-                if (list.classList.contains('private_now')) {
-                    alert(__('您之前已设过私密评论'));
-                    return false;
-                } else {
-                    list.classList.add('private_now');
-                    let idp = list.getAttribute("data-idp"),
-                        actionp = list.getAttribute("data-actionp"),
-                        rateHolderp = list.getElementsByClassName('has_set_private')[0];
-                    let ajax_data = "action=siren_private&p_id=" + idp + "&p_action=" + actionp;
-                    let request = new XMLHttpRequest();
-                    request.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            rateHolderp.innerHTML = request.responseText;
-                        }
-                    };
-                    request.open('POST', '/wp-admin/admin-ajax.php', true);
-                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    request.send(ajax_data);
-                    return false;
-                }
-            } else {
-                alert(__("已取消"));
-            }
-        }
-    })
+
 }
 function resizeTOC() {
     const toc_container = document.querySelector(".toc-container"),
