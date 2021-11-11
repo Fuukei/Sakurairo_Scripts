@@ -276,8 +276,6 @@ function sm() {
                         request.send(ajax_data);
                         return false;
                     }
-                } else {
-                    alert(__("已取消"));
                 }
             }
         })
