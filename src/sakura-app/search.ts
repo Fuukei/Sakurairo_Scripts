@@ -18,7 +18,7 @@ function search_result(keyword: string, link: string, fa: string, title: string,
         text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
         text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
     }
-    return '<div class="ins-selectable ins-search-item" href="' + link + '"><header><i class="fa fa-' + fa + '" aria-hidden="true"></i>' + title + '<i class="iconfont icon-' + iconfont + '"> ' + comments + '</i>' + '</header><p class="ins-search-preview">' + text + '</p></div>';
+    return `<div class="ins-selectable ins-search-item" href="${link}"><header><i class="fa fa-${fa}" aria-hidden="true"></i>${title}<i class="iconfont icon-${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></div>`;
 }
 function Cx(array: Query[], query: string) {
     for (let s = 0; s < query.length; s++) {
