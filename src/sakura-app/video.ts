@@ -1,4 +1,5 @@
 import { getFileNameMain } from '../common/util';
+import { __ } from './sakurairo_global';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
 const videoList: Array<string> = Poi.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
@@ -21,7 +22,7 @@ const _getNextRandomVideo = () => {
 function getVideo() {
     const video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
     const fileName = _getNextRandomVideo()// 随机抽取视频
-    video_stu.innerHTML = "正在载入视频 ...";
+    video_stu.innerHTML = __("正在载入视频 ...");
     video_stu.style.bottom = "0px";
     //这里不需要检验Poi.movies是不是字符串，因为应该在前边检查
     bgvideo.setAttribute("src", new URL(fileName, Poi.movies.url || location.origin).toString());
@@ -81,7 +82,7 @@ export function livepause() {
         spause();
         let video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
         video_stu.style.bottom = "0px";
-        video_stu.innerHTML = "已暂停 ...";
+        video_stu.innerHTML = __("已暂停...");
     }
 }
 export function coverVideo() {

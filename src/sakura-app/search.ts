@@ -1,4 +1,5 @@
 import { buildAPI } from '../common/util'
+import { __ } from './sakurairo_global';
 export interface Query {
     comments: string
     link: string
@@ -62,11 +63,11 @@ function query(B: any[], A: string,) {
                 break
         }
     }
-    w && (y = y + G + "文章" + E + w + D)
-    u && (y = y + G + "页面" + E + u + D)
-    r && (y = y + G + "分类" + E + r + D)
-    p && (y = y + G + "标签" + E + p + D)
-    F && (y = y + G + "评论" + E + F + D)
+    w && (y = y + G + __("文章") + E + w + D)
+    u && (y = y + G + __("页面") + E + u + D)
+    r && (y = y + G + __("分类") + E + r + D)
+    p && (y = y + G + __("标签") + E + p + D)
+    F && (y = y + G + __("评论") + E + F + D)
     s = document.getElementById("PostlistBox")
     s.innerHTML = y
 }

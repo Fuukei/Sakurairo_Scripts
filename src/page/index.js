@@ -253,10 +253,10 @@ function sm() {
     cm && cm.addEventListener("click", (e) => {
         let list = e.target.parentNode;
         if (list.classList.contains("sm")) {
-            let msg = "您真的要设为私密吗？";
+            let msg = __("您真的要设为私密吗？");
             if (confirm(msg) == true) {
                 if (list.classList.contains('private_now')) {
-                    alert('您之前已设过私密评论');
+                    alert(__('您之前已设过私密评论'));
                     return false;
                 } else {
                     list.classList.add('private_now');
@@ -276,7 +276,7 @@ function sm() {
                     return false;
                 }
             } else {
-                alert("已取消");
+                alert(__("已取消"));
             }
         }
     })

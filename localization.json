@@ -11,5 +11,15 @@
     "上传失败！\n文件名: {0}\ncode: {1}\n{2}": "",
     "上传失败，请重试.": "Upload failed, please retry.",
     "页面加载出错了 HTTP {0}": "Page Load failed. HTTP {0}",
-    "很高兴你翻到这里，但是真的没有了...": "Glad you come, but we've got nothing left."
+    "很高兴你翻到这里，但是真的没有了...": "Glad you come, but we've got nothing left.",
+    "文章":"Post",
+    "标签":"Tag",
+    "目录":"Category",
+    "页面":"Page",
+    "评论":"Comment",
+    "已暂停...":"Paused...",
+    "正在载入视频 ...":"Loading Video...",
+    "将从网络加载字体，流量请注意":"",
+    "您真的要设为私密吗？":"Are you sure you want set it private?",
+    "您之前已设过私密评论":"You had set private comment before"
 }
