@@ -1,4 +1,4 @@
-import { awaitImage, KMeansResult, readImageDownsampling, RGBA, rgbaCSSText, } from 'palette'
+import { awaitImage, KMeansResult, labaToRGBA, readImageDownsampling, RGBA, rgbaCSSText, } from '@kotorik/palette'
 import PromiseWorker from 'promise-worker';
 let worker = new PromiseWorker(new Worker(new URL('./worker.ts', import.meta.url)))
 export async function updateThemeSkin(coverBGUrl: string) {
@@ -11,10 +11,10 @@ export async function updateThemeSkin(coverBGUrl: string) {
         iteration: 20,
         img: data
     })
-    const { label, cluster_center } = result
+    const { label, centroid } = result
     const max = [...label].sort((a, b) => b - a)[0]
     const index = label.findIndex(value => value == max)
-    _updateThemeSkin(cluster_center[index])
+    _updateThemeSkin(labaToRGBA(centroid[index]))
     //console.log(result)
 }
 function _updateThemeSkin(color: RGBA) {
