@@ -26,6 +26,7 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
+    "@kotorik/palette": "^0.1.0",
     "@sliphua/pjax": "^2.4.0",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "github:Fuukei/APlayer",
@@ -43,7 +44,6 @@
     "mathjax": "^3.2.0",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
-    "palette": "github:KotoriK/palette",
     "prismjs": "^1.25.0",
     "promise-worker": "^2.0.1",
     "smoothscroll-for-websites": "^1.4.10",
