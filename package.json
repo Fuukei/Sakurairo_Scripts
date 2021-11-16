@@ -26,7 +26,7 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
-    "@kotorik/palette": "^0.1.0",
+    "@kotorik/palette": "^1.0.0",
     "@sliphua/pjax": "^2.4.0",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "github:Fuukei/APlayer",
@@ -63,7 +63,7 @@
     "terser-webpack-plugin": "^5.2.5",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
-    "webpack": "^5.64.0",
+    "webpack": "^5.64.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-merge": "^5.8.0"
