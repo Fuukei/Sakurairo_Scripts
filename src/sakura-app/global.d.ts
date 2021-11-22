@@ -22,7 +22,7 @@ declare namespace mashiro_option {
     const preload_blur: number
     const email_domain: string
     const email_name: string
-    const entry_content_style: string
+    const entry_content_style: 'sakurairo' | 'github'
     const entry_content_style_src: string
     const jsdelivr_css_src: string
     const land_at_home: boolean
