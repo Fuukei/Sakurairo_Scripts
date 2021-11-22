@@ -287,7 +287,7 @@ function resizeTOC() {
         sc = document.querySelector(".site-content")
     if (toc_container && sc) {
         const resize = () => {
-            toc_container.style.height = min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
+            toc_container.style.height = Math.min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
         }
         resize()
         //TODO:性能

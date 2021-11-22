@@ -49,8 +49,6 @@ export const ready = function (fn: Function) {
     readyFunctionList.push(fn)
 };
 
-/* export const max = (a: number, b: number) => a > b ? a : b
- */export const min = (a: number, b: number) => a < b ? a : b
 /**
  * 获取文件名的主名部分（即去除扩展名）
  * @param fileName 文件名
