@@ -308,11 +308,18 @@ function tableOfContentScroll(flag) {
             const reqTocbot = import('tocbot')
             const heading_fix = mashiro_option.entry_content_style == "sakurairo" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment") ? -75 : 200) : 375) : window.innerHeight / 2;
             const _els = document.querySelectorAll('.entry-content,.links');
+            const idSet = new Set()
             let id = 1
             for (let i = 0; i < _els.length; i++) {
                 let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
-                for (let j = 0; j < _el.length; j++) {
-                    _el[j].id = "toc-head-" + id++;
+                for (const title of _el) {
+                    const innerText = encodeURIComponent(txt.replace(' ', '-'))(title.innerText)
+                    if (idSet.has(innerText)) {
+                        title.id = "toc-head-" + id++;
+                    } else {
+                        title.id = innerText
+                        idSet.add(innerText)
+                    }
                 }
             }
             reqTocbot.then(({ default: tocbot }) => {
