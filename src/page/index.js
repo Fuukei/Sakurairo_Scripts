@@ -305,16 +305,17 @@ function tableOfContentScroll(flag) {
         }
     } else {
         if (flag && document.getElementsByClassName('toc').length > 0) {
-            let id = 1
+            const reqTocbot = import('tocbot')
             const heading_fix = mashiro_option.entry_content_style == "sakurairo" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment") ? -75 : 200) : 375) : window.innerHeight / 2;
             const _els = document.querySelectorAll('.entry-content,.links');
+            let id = 1
             for (let i = 0; i < _els.length; i++) {
                 let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
                 for (let j = 0; j < _el.length; j++) {
                     _el[j].id = "toc-head-" + id++;
                 }
             }
-            import('tocbot').then(({ default: tocbot }) => {
+            reqTocbot.then(({ default: tocbot }) => {
                 tocbot.init({
                     tocSelector: '.toc',
                     contentSelector: ['.entry-content', '.links'],
