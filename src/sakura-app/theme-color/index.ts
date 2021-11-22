@@ -1,6 +1,6 @@
 import { awaitImage, KMeansResult, labaToRGBA, readImageDownsampling, RGBA, rgbaCSSText, } from '@kotorik/palette'
 import PromiseWorker from 'promise-worker';
-let worker = new PromiseWorker(new Worker(new URL('./worker.ts', import.meta.url)))
+let worker: PromiseWorker
 export async function updateThemeSkin(coverBGUrl: string) {
     const imgElement = document.createElement('img')
     imgElement.src = coverBGUrl
@@ -27,5 +27,6 @@ function _updateThemeSkin(color: RGBA) {
 /*     metaDark && (metaDark.content = hslaCSSText([h,s,l,a]))
  */}
 export function init() {
+    if (!worker) worker = new PromiseWorker(new Worker(new URL('./worker.ts', import.meta.url)))
     document.addEventListener('coverBG_change', (({ detail: coverBGUrl }: CustomEvent<string>) => updateThemeSkin(coverBGUrl)) as any)
 }
