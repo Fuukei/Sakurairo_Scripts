@@ -12,7 +12,7 @@ export async function updateThemeSkin(coverBGUrl: string) {
         img: data
     })
     const { label, centroid } = result
-    const max = [...label].sort((a, b) => b - a)[0]
+    const max = Math.max(...label)
     const index = label.findIndex(value => value == max)
     _updateThemeSkin(labaToRGBA(centroid[index]))
     //console.log(result)
