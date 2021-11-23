@@ -3,6 +3,7 @@ import { Accept_Image } from './compatibility';
 import { __ } from './sakurairo_global';
 let bgn = 1;
 let blob_url = ''
+let currentBGUrl = ''
 export async function nextBG() {
     changeCoverBG(await getCoverPath(true))
     bgn++;
@@ -19,22 +20,18 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
 const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
+    currentBGUrl = url
 } :
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
         document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
+        currentBGUrl = url
     } : () => { }
-    function parseCSSUrl(cssText?: string) {
-        const result = cssText?.match(/^url\((.+)\)$/)
-        if (result) {
-            return result[1]
-        }
-    }
 /**
  * 返回当前封面背景的URL
  */
-export const getCurrentBG = mashiro_option.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage)
-    : () => parseCSSUrl(document.querySelector<HTMLElement>(".centerbg")?.style.backgroundImage)
+export const getCurrentBG = () => currentBGUrl
+
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
     if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
