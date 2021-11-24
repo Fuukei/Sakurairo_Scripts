@@ -1,4 +1,4 @@
-import { awaitImage, KMeansResult, labaToRGBA, readImageDownsampling, RGBA, rgbaCSSText, } from '@kotorik/palette'
+import { awaitImage, KMeansResult, labaToRGBA, readImageDownsampling, rgbaCSSText, } from '@kotorik/palette'
 import PromiseWorker from 'promise-worker';
 let worker: PromiseWorker
 export async function updateThemeSkin(coverBGUrl: string) {
