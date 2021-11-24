@@ -1,5 +1,5 @@
 import article_attach from './article_attach'
-import { min, ready, slideToggle } from '../common/util'
+import { ready, slideToggle } from '../common/util'
 import { lazyload } from 'lazyload'
 import { createButterbar } from '../common/butterbar'
 import './global-func'
@@ -313,7 +313,7 @@ function tableOfContentScroll(flag) {
             for (let i = 0; i < _els.length; i++) {
                 let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
                 for (const title of _el) {
-                    const innerText = encodeURIComponent(txt.replace(' ', '-'))(title.innerText)
+                    const innerText = encodeURIComponent(title.innerText.replace(' ', '-'))
                     if (idSet.has(innerText)) {
                         title.id = "toc-head-" + id++;
                     } else {
