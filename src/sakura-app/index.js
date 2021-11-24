@@ -49,7 +49,7 @@ import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 import { XLS, post_list_show_animation } from './posts'
-import { init, updateThemeSkin } from './theme-color'
+import { initThemeColor, updateThemeSkin } from './theme-color'
 /**
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
