@@ -54,7 +54,7 @@ import { init, updateThemeSkin } from './theme-color'
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
  */
-Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, AppleWebKit: 606/**Safari 12 */ });
+Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
         selectors: ["#page", "title", ".footer-device", "#_mashiro_", "#login-link"],
@@ -634,12 +634,14 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
-    initCoverBG().then(() => {
-        if (isSupported({ AppleWebKit: 605 })) {
-            init()
-            updateThemeSkin(getCurrentBG())
-        }
-    })
+    checkBgImgSetting()
+        .then(() => {
+            if (isSupported({ Version: 15/**Safari 15 */ })) {
+                initThemeColor()
+                const bgUrl = getCurrentBG()
+                if (bgUrl) updateThemeSkin(bgUrl)
+            }
+        })
     addSkinMenuListener();
     //let checkskin_bg = (a) => a == "none" ? "" : a;
     let changskin = document.querySelector("#changskin"),
