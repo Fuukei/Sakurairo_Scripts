@@ -2,20 +2,23 @@ import { awaitImage, KMeansResult, labaToRGBA, readImageDownsampling, RGBA, rgba
 import PromiseWorker from 'promise-worker';
 let worker: PromiseWorker
 export async function updateThemeSkin(coverBGUrl: string) {
-    const imgElement = document.createElement('img')
-    imgElement.src = coverBGUrl
-    await awaitImage(imgElement)
-    const data = readImageDownsampling(imgElement, 10000)
-    const result: KMeansResult = await worker.postMessage({
-        k: 3,
-        iteration: 20,
-        img: data
-    })
-    const { label, centroid } = result
-    const max = Math.max(...label)
-    const index = label.findIndex(value => value == max)
-    _updateThemeSkin(labaToRGBA(centroid[index]))
-    //console.log(result)
+    try {
+        const imgElement = document.createElement('img')
+        imgElement.src = coverBGUrl
+        await awaitImage(imgElement)
+        const data = readImageDownsampling(imgElement, 10000)
+        const result: KMeansResult = await worker.postMessage({
+            k: 3,
+            iteration: 20,
+            img: data
+        })
+        const { label, centroid } = result
+        const max = Math.max(...label)
+        const index = label.findIndex(value => value == max)
+        _updateThemeSkin(labaToRGBA(centroid[index]))
+    } catch (error) {
+        console.error(error)
+    }
 }
 function _updateThemeSkin(color: RGBA) {
     //TODO: 暗色模式支持
