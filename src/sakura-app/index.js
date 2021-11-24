@@ -34,7 +34,7 @@
  * 
  */
 
-import { nextBG, preBG, initCoverBG, getCoverPath, getCurrentBG } from './coverBackground'
+import { nextBG, preBG, getCoverPath, getCurrentBG, changeCoverBG } from './coverBackground'
 import add_copyright from './copyright'
 import { createButterbar } from '../common/butterbar'
 import { loadCSS } from 'fg-loadcss'
@@ -137,18 +137,19 @@ function no_right_click() {
 }
 no_right_click();
 
-async function changeBG(bgid) {
+async function changeSkin(tagId) {
     //@sideeffect
-    mashiro_global.variables.skinSecter = bgid == "white-bg" || bgid == "dark-bg";
+    mashiro_global.variables.skinSecter = tagId == "white-bg" || tagId == "dark-bg";
     checkSkinSecter();
-    const now_bg_url = document.body.style.backgroundImage
     let bg_url;
-    switch (bgid) {
+    switch (tagId) {
         case "white-bg":
             if (mashiro_option.site_bg_as_cover) {
-                //if(mashiro_option.cache_cover && now_bg_url.match(/^url\("blob:/)) return
                 bg_url = await getCoverPath()
+                changeCoverBG(bg_url)
+                return
             } else {
+                if (!mashiro_option.land_at_home) return //在非主页上，.centerbg不显示，因此没有必要更新
                 bg_url = mashiro_option.skin_bg0;
             }
             break;
@@ -165,9 +166,7 @@ async function changeBG(bgid) {
             bg_url = mashiro_option.skin_bg4;
             break;
     }
-    if (now_bg_url != bg_url) {
-        document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
-    }
+    document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
 }
 
 function bgButtonAddListener() {
@@ -466,7 +465,6 @@ if (Poi.pjax) {
     });
     document.addEventListener("pjax:complete", function () {
         auto_height();
-        initCoverBG()
         PE();
         CE();
         if (mashiro_option.land_at_home) XLS();
@@ -602,7 +600,7 @@ function addSkinMenuListener() {
                 turnOnDarkMode(true)
             } else {
                 turnOffDarkMode(true)
-                changeBG(tagid)
+                changeSkin(tagid)
                 localStorage.setItem("bgImgSetting", tagid)
             }
             closeSkinMenu();
@@ -610,10 +608,10 @@ function addSkinMenuListener() {
     });
 }
 function checkBgImgSetting() {
-    changeBG(localStorage.getItem("bgImgSetting") || 'white-bg');
+    return changeSkin(localStorage.getItem("bgImgSetting") || 'white-bg');
 }
 
-checkBgImgSetting()
+
 checkDarkModeSetting();
 
 function closeSkinMenu() {

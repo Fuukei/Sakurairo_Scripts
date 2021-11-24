@@ -3,7 +3,6 @@ import { Accept_Image } from './compatibility';
 import { __ } from './sakurairo_global';
 let bgn = 1;
 let blob_url = ''
-let currentBGUrl = ''
 export async function nextBG() {
     changeCoverBG(await getCoverPath(true))
     bgn++;
@@ -17,20 +16,25 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
 /**
  * 更改封面背景
  */
-const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
+export const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
-    currentBGUrl = url
 } :
     centerbg ? (url: string) => {
         centerbg.style.backgroundImage = `url(${url})`
         document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
-        currentBGUrl = url
     } : () => { }
+function parseCSSUrl(cssText?: string) {
+    const result = cssText?.match(/^url\("(.+)"\)$/)
+    if (result) {
+        return result[1]
+    }
+}
 /**
  * 返回当前封面背景的URL
  */
-export const getCurrentBG = () => currentBGUrl
+export const getCurrentBG = mashiro_option.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
+    () => parseCSSUrl(centerbg.style.backgroundImage)
 
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
@@ -90,13 +94,8 @@ function cleanBlobUrl() {
     URL.revokeObjectURL(blob_url)
     blob_url = ''
 }
-export async function initCoverBG() {
+/* export function initCoverBG() {
     if (mashiro_option.site_bg_as_cover) {
         if (centerbg) centerbg.style.background = '#0000'
-        if (localStorage.getItem('bgImgSetting') !== 'white-bg') {
-            return
-        }
-    } else if (!mashiro_option.land_at_home) return //防止.centerbg在非主页加载图片
-
-    changeCoverBG(await getCoverPath())
-}
+    }
+} */
