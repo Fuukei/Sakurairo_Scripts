@@ -21,10 +21,8 @@ export const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => 
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
     centerbg ? (url: string) => {
-        if (mashiro_option.land_at_home) {
             centerbg.style.backgroundImage = `url(${url})`
             document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
-        }
     } : () => { }
 function parseCSSUrl(cssText?: string) {
     const result = cssText?.match(/^url\("(.+)"\)$/)

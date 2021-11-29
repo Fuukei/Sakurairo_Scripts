@@ -150,8 +150,7 @@ async function changeSkin(tagId) {
     switch (tagId) {
         case "white-bg":
             if (mashiro_option.site_bg_as_cover) {
-                bg_url = await getCoverPath()
-                changeCoverBG(bg_url)//为触发封面背景相关事件 调用函数而不是走下方流程
+                changeCoverBG(await getCoverPath())//为触发封面背景相关事件 调用函数而不是走下方流程
                 return
             } else {
                 bg_url = mashiro_option.skin_bg0;
@@ -517,6 +516,7 @@ if (Poi.pjax) {
         checkSkinSecter();
         NH();
         //#endregion
+        checkCoverBackground()//pjax不需要刷新前台背景
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
@@ -612,17 +612,22 @@ function addSkinMenuListener() {
     });
 }
 /**
- * 根据设置初始化封面背景与前台背景
+ * 根据设置初始化前台背景。启用前台背景与站点封面背景一体化以后封面背景在此设置
  * @returns 一个Promise。Promise resolved 时封面背景应当已经加载完毕
  */
-async function checkBgImgSetting() {
-    if (!mashiro_option.site_bg_as_cover) {
-        bg_url = await getCoverPath()
-        changeCoverBG(bg_url)
-    }
+function checkBgImgSetting() {
     return changeSkin(localStorage.getItem("bgImgSetting") || 'white-bg');
 }
-
+async function checkCoverBackground() {
+    if (mashiro_option.site_bg_as_cover) {
+        return //交给checkBgImgSetting处理
+    }
+    if (!mashiro_option.land_at_home) return//进入非主页  
+    if (getCurrentBG()) {//进入主页且已经加载了封面背景
+        return
+    }
+    changeCoverBG(await getCoverPath())
+}
 
 checkDarkModeSetting();
 
@@ -644,7 +649,7 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
-    checkBgImgSetting()
+    Promise.all([checkCoverBackground(), checkBgImgSetting()])
         .then(() => {
             if (isSupported({ Version: 15/**Safari 15 */ })) {
                 initThemeColor()
