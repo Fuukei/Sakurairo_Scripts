@@ -137,6 +137,11 @@ function no_right_click() {
 }
 no_right_click();
 
+/**
+ * 设置前台背景
+ * @param {string} tagId 前台背景ID
+ * @returns 
+ */
 async function changeSkin(tagId) {
     //@sideeffect
     mashiro_global.variables.skinSecter = tagId == "white-bg" || tagId == "dark-bg";
@@ -146,10 +151,9 @@ async function changeSkin(tagId) {
         case "white-bg":
             if (mashiro_option.site_bg_as_cover) {
                 bg_url = await getCoverPath()
-                changeCoverBG(bg_url)
+                changeCoverBG(bg_url)//为触发封面背景相关事件 调用函数而不是走下方流程
                 return
             } else {
-                if (!mashiro_option.land_at_home) return //在非主页上，.centerbg不显示，因此没有必要更新
                 bg_url = mashiro_option.skin_bg0;
             }
             break;
@@ -607,7 +611,15 @@ function addSkinMenuListener() {
         });
     });
 }
-function checkBgImgSetting() {
+/**
+ * 根据设置初始化封面背景与前台背景
+ * @returns 一个Promise。Promise resolved 时封面背景应当已经加载完毕
+ */
+async function checkBgImgSetting() {
+    if (!mashiro_option.site_bg_as_cover) {
+        bg_url = await getCoverPath()
+        changeCoverBG(bg_url)
+    }
     return changeSkin(localStorage.getItem("bgImgSetting") || 'white-bg');
 }
 
