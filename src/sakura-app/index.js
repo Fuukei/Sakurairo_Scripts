@@ -57,8 +57,8 @@ import { initThemeColor, updateThemeSkin } from './theme-color'
 Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#_mashiro_", "#login-link"],
-        scripts: "#_mashiro_",
+        selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link"],
+        scripts: "#app-js-before",
         timeout: 8000,
         defaultTrigger: {
             exclude: 'a[data-no-pjax]',
