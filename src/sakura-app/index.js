@@ -69,9 +69,7 @@ loadCSS(mashiro_option.jsdelivr_css_src);
 loadCSS(mashiro_option.entry_content_style_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
-mashiro_global.variables = new function () {
-    this.skinSecter = true;
-}
+var _mashiro_global_skin_secter = true
 import { initFontControl, loadFontSetting } from './font_control'
 
 function scrollBar() {
@@ -101,7 +99,7 @@ function scrollBar() {
 }
 
 function checkSkinSecter() {
-    if (mashiro_global.variables.skinSecter === false) {
+    if (_mashiro_global_skin_secter === false) {
         const pattern = document.querySelector(".pattern-center"),
             headertop = document.querySelector(".headertop-bar");
         if (pattern) {
@@ -144,7 +142,7 @@ no_right_click();
  */
 async function changeSkin(tagId) {
     //@sideeffect
-    mashiro_global.variables.skinSecter = tagId == "white-bg" || tagId == "dark-bg";
+    _mashiro_global_skin_secter = tagId == "white-bg" || tagId == "dark-bg";
     checkSkinSecter();
     let bg_url;
     switch (tagId) {
