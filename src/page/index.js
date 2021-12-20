@@ -1,5 +1,5 @@
 import article_attach from './article_attach'
-import { ready, slideToggle } from '../common/util'
+import { ready, slideToggle, buildAPI } from '../common/util'
 import { lazyload } from 'lazyload'
 import { createButterbar } from '../common/butterbar'
 import './global-func'
