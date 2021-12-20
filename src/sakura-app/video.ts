@@ -102,7 +102,7 @@ export function coverVideo() {
                 spause();
                 video_btn.classList.remove("videolive");
                 (document.getElementsByClassName("video-stu")[0] as HTMLElement).style.bottom = "0px";
-                document.getElementsByClassName("video-stu")[0].innerHTML = "已暂停 ...";
+                document.getElementsByClassName("video-stu")[0].innerHTML = __("已暂停...");
             } else {
                 splay();
                 video_btn.classList.add("videolive");// 用于判断切换页面时的状态
