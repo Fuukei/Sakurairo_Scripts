@@ -1,5 +1,5 @@
 import { createButterbar } from "../common/butterbar";
-import { __ } from "./sakurairo_global";
+import { __ } from "../common/sakurairo_global";
 
 let btnSerif: HTMLButtonElement,
     btnSansSerif: HTMLButtonElement;

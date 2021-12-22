@@ -3,7 +3,7 @@ declare var meting_api: string;
 //@ts-ignore
 import APlayer from 'aplayer'
 import { loadCSS } from 'fg-loadcss';
-import { registerOnGlobal } from './sakurairo_global';
+import { registerOnGlobal } from '../common/sakurairo_global';
 export interface APlayerAudio {
     artist: string
     cover: string

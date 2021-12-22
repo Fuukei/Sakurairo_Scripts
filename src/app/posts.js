@@ -1,6 +1,6 @@
 import { onlyOnceATime } from "../common/util";
 import { lazyload } from 'lazyload'
-import { __ } from './sakurairo_global'
+import { __ } from '../common/sakurairo_global'
 
 let load_post_timer;
 const load_post = onlyOnceATime(function load_post() {

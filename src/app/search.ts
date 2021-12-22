@@ -1,5 +1,5 @@
 import { buildAPI } from '../common/util'
-import { __ } from './sakurairo_global';
+import { __ } from '../common/sakurairo_global';
 export interface Query {
     comments: string
     link: string

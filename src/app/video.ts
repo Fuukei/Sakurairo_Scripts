@@ -1,5 +1,5 @@
 import { getFileNameMain } from '../common/util';
-import { __ } from './sakurairo_global';
+import { __ } from '../common/sakurairo_global';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
 const videoList: Array<string> = Poi.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)

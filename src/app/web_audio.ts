@@ -1,4 +1,4 @@
-import { sakurairoGlobal } from "./sakurairo_global";
+import { sakurairoGlobal } from "../common/sakurairo_global";
 export function web_audio() {
     if (!mashiro_option.audio) return
     //@ts-ignore
