@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const { commitHash } = require('./commit_hash')
 module.exports = {
     entry: {
-        app: './src/sakura-app/',
+        app: './src/app/',
         page: { import: "./src/page/", dependOn: 'app' },
         anf:'./src/404.ts'
         /* lazyload:"lazyload",

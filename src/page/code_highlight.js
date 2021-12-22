@@ -1,4 +1,4 @@
-import { isInDarkMode } from '../sakura-app/darkmode'
+import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 const attributes = {
     'autocomplete': 'off',
