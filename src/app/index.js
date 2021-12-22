@@ -690,3 +690,9 @@ coverVideoIni();
 checkSkinSecter();
 scrollBar();
 //#endregion
+var effect
+if (effect = mashiro_option.effect) {
+    if (effect.type == 'yuki') {
+        import('./falling_effect/yuki/start')
+    } else import('./falling_effect/sakura/start')
+}

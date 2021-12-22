@@ -22,6 +22,7 @@ declare namespace mashiro_option {
     const preload_blur: number
     const email_domain: string
     const email_name: string
+    const effect: Effect
     const entry_content_style: 'sakurairo' | 'github'
     const entry_content_style_src: string
     const jsdelivr_css_src: string
@@ -97,4 +98,8 @@ interface Document {
      * getElementById的泛型版本
      */
     getElementById<E extends HTMLElement = HTMLElement>(elementId: string): E | null;
+}
+interface Effect {
+    amount: number | string
+    type: 'sakura' | 'yuki'
 }
