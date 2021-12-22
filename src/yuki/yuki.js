@@ -1,5 +1,5 @@
 /* 控制下雪 */
-function snowFall(snow) {
+export function snowFall(snow) {
     /* 可配置属性 */
     snow = snow || {};
     this.maxFlake = snow.maxFlake || 200;   /* 最多片数 */
