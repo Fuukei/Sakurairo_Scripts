@@ -5,14 +5,16 @@ module.exports = {
     entry: {
         app: './src/app/',
         page: { import: "./src/page/", dependOn: 'app' },
-        anf:'./src/404.ts'
+        anf: './src/404.ts'
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
     },
     output: {
         filename: '[name].js',
-        path: define.dist_path, iife: true// 是否添加 IIFE 外层
+        assetModuleFilename:'[id][ext][query]',
+        path: define.dist_path,
+        iife: true// 是否添加 IIFE 外层
     },
     optimization: {
         /* runtimeChunk: {
@@ -79,6 +81,6 @@ module.exports = {
         entryOnly: true,
         banner: `//! build ${commitHash} ${new Date().toLocaleDateString()}`
     })],
-    target: "browserslist", 
+    target: "browserslist",
     devtool: "source-map",
 };
