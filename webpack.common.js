@@ -51,14 +51,15 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/, use: {
-                    loader: 'ts-loader', options: {
+                    loader: 'ts-loader',
+                    options: {
                         allowTsInNodeModules: true
                     }
                 }
             },
             {
                 test: /\.m?js$/,
-                exclude: /(node_modules)/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -66,7 +67,8 @@ module.exports = {
                             ['@babel/preset-env',
                                 {
                                     useBuiltIns: 'usage',
-                                    corejs: '3.20'
+                                    corejs: '3.20',
+                                    modules: false
                                 }
                             ]],
                         cacheDirectory: true,
