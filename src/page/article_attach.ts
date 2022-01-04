@@ -65,7 +65,7 @@ async function lightbox() {
         lightGallery(
             document.querySelector('.entry-content'),
             {
-                plugins: (await Promise.allSettled(plugins.map(moduleName =>
+                plugins: plugins && (await Promise.allSettled(plugins.map(moduleName =>
                     import(
                         /* webpackChunkName: "lg-plugin-" */
                         `lightgallery/plugins/${moduleName}/lg-${moduleName}.es5.js`)
