@@ -1,5 +1,6 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
+import { resolvePath } from '../common/npmLib';
 const attributes = {
     'autocomplete': 'off',
     'autocorrect': 'off',
