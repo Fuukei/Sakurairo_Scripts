@@ -47,13 +47,9 @@
 
 <script>
 export default {
-  data: () => ({
-    imgs: null,
-    showError: false,
-  }),
   async mounted() {
     const resp = await fetch(
-      "/wp-admin/admin-ajax.php?action=getPhoto&post=111"
+      "/wp-admin/admin-ajax.php?action=getPhoto&post=" + this.$data.id
     );
     try {
       if (resp.ok) {
