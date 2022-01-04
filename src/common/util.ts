@@ -81,7 +81,7 @@ export function slideToggle(el: any, duration = 1000, mode = '', callback?: () =
     }, duration);
     if (callback) callback();
 }
-export function buildAPI (apiPath: string, params: Record<string, string>={}, nonce: boolean = true) {
+export function buildAPI(apiPath: string, params: Record<string, string> = {}, nonce: boolean = true) {
     const path = new URL(apiPath)
     const { searchParams } = path
     for (const [key, value] of Object.entries(params)) {

@@ -1,6 +1,7 @@
 import { loadCSS } from 'fg-loadcss';
 import { slideToggle } from '../common/util';
 import { LightGallerySettings } from 'lightgallery/lg-settings'
+import { resolvePath } from '../common/npmLib';
 declare namespace window {
     let jQuery: Function
     let $: Function
@@ -37,7 +38,7 @@ let lightBoxCSS: HTMLLinkElement
 async function lightbox() {
     //init lightbox
     if (mashiro_option.baguetteBoxON) {
-        if (!lightBoxCSS) lightBoxCSS = loadCSS('https://cdn.jsdelivr.net/npm/baguettebox.js@1.11.1/dist/baguetteBox.min.css')
+        if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/baguetteBox.min.css', 'baguettebox.js', '1.11.1'))
         //@ts-ignore
         const { default: baguetteBox } = await import('baguettebox.js')
         baguetteBox.run('.entry-content', {
@@ -47,8 +48,7 @@ async function lightbox() {
             ignoreClass: 'fancybox',
         });
     } else if (mashiro_option.fancybox) {
-        if (!lightBoxCSS) lightBoxCSS = loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')
-
+        if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/jquery.fancybox.min.css', '@fancyapps/fancybox', '3.5.7'))
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
             //@ts-ignore
             const jQuery = await import('jquery')
@@ -59,9 +59,9 @@ async function lightbox() {
         import('@fancyapps/fancybox')
     } else if (mashiro_option.lightGallery) {
         //@ts-ignore
-        const { default: lightGallery } = await import('lightgallery/lib/index.js') 
+        const { default: lightGallery } = await import('lightgallery/lib/index.js')
         const { plugins, ...opts } = mashiro_option.lightGallery as LightGalleryOptions
-        loadCSS('https://cdn.jsdelivr.net/npm/lightgallery@2.3.0/css/lightgallery-bundle.min.css')
+        loadCSS(resolvePath('css/lightgallery-bundle.min.css', 'lightgallery', '2.3.0'))
         lightGallery(
             document.querySelector('.entry-content'),
             {
@@ -84,7 +84,7 @@ async function math() {
                 }, startup: {
                     typeset: false,           // Perform initial typeset?
                 }, chtml: {
-                    fontURL: "https://cdn.jsdelivr.net/npm/mathjax/es5/output/chtml/fonts/woff-v2",
+                    fontURL: resolvePath('es5/output/chtml/fonts/woff-v2', 'mathjax', '2.3.0'),
                     mathmlSpacing: true// true for MathML spacing rules, false for TeX rules
                 }
             }
