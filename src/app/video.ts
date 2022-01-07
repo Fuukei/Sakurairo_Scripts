@@ -3,6 +3,7 @@ import { __ } from '../common/sakurairo_global';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
 const videoList: Array<string> = Poi.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
+let aplayersToResume: any[] = []
 //from Siren
 declare global {
     interface Window {
@@ -42,8 +43,8 @@ function splay() {
         document.querySelector<HTMLElement>(".video-stu").style.bottom = "-100px";
         document.querySelector<HTMLElement>(".focusinfo").style.top = "-999px";
         if (mashiro_option.float_player_on) {
-            import('./aplayer').then(({ destroyAllAplayer }) => {
-                destroyAllAplayer()
+            import('./aplayer').then(({ pauseAllPlayer }) => {
+                aplayersToResume = pauseAllPlayer()
                 bgvideo.play();
             })
             return
@@ -66,6 +67,9 @@ function spause() {
         document.querySelector<HTMLElement>(".focusinfo").style.top = "49.3%";
     } catch { }
     bgvideo.pause();
+    for (const player of aplayersToResume) {
+        player.play()
+    }
 }
 /**
  * 自动续播 - 播放
@@ -136,9 +140,9 @@ function canPlayHandler(this: HTMLVideoElement) {
  * 用户代理可能会禁止自动播放，此时需要撤掉poster
  */
 async function lazyloadPatch() {
-    const videos = document.querySelectorAll<HTMLVideoElement>('video.lazyload')
-    videos.forEach(
-        video => video.addEventListener('canplay',canPlayHandler)
+    document.querySelectorAll<HTMLVideoElement>('video.lazyload')
+        .forEach(
+            video => video.addEventListener('canplay', canPlayHandler)
         )
 }
 async function initHLS() {
