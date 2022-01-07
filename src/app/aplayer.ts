@@ -159,6 +159,8 @@ function loadAPlayer(playlist: APlayerAudio[]) {
     }
 }
 function registerMethods() {
+    registerOnGlobal('pauseAllPlayer', pauseAllPlayer)
     registerOnGlobal('destroyAllAplayer', destroyAllAplayer)
     registerOnGlobal('loadAPlayer', loadAPlayer)
+    registerOnGlobal('getAPlayers', () => aplayers)
 }
