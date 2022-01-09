@@ -50,6 +50,8 @@ import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
 import { XLS, post_list_show_animation } from './posts'
 import { initThemeColor, updateThemeSkin } from './theme-color'
+import initEffect from './effect'
+
 /**
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
@@ -681,8 +683,8 @@ ready(function () {
     preload_screen()
     lazyload();
     powermode()
+    initEffect()
     about_us()
-
 });
 //#region mashiro_global.ini.normalize();
 post_list_show_animation();
@@ -690,9 +692,3 @@ coverVideoIni();
 checkSkinSecter();
 scrollBar();
 //#endregion
-var effect
-if (effect = mashiro_option.effect) {
-    if (effect.type == 'yuki') {
-        import('./falling_effect/yuki/start')
-    } else import('./falling_effect/sakura/start')
-}
