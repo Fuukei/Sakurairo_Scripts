@@ -61,6 +61,10 @@ declare namespace mashiro_option {
     const float_player_on: boolean
     const yiyan: boolean
     const yiyan_api: Array<string>
+    /**
+     * 是否从CDN源加载第三方库
+     */
+    const ext_shared_lib:boolean
 }
 declare namespace Poi {
     let pjax: string

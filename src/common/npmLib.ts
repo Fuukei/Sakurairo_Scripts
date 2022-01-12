@@ -23,6 +23,7 @@ function getPreferCDNIndex() {
             localStorage.removeItem(STORAGE_KEY)
             return 0
         }
+        return num
     } else {
         return 0
     }
@@ -81,4 +82,16 @@ async function testCDN() {
         fetch(resolvePathByCDN(cdn, 'dist/baguetteBox.min.css', 'baguettebox.js', '1.11.1'))
     ))
 
+}
+export const importExternal = (path: string, packageName: string, version?: string) => {
+    const script = document.createElement('script')
+    script.src = resolvePath(path, packageName, version)
+    script.async = true
+    return new Promise((resolve) => {
+        script.onload = resolve
+        script.onerror = () => {
+            console.error(packageName, "加载失败")
+        }
+        document.body.append(script)
+    })
 }

@@ -1,7 +1,7 @@
 import { loadCSS } from 'fg-loadcss';
 import { slideToggle } from '../common/util';
 import { LightGallerySettings } from 'lightgallery/lg-settings'
-import { resolvePath } from '../common/npmLib';
+import { resolvePath, importExternal } from '../common/npmLib';
 declare namespace window {
     let jQuery: Function
     let $: Function
@@ -50,13 +50,18 @@ async function lightbox() {
     } else if (mashiro_option.fancybox) {
         if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/jquery.fancybox.min.css', '@fancyapps/fancybox', '3.5.7'))
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
-            //@ts-ignore
-            const jQuery = await import('jquery')
-            window.jQuery = jQuery.default
-            window.$ = jQuery.default
+            if (mashiro_option.ext_shared_lib) {
+                importExternal('dist/jquery.slim.min.js', 'jquery')
+                importExternal('dist/jquery.fancybox.min.js', '@fancyapps/fancybox')
+            } else {
+                //@ts-ignore
+                const { default: jQuery } = await import('jquery')
+                window.$ = jQuery
+                window.jQuery = jQuery
+                //@ts-ignore
+                import('@fancyapps/fancybox')
+            }
         }
-        //@ts-ignore
-        import('@fancyapps/fancybox')
     } else if (mashiro_option.lightGallery) {
         //@ts-ignore
         const { default: lightGallery } = await import('lightgallery/lib/index.js')
@@ -68,7 +73,7 @@ async function lightbox() {
                 plugins: plugins && (await Promise.allSettled(plugins.map(moduleName =>
                     import(
                         /* webpackChunkName: "lg-plugin-" */
-                        `lightgallery/plugins/${moduleName}/lg-${moduleName}.es5.js`)
+                        `lightgallery/plugins/${moduleName}/lg-${moduleName}.min.js`)
                 ))).map(result => result.status == 'fulfilled' ? result.value.default : console.error('加载lightGallery的插件时出错啦！', result.reason)),
                 ...opts
             });
