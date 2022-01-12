@@ -81,7 +81,7 @@
     "conventional-changelog-cli": "^2.2.2"
   },
   "browserslist": [
-    "last 4 versions, not dead, not IE 11"
+    "last 20 Chrome versions, last 6 Safari versions, last 10 Firefox versions"
   ],
   "private": true,
   "config": {
