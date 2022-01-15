@@ -63,7 +63,7 @@ declare namespace mashiro_option {
     /**
      * 是否从CDN源加载第三方库
      */
-    const ext_shared_lib:boolean
+    const ext_shared_lib: boolean
 }
 declare namespace Poi {
     let pjax: string
@@ -109,3 +109,4 @@ interface Effect {
 //#region define const
 declare const BUILD_INFO: { hash: string, date: string }
 declare const PRISM_VERSION:string
+//#endregion

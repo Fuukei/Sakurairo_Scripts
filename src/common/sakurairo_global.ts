@@ -34,7 +34,7 @@ export const _$ = (defaultStr: string, ...replacements: string[]) => {
     }
     return template
 }
-export type SakurairoI18n  = Record<string, string>
+export type SakurairoI18n = Record<string, string>
 
 export const sakurairoGlobal: SakurairoGlobal = {
     opt: {},
@@ -63,6 +63,6 @@ if ('_sakurairo' in window) {
         sakurairoGlobal.opt = _sakurairo.opt
     }
 }
-declare const _sakurairoi18n:SakurairoI18n
+declare const _sakurairoi18n: SakurairoI18n
 //@ts-ignore
 window._sakurairo = sakurairoGlobal
