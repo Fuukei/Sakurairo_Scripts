@@ -4,7 +4,7 @@
  * @license GPL-v2
  * @date 2021.03
  */
-let _version_ctrl = mashiro_option.cookie_version_control ?? ''
+let _version_ctrl = mashiro_option.cookie_version_control || ''
 export function setCookie(key: string, value: string, days?: number) {
     const expires = days ? "; expires=" + new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toUTCString() : "";
     document.cookie = key + _version_ctrl + "=" + (value || "") + expires + "; path=/";

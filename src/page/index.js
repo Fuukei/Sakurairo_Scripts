@@ -127,7 +127,7 @@ function XCS() {
                         //temp.parentNode.removeChild(temp)
                     }
                 } else {
-                    createButterbar(data ?? 'HTTP' + resp.status + ':' + resp.statusText);
+                    createButterbar(data || 'HTTP' + resp.status + ':' + resp.statusText);
                 }
             }).catch(reason => {
                 createButterbar(reason);

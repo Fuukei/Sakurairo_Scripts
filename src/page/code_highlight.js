@@ -69,8 +69,8 @@ let currentPrismThemeCSS = undefined
 const themeCSS = (() => {
     const { light, dark } = mashiro_option.code_highlight_prism?.theme || {}
     const theme = {
-        light: light ?? 'themes/prism.min.css',
-        dark: dark ?? 'themes/prism-tomorrow.min.css',
+        light: light || 'themes/prism.min.css',
+        dark: dark || 'themes/prism-tomorrow.min.css',
     }
     for (const theme_name in theme) {
         theme[theme_name] = new URL(theme[theme_name], PrismBaseUrl).toString()

@@ -39,7 +39,7 @@ export function loadFontSetting() {
     }
 }
 function setButtonState(font_name?: string) {
-    if (font_name ?? localStorage.getItem("font_family") == 'sans-serif') {
+    if (font_name || localStorage.getItem("font_family") == 'sans-serif') {
         btnSerif.classList.remove("selected");
         btnSansSerif.classList.add("selected");
     } else {
