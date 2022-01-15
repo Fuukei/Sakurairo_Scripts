@@ -1,6 +1,6 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
-import { resolvePath } from '../common/npmLib';
+import { importExternal, resolvePath } from '../common/npmLib';
 const attributes = {
     'autocomplete': 'off',
     'autocorrect': 'off',
@@ -105,7 +105,13 @@ async function importPrismJS() {
             //必备插件全家桶
             loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
             loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-            await import('./prism_pack')
+            if (mashiro_option.ext_shared_lib) {
+                await Promise.all([importExternal('components/prism-core.min.js', 'prismjs'),
+                importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs'),
+                importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs'),
+                importExternal('plugins/previewers/prism-previewers.min.js', 'prismjs'),
+                importExternal('plugins/show-language/prism-show-language.min.js', 'prismjs')])
+            } else await import('./prism_pack')
             Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
         }
     } catch (reason) {
