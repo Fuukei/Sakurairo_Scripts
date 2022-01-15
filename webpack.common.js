@@ -99,6 +99,12 @@ module.exports = {
     plugins: [
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin(),
+        new webpack.BannerPlugin({
+            raw: true,
+            entryOnly: true,
+            banner: `/*! build ${commitHash} ${new Date().toLocaleDateString()}*/`,
+            include: 'app'
+        }),
         new webpack.DefinePlugin({
             BUILD_INFO: JSON.stringify({
                 hash: commitHash,
