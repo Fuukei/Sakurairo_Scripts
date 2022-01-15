@@ -48,7 +48,7 @@ import { isSupported } from './compatibility'
 import hitokoto from './hitokoto'
 import { web_audio } from './web_audio'
 import { open, close } from './mobile_nav'
-import { XLS, post_list_show_animation } from './posts'
+import { XLS, post_list_show_animation } from './post_list'
 import { initThemeColor, updateThemeSkin } from './theme-color'
 import initEffect from './effect'
 
@@ -262,13 +262,6 @@ function timeSeriesReload(flag) {
 timeSeriesReload();
 
 add_copyright()
-
-if (mashiro_option.float_player_on) {
-    if (document.body.clientWidth > 860) {
-        import('./aplayer').then(({ aplayerInit }) => aplayerInit())
-    }
-}
-
 function activate_widget() {
     let secondary = document.getElementById("secondary");
     if (document.body.clientWidth > 860) {
@@ -667,7 +660,11 @@ ready(function () {
     close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
         closeSkinMenu();
     })
-
+    if (mashiro_option.float_player_on) {
+        if (document.body.clientWidth > 860) {
+            import('./aplayer').then(({ aplayerInit }) => aplayerInit())
+        }
+    }
     auto_height();
     PE();
     NH();
