@@ -87,11 +87,14 @@ export const importExternal = (path: string, packageName: string, version?: stri
     const script = document.createElement('script')
     script.src = resolvePath(path, packageName, version)
     script.async = true
+    //TODO: 超时处理
     return new Promise((resolve) => {
         script.onload = resolve
         script.onerror = () => {
             console.error(packageName, "加载失败")
         }
         document.body.append(script)
+    }).finally(() => {
+        script.onload = script.onerror = null//据说ie上会内存泄露
     })
 }
