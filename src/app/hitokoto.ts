@@ -5,7 +5,7 @@ export default async function hitokoto() {
         if (api_group.length == 0) {
             console.warn('一言API路径为空')
         } else if (yiyan) {
-            for (const api_path of mashiro_option.yiyan_api) {
+            for (const api_path of api_group) {
                 try {
                     const txt = await request(api_path)
                     yiyan.innerText = txt
