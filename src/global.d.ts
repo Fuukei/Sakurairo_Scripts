@@ -59,7 +59,6 @@ declare namespace mashiro_option {
     const cache_cover: boolean
     const site_bg_as_cover: boolean
     const float_player_on: boolean
-    const yiyan: boolean
     const yiyan_api: Array<string>
     /**
      * 是否从CDN源加载第三方库
