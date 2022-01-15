@@ -64,7 +64,7 @@ export async function hljs_process(pre, code) {
     }
 }
 //Prism
-const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path || resolvePath('', 'prismjs', '1.26.0')
+const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path || resolvePath('', 'prismjs', PRISM_VERSION)
 let currentPrismThemeCSS = undefined
 const themeCSS = (() => {
     const { light, dark } = mashiro_option.code_highlight_prism?.theme || {}
@@ -106,11 +106,11 @@ async function importPrismJS() {
             loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
             loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
             if (mashiro_option.ext_shared_lib) {
-                await Promise.all([importExternal('components/prism-core.min.js', 'prismjs'),
-                importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs'),
-                importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs'),
-                importExternal('plugins/previewers/prism-previewers.min.js', 'prismjs'),
-                importExternal('plugins/show-language/prism-show-language.min.js', 'prismjs')])
+                await Promise.all([importExternal('components/prism-core.min.js', 'prismjs',PRISM_VERSION),
+                importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs',PRISM_VERSION),
+                importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs',PRISM_VERSION),
+                importExternal('plugins/previewers/prism-previewers.min.js', 'prismjs',PRISM_VERSION),
+                importExternal('plugins/show-language/prism-show-language.min.js', 'prismjs',PRISM_VERSION)])
             } else await import('./prism_pack')
             Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
         }
