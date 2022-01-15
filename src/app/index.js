@@ -683,7 +683,6 @@ ready(function () {
     preload_screen()
     lazyload();
     powermode()
-    initEffect()
     about_us()
 });
 //#region mashiro_global.ini.normalize();
@@ -692,3 +691,4 @@ coverVideoIni();
 checkSkinSecter();
 scrollBar();
 //#endregion
+initEffect()
