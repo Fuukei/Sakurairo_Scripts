@@ -108,7 +108,12 @@ export function pauseAllPlayer() {
 }
 export function aplayerInit() {
     //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
-    loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
+    if (mashiro_option.ext_shared_lib) {
+        loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
+    } else {
+        //@ts-ignore
+        import('aplayer/dist/APlayer.min.css')
+    }
     let meting_api_path: URL
     if (typeof meting_api == 'string') {
         meting_api_path = new URL(meting_api)
