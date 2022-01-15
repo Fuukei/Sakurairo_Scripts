@@ -3,7 +3,7 @@ export default async function hitokoto() {
     if (yiyan) {
         const api_group = mashiro_option.yiyan_api ?? ["https://api.maho.cc/yiyan/"]
         if (api_group.length == 0) {
-            console.warn('一言API路径为空')
+            console.warn('一言API: 路径为空')
         }
         for (const api_path of api_group) {
             try {
@@ -11,7 +11,7 @@ export default async function hitokoto() {
                 yiyan.innerText = txt
                 break
             } catch (e) {
-                console.warn(`一言api: 尝试联系"${api_path}"时出错。\n`, e)
+                console.warn(`一言API: 尝试联系"${api_path}"时出错。 `, e)
                 continue
             }
         }
