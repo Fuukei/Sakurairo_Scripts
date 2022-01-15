@@ -45,7 +45,7 @@ const hljs_click_callback = (e) => {
     }
     document.documentElement.classList.toggle('code-block-fullscreen-html-scroll');
 }
-export function deattchHljsCallback() {
+export function deattachHljsCallback() {
     document.body.removeEventListener("click", hljs_click_callback)
 }
 export async function hljs_process(pre, code) {

@@ -5,7 +5,7 @@ import { createButterbar } from '../common/butterbar'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
-import { hljs_process, prism_process, deattachPrismCallback, deattchHljsCallback } from './code_highlight'
+import { hljs_process, prism_process, deattachPrismCallback, deattachHljsCallback } from './code_highlight'
 import { _$, __ } from '../common/sakurairo_global'
 import load_bangumi from './bangumi'
 async function code_highlight_style() {
@@ -14,7 +14,7 @@ async function code_highlight_style() {
     if (!pre.length) {
         switch (mashiro_option.code_highlight) {
             case 'hljs':
-                deattchHljsCallback()
+                deattachHljsCallback()
                 return
             case 'prism':
                 deattachPrismCallback()
