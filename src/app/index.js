@@ -306,13 +306,14 @@ function auto_height() {
             if (bgvideo) bgvideo.style.minHeight = "100vh";
         }
     } else {
-        document.querySelector(".headertop") && document.querySelector(".headertop").classList.add("headertop-bar");
+        const headertop = document.querySelector(".headertop")
+        headertop && headertop.classList.add("headertop-bar");
     }
 }
 function PE() {
-    if (document.querySelector(".headertop")) {
-        let headertop = document.querySelector(".headertop"),
-            blank = document.querySelector(".blank");
+    const headertop = document.querySelector(".headertop")
+    if (headertop) {
+        let blank = document.querySelector(".blank");
         if (document.querySelector(".main-title")) {
             try {
                 blank.style.paddingTop = "0px";
