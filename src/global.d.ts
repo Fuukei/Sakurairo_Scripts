@@ -106,3 +106,6 @@ interface Effect {
     amount: number | string
     type: 'sakura' | 'yuki'
 }
+//#region define const
+declare const BUILD_INFO: { hash: string, date: string }
+declare const PRISM_VERSION:string

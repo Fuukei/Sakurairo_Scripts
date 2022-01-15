@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const { commitHash } = require('./commit_hash')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const package_info = require('./package_info')
 module.exports = {
     entry: {
         app: './src/app/',
@@ -96,13 +97,14 @@ module.exports = {
         extensions: ['.js', '.json', '.ts'] // 自动判断后缀名，引入时可以不带后缀
     },
     plugins: [
-        new webpack.BannerPlugin({
-            raw: true,
-            entryOnly: true,
-            banner: `/*! build ${commitHash} ${new Date().toLocaleDateString()}*/`
-        }),
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin(),
+        new webpack.DefinePlugin({
+            BUILD_INFO: JSON.stringify({
+                hash: commitHash,
+                date: new Date().toLocaleDateString()
+            }),
+        })
         /* new webpack.DefinePlugin({
             'typeof document': JSON.stringify('object'),
             'typeof window': JSON.stringify('object'),
