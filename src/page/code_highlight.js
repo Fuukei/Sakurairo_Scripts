@@ -64,10 +64,10 @@ export async function hljs_process(pre, code) {
     }
 }
 //Prism
-const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path ?? resolvePath('','prismjs','1.25.0')
+const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path || resolvePath('', 'prismjs', '1.26.0')
 let currentPrismThemeCSS = undefined
 const themeCSS = (() => {
-    const { light, dark } = mashiro_option.code_highlight_prism?.theme ?? {}
+    const { light, dark } = mashiro_option.code_highlight_prism?.theme || {}
     const theme = {
         light: light ?? 'themes/prism.min.css',
         dark: dark ?? 'themes/prism-tomorrow.min.css',
