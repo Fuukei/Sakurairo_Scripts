@@ -106,11 +106,11 @@ async function importPrismJS() {
             loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
             loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
             if (mashiro_option.ext_shared_lib) {
-                await Promise.all([importExternal('components/prism-core.min.js', 'prismjs',PRISM_VERSION),
-                importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs',PRISM_VERSION),
-                importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs',PRISM_VERSION),
-                importExternal('plugins/previewers/prism-previewers.min.js', 'prismjs',PRISM_VERSION),
-                importExternal('plugins/show-language/prism-show-language.min.js', 'prismjs',PRISM_VERSION)])
+                await Promise.all([importExternal('components/prism-core.min.js', 'prismjs', PRISM_VERSION),
+                importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs', PRISM_VERSION),
+                importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs', PRISM_VERSION),
+                importExternal('plugins/previewers/prism-previewers.min.js', 'prismjs', PRISM_VERSION),
+                importExternal('plugins/show-language/prism-show-language.min.js', 'prismjs', PRISM_VERSION)])
             } else await import('./prism_pack')
             Prism.plugins.autoloader.languages_path = new URL('components/', PrismBaseUrl).toString()
         }
@@ -120,11 +120,19 @@ async function importPrismJS() {
 }
 function loadPrismPluginLineNumbers() {
     loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
-    return import('prismjs/plugins/line-numbers/prism-line-numbers')
+    if (mashiro_option.ext_shared_lib) {
+        return importExternal('plugins/line-numbers/prism-line-numbers.min.js', 'prismjs', PRISM_VERSION)
+    } else {
+        return import('prismjs/plugins/line-numbers/prism-line-numbers')
+    }
 }
 function loadPrismMatchBraces() {
     loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
-    return import('prismjs/plugins/match-braces/prism-match-braces')
+    if (mashiro_option.ext_shared_lib) {
+        return importExternal('plugins/match-braces/prism-match-braces.min.js', 'prismjs', PRISM_VERSION)
+    } else {
+        return import('prismjs/plugins/match-braces/prism-match-braces')
+    }
 }
 /**
  * 
