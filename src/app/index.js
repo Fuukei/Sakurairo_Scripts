@@ -53,7 +53,7 @@ import { initFontControl } from './font_control'
 import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
 import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, no_right_click, PE, timeSeriesReload } from './func'
-
+import initTypedJs from './typed'
 /**
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
@@ -160,6 +160,7 @@ ready(function () {
     preload_screen()
     lazyload();
     powermode()
+    initTypedJs()
     about_us()
 });
 //#region mashiro_global.ini.normalize();
