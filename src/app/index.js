@@ -51,6 +51,7 @@ import { open, close } from './mobile_nav'
 import { XLS, post_list_show_animation } from './post_list'
 import { initThemeColor, updateThemeSkin } from './theme-color'
 import initEffect from './effect'
+import { initIsMobileCache, isMobile } from './mobile'
 
 /**
  * 检查是否应当开启Poi.pjax
@@ -185,7 +186,7 @@ function timeSeriesReload(flag) {
                     e.preventDefault();
                 }
             })
-            if (document.body.clientWidth > 860) {
+            if (!isMobile()) {
                 for (let i = 0; i < al_post_list.length; i++) {
                     let el = al_post_list[i];
                     el.parentNode.addEventListener('mouseover', function () {
@@ -228,7 +229,7 @@ timeSeriesReload();
 add_copyright()
 function activate_widget() {
     let secondary = document.getElementById("secondary");
-    if (document.body.clientWidth > 860) {
+    if (!isMobile()) {
         let show_hide = document.querySelector(".show-hide");
         show_hide && show_hide.addEventListener("click", function () {
             secondary && secondary.classList.toggle("active");
@@ -574,6 +575,7 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
+    initIsMobileCache()
     Promise.all([checkCoverBackground(), checkBgImgSetting()])
         .then(() => {
             if (isSupported({ Version: 15/**Safari 15 */ })) {
@@ -593,7 +595,7 @@ ready(function () {
         closeSkinMenu();
     })
     if (mashiro_option.float_player_on) {
-        if (document.body.clientWidth > 860) {
+        if (!isMobile()) {
             import('./aplayer').then(({ aplayerInit }) => aplayerInit())
         }
     }

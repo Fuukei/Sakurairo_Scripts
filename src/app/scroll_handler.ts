@@ -1,3 +1,4 @@
+import { isMobile } from "./mobile"
 
 export default function scrollHandler() {
     const header_thresold = 0
@@ -17,7 +18,7 @@ export default function scrollHandler() {
     }
     var pjaxSendCb: EventListenerOrEventListenerObject
 
-    if (document.body.clientWidth > 860) {
+    if (isMobile()) {
         const cached = document.getElementById('bar')
         const skinMenu = document.querySelector(".skin-menu");
         const recalcuScrollbar = (scrollTop: number) => {

@@ -1,6 +1,7 @@
 import { get, set, del } from './cache'
 import { Accept_Image } from './compatibility';
 import { __ } from '../common/sakurairo_global';
+import { isMobile } from './mobile';
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
@@ -38,7 +39,7 @@ export const getCurrentBG = mashiro_option.site_bg_as_cover ? () => parseCSSUrl(
 
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(mashiro_option.cover_api)
-    if (document.body.clientWidth < 860 && mashiro_option.random_graphs_mts == true) {
+    if (isMobile() && mashiro_option.random_graphs_mts == true) {
         cover_api_url.searchParams.set('type', 'mobile')
         return cover_api_url.toString() + (useBGN ? "&" + bgn : '')
     } else {
