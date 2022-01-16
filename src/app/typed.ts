@@ -9,13 +9,15 @@ export default async function initTypedJs() {
     if (json) {
         try {
             const options = JSON.parse(json.innerHTML)
+            const element = document.querySelector<HTMLElement>('.element')
+            element.innerText = ''
             if (mashiro_option.ext_shared_lib) {
                 if (!window.Typed) await importExternal('lib/typed.min.js', 'typed.js')
-                new window.Typed('.element', options)
+                new window.Typed(element, options)
 
             } else {
                 const { default: Typed } = await import('typed.js')
-                new Typed('.element', options)
+                new Typed(element, options)
             }
         } catch (e) {
             console.error("请检查typed.js设置", e)
