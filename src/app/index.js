@@ -70,7 +70,7 @@ Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
 
 var _mashiro_global_skin_secter = true
 import { initFontControl, loadFontSetting } from './font_control'
-import scrollBar from './scrollbar'
+import scrollHandler from './scroll_handler'
 function checkSkinSecter() {
     if (_mashiro_global_skin_secter === false) {
         const pattern = document.querySelector(".pattern-center"),
@@ -148,13 +148,6 @@ function bgButtonAddListener() {
         pre = document.getElementById("bg-pre");
     if (next) { next.onclick = nextBG };
     if (pre) { pre.onclick = preBG };
-}
-
-function topFunction() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 }
 
 function timeSeriesReload(flag) {
@@ -385,39 +378,6 @@ function CE() {
         });
     } catch (e) { }
 }
-function NH() {
-    const thresold = 0,
-        siteHeader = document.querySelector(".site-header")
-    window.addEventListener("scroll", () => {
-        const scrollTop = document.documentElement.scrollTop || window.pageYOffset;
-        if (scrollTop > thresold) {
-            siteHeader.classList.add("yya");
-        } else {
-            siteHeader.classList.remove("yya");
-        }
-    })
-    //     $(window).scroll(function () {
-    //         var s = $(document).scrollTop(),
-    //             cached = $('.site-header');
-    //         if (s == h1) {
-    //             cached.removeClass('yya');
-    //         }
-    //         if (s > h1) {
-    //             cached.addClass('yya');
-    //         }
-    // });
-}
-function GT() {
-    let mb_to_top = document.querySelector("#moblieGoTop"),
-        changskin = document.querySelector("#changskin");
-    window.addEventListener("scroll", () => {
-        const scroll = document.documentElement.scrollTop || document.body.scrollTop;
-        const cssText = scroll > 20 ? "scale(1)" : "scale(0)"
-        mb_to_top.style.transform = cssText;
-        changskin.style.transform = cssText;
-    })
-    mb_to_top.onclick = topFunction
-}
 
 //#endregion Siren
 if (Poi.pjax) {
@@ -479,7 +439,7 @@ if (Poi.pjax) {
         web_audio();
         coverVideoIni();
         checkSkinSecter();
-        NH();
+        scrollHandler();
         //#endregion
         checkCoverBackground()//pjax不需要刷新前台背景
         let loading = document.getElementById("loading");
@@ -639,8 +599,18 @@ ready(function () {
     }
     auto_height();
     PE();
-    NH();
-    GT();
+    scrollHandler();
+    /*GT()*/
+    const mb_to_top = document.querySelector("#moblieGoTop")
+    if (mb_to_top) {
+        mb_to_top.onclick = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    }
+    /*GT end;*/
     XLS();
     CE();
     MN();
@@ -658,7 +628,6 @@ ready(function () {
 post_list_show_animation();
 coverVideoIni();
 checkSkinSecter();
-scrollBar();
 //#endregion
 initEffect()
 loadCSS(mashiro_option.jsdelivr_css_src);
