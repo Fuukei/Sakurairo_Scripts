@@ -59,7 +59,7 @@ import initEffect from './effect'
 Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
 Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
     new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link"],
+        selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link", "#entry-content-css"],
         scripts: "#app-js-before",
         timeout: 8000,
         defaultTrigger: {
@@ -67,9 +67,6 @@ Poi.pjax && import('@sliphua/pjax').then(({ default: Pjax }) =>
         }
     })
 )
-loadCSS(mashiro_option.jsdelivr_css_src);
-loadCSS(mashiro_option.entry_content_style_src);
-loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
 
 var _mashiro_global_skin_secter = true
 import { initFontControl, loadFontSetting } from './font_control'
@@ -690,3 +687,5 @@ checkSkinSecter();
 scrollBar();
 //#endregion
 initEffect()
+loadCSS(mashiro_option.jsdelivr_css_src);
+loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
