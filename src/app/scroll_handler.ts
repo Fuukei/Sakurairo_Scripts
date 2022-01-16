@@ -16,9 +16,14 @@ export default function scrollHandler() {
         mb_to_top.style.transform = cssText;
         changskin.style.transform = cssText;
     }
-    var pjaxSendCb: EventListenerOrEventListenerObject
 
     if (isMobile()) {
+        const smallScreenHandler = () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+            common(scrollTop)
+        }
+        window.addEventListener("scroll", smallScreenHandler)
+    } else {
         const cached = document.getElementById('bar')
         const skinMenu = document.querySelector(".skin-menu");
         const recalcuScrollbar = (scrollTop: number) => {
@@ -44,23 +49,6 @@ export default function scrollHandler() {
             common(scrollTop)
         }
         window.addEventListener("scroll", largeScreenHandler)
-        pjaxSendCb = () => {
-            window.removeEventListener("scroll", largeScreenHandler)
-            document.removeEventListener('pjax:send', pjaxSendCb)
-        }
-    } else {
-        const smallScreenHandler = () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-            common(scrollTop)
-        }
-        window.addEventListener("scroll", smallScreenHandler)
-        pjaxSendCb = () => {
-            window.removeEventListener("scroll", smallScreenHandler)
-            document.removeEventListener('pjax:send', pjaxSendCb)
-        }
-    }
-    if (Poi.pjax) {
-        document.addEventListener('pjax:send', pjaxSendCb)
     }
 }
 //pjax.complete ready

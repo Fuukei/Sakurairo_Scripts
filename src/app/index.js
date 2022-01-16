@@ -440,7 +440,6 @@ if (Poi.pjax) {
         web_audio();
         coverVideoIni();
         checkSkinSecter();
-        scrollHandler();
         //#endregion
         checkCoverBackground()//pjax不需要刷新前台背景
         let loading = document.getElementById("loading");
