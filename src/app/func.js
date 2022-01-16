@@ -95,63 +95,61 @@ export function timeSeriesReload(flag) {
         })
         lazyload();
     } else {
-        (function () {
-            let al_expand_collapse = document.getElementById('al_expand_collapse');
-            al_expand_collapse.style.cursor = "s-resize";
-            for (let i = 0; i < al_li.length; i++) {
-                let a = al_li[i],
-                    num = a.nextElementSibling.getElementsByTagName('li').length;
-                a.style.cursor = "s-resize";
-                a.querySelector('#post-num').textContent = num;
+        let al_expand_collapse = document.getElementById('al_expand_collapse');
+        al_expand_collapse.style.cursor = "s-resize";
+        for (let i = 0; i < al_li.length; i++) {
+            let a = al_li[i],
+                num = a.nextElementSibling.getElementsByTagName('li').length;
+            a.style.cursor = "s-resize";
+            a.querySelector('#post-num').textContent = num;
+        }
+        let al_post_list = archives.getElementsByClassName("al_post_list"),
+            al_post_list_f = al_post_list[0];
+        for (let i = 0; i < al_post_list.length; i++) {
+            slideToggle(al_post_list[i], 500, 'hide', function () {
+                slideToggle(al_post_list_f, 500, 'show');
+            })
+        }
+        archives.addEventListener("click", function (e) {
+            if (e.target.classList.contains("al_mon")) {
+                slideToggle(e.target.nextElementSibling, 500);
+                e.preventDefault();
             }
-            let al_post_list = archives.getElementsByClassName("al_post_list"),
-                al_post_list_f = al_post_list[0];
+        })
+        if (!isMobile()) {
             for (let i = 0; i < al_post_list.length; i++) {
-                slideToggle(al_post_list[i], 500, 'hide', function () {
-                    slideToggle(al_post_list_f, 500, 'show');
+                let el = al_post_list[i];
+                el.parentNode.addEventListener('mouseover', function () {
+                    slideToggle(el, 500, 'show');
+                    return false;
                 })
             }
-            archives.addEventListener("click", function (e) {
-                if (e.target.classList.contains("al_mon")) {
-                    slideToggle(e.target.nextElementSibling, 500);
-                    e.preventDefault();
-                }
-            })
-            if (!isMobile()) {
+            if (false) {
                 for (let i = 0; i < al_post_list.length; i++) {
                     let el = al_post_list[i];
                     el.parentNode.addEventListener('mouseover', function () {
-                        slideToggle(el, 500, 'show');
+                        slideToggle(el, 500, 'hide');
                         return false;
                     })
                 }
-                if (false) {
+            }
+            let al_expand_collapse_click = 0;
+            al_expand_collapse.addEventListener('click', function () {
+                if (al_expand_collapse_click == 0) {
                     for (let i = 0; i < al_post_list.length; i++) {
                         let el = al_post_list[i];
-                        el.parentNode.addEventListener('mouseover', function () {
-                            slideToggle(el, 500, 'hide');
-                            return false;
-                        })
-                    }
+                        slideToggle(el, 500, 'show');
+                    };
+                    al_expand_collapse_click++;
+                } else if (al_expand_collapse_click == 1) {
+                    for (let i = 0; i < al_post_list.length; i++) {
+                        let el = al_post_list[i];
+                        slideToggle(el, 500, 'hide');
+                    };
+                    al_expand_collapse_click--;
                 }
-                let al_expand_collapse_click = 0;
-                al_expand_collapse.addEventListener('click', function () {
-                    if (al_expand_collapse_click == 0) {
-                        for (let i = 0; i < al_post_list.length; i++) {
-                            let el = al_post_list[i];
-                            slideToggle(el, 500, 'show');
-                        };
-                        al_expand_collapse_click++;
-                    } else if (al_expand_collapse_click == 1) {
-                        for (let i = 0; i < al_post_list.length; i++) {
-                            let el = al_post_list[i];
-                            slideToggle(el, 500, 'hide');
-                        };
-                        al_expand_collapse_click--;
-                    }
-                });
-            }
-        })();
+            });
+        }
     }
 }
 //#region Siren
