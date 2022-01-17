@@ -7,6 +7,7 @@ import { ready } from "./util"
  * 2.切换cdn时测试对同一个资源访问的表现(未实现)
  * 3.
  * 暂不根据加载速度动态调整cdn
+ * TODO: 使用内置依赖的fallback
  */
 const STORAGE_KEY = 'sakurairo_prefer_cdn'
 const CDN_LIST = [
