@@ -159,6 +159,7 @@ async function initHLS() {
             try {
                 const { default: Hls } = await import('hls.js')
                 window.Hls = Hls
+                    const { default: Hls } = await import('hls.js/dist/hls.light.js')
             } catch (reason) {
                 console.warn('Hls load failed: ', reason)
             }
