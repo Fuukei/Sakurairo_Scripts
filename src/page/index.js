@@ -378,7 +378,7 @@ function attach_image() {
                     let res = JSON.parse(xhr.responseText);
                     if (res.status == 200) {
                         let get_the_url = res.proxy;
-                        document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/theme/colorful/load/inload.svg" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
+                        document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="' + mashiro_option.loading_ph + '" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
                         lazyload();
                         createButterbar(__("图片上传成功~"));
                         grin(get_the_url, type = 'Img');

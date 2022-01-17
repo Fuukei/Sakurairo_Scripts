@@ -28,6 +28,10 @@ declare namespace mashiro_option {
     const jsdelivr_css_src: string
     const land_at_home: boolean
     const live_search: boolean
+    /**
+     * 图片加载占位符
+     */
+    const loading_ph:string
     const qq_api_url: string
     const qzone_autocomplete: boolean
     const random_graphs_mts: boolean
