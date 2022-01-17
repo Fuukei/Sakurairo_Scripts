@@ -112,7 +112,7 @@ export function aplayerInit() {
         loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
     } else {
         //@ts-ignore
-        import('aplayer/dist/APlayer.min.css')
+        import(  /* webpackMode: "eager" */'aplayer/dist/APlayer.min.css')
     }
     let meting_api_path: URL
     if (typeof meting_api == 'string') {
