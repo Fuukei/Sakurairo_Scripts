@@ -160,7 +160,7 @@ ready(function () {
     preload_screen()
     lazyload();
     powermode()
-    initTypedJs()
+    if (mashiro_option.land_at_home) initTypedJs()
     about_us()
 });
 //#region mashiro_global.ini.normalize();
