@@ -1,5 +1,6 @@
 import { getFileNameMain } from '../common/util';
 import { __ } from '../common/sakurairo_global';
+import { importExternal } from '../common/npmLib';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
 const videoList: Array<string> = Poi.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
@@ -157,9 +158,13 @@ async function initHLS() {
     } else {
         if (!window.Hls) {
             try {
-                const { default: Hls } = await import('hls.js')
-                window.Hls = Hls
+                if (mashiro_option.ext_shared_lib) {
+                    await importExternal('dist/hls.light.min.js', 'hls.js')
+                } else {
+                    //@ts-ignore
                     const { default: Hls } = await import('hls.js/dist/hls.light.js')
+                    window.Hls = Hls
+                }
             } catch (reason) {
                 console.warn('Hls load failed: ', reason)
             }
