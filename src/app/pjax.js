@@ -11,7 +11,7 @@ import { XLS, post_list_show_animation } from './post_list'
 
 import NProgress from 'nprogress'
 import Pjax from '@sliphua/pjax'
-import initTypedJs from './typed'
+import initTypedJs, { disableTypedJsIfExist } from './typed'
 
 export default function initPjax() {
     new Pjax({
@@ -39,6 +39,8 @@ export default function initPjax() {
         if (mashiro_option.land_at_home) {
             XLS();
             initTypedJs()
+        } else {
+            disableTypedJsIfExist()
         }
         if (mashiro_option.NProgressON) NProgress.done()
         //#region mashiro_global.ini.pjax();
