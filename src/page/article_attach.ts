@@ -1,14 +1,10 @@
 import { loadCSS } from 'fg-loadcss';
 import { slideToggle } from '../common/util';
-import { LightGallerySettings } from 'lightgallery/lg-settings'
 import { resolvePath, importExternal } from '../common/npmLib';
 declare namespace window {
     let jQuery: Function
     let $: Function
-}
-type LightGalleryOptions = LightGallerySettings & {
-    //TODO:Fix types
-    plugins?: Array<string>
+    let lightGallery: Function
 }
 function collapse() {
     //收缩、展开
@@ -63,20 +59,30 @@ async function lightbox() {
             }
         }
     } else if (mashiro_option.lightGallery) {
-        //@ts-ignore
-        const { default: lightGallery } = await import('lightgallery/lib/index.js')
-        const { plugins, ...opts } = mashiro_option.lightGallery as LightGalleryOptions
-        loadCSS(resolvePath('css/lightgallery-bundle.min.css', 'lightgallery', '2.3.0'))
-        lightGallery(
-            document.querySelector('.entry-content'),
-            {
-                plugins: plugins && (await Promise.allSettled(plugins.map(moduleName =>
-                    import(
-                        /* webpackChunkName: "lg-plugin-" */
-                        `lightgallery/plugins/${moduleName}/lg-${moduleName}.min.js`)
-                ))).map(result => result.status == 'fulfilled' ? result.value.default : console.error('加载lightGallery的插件时出错啦！', result.reason)),
-                ...opts
-            });
+        //lightGallery的umd导入有点问题
+        /*         if (mashiro_option.ext_shared_lib) {
+                    if (!window.lightGallery) {
+                        loadCSS(resolvePath('css/lightgallery-bundle.min.css', 'lightgallery', '2.3.0'))
+                        await importExternal('lightgallery.umd.js', 'lightgallery')
+                    }
+                    const { plugins } = mashiro_option.lightGallery
+                    if (plugins) {
+                        (await Promise
+                            .allSettled(
+                                plugins.map((name: string) => importExternal('plugins/' + solvePluginName(name)+'.umd.js', 'lightgallery'))
+                            ))
+                            .map(handleResult)
+                    }
+                    window.lightGallery(
+                        document.querySelector('.entry-content'),
+                        mashiro_option.lightGallery);
+                } else {
+                    //@ts-ignore
+                    const { default: initLightGallery } = await import('./lightGallery/import')
+                    initLightGallery()
+                } */
+        const { default: initLightGallery } = await import('./lightGallery/import')
+        initLightGallery()
     }
 }
 async function math() {
