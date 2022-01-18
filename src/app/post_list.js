@@ -125,7 +125,8 @@ export function post_list_show_animation() {
     }
 }
 function XLS_Listener(e) {
-    if (e.target === document.querySelector("#pagination a")) {
+    //要求是#pagination只有anchor一个直接子后代
+    if (e.target.parentElement.id == 'pagination') {
         e.preventDefault();
         e.stopPropagation();
         clearTimeout(load_post_timer);
