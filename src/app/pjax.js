@@ -32,7 +32,7 @@ export default function initPjax() {
         if (mashiro_option.NProgressON) NProgress.start()
         MNH();
     });
-    document.addEventListener("pjax:complete", function () {
+    document.addEventListener("pjax:complete", () => {
         auto_height();
         PE();
         CE();
@@ -104,7 +104,7 @@ export default function initPjax() {
         hitokoto()
         lazyload();
     });
-    document.addEventListener("pjax:success", function () {
+    document.addEventListener("pjax:success", () => {
         //pjax加载时自动拉取page.js
         if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
             // id需要与php侧同步
@@ -136,7 +136,7 @@ export default function initPjax() {
     document.addEventListener("pjax:error", (e) => {
         createButterbar(_$('页面加载出错了 HTTP {0}', e.request.status))
     })
-    window.addEventListener('popstate', function (e) {
+    window.addEventListener('popstate', (e) => {
         auto_height();
         hitokoto()
         PE();

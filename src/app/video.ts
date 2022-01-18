@@ -97,7 +97,7 @@ export function coverVideo() {
             this.classList.add("video-pause");
             this.classList.remove("loadvideo");
             getVideo();
-            bgvideo.oncanplay = function () {// 数据可用时
+            bgvideo.oncanplay = () => {// 数据可用时
                 splay();
                 document.getElementById("video-add").style.display = "block";
                 video_btn.classList.add("videolive", "haslive");// MDZZ
@@ -174,7 +174,7 @@ async function initHLS() {
             const hls = new Hls();
             hls.loadSource(video.dataset.src || video.src);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 video.play();
             });
         }

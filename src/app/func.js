@@ -33,7 +33,7 @@ export function checkSkinSecter() {
 }
 export function no_right_click() {
     const pri = document.getElementById("primary");
-    if (pri) pri.addEventListener("contextmenu", function (e) {
+    if (pri) pri.addEventListener("contextmenu", (e) => {
         if (e.target.nodeName.toLowerCase() == "img") {
             e.preventDefault();
             e.stopPropagation();
@@ -87,10 +87,10 @@ export function timeSeriesReload(flag) {
     if (archives == null) return;
     let al_li = archives.getElementsByClassName('al_mon');
     if (flag == true) {
-        archives.addEventListener("click", function (e) {
+        archives.addEventListener("click", (e) => {
             if (e.target.classList.contains("al_mon")) {
-                slideToggle(e.target.nextElementSibling, 500);
                 e.preventDefault();
+                slideToggle(e.target.nextElementSibling, 500);
             }
         })
         lazyload();
@@ -103,14 +103,15 @@ export function timeSeriesReload(flag) {
             a.style.cursor = "s-resize";
             a.querySelector('#post-num').textContent = num;
         }
-        let al_post_list = archives.getElementsByClassName("al_post_list"),
-            al_post_list_f = al_post_list[0];
-        for (let i = 0; i < al_post_list.length; i++) {
-            slideToggle(al_post_list[i], 500, 'hide', function () {
-                slideToggle(al_post_list_f, 500, 'show');
-            })
+        const al_post_list = archives.getElementsByClassName("al_post_list")
+        const al_post_list_first = al_post_list[0];
+        const cb = () => {
+            slideToggle(al_post_list_first, 500, 'show');
         }
-        archives.addEventListener("click", function (e) {
+        for (const child of al_post_list) {
+            slideToggle(child, 500, 'hide', cb)
+        }
+        archives.addEventListener("click", (e) => {
             if (e.target.classList.contains("al_mon")) {
                 slideToggle(e.target.nextElementSibling, 500);
                 e.preventDefault();
@@ -119,7 +120,7 @@ export function timeSeriesReload(flag) {
         if (!isMobile()) {
             for (let i = 0; i < al_post_list.length; i++) {
                 let el = al_post_list[i];
-                el.parentNode.addEventListener('mouseover', function () {
+                el.parentNode.addEventListener('mouseover', () => {
                     slideToggle(el, 500, 'show');
                     return false;
                 })
@@ -134,7 +135,7 @@ export function timeSeriesReload(flag) {
                 }
             }
             let al_expand_collapse_click = 0;
-            al_expand_collapse.addEventListener('click', function () {
+            al_expand_collapse.addEventListener('click', () => {
                 if (al_expand_collapse_click == 0) {
                     for (let i = 0; i < al_post_list.length; i++) {
                         let el = al_post_list[i];
@@ -171,6 +172,9 @@ export function MNH() {
         close()
     }
 }
+/**
+ * @has-dom-modify
+ */
 export function auto_height() {
     if (Poi.windowheight == 'auto') {
         if (document.querySelector("h1.main-title")) {
@@ -185,6 +189,9 @@ export function auto_height() {
         headertop && headertop.classList.add("headertop-bar");
     }
 }
+/**
+ * @has-dom-modify
+ */
 export function PE() {
     const headertop = document.querySelector(".headertop")
     if (headertop) {
@@ -214,7 +221,7 @@ export function CE() {
     if (comments_fold != null) {
         comments_fold.style.display = "block";
         comments_main.style.display = "none";
-        comments_fold.addEventListener("click", function () {
+        comments_fold.addEventListener("click", () => {
             slideToggle(comments_main, 500, 'show');
             comments_fold.style.display = "none";
         });
@@ -260,7 +267,7 @@ export function CE() {
     }
 
     const sc = document.querySelector(".search_close");
-    sc && sc.addEventListener("click", function () {
+    sc && sc.addEventListener("click", () => {
         let js_search = document.getElementsByClassName("js-search")[0];
         if (js_search.classList.contains("is-visible")) {
             document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
@@ -269,7 +276,9 @@ export function CE() {
         }
     });
     try {
-        let show_Nav = document.getElementById("show-nav");
+        const show_Nav = document.getElementById("show-nav");
+        const loading = document.getElementById("loading");
+
         show_Nav.addEventListener("click", function () {
             if (show_Nav.classList.contains("showNav")) {
                 show_Nav.classList.remove("showNav");
@@ -283,8 +292,7 @@ export function CE() {
                 sln && sln.classList.remove("navbar");
             }
         });
-        document.getElementById("loading").addEventListener("click", function () {
-            let loading = document.getElementById("loading");
+        loading.addEventListener("click", () => {
             loading.classList.add("hide");
             loading.classList.remove("show");
         });
@@ -327,7 +335,7 @@ export async function checkCoverBackground() {
 }
 export function closeSkinMenu() {
     document.querySelector(".skin-menu").classList.remove("show");
-    setTimeout(function () {
+    setTimeout(() => {
         if (document.querySelector(".changeSkin-gear") != null) {
             document.querySelector(".changeSkin-gear").style.visibility = "visible";
         }

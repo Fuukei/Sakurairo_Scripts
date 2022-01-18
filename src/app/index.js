@@ -68,7 +68,7 @@ function activate_widget() {
     let secondary = document.getElementById("secondary");
     if (!isMobile()) {
         let show_hide = document.querySelector(".show-hide");
-        show_hide && show_hide.addEventListener("click", function () {
+        show_hide && show_hide.addEventListener("click", () => {
             secondary && secondary.classList.toggle("active");
         });
     } else {
@@ -83,7 +83,7 @@ setTimeout(function () {
     isOpera = navigator.userAgent.toLowerCase().indexOf('opera') > -1,
     isIe = navigator.userAgent.toLowerCase().indexOf('msie') > -1;
 if ((isWebkit || isOpera || isIe) && document.getElementById && window.addEventListener) { */
-window.addEventListener('hashchange', function () {
+window.addEventListener('hashchange', () => {
     const id = location.hash.substring(1)
     if (!(/^[A-z0-9_-]+$/.test(id))) {
         return;
@@ -127,9 +127,7 @@ ready(function () {
     changskin && changskin.addEventListener("click", function () {
         document.querySelector(".skin-menu").classList.toggle("show");
     })
-    close_SkinMenu && close_SkinMenu.addEventListener("click", function () {
-        closeSkinMenu();
-    })
+    close_SkinMenu && close_SkinMenu.addEventListener("click", closeSkinMenu)
     if (mashiro_option.float_player_on) {
         if (!isMobile()) {
             import('./aplayer').then(({ aplayerInit }) => aplayerInit())
