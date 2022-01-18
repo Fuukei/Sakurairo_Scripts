@@ -215,6 +215,9 @@ export function PE() {
 }
 import { jsSearchCallback } from './search'
 import { turnOnDarkMode, turnOffDarkMode } from './darkmode';
+/**
+ * @has-dom-modify
+ */
 export function CE() {
     let comments_fold = document.querySelector(".comments-fold");
     let comments_main = document.querySelector(".comments-main");

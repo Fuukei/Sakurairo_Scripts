@@ -112,6 +112,12 @@ function powermode() {
 
 ready(function () {
     initIsMobileCache()
+    if (mashiro_option.float_player_on) {
+        if (!isMobile()) {
+            import('./aplayer').then(({ aplayerInit }) => aplayerInit())
+        }
+    }
+    if (mashiro_option.land_at_home) initTypedJs()
     Promise.all([checkCoverBackground(), checkBgImgSetting()])
         .then(() => {
             if (isSupported({ Version: 15/**Safari 15 */ })) {
@@ -128,13 +134,6 @@ ready(function () {
         document.querySelector(".skin-menu").classList.toggle("show");
     })
     close_SkinMenu && close_SkinMenu.addEventListener("click", closeSkinMenu)
-    if (mashiro_option.float_player_on) {
-        if (!isMobile()) {
-            import('./aplayer').then(({ aplayerInit }) => aplayerInit())
-        }
-    }
-    auto_height();
-    PE();
     scrollHandler();
     /*GT()*/
     const mb_to_top = document.querySelector("#moblieGoTop")
@@ -148,17 +147,20 @@ ready(function () {
     }
     /*GT end;*/
     XLS();
-    CE();
     MN();
     coverVideo();
     hitokoto()
     bgButtonAddListener()
+    //#region has-dom-modify
     initFontControl()
+    auto_height();
+    PE();
+    CE();
+    //#endregion
     web_audio()
     preload_screen()
     lazyload();
     powermode()
-    if (mashiro_option.land_at_home) initTypedJs()
     about_us()
 });
 //#region mashiro_global.ini.normalize();
