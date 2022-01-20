@@ -8,8 +8,8 @@ export async function updateThemeSkin(coverBGUrl: string) {
         await awaitImage(imgElement)
         const data = readImageDownsampling(imgElement, 10000)
         const result: KMeansResult = await worker.postMessage({
-            k: 3,
-            iteration: 20,
+            k: 8,
+            //iteration: 20,
             img: data
         })
         const { label, centroid } = result

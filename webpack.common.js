@@ -102,7 +102,10 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.json', '.ts'] // 自动判断后缀名，引入时可以不带后缀
+        extensions: ['.js', '.json', '.ts'], // 自动判断后缀名，引入时可以不带后缀
+        fallback: {
+            buffer: require.resolve('buffer'),
+        },
     },
     plugins: [
         new VueLoaderPlugin(),
