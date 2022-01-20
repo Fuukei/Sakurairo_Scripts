@@ -34,6 +34,7 @@
     "buffer": "^6.0.3",
     "change-case": "^4.1.2",
     "clipboard": "^2.0.8",
+    "color-space": "^1.16.0",
     "fg-loadcss": "^3.1.0",
     "highlight.js": "^11.4.0",
     "highlightjs-line-numbers.js": "^2.8.0",
