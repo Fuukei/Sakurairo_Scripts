@@ -26,7 +26,7 @@
   "license": "GPL-2.0-or-later",
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
-    "@kotorik/palette": "^1.0.2",
+    "@kotorik/palette": "^1.1.2",
     "@sliphua/pjax": "^2.4.0",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "github:Fuukei/APlayer",
@@ -56,9 +56,9 @@
     "vue": "^3.2.26"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.8",
-    "@commitlint/cli": "^16.0.2",
+    "@babel/core": "^7.16.10",
+    "@babel/preset-env": "^7.16.10",
+    "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@types/fg-loadcss": "^3.1.1",
     "@types/md5": "^2.3.1",
@@ -67,7 +67,7 @@
     "core-js": "^3.20.3",
     "css-loader": "^6.5.1",
     "cz-conventional-changelog": "^3.3.0",
-    "mini-css-extract-plugin": "~2.4.6",
+    "mini-css-extract-plugin": "~2.5.2",
     "postcss-loader": "^6.2.1",
     "semver": "^7.3.5",
     "style-loader": "^3.3.1",
