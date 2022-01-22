@@ -1,6 +1,7 @@
+import debounce from '@mui/utils/debounce'
 let cache_is_mobile = false
 export function initIsMobileCache() {
-    window.addEventListener('resize', refreshIsMobileCache)
+    window.addEventListener('resize', debounce(refreshIsMobileCache))
     refreshIsMobileCache()
 }
 export function refreshIsMobileCache() {

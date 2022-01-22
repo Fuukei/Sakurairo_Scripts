@@ -9,6 +9,7 @@ import { hljs_process, prism_process, deattachPrismCallback, deattachHljsCallbac
 import { _$, __ } from '../common/sakurairo_global'
 import load_bangumi from './bangumi'
 import { importExternal } from '../common/npmLib'
+import debounce from '@mui/utils/debounce'
 async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
@@ -297,7 +298,7 @@ function resizeTOC() {
         }
         resize()
         //TODO:性能
-        window.addEventListener('resize', resize, { passive: true })
+        window.addEventListener('resize', debounce(resize), { passive: true })
     }
 }
 function tableOfContentScroll(flag) {

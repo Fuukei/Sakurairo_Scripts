@@ -27,6 +27,7 @@
   "dependencies": {
     "@fancyapps/fancybox": "^3.5.7",
     "@kotorik/palette": "^1.1.2",
+    "@mui/utils": "^5.3.0",
     "@sliphua/pjax": "^2.4.0",
     "activate-power-mode": "github:Fuukei/activate-power-mode",
     "aplayer": "github:Fuukei/APlayer",
