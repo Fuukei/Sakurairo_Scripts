@@ -54,6 +54,7 @@ import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
 import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, no_right_click, PE, timeSeriesReload } from './func'
 import initTypedJs from './typed'
+initIsMobileCache()
 /**
  * 检查是否应当开启Poi.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
@@ -111,7 +112,6 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
-    initIsMobileCache()
     if (mashiro_option.float_player_on) {
         if (!isMobile()) {
             import('./aplayer').then(({ aplayerInit }) => aplayerInit())
