@@ -6,7 +6,7 @@
  * @date 2021.3.21
  * Github Repository:
  * @url https://github.com/Fuukei/Sakurairo_Scripts
- * @url https://github.com/mirai-mamori/Sakurairo commit f7db3c5
+ * @url https://github.com/mirai-mamori/Sakurairo/blob/f7db3c5c73d70a6a3f845844a44f279d540a7b6c/js/sakura-app.js
  * 
  * *** ACKNOWLEDGEMENT *** 
  * 
@@ -24,7 +24,7 @@
  * @date 2016.11.19
  * *** ***
  * 
- * inherited from Xoin-Yang/Akina/js/global.js
+ * *** inherited from Xoin-Yang/Akina/js/global.js ***
  * @author Xoin-Yang
  * @date 2017.04.25
  * @url http://www.akina.pw/
