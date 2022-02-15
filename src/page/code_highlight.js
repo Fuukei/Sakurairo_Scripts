@@ -134,15 +134,23 @@ function loadPrismMatchBraces() {
         return import('prismjs/plugins/match-braces/prism-match-braces')
     }
 }
+function loadPrismCommandLine() {
+    loadCSS(new URL('plugins/command-line/prism-command-line.css', PrismBaseUrl).toString())
+    if (mashiro_option.ext_shared_lib) {
+        return importExternal('plugins/command-line/prism-command-line.min.js', 'prismjs', PRISM_VERSION)
+    } else {
+        return import('prismjs/plugins/command-line/prism-command-line')
+    }
+}
 /**
  * 
  * @param {NodeListOf<HTMLElement>} code document.querySelectorAll("pre code")
  */
 export async function prism_process(code) {
     try {
-        await importPrismJS()
         let loadLineNumber = false
         let loadMatchBraces = false
+        let loadCommandLine = false
         if (mashiro_option.code_highlight_prism.line_number_all) {
             document.querySelector('.entry-content').classList.add('line-numbers')
             loadLineNumber = true
@@ -153,12 +161,18 @@ export async function prism_process(code) {
             }
             if (ele.classList.contains('match-braces')) {
                 loadMatchBraces = true
-                if (loadLineNumber == true) {
-                    break
-                }
+            }
+            if (ele.dataset.prompt || ele.dataset.host || ele.dataset.user) {
+                //cli
+                loadCommandLine = true
             }
         }
-        await Promise.all([loadLineNumber && loadPrismPluginLineNumbers(), loadMatchBraces && loadPrismMatchBraces()])
+        await Promise.all([
+            importPrismJS(),
+            loadLineNumber && loadPrismPluginLineNumbers(),
+            loadMatchBraces && loadPrismMatchBraces(),
+            loadCommandLine && loadPrismCommandLine()
+        ])
         for (const ele of code) {
             Prism.highlightElement(ele)
         }
