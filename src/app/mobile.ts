@@ -1,11 +1,11 @@
-import debounce from '@mui/utils/debounce'
 let cache_is_mobile = false
 export function initIsMobileCache() {
-    window.addEventListener('resize', debounce(refreshIsMobileCache))
-    refreshIsMobileCache()
+    const mediaQuery = window.matchMedia('(max-width:860px)')
+    cache_is_mobile = mediaQuery.matches
+    mediaQuery.addEventListener ? mediaQuery.addEventListener('change', refreshIsMobileCache) : mediaQuery.addListener(refreshIsMobileCache)
 }
-export function refreshIsMobileCache() {
-    cache_is_mobile = document.body.clientWidth <= 860
+function refreshIsMobileCache(ev: MediaQueryListEvent) {
+    cache_is_mobile = ev.matches
 }
 /**
  * 
