@@ -16,7 +16,7 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        assetModuleFilename: '[id][ext][query]',
+        assetModuleFilename: '[hash][ext][query]',
         path: define.dist_path,
         iife: true// 是否添加 IIFE 外层
     },
