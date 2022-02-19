@@ -56,11 +56,11 @@ import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSe
 import initTypedJs from './typed'
 initIsMobileCache()
 /**
- * 检查是否应当开启Poi.pjax
+ * 检查是否应当开启_iro.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility
  */
-Poi.pjax = Poi.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
-Poi.pjax && import('./pjax').then(({ default: initPjax }) => initPjax())
+_iro.pjax = _iro.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
+_iro.pjax && import('./pjax').then(({ default: initPjax }) => initPjax())
 
 no_right_click();
 timeSeriesReload();
@@ -112,12 +112,12 @@ function powermode() {
 //afterDOMContentLoaded
 
 ready(function () {
-    if (mashiro_option.float_player_on) {
+    if (_iro.float_player_on) {
         if (!isMobile()) {
             import('./aplayer').then(({ aplayerInit }) => aplayerInit())
         }
     }
-    if (mashiro_option.land_at_home) initTypedJs()
+    if (_iro.land_at_home) initTypedJs()
     Promise.all([checkCoverBackground(), checkBgImgSetting()])
         .then(() => {
             if (isSupported({ Version: 15/**Safari 15 */ })) {
@@ -169,5 +169,5 @@ coverVideoIni();
 checkSkinSecter();
 //#endregion
 initEffect()
-loadCSS(mashiro_option.jsdelivr_css_src);
+loadCSS(_iro.jsdelivr_css_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");

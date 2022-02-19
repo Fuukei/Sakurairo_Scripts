@@ -14,7 +14,7 @@ async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
     if (!pre.length) {
-        switch (mashiro_option.code_highlight) {
+        switch (_iro.code_highlight) {
             case 'hljs':
                 deattachHljsCallback()
                 return
@@ -24,7 +24,7 @@ async function code_highlight_style() {
             default:
         }
     }
-    switch (mashiro_option.code_highlight) {
+    switch (_iro.code_highlight) {
         case 'hljs':
             await hljs_process(pre, code)
             break
@@ -33,7 +33,7 @@ async function code_highlight_style() {
             break
         case 'custom': return
         default:
-            console.warn(`mashiro_option.code_highlight这咋填的是个${mashiro_option.code_highlight}啊🤔`)
+            console.warn(`_iro.code_highlight这咋填的是个${_iro.code_highlight}啊🤔`)
     }
     //copy_code_block
     if (code.length > 0) {
@@ -41,7 +41,7 @@ async function code_highlight_style() {
             code[j].setAttribute('id', 'code-block-' + j);
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
-        if (mashiro_option.ext_shared_lib) {
+        if (_iro.ext_shared_lib) {
             await importExternal('dist/clipboard.min.js', 'clipboard')
             new ClipboardJS('.copy-code')
         } else {
@@ -84,7 +84,7 @@ function XCS() {
             const form = new FormData(this)
             form.append('action', 'ajax_comment')
             statusSubmitting = true
-            fetch(Poi.ajaxurl, {
+            fetch(_iro.ajaxurl, {
                 method: this.attributes.method.value,
                 body: form
             }).then(async resp => {
@@ -101,7 +101,7 @@ function XCS() {
                         //jQuery('#respond').before('<ol class="children">' + data + '</ol>');
                         document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="children">' + data + '</ol>');
                     } else if (!document.getElementsByClassName(__list).length) {
-                        if (Poi.formpostion == 'bottom') {
+                        if (_iro.formpostion == 'bottom') {
                             document.getElementById("respond").insertAdjacentHTML('beforebegin', '<ol class="' + __list + '">' + data + '</ol>');
                             //jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
                         } else {
@@ -109,7 +109,7 @@ function XCS() {
                             //jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
                         }
                     } else {
-                        if (Poi.order == 'asc') {
+                        if (_iro.order == 'asc') {
                             document.getElementsByClassName("commentwrap")[1].insertAdjacentHTML('beforeend', data);
                             //jQuery('.' + __list).append(data);
                         } else {
@@ -137,7 +137,7 @@ function XCS() {
                 statusSubmitting = false
             })
             /* jQuery.ajax({
-                url: Poi.ajaxurl,
+                url: _iro.ajaxurl,
                 data: jQuery(this).serialize() + "&action=ajax_comment",
                 type: jQuery(this).attr('method'),
                 beforeSend: createButterbar("提交中(Commiting)...."),
@@ -158,13 +158,13 @@ function XCS() {
                     if (parent != '0') {
                         jQuery('#respond').before('<ol class="children">' + data + '</ol>');
                     } else if (!jQuery('.' + __list).length) {
-                        if (Poi.formpostion == 'bottom') {
+                        if (_iro.formpostion == 'bottom') {
                             jQuery('#respond').before('<ol class="' + __list + '">' + data + '</ol>');
                         } else {
                             jQuery('#respond').after('<ol class="' + __list + '">' + data + '</ol>');
                         }
                     } else {
-                        if (Poi.order == 'asc') {
+                        if (_iro.order == 'asc') {
                             jQuery('.' + __list).append(data);
                         } else {
                             jQuery('.' + __list).prepend(data);
@@ -226,7 +226,7 @@ function XCP() {
                     document.querySelector("ul.commentwrap").insertAdjacentHTML('afterend', nextlink.outerHTML);
                     lazyload();
                     if (window.gtag) {
-                        gtag('config', Poi.google_analytics_id, {
+                        gtag('config', _iro.google_analytics_id, {
                             'page_path': path
                         });
                     }
@@ -248,7 +248,6 @@ function sm() {
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
     if (cm) {
-        if (Poi.reply_link_version == 'new') {
             cm.addEventListener("click", function (e) {
                 if (e.target.classList.contains("comment-reply-link")) {
                     e.preventDefault();
@@ -257,7 +256,6 @@ function sm() {
                     addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
                 }
             })
-        }
         cm.addEventListener("click", (e) => {
             let list = e.target.parentNode;
             if (list.classList.contains("sm")) {
@@ -321,7 +319,7 @@ function tableOfContentScroll(flag) {
                     onClick: null
                 });
             })
-            const heading_fix = mashiro_option.entry_content_style == "sakurairo" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment") ? -75 : 200) : 375) : window.innerHeight / 2;
+            const heading_fix = _iro.entry_content_style == "sakurairo" ? (document.querySelector("article.type-post") ? (document.querySelector("div.pattern-attachment") ? -75 : 200) : 375) : window.innerHeight / 2;
             const _els = document.querySelectorAll('.entry-content,.links');
             const idSet = new Set()
             let id = 1
@@ -367,7 +365,7 @@ function attach_image() {
                 cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
                 createButterbar(__("上传中..."));
             });
-            xhr.open("POST", buildAPI(Poi.api + 'sakura/v1/image/upload'), true);
+            xhr.open("POST", buildAPI(_iro.api + 'sakura/v1/image/upload'), true);
             xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
@@ -378,7 +376,7 @@ function attach_image() {
                     let res = JSON.parse(xhr.responseText);
                     if (res.status == 200) {
                         let get_the_url = res.proxy;
-                        document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="' + mashiro_option.loading_ph + '" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
+                        document.getElementById("upload-img-show").insertAdjacentHTML('afterend', '<img class="lazyload upload-image-preview" src="' + _iro.loading_ph + '" data-src="' + get_the_url + '" onclick="window.open(\'' + get_the_url + '\')" onerror="imgError(this)" />');
                         lazyload();
                         createButterbar(__("图片上传成功~"));
                         grin(get_the_url, type = 'Img');
@@ -410,7 +408,7 @@ function smileBoxToggle() {
 function add_upload_tips() {
     const form_submit = document.querySelector('.form-submit #submit');
     if (form_submit == null) return;
-    if (!mashiro_option.comment_upload_img) {
+    if (!_iro.comment_upload_img) {
         form_submit.style.width = '100%'
         return
     }

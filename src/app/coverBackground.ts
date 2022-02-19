@@ -17,7 +17,7 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
 /**
  * 更改封面背景
  */
-export const changeCoverBG = mashiro_option.site_bg_as_cover ? (url: string) => {
+export const changeCoverBG = _iro.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
@@ -34,19 +34,19 @@ function parseCSSUrl(cssText?: string) {
 /**
  * 返回当前封面背景的URL
  */
-export const getCurrentBG = mashiro_option.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
+export const getCurrentBG = _iro.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
     () => parseCSSUrl(centerbg.style.backgroundImage)
 
 function getAPIPath(useBGN = false) {
-    const cover_api_url = new URL(mashiro_option.cover_api)
-    if (isMobile() && mashiro_option.random_graphs_mts == true) {
+    const cover_api_url = new URL(_iro.cover_api)
+    if (isMobile() && _iro.random_graphs_mts == true) {
         cover_api_url.searchParams.set('type', 'mobile')
         return cover_api_url.toString() + (useBGN ? "&" + bgn : '')
     } else {
         return cover_api_url.toString() + (useBGN ? (cover_api_url.search === '' ? "?" : '&') + bgn : '');
     }
 }
-export const getCoverPath = mashiro_option.cache_cover ? (useBGN = false) =>
+export const getCoverPath = _iro.cache_cover ? (useBGN = false) =>
     get('cover').then(coverBG => {
         if (coverBG && coverBG instanceof ArrayBuffer) {
             cleanBlobUrl()
@@ -96,7 +96,7 @@ function cleanBlobUrl() {
     blob_url = ''
 }
 /* export function initCoverBG() {
-    if (mashiro_option.site_bg_as_cover) {
+    if (_iro.site_bg_as_cover) {
         if (centerbg) centerbg.style.background = '#0000'
     }
 } */

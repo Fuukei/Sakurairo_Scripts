@@ -11,14 +11,14 @@ function mediaQueryCallback() {
     const dark = localStorage.getItem("dark")
     //仅在深色模式不是用户主动设置时触发
     if (!dark) {
-        if (mediaQuery.matches && mashiro_option.darkmode) {
+        if (mediaQuery.matches && _iro.darkmode) {
             turnOnDarkMode()
         } else {
             turnOffDarkMode()
         }
     }
 }
-if (mashiro_option.dm_strategy === 'client') {
+if (_iro.dm_strategy === 'client') {
     mediaQuery.removeEventListener?mediaQuery.removeEventListener('change', mediaQueryCallback):mediaQuery.removeListener(mediaQueryCallback)
     mediaQuery.addEventListener?mediaQuery.addEventListener('change', mediaQueryCallback):mediaQuery.addListener(mediaQueryCallback)
 }
@@ -50,7 +50,7 @@ export function turnOffDarkMode(userTriggered?: boolean) {
     informDarkModeChange(false)
     if (userTriggered) {
         saveUserSetting(false);
-        //document.body.style.backgroundImage = `url(${mashiro_option.skin_bg0})`;
+        //document.body.style.backgroundImage = `url(${_iro.skin_bg0})`;
     }
 }
 /**
@@ -62,7 +62,7 @@ function checkTime() {
     return (today.getHours() > 21 || today.getHours() < 7)
 }
 export function ifDarkmodeShouldOn() {
-    switch (mashiro_option.dm_strategy) {
+    switch (_iro.dm_strategy) {
         case 'client':
             return mediaQuery.matches
         case 'eien':
@@ -75,7 +75,7 @@ export function checkDarkModeSetting() {
     const dark = localStorage.getItem("dark")
     if (!dark) {
         //无用户设置时，自动切换深色模式
-        if (ifDarkmodeShouldOn() && mashiro_option.darkmode) {
+        if (ifDarkmodeShouldOn() && _iro.darkmode) {
             turnOnDarkMode()
         } else {
             turnOffDarkMode()

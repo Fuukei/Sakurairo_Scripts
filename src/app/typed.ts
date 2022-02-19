@@ -18,7 +18,7 @@ export default async function initTypedJs() {
             const options = JSON.parse(json.innerHTML)
             const element = document.querySelector<HTMLElement>('.element')
             element.innerText = ''
-            if (mashiro_option.ext_shared_lib) {
+            if (_iro.ext_shared_lib) {
                 if (!window.Typed) await importExternal('lib/typed.min.js', 'typed.js')
                 typedInstance = new window.Typed(element, options)
 

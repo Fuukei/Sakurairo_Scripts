@@ -134,9 +134,9 @@ export function jsSearchCallback() {
     document.getElementsByClassName('js-search')[0].classList.toggle('is-visible')
     //$('html').css('overflow-y', 'hidden');
     document.documentElement.style.overflowY = 'hidden'
-    if (mashiro_option.live_search) {
+    if (_iro.live_search) {
         QueryStorage = [];
-        search_a(buildAPI(Poi.api + "sakura/v1/cache_search/json"));
+        search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"));
 
         var otxt = document.getElementById("search-input") as HTMLInputElement,
             //list = document.getElementById("PostlistBox"),

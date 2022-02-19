@@ -33,7 +33,7 @@ function collapse() {
 let lightBoxCSS: HTMLLinkElement
 async function lightbox() {
     //init lightbox
-    if (mashiro_option.baguetteBoxON) {
+    if (_iro.baguetteBoxON) {
         if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/baguetteBox.min.css', 'baguettebox.js', '1.11.1'))
         //@ts-ignore
         const { default: baguetteBox } = await import('baguettebox.js')
@@ -43,10 +43,10 @@ async function lightbox() {
             },
             ignoreClass: 'fancybox',
         });
-    } else if (mashiro_option.fancybox) {
+    } else if (_iro.fancybox) {
         if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/jquery.fancybox.min.css', '@fancyapps/fancybox', '3.5.7'))
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
-            if (mashiro_option.ext_shared_lib) {
+            if (_iro.ext_shared_lib) {
                 importExternal('dist/jquery.slim.min.js', 'jquery')
                 importExternal('dist/jquery.fancybox.min.js', '@fancyapps/fancybox')
             } else {
@@ -58,14 +58,14 @@ async function lightbox() {
                 import('@fancyapps/fancybox')
             }
         }
-    } else if (mashiro_option.lightGallery) {
+    } else if (_iro.lightGallery) {
         //lightGallery的umd导入有点问题
-        /*         if (mashiro_option.ext_shared_lib) {
+        /*         if (_iro.ext_shared_lib) {
                     if (!window.lightGallery) {
                         loadCSS(resolvePath('css/lightgallery-bundle.min.css', 'lightgallery', '2.3.0'))
                         await importExternal('lightgallery.umd.js', 'lightgallery')
                     }
-                    const { plugins } = mashiro_option.lightGallery
+                    const { plugins } = _iro.lightGallery
                     if (plugins) {
                         (await Promise
                             .allSettled(
@@ -75,7 +75,7 @@ async function lightbox() {
                     }
                     window.lightGallery(
                         document.querySelector('.entry-content'),
-                        mashiro_option.lightGallery);
+                        _iro.lightGallery);
                 } else {
                     //@ts-ignore
                     const { default: initLightGallery } = await import('./lightGallery/import')

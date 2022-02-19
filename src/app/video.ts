@@ -2,7 +2,7 @@ import { getFileNameMain } from '../common/util';
 import { __ } from '../common/sakurairo_global';
 import { importExternal } from '../common/npmLib';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
-const videoList: Array<string> = Poi.movies.name?.split(",") || []// 视频列表
+const videoList: Array<string> = _iro.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
 let aplayersToResume: any[] = []
 //from Siren
@@ -26,8 +26,8 @@ function getVideo() {
     const fileName = _getNextRandomVideo()// 随机抽取视频
     video_stu.innerHTML = __("正在载入视频 ...");
     video_stu.style.bottom = "0px";
-    //这里不需要检验Poi.movies是不是字符串，因为应该在前边检查
-    bgvideo.setAttribute("src", new URL(fileName, Poi.movies.url || location.origin).toString());
+    //这里不需要检验_iro.movies是不是字符串，因为应该在前边检查
+    bgvideo.setAttribute("src", new URL(fileName, _iro.movies.url || location.origin).toString());
     bgvideo.setAttribute("video-name", getFileNameMain(fileName));
 }
 /**
@@ -43,7 +43,7 @@ function splay() {
     try {
         document.querySelector<HTMLElement>(".video-stu").style.bottom = "-100px";
         document.querySelector<HTMLElement>(".focusinfo").style.top = "-999px";
-        if (mashiro_option.float_player_on) {
+        if (_iro.float_player_on) {
             import('./aplayer').then(({ pauseAllPlayer }) => {
                 aplayersToResume = pauseAllPlayer()
                 bgvideo.play();
@@ -120,7 +120,7 @@ export function coverVideo() {
             if (video_btn) {
                 video_btn.classList.add("loadvideo");
                 video_btn.classList.remove("video-pause", "videolive", "haslive");
-                if (Poi.movies.loop) {
+                if (_iro.movies.loop) {
                     video_btn.click()
                 }
             }
@@ -158,7 +158,7 @@ async function initHLS() {
     } else {
         if (!window.Hls) {
             try {
-                if (mashiro_option.ext_shared_lib) {
+                if (_iro.ext_shared_lib) {
                     await importExternal('dist/hls.light.min.js', 'hls.js')
                 } else {
                     //@ts-ignore

@@ -9,7 +9,7 @@ export default function () {
 }
 function removeScreen(preload: HTMLElement) {
     document.documentElement.style.overflowY = 'unset';
-    if (mashiro_option.preload_blur != 0) {
+    if (_iro.preload_blur != 0) {
         try {
             preload.animate(
                 [
@@ -17,7 +17,7 @@ function removeScreen(preload: HTMLElement) {
                     { backdropFilter: "blur(0px)grayscale(0)", opacity: 0.1 },
                     { opacity: 0, filter: "blur(100px)", }
                 ],
-                { duration: mashiro_option.preload_blur, fill: "forwards", easing: "ease" }
+                { duration: _iro.preload_blur, fill: "forwards", easing: "ease" }
             ).onfinish = () => {
                 preload.remove()
             }

@@ -87,6 +87,6 @@ export function buildAPI(apiPath: string, params: Record<string, string> = {}, n
     for (const [key, value] of Object.entries(params)) {
         searchParams.set(key, value)
     }
-    if (nonce) searchParams.set("_wpnonce", Poi.nonce)
+    if (nonce) searchParams.set("_wpnonce", _iro.nonce)
     return path.toString()
 }

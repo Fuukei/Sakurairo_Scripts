@@ -29,20 +29,20 @@ export default function initPjax() {
             element.load = '';
         }
         document.getElementById("bar").style.width = "0%";
-        if (mashiro_option.NProgressON) NProgress.start()
+        if (_iro.NProgressON) NProgress.start()
         MNH();
     });
     document.addEventListener("pjax:complete", () => {
         auto_height();
         PE();
         CE();
-        if (mashiro_option.land_at_home) {
+        if (_iro.land_at_home) {
             XLS();
             initTypedJs()
         } else {
             disableTypedJsIfExist()
         }
-        if (mashiro_option.NProgressON) NProgress.done()
+        if (_iro.NProgressON) NProgress.done()
         //#region mashiro_global.ini.pjax();
         //#region pjaxInit
         no_right_click();
@@ -93,7 +93,7 @@ export default function initPjax() {
             loading.classList.remove("show");
         }
         //未实际使用的选项
-        /* if (Poi.codelamp == 'open') {
+        /* if (_iro.codelamp == 'open') {
             self.Prism.highlightAll(event)
         }; */
         if (document.querySelector(".js-search.is-visible")) {
@@ -106,7 +106,7 @@ export default function initPjax() {
     });
     document.addEventListener("pjax:success", () => {
         //pjax加载时自动拉取page.js
-        if (!mashiro_option.land_at_home && !document.getElementById('app-page-js')) {
+        if (!_iro.land_at_home && !document.getElementById('app-page-js')) {
             // id需要与php侧同步
             const script_app = document.getElementById('app-js')
             const script_app_page = document.createElement('script')
@@ -121,7 +121,7 @@ export default function initPjax() {
          * @seealso https://developers.google.com/analytics/devguides/collection/gtagjs/pages
          */
         if (window.gtag) {
-            gtag('config', Poi.google_analytics_id, {
+            gtag('config', _iro.google_analytics_id, {
                 'page_path': window.location.pathname
             });
         }
@@ -134,7 +134,7 @@ export default function initPjax() {
         }
     });
     document.addEventListener("pjax:error", (e) => {
-        createButterbar(_$('页面加载出错了 HTTP {0}', e.request.status))
+        createButterbar(_$('页面加载出错了 HTTP {0}', e.detail.request.status))
     })
     window.addEventListener('popstate', (e) => {
         auto_height();

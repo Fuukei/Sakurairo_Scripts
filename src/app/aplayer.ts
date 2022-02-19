@@ -108,7 +108,7 @@ export function pauseAllPlayer() {
 }
 export function aplayerInit() {
     //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
-    if (mashiro_option.ext_shared_lib) {
+    if (_iro.ext_shared_lib) {
         loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
     } else {
         //@ts-ignore
@@ -118,8 +118,8 @@ export function aplayerInit() {
     if (typeof meting_api == 'string') {
         meting_api_path = new URL(meting_api)
     } else {
-        meting_api_path = new URL(mashiro_option.meting_api_url)
-        meting_api_path.searchParams.set('_wpnonce', Poi.nonce)
+        meting_api_path = new URL(_iro.meting_api_url)
+        meting_api_path.searchParams.set('_wpnonce', _iro.nonce)
     }
 
     destroyAllAplayer()

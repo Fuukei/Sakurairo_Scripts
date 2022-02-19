@@ -64,10 +64,10 @@ export async function hljs_process(pre, code) {
     }
 }
 //Prism
-const PrismBaseUrl = mashiro_option.code_highlight_prism?.autoload_path || resolvePath('', 'prismjs', PRISM_VERSION)
+const PrismBaseUrl = _iro.code_highlight_prism?.autoload_path || resolvePath('', 'prismjs', PRISM_VERSION)
 let currentPrismThemeCSS = undefined
 const themeCSS = (() => {
-    const { light, dark } = mashiro_option.code_highlight_prism?.theme || {}
+    const { light, dark } = _iro.code_highlight_prism?.theme || {}
     const theme = {
         light: light || 'themes/prism.min.css',
         dark: dark || 'themes/prism-tomorrow.min.css',
@@ -105,7 +105,7 @@ async function importPrismJS() {
             //必备插件全家桶
             loadCSS(new URL('plugins/toolbar/prism-toolbar.min.css', PrismBaseUrl).toString())
             loadCSS(new URL('plugins/previewers/prism-previewers.min.css', PrismBaseUrl).toString())
-            if (mashiro_option.ext_shared_lib) {
+            if (_iro.ext_shared_lib) {
                 await Promise.all([importExternal('components/prism-core.min.js', 'prismjs', PRISM_VERSION),
                 importExternal('plugins/autoloader/prism-autoloader.min.js', 'prismjs', PRISM_VERSION),
                 importExternal('plugins/toolbar/prism-toolbar.min.js', 'prismjs', PRISM_VERSION),
@@ -120,7 +120,7 @@ async function importPrismJS() {
 }
 function loadPrismPluginLineNumbers() {
     loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
-    if (mashiro_option.ext_shared_lib) {
+    if (_iro.ext_shared_lib) {
         return importExternal('plugins/line-numbers/prism-line-numbers.min.js', 'prismjs', PRISM_VERSION)
     } else {
         return import('prismjs/plugins/line-numbers/prism-line-numbers')
@@ -128,7 +128,7 @@ function loadPrismPluginLineNumbers() {
 }
 function loadPrismMatchBraces() {
     loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
-    if (mashiro_option.ext_shared_lib) {
+    if (_iro.ext_shared_lib) {
         return importExternal('plugins/match-braces/prism-match-braces.min.js', 'prismjs', PRISM_VERSION)
     } else {
         return import('prismjs/plugins/match-braces/prism-match-braces')
@@ -136,7 +136,7 @@ function loadPrismMatchBraces() {
 }
 function loadPrismCommandLine() {
     loadCSS(new URL('plugins/command-line/prism-command-line.css', PrismBaseUrl).toString())
-    if (mashiro_option.ext_shared_lib) {
+    if (_iro.ext_shared_lib) {
         return importExternal('plugins/command-line/prism-command-line.min.js', 'prismjs', PRISM_VERSION)
     } else {
         return import('prismjs/plugins/command-line/prism-command-line')
@@ -151,7 +151,7 @@ export async function prism_process(code) {
         let loadLineNumber = false
         let loadMatchBraces = false
         let loadCommandLine = false
-        if (mashiro_option.code_highlight_prism.line_number_all) {
+        if (_iro.code_highlight_prism.line_number_all) {
             document.querySelector('.entry-content').classList.add('line-numbers')
             loadLineNumber = true
         }

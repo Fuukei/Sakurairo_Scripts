@@ -7,7 +7,7 @@ export interface LightGalleryOptions extends Omit<LightGallerySettings, 'plugins
     plugins?: string[]
 };
 export default async function initLightGallery() {
-    const { plugins, ...opts } = mashiro_option.lightGallery as LightGalleryOptions
+    const { plugins, ...opts } = _iro.lightGallery as LightGalleryOptions
 
     lightGallery(
         document.querySelector('.entry-content'),

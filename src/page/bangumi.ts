@@ -10,7 +10,7 @@ const bgmlistener = (e: any) => {
         target.classList.add("loading");
         target.textContent = "";
 
-        fetch(target.dataset.href + "&_wpnonce=" + Poi.nonce, {
+        fetch(target.dataset.href + "&_wpnonce=" + _iro.nonce, {
             method: "POST"
         }
         )

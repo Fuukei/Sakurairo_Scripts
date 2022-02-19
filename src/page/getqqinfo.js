@@ -19,7 +19,7 @@ export default function getqqinfo() {
         i_author.value = localStorage.getItem('user_author');
         i_email.value = localStorage.getItem('user_qq') + '@qq.com';
         i_qq.value = localStorage.getItem('user_qq');
-        if (mashiro_option.qzone_autocomplete) {
+        if (_iro.qzone_autocomplete) {
             i_url.value = 'https://user.qzone.qq.com/' + localStorage.getItem('user_qq');
         }
         if (i_qq.value) {
@@ -53,7 +53,7 @@ export default function getqqinfo() {
                             setCookie('user_avatar', get_gravatar(email.value, 80), 30);
                         } */
             }
-            fetch(buildAPI(mashiro_option.qq_api_url, { qq: qq }))
+            fetch(buildAPI(_iro.qq_api_url, { qq: qq }))
                 .then(async resp => {
                     if (resp.ok) {
                         //success
@@ -61,7 +61,7 @@ export default function getqqinfo() {
                             const data = await resp.json()
                             i_author.value = data.name;
                             i_email.value = qq.trim() + '@qq.com';
-                            if (mashiro_option.qzone_autocomplete) {
+                            if (_iro.qzone_autocomplete) {
                                 i_url.value = 'https://user.qzone.qq.com/' + qq.trim();
                             }
                             user_avatar_img.setAttribute('src', 'https://q2.qlogo.cn/headimg_dl?dst_uin=' + qq + '&spec=100');

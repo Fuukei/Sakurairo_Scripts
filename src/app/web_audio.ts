@@ -1,6 +1,6 @@
 import { sakurairoGlobal } from "../common/sakurairo_global";
 export function web_audio() {
-    if (!mashiro_option.audio) return
+    if (!_iro.audio) return
     //@ts-ignore
     const AudioContext = window.AudioContext || window.webkitAudioContext
     if (AudioContext) {

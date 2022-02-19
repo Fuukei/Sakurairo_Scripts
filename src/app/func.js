@@ -52,24 +52,24 @@ export async function changeSkin(tagId) {
     let bg_url;
     switch (tagId) {
         case "white-bg":
-            if (mashiro_option.site_bg_as_cover) {
+            if (_iro.site_bg_as_cover) {
                 changeCoverBG(await getCoverPath())//为触发封面背景相关事件 调用函数而不是走下方流程
                 return
             } else {
-                bg_url = mashiro_option.skin_bg0;
+                bg_url = _iro.skin_bg0;
             }
             break;
         case "diy1-bg":
-            bg_url = mashiro_option.skin_bg1;
+            bg_url = _iro.skin_bg1;
             break;
         case "diy2-bg":
-            bg_url = mashiro_option.skin_bg2;
+            bg_url = _iro.skin_bg2;
             break;
         case "diy3-bg":
-            bg_url = mashiro_option.skin_bg3;
+            bg_url = _iro.skin_bg3;
             break;
         case "diy4-bg":
-            bg_url = mashiro_option.skin_bg4;
+            bg_url = _iro.skin_bg4;
             break;
     }
     document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
@@ -176,7 +176,7 @@ export function MNH() {
  * @has-dom-modify
  */
 export function auto_height() {
-    if (Poi.windowheight == 'auto') {
+    if (_iro.windowheight == 'auto') {
         if (document.querySelector("h1.main-title")) {
             //let _height = document.documentElement.clientHeight + "px";
             const centerbg = document.getElementById("centerbg")
@@ -202,7 +202,7 @@ export function PE() {
             } catch (e) { }
             headertop.style.height = "auto";
             headertop.style.display = "";
-            if (Poi.movies.live) liveplay();
+            if (_iro.movies.live) liveplay();
         } else {
             try {
                 blank.style.paddingTop = "75px";
@@ -256,7 +256,7 @@ export function CE() {
     //     $(this).next().slideToggle('fast');
     //     return false;
     // });
-    /*if (mashiro_option.baguetteBoxON) {
+    /*if (_iro.baguetteBoxON) {
         baguetteBox.run('.entry-content', {
             captions: function (element) {
                 return element.getElementsByTagName('img')[0].alt;
@@ -327,10 +327,10 @@ export function checkBgImgSetting() {
     return changeSkin(localStorage.getItem("bgImgSetting") || 'white-bg');
 }
 export async function checkCoverBackground() {
-    if (mashiro_option.site_bg_as_cover) {
+    if (_iro.site_bg_as_cover) {
         return //交给checkBgImgSetting处理
     }
-    if (!mashiro_option.land_at_home) return//进入非主页  
+    if (!_iro.land_at_home) return//进入非主页  
     if (getCurrentBG()) {//进入主页且已经加载了封面背景
         return
     }

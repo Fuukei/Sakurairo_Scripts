@@ -63,7 +63,7 @@ function killCoverVideo() {
 }
 
 function mail_me() {
-    window.open("mailto:" + mashiro_option.email_name + "@" + mashiro_option.email_domain);
+    window.open("mailto:" + _iro.email_name + "@" + _iro.email_domain);
 }
 /* 首页下拉箭头 */
 function headertop_down() {

@@ -1,6 +1,6 @@
 import { start } from "./sakura"
 
-const amount = mashiro_option.effect.amount
+const amount = _iro.effect.amount
 let sakura_num
 switch (amount) {
     case 'half':
