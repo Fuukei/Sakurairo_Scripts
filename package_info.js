@@ -1,6 +1,6 @@
-const fs = require('fs')
-const str = fs.readFileSync('./package.json', 'utf-8')
-const PACKAGE = JSON.parse(str)
+const { readFileSync } = require('fs')
+const json = readFileSync('./package.json', 'utf-8')
+const PACKAGE = JSON.parse(json)
 const semver = require('semver')
 
 module.exports = Object.fromEntries(
