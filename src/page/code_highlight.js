@@ -1,6 +1,7 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 import { importExternal, resolvePath } from '../common/npmLib';
+const PRISM_VERSION = PKG_INFO['prismjs']
 const attributes = {
     'autocomplete': 'off',
     'autocorrect': 'off',

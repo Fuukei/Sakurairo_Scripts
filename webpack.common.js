@@ -121,7 +121,7 @@ module.exports = {
                 hash: commitHash,
                 date: new Date().toLocaleDateString()
             }),
-            PRISM_VERSION: JSON.stringify(package_info.prismjs)
+            PKG_INFO: JSON.stringify(package_info)
         })
         /* new webpack.DefinePlugin({
             'typeof document': JSON.stringify('object'),

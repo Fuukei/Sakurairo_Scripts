@@ -111,5 +111,5 @@ interface Effect {
 }
 //#region define const
 declare const BUILD_INFO: { hash: string, date: string }
-declare const PRISM_VERSION:string
+declare const PKG_INFO:Record<string,string>
 //#endregion
