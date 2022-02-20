@@ -109,7 +109,8 @@ export function pauseAllPlayer() {
 export function aplayerInit() {
     //document.addEventListener('DOMContentLoaded', loadMeting, /* !1 *//**false与什么都不传递作用相等 */);
     if (_iro.ext_shared_lib) {
-        loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
+        loadCSS('https://x.jscdn.host/release/ucode-x/source/APlayerbyFuukei/@1.10.3/dist/APlayer.min.css')
+        //loadCSS("https://cdn.jsdelivr.net/gh/Fuukei/APlayer@1.10.2/dist/APlayer.min.css");
     } else {
         //@ts-ignore
         import(  /* webpackMode: "eager" */'aplayer/dist/APlayer.min.css')
