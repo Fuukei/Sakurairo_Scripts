@@ -160,13 +160,13 @@ ready(function () {
     preload_screen()
     lazyload();
     powermode()
+    //#region mashiro_global.ini.normalize();
+    post_list_show_animation();
+    coverVideoIni();
+    checkSkinSecter();
+    //#endregion
+    initEffect()
     about_us()
 });
-//#region mashiro_global.ini.normalize();
-post_list_show_animation();
-coverVideoIni();
-checkSkinSecter();
-//#endregion
-initEffect()
 loadCSS(_iro.jsdelivr_css_src);
 loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
