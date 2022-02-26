@@ -39,7 +39,7 @@ module.exports = {
         filename: '[name].js',
         assetModuleFilename: '[hash][ext][query]',
         path: define.dist_path,
-        iife: true// 是否添加 IIFE 外层
+        clean: true, // 在生成文件之前清空 output 目录
     },
     optimization: {
         /* runtimeChunk: {
