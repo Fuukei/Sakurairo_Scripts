@@ -17,7 +17,7 @@ export default function initPjax() {
     new Pjax({
         selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link", "#entry-content-css"],
         scripts: "#app-js-before",
-        timeout: 8000,
+        timeout: 5000,
         defaultTrigger: {
             exclude: 'a[data-no-pjax]',
         }
