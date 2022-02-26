@@ -31,15 +31,6 @@ export function checkSkinSecter() {
         }
     }
 }
-export function no_right_click() {
-    const pri = document.getElementById("primary");
-    if (pri) pri.addEventListener("contextmenu", (e) => {
-        if (e.target.nodeName.toLowerCase() == "img") {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    })
-}
 /**
  * 设置前台背景
  * @param {string} tagId 前台背景ID

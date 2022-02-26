@@ -3,7 +3,7 @@ import { createButterbar } from '../common/butterbar';
 import { _$ } from '../common/sakurairo_global';
 import add_copyright from './copyright';
 import { loadFontSetting } from './font_control';
-import { MNH, auto_height, PE, CE, no_right_click, bgButtonAddListener, timeSeriesReload, checkSkinSecter, checkCoverBackground } from './func';
+import { MNH, auto_height, PE, CE, bgButtonAddListener, timeSeriesReload, checkSkinSecter, checkCoverBackground } from './func';
 import hitokoto from './hitokoto';
 import { coverVideoIni } from './video';
 import { web_audio } from './web_audio';
@@ -45,7 +45,6 @@ export default function initPjax() {
         if (_iro.NProgressON) NProgress.done()
         //#region mashiro_global.ini.pjax();
         //#region pjaxInit
-        no_right_click();
         loadFontSetting()
         let _p = document.getElementsByTagName("p");
         for (let i = 0; i < _p.length; i++) {

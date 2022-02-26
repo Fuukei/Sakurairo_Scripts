@@ -52,7 +52,7 @@ import { initIsMobileCache, isMobile } from './mobile'
 import { initFontControl } from './font_control'
 import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
-import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, no_right_click, PE, timeSeriesReload } from './func'
+import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload } from './func'
 import initTypedJs from './typed'
 initIsMobileCache()
 /**
@@ -62,7 +62,6 @@ initIsMobileCache()
 _iro.pjax = _iro.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
 _iro.pjax && import('./pjax').then(({ default: initPjax }) => initPjax())
 
-no_right_click();
 timeSeriesReload();
 add_copyright()
 function activate_widget() {
