@@ -94,33 +94,33 @@ const load_post = onlyOnceATime(function load_post() {
      }); */
 })
 export function post_list_show_animation() {
-    if (document.querySelector('article') && document.querySelector('article').classList.contains("post-list-thumb")) {
+    const articles = document.querySelectorAll('article.post-list-thumb')
+    if (articles) {
         const options = {
             root: null,
             threshold: [0.66]
-        },
-            callback = (entries) => {
-                entries.forEach(window.IntersectionObserver ? (article) => {
-                    if (article.target.classList.contains("post-list-show")) {
-                        article.target.style.willChange = 'auto';
-                        io.unobserve(article.target)
-                    } else if (article.isIntersecting) {
-                        article.target.classList.add("post-list-show");
-                        article.target.style.willChange = 'auto';
-                        io.unobserve(article.target)
-                    }
-                } : (article) => {
+        }
+        const callback = (entries) => {
+            entries.forEach(window.IntersectionObserver ? (article) => {
+                if (article.target.classList.contains("post-list-show")) {
                     article.target.style.willChange = 'auto';
-                    if (article.target.classList.contains("post-list-show") === false) {
-                        article.target.classList.add("post-list-show");
-                    }
+                    io.unobserve(article.target)
+                } else if (article.isIntersecting) {
+                    article.target.classList.add("post-list-show");
+                    article.target.style.willChange = 'auto';
+                    io.unobserve(article.target)
+                }
+            } : (article) => {
+                article.target.style.willChange = 'auto';
+                if (article.target.classList.contains("post-list-show") === false) {
+                    article.target.classList.add("post-list-show");
+                }
 
-                })
-            },
-            io = new IntersectionObserver(callback, options),
-            articles = document.getElementsByClassName('post-list-thumb');
-        for (let a = 0; a < articles.length; a++) {
-            io.observe(articles[a]);
+            })
+        }
+        const io = new IntersectionObserver(callback, options)
+        for (const article of articles) {
+            io.observe(article)
         }
     }
 }
