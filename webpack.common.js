@@ -4,6 +4,28 @@ const { commitHash } = require('./commit_hash')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const package_info = require('./package_info')
+
+const javascript_loader = {
+    loader: 'babel-loader',
+    options: {
+        presets: [
+            ['@babel/preset-env',
+                {
+                    useBuiltIns: 'usage',
+                    corejs: '3.20',
+                    debug: true
+                }
+            ]],
+        cacheDirectory: true,
+        cacheCompression: false,
+        assumptions: {
+            //https://babeljs.io/docs/en/assumptions
+            noDocumentAll: true,
+            noClassCalls: true,
+            noIncompleteNsImportDetection: true
+        }
+    }
+}
 module.exports = {
     entry: {
         app: './src/app/',
@@ -59,37 +81,19 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/, use: {
-                    loader: 'ts-loader',
-                    options: {
-                        allowTsInNodeModules: true
-                    }
-                }
+                test: /\.ts$/, use: [
+                    javascript_loader,
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            allowTsInNodeModules: true
+                        }
+                    }]
             },
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env',
-                                {
-                                    useBuiltIns: 'usage',
-                                    corejs: '3.20',
-                                    modules: false
-                                }
-                            ]],
-                        cacheDirectory: true,
-                        cacheCompression: false,
-                        assumptions: {
-                            //https://babeljs.io/docs/en/assumptions
-                            noDocumentAll: true,
-                            noClassCalls: true,
-                            noIncompleteNsImportDetection: true
-                        }
-                    }
-                }
+                use: javascript_loader
             }, {
                 test: /\.vue$/,
                 use: [
