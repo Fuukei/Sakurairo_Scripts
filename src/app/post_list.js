@@ -101,7 +101,7 @@ export function post_list_show_animation() {
             threshold: [0.66]
         }
         const callback = (entries) => {
-            entries.forEach(window.IntersectionObserver ? (article) => {
+            entries.forEach((article) => {
                 if (article.target.classList.contains("post-list-show")) {
                     article.target.style.willChange = 'auto';
                     io.unobserve(article.target)
@@ -110,12 +110,6 @@ export function post_list_show_animation() {
                     article.target.style.willChange = 'auto';
                     io.unobserve(article.target)
                 }
-            } : (article) => {
-                article.target.style.willChange = 'auto';
-                if (article.target.classList.contains("post-list-show") === false) {
-                    article.target.classList.add("post-list-show");
-                }
-
             })
         }
         const io = new IntersectionObserver(callback, options)
