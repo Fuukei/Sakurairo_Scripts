@@ -132,8 +132,19 @@ export default function initPjax() {
             _hmt.push(['_trackPageview', pageURL]);
         }
     });
-    document.addEventListener("pjax:error", (e) => {
-        createButterbar(_$('页面加载出错了 HTTP {0}', e.detail.request.status))
+    document.addEventListener("pjax:error", ({ detail }) => {
+        const { status } = detail.request
+        if (/aborterror/i.exec(detail.error)) {
+            //超时处理
+            const { url } = detail.request
+            if (url) {
+                location = url //TODO: XSS?
+                return
+            }
+        }
+
+        createButterbar(status && _$('页面加载出错了 HTTP {0}', status) || detail.error)
+        console.warn('pjax:error', detail)
     })
     window.addEventListener('popstate', (e) => {
         auto_height();
