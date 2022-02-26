@@ -13,7 +13,6 @@ const javascript_loader = {
                 {
                     useBuiltIns: 'usage',
                     corejs: '3.20',
-                    debug: true
                 }
             ]],
         cacheDirectory: true,
