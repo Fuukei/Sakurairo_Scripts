@@ -13,13 +13,11 @@ async function initParticle() {
     }
 }
 export default function initEffect() {
-    document.addEventListener('load', () => {
-        const { effect } = mashiro_option
-        if (effect) {
-            if (effect.type == 'yuki') {
-                import('./falling_effect/yuki/start')
-            } else import('./falling_effect/sakura/start')
-        }
-        initParticle()
-    })
+    const { effect } = _iro
+    if (effect) {
+        if (effect.type == 'yuki') {
+            import('./falling_effect/yuki/start')
+        } else import('./falling_effect/sakura/start')
+    }
+    initParticle()
 }
