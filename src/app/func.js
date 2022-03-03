@@ -270,29 +270,28 @@ export function CE() {
         }
     });
     try {
-        const show_Nav = document.getElementById("show-nav");
         const loading = document.getElementById("loading");
-
-        show_Nav.addEventListener("click", function () {
-            if (show_Nav.classList.contains("showNav")) {
-                show_Nav.classList.remove("showNav");
-                show_Nav.classList.add("hideNav");
-                let sln = document.querySelector(".site-top .lower nav");
-                sln && sln.classList.add("navbar");
-            } else {
-                show_Nav.classList.remove("hideNav");
-                show_Nav.classList.add("showNav");
-                let sln = document.querySelector(".site-top .lower nav");
-                sln && sln.classList.remove("navbar");
-            }
-        });
         loading.addEventListener("click", () => {
             loading.classList.add("hide");
             loading.classList.remove("show");
         });
     } catch (e) { }
 }
-
+export function collapseMenu() {
+    const show_Nav = document.getElementById("show-nav");
+    show_Nav && show_Nav.addEventListener("click", () => {
+        const sln = document.querySelector(".site-top .lower nav");
+        if (show_Nav.classList.contains("showNav")) {
+            show_Nav.classList.remove("showNav");
+            show_Nav.classList.add("hideNav");
+            sln && sln.classList.add("navbar");
+        } else {
+            show_Nav.classList.remove("hideNav");
+            show_Nav.classList.add("showNav");
+            sln && sln.classList.remove("navbar");
+        }
+    });
+}
 //#endregion Siren
 export function addSkinMenuListener() {
     const cached = document.querySelectorAll(".menu-list li");

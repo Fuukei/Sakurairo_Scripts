@@ -155,6 +155,7 @@ ready(function () {
     auto_height();
     PE();
     CE();
+    collapseMenu()
     //#endregion
     web_audio()
     preload_screen()
