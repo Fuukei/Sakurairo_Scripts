@@ -42,7 +42,11 @@ async function code_highlight_style() {
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
         };
         if (_iro.ext_shared_lib) {
-            await importExternal('dist/clipboard.min.js', 'clipboard')
+            try {
+                await importExternal('dist/clipboard.min.js', 'clipboard.js')
+            } catch (err) {
+                await importExternal('dist/clipboard.min.js', 'clipboard')
+            }
             new ClipboardJS('.copy-code')
         } else {
             const ClipboardJS = (await import('clipboard')).default
@@ -248,14 +252,14 @@ function sm() {
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
     if (cm) {
-            cm.addEventListener("click", function (e) {
-                if (e.target.classList.contains("comment-reply-link")) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    let data_commentid = e.target.getAttribute("data-commentid");
-                    addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
-                }
-            })
+        cm.addEventListener("click", function (e) {
+            if (e.target.classList.contains("comment-reply-link")) {
+                e.preventDefault();
+                e.stopPropagation();
+                let data_commentid = e.target.getAttribute("data-commentid");
+                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+            }
+        })
         cm.addEventListener("click", (e) => {
             let list = e.target.parentNode;
             if (list.classList.contains("sm")) {
