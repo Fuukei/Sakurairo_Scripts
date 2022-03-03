@@ -222,7 +222,7 @@ export function CE() {
     }
     let archives = document.getElementsByClassName("archives");
     if (archives.length > 0) {
-        for (let i = 0; i < archives.length; i++) {
+        for (let i = 1; i < archives.length; i++) {
             archives[i].style.display = "none";
         }
         archives[0].style.display = "";
