@@ -296,19 +296,20 @@ export function collapseMenu() {
 //#endregion Siren
 export function addSkinMenuListener() {
     const cached = document.querySelectorAll(".menu-list li");
-    cached.forEach(e => {
-        e.addEventListener("click", function () {
-            const tagid = this.id;
-            if (tagid == "dark-bg") {
-                turnOnDarkMode(true)
-            } else {
-                turnOffDarkMode(true)
-                changeSkin(tagid)
-                localStorage.setItem("bgImgSetting", tagid)
-            }
-            closeSkinMenu();
-        });
-    });
+    const handler = (e) => {
+        const tagid = e.target.id;
+        if (tagid == "dark-bg") {
+            turnOnDarkMode(true)
+        } else {
+            turnOffDarkMode(true)
+            changeSkin(tagid)
+            localStorage.setItem("bgImgSetting", tagid)
+        }
+        closeSkinMenu();
+    }
+    for (const e of cached) {
+        e.addEventListener("click", handler);
+    }
 }
 /**
  * 根据设置初始化前台背景。启用前台背景与站点封面背景一体化以后封面背景在此设置
@@ -330,8 +331,9 @@ export async function checkCoverBackground() {
 export function closeSkinMenu() {
     document.querySelector(".skin-menu").classList.remove("show");
     setTimeout(() => {
-        if (document.querySelector(".changeSkin-gear") != null) {
-            document.querySelector(".changeSkin-gear").style.visibility = "visible";
+        const changeSkin = document.querySelector(".changeSkin-gear")
+        if (changeSkin != null) {
+            changeSkin.style.visibility = "visible";
         }
     }, 300);
 }
