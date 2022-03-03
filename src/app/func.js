@@ -227,12 +227,13 @@ export function CE() {
         }
         archives[0].style.display = "";
         let h3 = document.getElementById("archives-temp").getElementsByTagName("h3");
+        const handler = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            slideToggle(e.target.nextElementSibling, 300);
+        }
         for (let i = 0; i < h3.length; i++) {
-            h3[i].addEventListener("click", (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                slideToggle(e.target.nextElementSibling, 300);
-            })
+            h3[i].addEventListener("click", handler)
         }
     }
     // $('.comments-hidden').show();
