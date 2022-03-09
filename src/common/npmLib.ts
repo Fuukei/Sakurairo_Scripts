@@ -11,10 +11,12 @@ import { ready } from "./util"
  */
 const STORAGE_KEY = 'sakurairo_prefer_cdn'
 const CDN_LIST = [
-/*     ["https://jscdn.host/release/ucode/", "/", "/", ""],
-    ["https://cdn.jsdelivr.net/npm/", "@", "/", ""], */
+    /*     ["https://jscdn.host/release/ucode/", "/", "/", ""],
+        ["https://cdnjs.cloudflare.com/ajax/libs/", "/", "/", ""],
+     */
+    ["https://jsd.nmxc.ltd/npm/", "@", "/", ""],
+    ["https://cdn.jsdelivr.net/npm/", "@", "/", ""],
     ["https://unpkg.com/", "@", "/", ""],
-    ["https://cdnjs.cloudflare.com/ajax/libs/", "/", "/", ""],
     //TODO:自定cdn
 ]
 function getPreferCDNIndex() {
