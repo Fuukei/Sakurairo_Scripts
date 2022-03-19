@@ -52,7 +52,7 @@ import { initIsMobileCache, isMobile } from './mobile'
 import { initFontControl } from './font_control'
 import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
-import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload } from './func'
+import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload, collapseMenu } from './func'
 import initTypedJs from './typed'
 initIsMobileCache()
 /**

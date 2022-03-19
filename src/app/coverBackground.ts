@@ -2,6 +2,7 @@ import { get, set, del } from './cache'
 import { Accept_Image } from './compatibility';
 import { __ } from '../common/sakurairo_global';
 import { isMobile } from './mobile';
+import { createButterbar } from '../common/butterbar';
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
@@ -63,7 +64,11 @@ export const getCoverPath = _iro.cache_cover ? (useBGN = false) =>
 async function fetchAndCache(useBGN = false) {
     try {
         const resp = await fetch(getAPIPath(useBGN), { headers: { Accept: Accept_Image } });
-        if (resp.ok) {
+        if (resp.status == 500){
+            const result = await resp.json()
+            createButterbar(result.message)
+            console.warn(result.message)
+        }else if (resp.ok) {
             const buf = await resp.arrayBuffer();
             try {
                 set('cover', buf);
