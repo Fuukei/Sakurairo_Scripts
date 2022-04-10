@@ -297,7 +297,7 @@ export function collapseMenu() {
 export function addSkinMenuListener() {
     const cached = document.querySelectorAll(".menu-list li");
     const handler = (e) => {
-        const tagid = e.target.id;
+        const tagid = e.target.id || e.target.parentElement.id;
         if (tagid == "dark-bg") {
             turnOnDarkMode(true)
         } else {
