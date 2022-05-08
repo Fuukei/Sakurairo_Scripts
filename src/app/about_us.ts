@@ -1,12 +1,15 @@
 export default function about_us() {
     console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', 'background:#BC8E64;color:#fffffb', '')
     console.log(
-`    叶わない夢の物語
-    僕らは旅立つ
-    静かな波の遠くへ
-    最果ての海へと続く道だけを
-    覚えておけばいい
-    光の中に隠れた
-    ヒカリを探す旅へ
-    %c——「君が見た夢の物語」`,'font-style:italic')
+        'だからもう\n' +
+        '奇跡待たなくてもいいの\n' +
+        '飛び込んで　会いに来て\n' +
+        '渚の果て　何度でも\n' +
+        '歌うから\n' +
+        'いつか想いが叶うまで\n' +
+        '波の翼のマーメイド\n' +
+        '連れてって\n' +
+        'きらめく橋の向こうまで\n' +
+        '一緒に。\n'+
+        '%c ⌜Seaside Vacation⌟','font-style:italic')
 }
