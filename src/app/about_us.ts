@@ -1,5 +1,5 @@
 export default function about_us() {
-    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', 'background:#BC8E64;color:#fffffb', '')
+    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', 'background: linear-gradient(to bottom right, #9FD5F7, #F1CAFF);color:#fffffb', '')
     console.log(
         'だからもう\n' +
         '奇跡待たなくてもいいの\n' +
@@ -10,6 +10,7 @@ export default function about_us() {
         '波の翼のマーメイド\n' +
         '連れてって\n' +
         'きらめく橋の向こうまで\n' +
-        '一緒に。\n'+
-        '%c ⌜Seaside Vacation⌟','font-style:italic')
+        '一緒に\n' +
+        '%c ⌜Seaside Vacation⌟', 'color:#fff;background: linear-gradient(to bottom right, #9FD5F7, #F1CAFF);'
+        )
 }
