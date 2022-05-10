@@ -19,11 +19,11 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
  * 更改封面背景
  */
 export const changeCoverBG = _iro.site_bg_as_cover ? (url: string) => {
-    document.body.style.background = `url(${url})`
+    document.body.style.backgroundImage = `url(${url})`
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
     centerbg ? (url: string) => {
-            centerbg.style.background = `url(${url})`
+            centerbg.style.backgroundImage = `url(${url})`
             document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
     } : () => { }
 function parseCSSUrl(cssText?: string) {
@@ -35,8 +35,8 @@ function parseCSSUrl(cssText?: string) {
 /**
  * 返回当前封面背景的URL
  */
-export const getCurrentBG = _iro.site_bg_as_cover ? () => parseCSSUrl(document.body.style.background) :
-    () => parseCSSUrl(centerbg.style.background)
+export const getCurrentBG = _iro.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
+    () => parseCSSUrl(centerbg.style.backgroundImage)
 
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(_iro.cover_api)

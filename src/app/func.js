@@ -63,7 +63,7 @@ export async function changeSkin(tagId) {
             bg_url = _iro.skin_bg4;
             break;
     }
-    document.body.style.background = bg_url ? `url(${bg_url})` : '';
+    document.body.style.backgroundImage = bg_url ? `url(${bg_url})` : '';
 }
 
 export function bgButtonAddListener() {
