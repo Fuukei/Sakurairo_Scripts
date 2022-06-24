@@ -285,7 +285,20 @@ function sm() {
             }
         })
     }
-
+}
+function throttling(fn, wait, maxTimelong) {
+    let timeout = null,
+        startTime = Date.parse(new Date);
+    return function() {
+        if(timeout !== null) clearTimeout(timeout);
+        let curTime = Date.parse(new Date);
+        if(curTime-startTime>=maxTimelong) {
+            fn();
+            startTime = curTime;
+        } else {
+            timeout = setTimeout(fn, wait);
+        }
+    }
 }
 function resizeTOC() {
     const toc_container = document.querySelector(".toc-container"),
@@ -297,6 +310,7 @@ function resizeTOC() {
         resize()
         //TODO:性能
         window.addEventListener('resize', debounce(resize), { passive: true })
+        document.addEventListener('scroll',throttling(resize, 200, 1000))
     }
 }
 function tableOfContentScroll(flag) {
