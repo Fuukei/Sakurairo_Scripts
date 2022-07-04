@@ -9,13 +9,13 @@ function Serif() {
         createButterbar(__("将从网络加载字体，流量请注意"));
     }
     document.body.classList.add("serif");
-    setButtonState('serif')
     localStorage.setItem("font_family", "serif");
+    setButtonState('serif')
 }
 function SansSerif() {
     document.body.classList.remove("serif");
-    setButtonState('sans-serif')
     localStorage.setItem("font_family", "sans-serif");
+    setButtonState('sans-serif')
 }
 function change_font_listener(btn: HTMLButtonElement) {
     return () => {
@@ -24,11 +24,7 @@ function change_font_listener(btn: HTMLButtonElement) {
         if (name == nowFont) {
             return
         } else {
-            if (name == 'serif') {
-                Serif()
-            } else {
-                SansSerif()
-            }
+            (name == 'serif') ? Serif() : SansSerif()
         }
     }
 }
@@ -40,7 +36,7 @@ export function loadFontSetting() {
     }
 }
 function setButtonState(font_name?: string) {
-    if (font_name || localStorage.getItem("font_family") == 'sans-serif') {
+    if (font_name === 'sans-serif' || localStorage.getItem("font_family") == 'sans-serif') {
         btnSerif.classList.remove("selected");
         btnSansSerif.classList.add("selected");
     } else {
