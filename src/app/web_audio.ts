@@ -54,8 +54,6 @@ export function web_audio() {
                     dom.remove();
                     dom = null;
                 }, 500)
-                e.stopPropagation();
-
             })
         })
     }
