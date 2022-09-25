@@ -40,7 +40,7 @@ async function code_highlight_style() {
         for (let j = 0; j < code.length; j++) {
             code[j].setAttribute('id', 'code-block-' + j);
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
-        };
+        }
         if (_iro.ext_shared_lib) {
             await importExternal('dist/clipboard.min.js', 'clipboard')
             new ClipboardJS('.copy-code')
@@ -405,7 +405,7 @@ function attach_image() {
                     }, 1000);
                 }
             }
-        };
+        }
     }));
 }
 function smileBoxToggle() {

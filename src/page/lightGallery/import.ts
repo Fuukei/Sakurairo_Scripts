@@ -5,7 +5,7 @@ import 'lightgallery/css/lightgallery-bundle.min.css'
 import { handleResult, solvePluginName } from './util'
 export interface LightGalleryOptions extends Omit<LightGallerySettings, 'plugins'> {
     plugins?: string[]
-};
+}
 export default async function initLightGallery() {
     const { plugins, ...opts } = _iro.lightGallery as LightGalleryOptions
 

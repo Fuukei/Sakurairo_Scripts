@@ -10,7 +10,7 @@ export interface Query {
 let QueryStorage: Array<Query>
 function search_result(keyword: string, link: string, fa: string, title: string, iconfont: string, comments: string, text: string) {
     if (keyword) {
-        var s = keyword.trim().split(" "),
+        const s = keyword.trim().split(" "),
             a = title.indexOf(s[s.length - 1]),
             b = text.indexOf(s[s.length - 1]);
         title = a < 60 ? title.slice(0, 80) : title.slice(a - 30, a + 30);
@@ -34,7 +34,7 @@ function Cx(array: Query[], query: string) {
     );
 }
 function query(B: any[], A: string,) {
-    var s, y = "",
+    let s, y = "",
         w = "",
         u = "",
         r = "",
@@ -138,7 +138,7 @@ export function jsSearchCallback() {
         QueryStorage = [];
         search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"));
 
-        var otxt = document.getElementById("search-input") as HTMLInputElement,
+        let otxt = document.getElementById("search-input") as HTMLInputElement,
             //list = document.getElementById("PostlistBox"),
             //Record = list.innerHTML,
             searchFlag: ReturnType<typeof setTimeout> = null;

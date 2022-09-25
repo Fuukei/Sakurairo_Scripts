@@ -69,8 +69,8 @@ export async function changeSkin(tagId) {
 export function bgButtonAddListener() {
     const next = document.getElementById("bg-next"),
         pre = document.getElementById("bg-pre");
-    if (next) { next.onclick = nextBG };
-    if (pre) { pre.onclick = preBG };
+    if (next) { next.onclick = nextBG }
+    if (pre) { pre.onclick = preBG }
 }
 
 export function timeSeriesReload(flag) {
@@ -131,13 +131,13 @@ export function timeSeriesReload(flag) {
                     for (let i = 0; i < al_post_list.length; i++) {
                         let el = al_post_list[i];
                         slideToggle(el, 500, 'show');
-                    };
+                    }
                     al_expand_collapse_click++;
                 } else if (al_expand_collapse_click == 1) {
                     for (let i = 0; i < al_post_list.length; i++) {
                         let el = al_post_list[i];
                         slideToggle(el, 500, 'hide');
-                    };
+                    }
                     al_expand_collapse_click--;
                 }
             });

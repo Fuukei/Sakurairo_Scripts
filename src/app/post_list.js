@@ -49,7 +49,7 @@ const load_post = onlyOnceATime(function load_post() {
                 pagination_a.setAttribute("href", nextHref);
                 // $("#pagination a").attr("href", nextHref);
                 //加载完成上滑
-                let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;;
+                let tempScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
                 // window.scrollTo(tempScrollTop);
                 // $(window).scrollTop(tempScrollTop);
                 window.scrollTo({

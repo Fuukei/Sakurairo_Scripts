@@ -1,5 +1,5 @@
 //可能存在的全局变量
-declare var meting_api: string;
+declare let meting_api: string;
 //@ts-ignore
 import APlayer from 'aplayer'
 import { loadCSS } from 'fg-loadcss';
@@ -34,9 +34,9 @@ function initAplayer(element: HTMLElement, audio: APlayerAudio[]) {
     if (audio.length) {
         audio[0].lrc || (default_option.lrcType = 0);
 
-        let d: Record<string, any> = {};
+        const d: Record<string, any> = {};
         for (const key in default_option) {
-            let key_lowercase = key.toLowerCase();
+            const key_lowercase = key.toLowerCase();
             if (element.dataset.hasOwnProperty(key_lowercase) || element.dataset.hasOwnProperty(key) || default_option[key] !== null) {
                 d[key] = element.dataset[key_lowercase] || element.dataset[key] || default_option[key]
                 if ('true' === d[key] || 'false' === d[key]) {
@@ -125,9 +125,9 @@ export function aplayerInit() {
 
     destroyAllAplayer()
 
-    let collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
+    const collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
     for (let e = 0; e < collection.length; e++) {
-        let element = collection[e],
+        const element = collection[e],
             id = element.dataset.id;
         if (id) {
             const api_path = element.dataset.api ? new URL(element.dataset.api) : meting_api_path;
@@ -159,7 +159,7 @@ export function aplayerInit() {
     registerMethods()
 }
 function loadAPlayer(playlist: APlayerAudio[]) {
-    let collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
+    const collection = document.getElementsByClassName('aplayer') as HTMLCollectionOf<HTMLElement>
     for (const e of collection) {
         initAplayer(e, playlist)
     }

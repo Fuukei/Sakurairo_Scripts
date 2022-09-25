@@ -26,13 +26,13 @@ function coverVideo() {
         video.play();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
-        } catch { };
+        } catch { }
         //console.info('play:coverVideo()');
     } else {
         video.pause();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-        } catch { };
+        } catch { }
         //console.info('pause:coverVideo()');
     }
 }
@@ -57,7 +57,7 @@ function killCoverVideo() {
         video.pause();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-        } catch (e) { };
+        } catch (e) { }
         //console.info('pause:killCoverVideo()');
     }
 }
