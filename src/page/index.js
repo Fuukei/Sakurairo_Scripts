@@ -276,7 +276,7 @@ function sm() {
                                 rateHolderp.innerHTML = request.responseText;
                             }
                         };
-                        request.open('POST', '/wp-admin/admin-ajax.php', true);
+                        request.open('POST', _iro.ajaxurl, true);
                         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         request.send(ajax_data);
                         return false;

@@ -49,7 +49,7 @@
 export default {
   async mounted() {
     const resp = await fetch(
-      "/wp-admin/admin-ajax.php?action=getPhoto&post=" + this.$data.id
+      _iro.ajaxurl + "?action=getPhoto&post=" + this.$data.id
     );
     try {
       if (resp.ok) {
