@@ -12,7 +12,7 @@ const javascript_loader = {
             ['@babel/preset-env',
                 {
                     useBuiltIns: 'usage',
-                    corejs: '3.20',
+                    corejs: '3.25',
                 }
             ]],
         cacheDirectory: true,
@@ -55,9 +55,9 @@ module.exports = {
             maxInitialRequests: 30,
             //enforceSizeThreshold: 50000,
             cacheGroups: {
-                polyfills: {
+                polyfill: {
                     test: /[\\/]node_modules[\\/](@babel|core-js|regenerator-runtime)[\\/]/,
-                    name: 'polyfills',
+                    name: 'polyfill',
                     chunks: 'initial',
                     priority: 60,
                     enforce: true,
@@ -116,7 +116,7 @@ module.exports = {
         new webpack.BannerPlugin({
             raw: true,
             entryOnly: true,
-            banner: `/*! build ${commitHash} ${new Date().toLocaleDateString()}*/`,
+            banner: `/*! iro ${commitHash} ${new Date().toLocaleDateString()}*/`,
             include: 'app'
         }),
         new webpack.DefinePlugin({
