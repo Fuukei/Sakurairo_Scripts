@@ -11,7 +11,7 @@ const UA = navigator.userAgent
 const uaMatches = Array.from(UA.matchAll(/(Firefox|Chrome|Version|OPR|Edg)\/(\d+)/ig)) as [string,VersionName,string][];
 import { setCookie } from '../common/cookie'
 
-function setAcceptImage() {
+function getSupportedImageMimeList() {
     const acceptList = ['image/*,*/*;q=0.8']
     if (isSupported({ Chrome: 59, OPR: 46, Firefox: 3, Edg: 79, Version: 8/**Safari 8 */ })) {
         acceptList.push('image/apng')
@@ -35,4 +35,4 @@ export function isSupported(checkList: VersionCheck) {
     }
     return false
 }
-export const Accept_Image = setAcceptImage()
+export const Accept_Image = getSupportedImageMimeList()

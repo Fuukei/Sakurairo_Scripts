@@ -248,14 +248,14 @@ function sm() {
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
     if (cm) {
-            cm.addEventListener("click", function (e) {
-                if (e.target.classList.contains("comment-reply-link")) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    let data_commentid = e.target.getAttribute("data-commentid");
-                    addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
-                }
-            })
+        cm.addEventListener("click", function (e) {
+            if (e.target.classList.contains("comment-reply-link")) {
+                e.preventDefault();
+                e.stopPropagation();
+                let data_commentid = e.target.getAttribute("data-commentid");
+                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+            }
+        })
         cm.addEventListener("click", (e) => {
             let list = e.target.parentNode;
             if (list.classList.contains("sm")) {
@@ -289,10 +289,10 @@ function sm() {
 function throttling(fn, wait, maxTimelong) {
     let timeout = null,
         startTime = Date.parse(new Date);
-    return function() {
-        if(timeout !== null) clearTimeout(timeout);
+    return function () {
+        if (timeout !== null) clearTimeout(timeout);
         let curTime = Date.parse(new Date);
-        if(curTime-startTime>=maxTimelong) {
+        if (curTime - startTime >= maxTimelong) {
             fn();
             startTime = curTime;
         } else {
@@ -310,7 +310,7 @@ function resizeTOC() {
         resize()
         //TODO:性能
         window.addEventListener('resize', debounce(resize), { passive: true })
-        document.addEventListener('scroll',throttling(resize, 200, 1000))
+        document.addEventListener('scroll', throttling(resize, 200, 1000))
     }
 }
 function tableOfContentScroll(flag) {
