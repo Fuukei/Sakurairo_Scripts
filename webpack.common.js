@@ -30,7 +30,6 @@ module.exports = {
         app: './src/app/',
         page: { import: "./src/page/", dependOn: 'app' },
         anf: './src/404.ts',
-        'page-photo': './src/page-photo'
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
