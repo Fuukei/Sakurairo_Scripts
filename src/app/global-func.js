@@ -1,13 +1,13 @@
 function imgError(ele, type) {
     switch (type) {
         case 1:
-            ele.src = 'https://view.moezx.cc/images/2017/12/30/Transparent_Akkarin.th.jpg';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/friendlink.jpg';
             break;
         case 2:
             ele.src = 'https://sdn.geekzu.org/avatar/?s=80&d=mm&r=g';
             break;
         default:
-            ele.src = 'https://view.moezx.cc/images/2018/05/13/image-404.png';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/image-404.png';
     }
 }
 function cmt_showPopup(ele) {
