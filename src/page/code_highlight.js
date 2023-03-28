@@ -80,17 +80,17 @@ const themeCSS = (() => {
 })()
 
 function loadPrismCSS(darkmodeOn) {
-    const nextCSS = darkmodeOn ? themeCSS.dark : themeCSS.light
+    const nextCSSHref = darkmodeOn ? themeCSS.dark : themeCSS.light
     if (currentPrismThemeCSS) {
-        if (currentPrismThemeCSS.href !== nextCSS) {
-            const nextCSSElement = loadCSS(nextCSS)
+        if (currentPrismThemeCSS.href !== nextCSSHref) {
+            const nextCSSElement = loadCSS(nextCSSHref)
             nextCSSElement.addEventListener('load', () => {
                 currentPrismThemeCSS.remove()
                 currentPrismThemeCSS = nextCSSElement
             })
         }
     } else {
-        currentPrismThemeCSS = loadCSS(nextCSS)
+        currentPrismThemeCSS = loadCSS(nextCSSHref)
     }
 }
 
