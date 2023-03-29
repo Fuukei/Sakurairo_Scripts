@@ -460,8 +460,8 @@ function addComtListener() {
 }
 function afterAjaxCommentComplete() {
     lazyload();
-    code_highlight_style();
-    click_to_view_image();
+/*     code_highlight_style();
+ */    click_to_view_image();
     clean_upload_images();
 }
 
