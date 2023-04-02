@@ -56,7 +56,7 @@ export const ready = function (fn: Function) {
  */
 export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
 export function slideToggle(el: any, duration = 1000, mode = '', callback?: () => void) {
-    let dom = el;
+    const dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
     const flag = dom.status != 'none';
     if ((flag == true && mode == "show") || (flag == false && mode == "hide")) return;
@@ -81,7 +81,7 @@ export function slideToggle(el: any, duration = 1000, mode = '', callback?: () =
     }, duration);
     if (callback) callback();
 }
-export function buildAPI(apiPath: string, params: Record<string, string> = {}, nonce: boolean = true) {
+export function buildAPI(apiPath: string, params: Record<string, string> = {}, nonce = true) {
     const path = new URL(apiPath)
     const { searchParams } = path
     for (const [key, value] of Object.entries(params)) {

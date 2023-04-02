@@ -1,13 +1,13 @@
 function imgError(ele, type) {
     switch (type) {
         case 1:
-            ele.src = 'https://view.moezx.cc/images/2017/12/30/Transparent_Akkarin.th.jpg';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/friendlink.jpg';
             break;
         case 2:
             ele.src = 'https://sdn.geekzu.org/avatar/?s=80&d=mm&r=g';
             break;
         default:
-            ele.src = 'https://view.moezx.cc/images/2018/05/13/image-404.png';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/image-404.png';
     }
 }
 function cmt_showPopup(ele) {
@@ -26,13 +26,13 @@ function coverVideo() {
         video.play();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
-        } catch { };
+        } catch { }
         //console.info('play:coverVideo()');
     } else {
         video.pause();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-        } catch { };
+        } catch { }
         //console.info('pause:coverVideo()');
     }
 }
@@ -57,7 +57,7 @@ function killCoverVideo() {
         video.pause();
         try {
             btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-        } catch (e) { };
+        } catch (e) { }
         //console.info('pause:killCoverVideo()');
     }
 }

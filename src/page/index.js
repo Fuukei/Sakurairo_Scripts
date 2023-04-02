@@ -40,7 +40,7 @@ async function code_highlight_style() {
         for (let j = 0; j < code.length; j++) {
             code[j].setAttribute('id', 'code-block-' + j);
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
-        };
+        }
         if (_iro.ext_shared_lib) {
             await importExternal('dist/clipboard.min.js', 'clipboard')
             new ClipboardJS('.copy-code')
@@ -248,14 +248,14 @@ function sm() {
         cm = document.querySelector(".comments-main");
     if (!sm.length) return;
     if (cm) {
-            cm.addEventListener("click", function (e) {
-                if (e.target.classList.contains("comment-reply-link")) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    let data_commentid = e.target.getAttribute("data-commentid");
-                    addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
-                }
-            })
+        cm.addEventListener("click", function (e) {
+            if (e.target.classList.contains("comment-reply-link")) {
+                e.preventDefault();
+                e.stopPropagation();
+                let data_commentid = e.target.getAttribute("data-commentid");
+                addComment.moveForm("comment-" + data_commentid, data_commentid, "respond", this.getAttribute("data-postid"));
+            }
+        })
         cm.addEventListener("click", (e) => {
             let list = e.target.parentNode;
             if (list.classList.contains("sm")) {
@@ -276,7 +276,7 @@ function sm() {
                                 rateHolderp.innerHTML = request.responseText;
                             }
                         };
-                        request.open('POST', '/wp-admin/admin-ajax.php', true);
+                        request.open('POST', _iro.ajaxurl, true);
                         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         request.send(ajax_data);
                         return false;
@@ -289,10 +289,10 @@ function sm() {
 function throttling(fn, wait, maxTimelong) {
     let timeout = null,
         startTime = Date.parse(new Date);
-    return function() {
-        if(timeout !== null) clearTimeout(timeout);
+    return function () {
+        if (timeout !== null) clearTimeout(timeout);
         let curTime = Date.parse(new Date);
-        if(curTime-startTime>=maxTimelong) {
+        if (curTime - startTime >= maxTimelong) {
             fn();
             startTime = curTime;
         } else {
@@ -310,7 +310,7 @@ function resizeTOC() {
         resize()
         //TODO:性能
         window.addEventListener('resize', debounce(resize), { passive: true })
-        document.addEventListener('scroll',throttling(resize, 200, 1000))
+        document.addEventListener('scroll', throttling(resize, 200, 1000))
     }
 }
 function tableOfContentScroll(flag) {
@@ -405,7 +405,7 @@ function attach_image() {
                     }, 1000);
                 }
             }
-        };
+        }
     }));
 }
 function smileBoxToggle() {
@@ -460,8 +460,8 @@ function addComtListener() {
 }
 function afterAjaxCommentComplete() {
     lazyload();
-    code_highlight_style();
-    click_to_view_image();
+/*     code_highlight_style();
+ */    click_to_view_image();
     clean_upload_images();
 }
 

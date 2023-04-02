@@ -58,10 +58,10 @@ export const getCoverPath = _iro.cache_cover ? (useBGN = false) =>
             return getAPIPath(useBGN)
         }
     }).finally(() => {
-        fetchAndCache(useBGN)
+        fetchThenCache(useBGN)
     })
     : getAPIPath
-async function fetchAndCache(useBGN = false) {
+async function fetchThenCache(useBGN = false) {
     try {
         const resp = await fetch(getAPIPath(useBGN), { headers: { Accept: Accept_Image } });
         if (resp.status == 500){

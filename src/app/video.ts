@@ -34,7 +34,7 @@ function getVideo() {
  * 播放
  */
 function splay() {
-    let video_btn = document.getElementById("video-btn");
+    const video_btn = document.getElementById("video-btn");
     if (video_btn) {
         video_btn.classList.add("video-pause");
         video_btn.classList.remove("video-play");
@@ -59,7 +59,7 @@ function splay() {
  * 暂停
  */
 function spause() {
-    let video_btn = document.getElementById("video-btn");
+    const video_btn = document.getElementById("video-btn");
     if (video_btn) {
         video_btn.classList.add("video-play");
         video_btn.classList.remove("video-pause");
@@ -85,13 +85,13 @@ export function liveplay() {
 export function livepause() {
     if (bgvideo && bgvideo.oncanplay != undefined && document.querySelector(".haslive")) {// 检查视频数据
         spause();
-        let video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
+        const video_stu = document.getElementsByClassName("video-stu")[0] as HTMLElement;
         video_stu.style.bottom = "0px";
         video_stu.innerHTML = __("已暂停...");
     }
 }
 export function coverVideo() {
-    let video_btn = document.getElementById("video-btn");
+    const video_btn = document.getElementById("video-btn");
     if (video_btn) video_btn.addEventListener("click", function () {
         if (this.classList.contains("loadvideo")) {
             this.classList.add("video-pause");

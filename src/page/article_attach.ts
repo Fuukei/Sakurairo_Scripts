@@ -48,15 +48,18 @@ async function lightbox() {
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
             if (_iro.ext_shared_lib) {
                 importExternal('dist/jquery.slim.min.js', 'jquery')
-                importExternal('dist/jquery.fancybox.min.js', '@fancyapps/fancybox')
             } else {
                 //@ts-ignore
                 const { default: jQuery } = await import('jquery')
                 window.$ = jQuery
                 window.jQuery = jQuery
-                //@ts-ignore
-                import('@fancyapps/fancybox')
             }
+        }
+        if (_iro.ext_shared_lib) {
+            importExternal('dist/jquery.fancybox.min.js', '@fancyapps/fancybox')
+        } else {
+            //@ts-ignore
+            import('@fancyapps/fancybox')
         }
     } else if (_iro.lightGallery) {
         //lightGallery的umd导入有点问题

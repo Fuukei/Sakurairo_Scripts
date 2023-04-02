@@ -18,6 +18,8 @@ export async function updateThemeSkin(coverBGUrl: string) {
     try {
         const imgElement = document.createElement('img')
         imgElement.src = coverBGUrl
+        imgElement.crossOrigin = "anonymous";
+
         await awaitImage(imgElement)
         const data = readImageDownsampling(imgElement, 10000)
         const result: KMeansResult = await worker.postMessage({

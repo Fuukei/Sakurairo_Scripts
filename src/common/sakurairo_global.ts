@@ -59,6 +59,8 @@ export const registerOnGlobal = (key: string, value: any) =>
 if ('_sakurairo' in window) {
     //@ts-ignore
     const _sakurairo = window._sakurairo
+    //@ts-ignore
+
     if ('opt' in _sakurairo) {
         sakurairoGlobal.opt = _sakurairo.opt
     }
