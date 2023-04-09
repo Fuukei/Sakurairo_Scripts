@@ -8,7 +8,7 @@ export interface Query {
     type: "post" | 'page' | 'category' | 'comment' | 'tag'
 }
 let QueryStorage: Array<Query>
-function search_result(keyword: string, link: string, fa: string, title: string, iconfont: string, comments: string, text: string) {
+function renderSearchResult(keyword: string, link: string, fa: string, title: string, iconfont: string, comments: string, text: string) {
     if (keyword) {
         const s = keyword.trim().split(" "),
             a = title.indexOf(s[s.length - 1]),
@@ -18,7 +18,7 @@ function search_result(keyword: string, link: string, fa: string, title: string,
         text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
         text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
     }
-    return `<div class="ins-selectable ins-search-item" href="${link}"><header><i class="fa fa-${fa}" aria-hidden="true"></i>${title}<i class="iconfont icon-${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></div>`;
+    return `<div class="ins-selectable ins-search-item" href="${link}"><header><i class="fa-solid ${fa}" aria-hidden="true"></i>${title}<i class="fa-solid ${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></div>`;
 }
 function Cx(array: Query[], query: string) {
     for (let s = 0; s < query.length; s++) {
@@ -33,33 +33,33 @@ function Cx(array: Query[], query: string) {
             .some(v => new RegExp(query + '').test(v))
     );
 }
-function query(B: any[], A: string,) {
-    let s, y = "",
+function query(B: Query[], keyword: string,) {
+    let y = "",
         w = "",
         u = "",
         r = "",
         p = "",
-        F = "",
-        G = '<section class="ins-section"><header class="ins-section-header">',
+        F = ""
+    const G = '<section class="ins-section"><header class="ins-section-header">',
         D = "</section>",
         E = "</header>",
-        C = Cx(B, A.trim());
-    for (const H of C) {
-        switch (H.type) {
+        queries = Cx(B, keyword.trim());
+    for (const query of queries) {
+        switch (query.type) {
             case "post":
-                w = w + search_result(A, H.link, "fa-inbox", H.title, "fa-comments", H.comments, H.text);
+                w = w + renderSearchResult(keyword, query.link, "fa-inbox", query.title, "fa-comments", query.comments, query.text);
                 break;
             case "tag":
-                p = p + search_result("", H.link, "fa-tag", H.title, "none", "", "");
+                p = p + renderSearchResult("", query.link, "fa-tag", query.title, "none", "", "");
                 break;
             case "category":
-                r = r + search_result("", H.link, "fa-folder", H.title, "none", "", "");
+                r = r + renderSearchResult("", query.link, "fa-folder", query.title, "none", "", "");
                 break;
             case "page":
-                u = u + search_result(A, H.link, "fa-file", H.title, "fa-comments", H.comments, H.text);
+                u = u + renderSearchResult(keyword, query.link, "fa-file", query.title, "fa-comments", query.comments, query.text);
                 break;
             case "comment":
-                F = F + search_result(A, H.link, "fa-comment", H.title, "none", "", H.text);
+                F = F + renderSearchResult(keyword, query.link, "fa-comment", query.title, "none", "", query.text);
                 break
         }
     }
@@ -68,8 +68,8 @@ function query(B: any[], A: string,) {
     r && (y = y + G + __("分类") + E + r + D)
     p && (y = y + G + __("标签") + E + p + D)
     F && (y = y + G + __("评论") + E + F + D)
-    s = document.getElementById("PostlistBox")
-    s.innerHTML = y
+    document.getElementById("PostlistBox").innerHTML = y
+
 }
 
 function search_a(val: RequestInfo) {
