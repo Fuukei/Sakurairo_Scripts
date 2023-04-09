@@ -12,7 +12,7 @@ const javascript_loader = {
             ['@babel/preset-env',
                 {
                     useBuiltIns: 'usage',
-                    corejs: '3.26',
+                    corejs: '3.29',
                 }
             ]],
         cacheDirectory: true,
