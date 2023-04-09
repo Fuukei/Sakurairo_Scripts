@@ -39,7 +39,7 @@ async function code_highlight_style() {
     if (code.length > 0) {
         for (let j = 0; j < code.length; j++) {
             code[j].setAttribute('id', 'code-block-' + j);
-            code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa fa-clipboard" aria-hidden="true"></i>');
+            code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa-regular fa-clipboard"></i>');
         }
         if (_iro.ext_shared_lib) {
             await importExternal('dist/clipboard.min.js', 'clipboard')
@@ -376,16 +376,16 @@ function attach_image() {
                 xhr = new XMLHttpRequest();
             formData.append('cmt_img_file', f);
             xhr.addEventListener('loadstart', function () {
-                cached.innerHTML = '<i class="fa fa-spinner rotating" aria-hidden="true"></i>';
+                cached.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
                 createButterbar(__("上传中..."));
             });
             xhr.open("POST", buildAPI(_iro.api + 'sakura/v1/image/upload'), true);
             xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
-                    cached.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>';
+                    cached.innerHTML = '<i class="fa-solid fa-check"></i>';
                     setTimeout(function () {
-                        cached.innerHTML = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
+                        cached.innerHTML = '<i class="fa-regular fa-image"></i>';
                     }, 1000);
                     let res = JSON.parse(xhr.responseText);
                     if (res.status == 200) {
@@ -398,10 +398,10 @@ function attach_image() {
                         createButterbar(_$('上传失败！\n文件名: {0}\ncode: {1}\n{2}', f.name, res.status, res.message), 3000)
                     }
                 } else if (xhr.readyState == 4) {
-                    cached.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+                    cached.innerHTML = '<i class="fa-regular fa-clock" aria-hidden="true" style="color:red"></i>';
                     alert(__("上传失败，请重试."));
                     setTimeout(function () {
-                        cached.innerHTML = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
+                        cached.innerHTML = '<i class="fa-regular fa-image"></i>';
                     }, 1000);
                 }
             }
@@ -426,7 +426,7 @@ function add_upload_tips() {
         form_submit.style.width = '100%'
         return
     }
-    form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa fa-picture-o" aria-hidden="true"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
+    form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa-regular fa-image"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
     attach_image();
 
     const file_submit = document.getElementById('upload-img-file'),
