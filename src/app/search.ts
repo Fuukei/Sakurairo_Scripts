@@ -47,19 +47,19 @@ function query(B: any[], A: string,) {
     for (const H of C) {
         switch (H.type) {
             case "post":
-                w = w + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
+                w = w + search_result(A, H.link, "fa-inbox", H.title, "fa-comments", H.comments, H.text);
                 break;
             case "tag":
-                p = p + search_result("", H.link, "tag", H.title, "none", "", "");
+                p = p + search_result("", H.link, "fa-tag", H.title, "none", "", "");
                 break;
             case "category":
-                r = r + search_result("", H.link, "folder", H.title, "none", "", "");
+                r = r + search_result("", H.link, "fa-folder", H.title, "none", "", "");
                 break;
             case "page":
-                u = u + search_result(A, H.link, "file", H.title, "mark", H.comments, H.text);
+                u = u + search_result(A, H.link, "fa-file", H.title, "fa-comments", H.comments, H.text);
                 break;
             case "comment":
-                F = F + search_result(A, H.link, "comment", H.title, "none", "", H.text);
+                F = F + search_result(A, H.link, "fa-comment", H.title, "none", "", H.text);
                 break
         }
     }
