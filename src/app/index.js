@@ -169,4 +169,3 @@ ready(function () {
     initEffect()
     about_us()
 });
-loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");
