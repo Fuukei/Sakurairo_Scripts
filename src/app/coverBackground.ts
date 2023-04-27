@@ -3,6 +3,7 @@ import { Accept_Image } from './compatibility';
 import { __ } from '../common/sakurairo_global';
 import { isMobile } from './mobile';
 import { createButterbar } from '../common/butterbar';
+import { noop } from '../common/util';
 let bgn = 1;
 let blob_url = ''
 export async function nextBG() {
@@ -23,9 +24,9 @@ export const changeCoverBG = _iro.site_bg_as_cover ? (url: string) => {
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
     centerbg ? (url: string) => {
-            centerbg.style.backgroundImage = `url(${url})`
-            document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
-    } : () => { }
+        centerbg.style.backgroundImage = `url(${url})`
+        document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
+    } : noop
 function parseCSSUrl(cssText?: string) {
     const result = cssText?.match(/^url\("(.+)"\)$/)
     if (result) {
@@ -35,8 +36,8 @@ function parseCSSUrl(cssText?: string) {
 /**
  * 返回当前封面背景的URL
  */
-export const getCurrentBG = _iro.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
-    () => parseCSSUrl(centerbg.style.backgroundImage)
+export const getCurrentBG: () => (string | void) = _iro.site_bg_as_cover ? () => parseCSSUrl(document.body.style.backgroundImage) :
+    (centerbg ? () => parseCSSUrl(centerbg.style.backgroundImage) : noop)
 
 function getAPIPath(useBGN = false) {
     const cover_api_url = new URL(_iro.cover_api)
@@ -64,11 +65,11 @@ export const getCoverPath = _iro.cache_cover ? (useBGN = false) =>
 async function fetchThenCache(useBGN = false) {
     try {
         const resp = await fetch(getAPIPath(useBGN), { headers: { Accept: Accept_Image } });
-        if (resp.status == 500){
+        if (resp.status == 500) {
             const result = await resp.json()
             createButterbar(result.message)
             console.warn(result.message)
-        }else if (resp.ok) {
+        } else if (resp.ok) {
             const buf = await resp.arrayBuffer();
             try {
                 set('cover', buf);

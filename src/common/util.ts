@@ -90,3 +90,5 @@ export function buildAPI(apiPath: string, params: Record<string, string> = {}, n
     if (nonce) searchParams.set("_wpnonce", _iro.nonce)
     return path.toString()
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function noop() { }
