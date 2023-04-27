@@ -1,8 +1,8 @@
 const define = require('./define')
 const webpack = require('webpack')
 const { commitHash } = require('./commit_hash')
-const { VueLoaderPlugin } = require('vue-loader')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+/* const { VueLoaderPlugin } = require('vue-loader')
+ */const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const package_info = require('./package_info')
 
 const javascript_loader = {
@@ -12,7 +12,7 @@ const javascript_loader = {
             ['@babel/preset-env',
                 {
                     useBuiltIns: 'usage',
-                    corejs: '3.29',
+                    corejs: '3.30',
                 }
             ]],
         cacheDirectory: true,
@@ -92,12 +92,12 @@ module.exports = {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
                 use: javascript_loader
-            }, {
+            }, /* {
                 test: /\.vue$/,
                 use: [
                     'vue-loader'
                 ]
-            }, {
+            }, */ {
                 test: /\.css$/i,
                 use: [{ loader: MiniCssExtractPlugin.loader }, "css-loader", 'postcss-loader'],
             },
@@ -110,8 +110,8 @@ module.exports = {
         },
     },
     plugins: [
-        new VueLoaderPlugin(),
-        new MiniCssExtractPlugin(),
+/*         new VueLoaderPlugin(),
+ */        new MiniCssExtractPlugin(),
         new webpack.BannerPlugin({
             raw: true,
             entryOnly: true,
