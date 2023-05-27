@@ -19,7 +19,7 @@ export default async function initTypedJs() {
             const element = document.querySelector<HTMLElement>('.element')
             element.innerText = ''
             if (_iro.ext_shared_lib) {
-                if (!window.Typed) await importExternal('lib/typed.min.js', 'typed.js')
+                if (!window.Typed) await importExternal('dist/typed.umd.js', 'typed.js')
                 typedInstance = new window.Typed(element, options)
 
             } else {
