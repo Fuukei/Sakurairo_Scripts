@@ -53,7 +53,6 @@
     "smoothscroll-for-websites": "^1.4.10",
     "textarea-caret-position": "^0.1.1",
     "tocbot": "^4.21.0",
-    "tslib": "^2.5.0",
     "typed.js": "^2.0.16"
   },
   "devDependencies": {
