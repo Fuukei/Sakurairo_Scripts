@@ -10,7 +10,7 @@ import { _$, __ } from '../common/sakurairo_global'
 import load_bangumi from './bangumi'
 import { importExternal } from '../common/npmLib'
 import debounce from '@mui/utils/debounce'
-async function code_highlight_style() {
+export async function code_highlight_style() {
     const pre = document.getElementsByTagName("pre"),
         code = document.querySelectorAll("pre code");
     if (!pre.length) {
@@ -36,8 +36,14 @@ async function code_highlight_style() {
             console.warn(`_iro.code_highlight这咋填的是个${_iro.code_highlight}啊🤔`)
     }
     //copy_code_block
-    if (code.length > 0) {
+    if (code.length > 0) {   
         for (let j = 0; j < code.length; j++) {
+            const pre_a = code[j].parentElement.querySelectorAll("a");
+            for (const ele of pre_a) {
+                if (ele.classList.contains("copy-code")) {
+                    ele.remove(); //如果已经存在复制按钮，需将其移除后再重新添加
+                }
+            }
             code[j].setAttribute('id', 'code-block-' + j);
             code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa-regular fa-clipboard"></i>');
         }

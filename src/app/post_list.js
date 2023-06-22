@@ -1,7 +1,7 @@
 import { onlyOnceATime } from "../common/util";
 import { lazyload } from 'lazyload'
 import { __ } from '../common/sakurairo_global'
-
+import { code_highlight_style } from '../page/index.js'
 let load_post_timer;
 const load_post = onlyOnceATime(function load_post() {
     const now_href = document.location.href
@@ -43,6 +43,7 @@ const load_post = onlyOnceATime(function load_post() {
             // $("#pagination a").removeClass("loading").text("Previous");
             // $('#add_post span').removeClass("loading").text("");
             lazyload();
+            code_highlight_style();
             post_list_show_animation();
             document.dispatchEvent(new CustomEvent('ajax_post_loaded',))
             if (nextHref != undefined) {

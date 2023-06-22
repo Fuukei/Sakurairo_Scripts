@@ -1,6 +1,9 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 import { importExternal, resolvePath } from '../common/npmLib';
+window.LineNumbers = false;
+window.MatchBraces = false;
+window.CommandLine = false;
 const PRISM_VERSION = PKG_INFO['prismjs']
 const attributes = {
     'autocomplete': 'off',
@@ -53,10 +56,14 @@ export async function hljs_process(pre, code) {
     try {
         await importHighlightjs()
         for (let i = 0; i < code.length; i++) {
-            hljs.highlightElement(code[i]);
+            if (!code[i].classList.contains("hljs")) {
+                hljs.highlightElement(code[i]);
+            }            
         }
         for (let i = 0; i < pre.length; i++) {
-            gen_top_bar(pre[i], code[i]);
+            if (!pre[i].classList.contains("highlight-wrap")) {
+                gen_top_bar(pre[i], code[i]);
+            }          
         }
         hljs.initLineNumbersOnLoad();
         document.body.addEventListener("click", hljs_click_callback)
@@ -120,6 +127,7 @@ async function importPrismJS() {
     }
 }
 function loadPrismPluginLineNumbers() {
+    window.LineNumbers = true;
     loadCSS(new URL('plugins/line-numbers/prism-line-numbers.min.css', PrismBaseUrl).toString())
     if (_iro.ext_shared_lib) {
         return importExternal('plugins/line-numbers/prism-line-numbers.min.js', 'prismjs', PRISM_VERSION)
@@ -128,6 +136,7 @@ function loadPrismPluginLineNumbers() {
     }
 }
 function loadPrismMatchBraces() {
+    window.MatchBraces = true;
     loadCSS(new URL('plugins/match-braces/prism-match-braces.min.css', PrismBaseUrl).toString())
     if (_iro.ext_shared_lib) {
         return importExternal('plugins/match-braces/prism-match-braces.min.js', 'prismjs', PRISM_VERSION)
@@ -136,6 +145,7 @@ function loadPrismMatchBraces() {
     }
 }
 function loadPrismCommandLine() {
+    window.CommandLine = true;
     loadCSS(new URL('plugins/command-line/prism-command-line.css', PrismBaseUrl).toString())
     if (_iro.ext_shared_lib) {
         return importExternal('plugins/command-line/prism-command-line.min.js', 'prismjs', PRISM_VERSION)
@@ -170,12 +180,14 @@ export async function prism_process(code) {
         }
         await Promise.all([
             importPrismJS(),
-            loadLineNumber && loadPrismPluginLineNumbers(),
-            loadMatchBraces && loadPrismMatchBraces(),
-            loadCommandLine && loadPrismCommandLine()
+            loadLineNumber && !window.LineNumbers && loadPrismPluginLineNumbers(),
+            loadMatchBraces && !window.MatchBraces && loadPrismMatchBraces(),
+            loadCommandLine && !window.CommandLine && loadPrismCommandLine()
         ])
         for (const ele of code) {
-            Prism.highlightElement(ele)
+            if (!(ele.firstChild && ele.firstChild.classList && ele.firstChild.classList.contains('token'))) {
+                Prism.highlightElement(ele)
+            }           
         }
         Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
     } catch (error) {
