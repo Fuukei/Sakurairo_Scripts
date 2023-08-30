@@ -3,6 +3,7 @@ import { isMobile } from "./mobile"
 export default function scrollHandler() {
     const header_thresold = 0
     const siteHeader = document.querySelector(".site-header")
+    const skinMenu = document.querySelector(".skin-menu")
     const changskin = document.querySelector<HTMLElement>("#changskin")
     const mb_to_top = document.querySelector<HTMLElement>("#moblieGoTop")
     const common = (scrollTop: number) => {
@@ -19,13 +20,13 @@ export default function scrollHandler() {
 
     if (isMobile()) {
         const smallScreenHandler = () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop           
+            skinMenu && skinMenu.classList.remove("show")
             common(scrollTop)
         }
         window.addEventListener("scroll", smallScreenHandler)
     } else {
-        const cached = document.getElementById('bar')
-        const skinMenu = document.querySelector(".skin-menu");
+        const cached = document.getElementById('bar')      
         const recalcuScrollbar = (scrollTop: number) => {
             const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
             const result = Math.round(scrollTop / (scrollHeight - window.innerHeight) * 100)
