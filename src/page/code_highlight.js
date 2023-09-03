@@ -53,10 +53,14 @@ export async function hljs_process(pre, code) {
     try {
         await importHighlightjs()
         for (let i = 0; i < code.length; i++) {
-            hljs.highlightElement(code[i]);
+            if (!code[i].classList.contains("hljs")) {
+                hljs.highlightElement(code[i]);
+            }
         }
         for (let i = 0; i < pre.length; i++) {
-            gen_top_bar(pre[i], code[i]);
+            if (!pre[i].classList.contains("highlight-wrap")) {
+                gen_top_bar(pre[i], code[i]);
+            } 
         }
         hljs.initLineNumbersOnLoad();
         document.body.addEventListener("click", hljs_click_callback)
@@ -175,7 +179,9 @@ export async function prism_process(code) {
             loadCommandLine && loadPrismCommandLine()
         ])
         for (const ele of code) {
-            Prism.highlightElement(ele)
+            if (!ele.firstChild?.classList?.contains('token')) {
+                Prism.highlightElement(ele);
+              }
         }
         Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
     } catch (error) {
