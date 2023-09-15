@@ -1,9 +1,12 @@
 
-const motionEles = [".bili", ".menhera", ".tieba"];
+const motionEles = [".bili", ".menhera", ".tieba", ".custom"];
 function motionSwitch(ele) {
     for (let i = 0; i < motionEles.length; i++) {
-        document.querySelector(motionEles[i] + '-bar').classList.remove('on-hover');
-        document.querySelector(motionEles[i] + '-container').style.display = 'none';
+        let smilies = document.querySelector(motionEles[i] + '-bar');
+        if (smilies !== null) {
+            smilies.classList.remove('on-hover');
+            document.querySelector(motionEles[i] + '-container').style.display = 'none';
+        }
     }
     document.querySelector(ele + '-bar').classList.add("on-hover");
     document.querySelector(ele + '-container').style.display = 'block';
