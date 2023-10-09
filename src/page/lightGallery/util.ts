@@ -1,4 +1,4 @@
-import { paramCase, } from 'change-case'
+import { paramCase } from 'change-case'
 
 export function solvePluginName(pluginName: string) {
     const fileName = paramCase(pluginName)
