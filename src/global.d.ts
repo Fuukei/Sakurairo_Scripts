@@ -1,5 +1,3 @@
-import { LightGalleryOptions } from "./page/lightGallery/import"
-
 declare namespace _iro {
     // Poi
     let pjax: boolean
@@ -26,7 +24,7 @@ declare namespace _iro {
     const author_name: string
     const baguetteBoxON: boolean
     const fancybox: boolean
-    const lightGallery: LightGalleryOptions | false | undefined
+    const lightGallery:  Record<string, unknown> | false | undefined
     const clipboardCopyright: boolean
     const cookie_version_control: string
     const cover_api: string
