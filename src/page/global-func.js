@@ -28,7 +28,7 @@ function grin(tag, type, before, after) {
     }
     if (document.selection) {
         myField.focus();
-        sel = document.selection.createRange();
+        const sel = document.selection.createRange();
         sel.text = tag;
         myField.focus();
     } else if (myField.selectionStart || myField.selectionStart == '0') {
