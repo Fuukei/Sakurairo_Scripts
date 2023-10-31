@@ -77,8 +77,8 @@ function analyze(time = 30000) {
         }
     }, time)
 }
-ready(analyze)
-
+/* ready(analyze)
+ */
 //TODO
 //测试cdn对实例资源的访问表现
 async function testCDN() {
