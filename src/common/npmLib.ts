@@ -98,8 +98,8 @@ export const importExternal = (path: string, packageName: string, version?: stri
     script.src = resolvePath(path, packageName, version)
     script.async = true
     //TODO: 超时处理
-    return new Promise((resolve, reject) => {
-        script.onload = () => resolve
+    return new Promise<void>((resolve, reject) => {
+        script.onload = () => resolve()
         script.onerror = () => {
             script.remove() // 允许下次尝试
             reject(new Error(packageName + "加载失败"))
