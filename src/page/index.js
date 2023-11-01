@@ -5,57 +5,10 @@ import { createButterbar } from '../common/butterbar'
 import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
-import { hljs_process, prism_process, deattachPrismCallback, deattachHljsCallback } from './code_highlight'
 import { _$, __ } from '../common/sakurairo_global'
 import load_bangumi from './bangumi'
-import { importExternal } from '../common/npmLib'
 import debounce from '@mui/utils/debounce'
-export async function code_highlight_style() {
-    const pre = document.getElementsByTagName("pre"),
-        code = document.querySelectorAll("pre code");
-    if (!pre.length) {
-        switch (_iro.code_highlight) {
-            case 'hljs':
-                deattachHljsCallback()
-                return
-            case 'prism':
-                deattachPrismCallback()
-                return
-            default:
-        }
-    }
-    switch (_iro.code_highlight) {
-        case 'hljs':
-            await hljs_process(pre, code)
-            break
-        case 'prism':
-            await prism_process(code)
-            break
-        case 'custom': return
-        default:
-            console.warn(`_iro.code_highlight这咋填的是个${_iro.code_highlight}啊🤔`)
-    }
-    //copy_code_block
-    if (code.length > 0) {
-        for (let j = 0; j < code.length; j++) {
-            const pre_a = code[j].parentElement.querySelectorAll("a");
-            for (const ele of pre_a) {
-                if (ele.classList.contains("copy-code")) {
-                    ele.remove(); //如果已经存在复制按钮，需将其移除后再重新添加
-                }
-            }
-            code[j].setAttribute('id', 'code-block-' + j);
-            code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa-regular fa-clipboard"></i>');
-        }
-        if (_iro.ext_shared_lib) {
-            await importExternal('dist/clipboard.min.js', 'clipboard')
-            new ClipboardJS('.copy-code')
-        } else {
-            const ClipboardJS = (await import('clipboard')).default
-            new ClipboardJS('.copy-code');
-        }
-    }
-}
+import { code_highlight_style } from '../common/code-highlight'
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
     if (!comment_inline.length) return;

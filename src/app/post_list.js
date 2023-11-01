@@ -1,7 +1,7 @@
 import { onlyOnceATime } from "../common/util";
 import { lazyload } from 'lazyload'
 import { __ } from '../common/sakurairo_global'
-import { code_highlight_style } from '../page/index.js'
+import { code_highlight_style } from '../common/code-highlight'
 
 let load_post_timer;
 const load_post = onlyOnceATime(function load_post() {

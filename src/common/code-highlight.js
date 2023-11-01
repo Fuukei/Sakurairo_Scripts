@@ -1,6 +1,7 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 import { importExternal, resolvePath } from '../common/npmLib';
+
 const PRISM_VERSION = PKG_INFO['prismjs']
 const attributes = {
     'autocomplete': 'off',
@@ -60,7 +61,7 @@ export async function hljs_process(pre, code) {
         for (let i = 0; i < pre.length; i++) {
             if (!pre[i].classList.contains("highlight-wrap")) {
                 gen_top_bar(pre[i], code[i]);
-            } 
+            }
         }
         hljs.initLineNumbersOnLoad();
         document.body.addEventListener("click", hljs_click_callback)
@@ -181,10 +182,57 @@ export async function prism_process(code) {
         for (const ele of code) {
             if (!ele.firstChild?.classList?.contains('token')) {
                 Prism.highlightElement(ele);
-              }
+            }
         }
         Prism.plugins.fileHighlight && Prism.plugins.fileHighlight.highlight()
     } catch (error) {
         console.warn(error)
+    }
+}
+
+export async function code_highlight_style() {
+    const pre = document.getElementsByTagName("pre"),
+        code = document.querySelectorAll("pre code");
+    if (!pre.length) {
+        switch (_iro.code_highlight) {
+            case 'hljs':
+                deattachHljsCallback()
+                return
+            case 'prism':
+                deattachPrismCallback()
+                return
+            default:
+        }
+    }
+    switch (_iro.code_highlight) {
+        case 'hljs':
+            await hljs_process(pre, code)
+            break
+        case 'prism':
+            await prism_process(code)
+            break
+        case 'custom': return
+        default:
+            console.warn(`_iro.code_highlight这咋填的是个${_iro.code_highlight}啊🤔`)
+    }
+    //copy_code_block
+    if (code.length > 0) {
+        for (let j = 0; j < code.length; j++) {
+            const pre_a = code[j].parentElement.querySelectorAll("a");
+            for (const ele of pre_a) {
+                if (ele.classList.contains("copy-code")) {
+                    ele.remove(); //如果已经存在复制按钮，需将其移除后再重新添加
+                }
+            }
+            code[j].setAttribute('id', 'code-block-' + j);
+            code[j].insertAdjacentHTML('afterend', '<a class="copy-code" href="javascript:" data-clipboard-target="#code-block-' + j + '" title="' + __("拷贝代码") + '"><i class="fa-regular fa-clipboard"></i>');
+        }
+        if (_iro.ext_shared_lib) {
+            await importExternal('dist/clipboard.min.js', 'clipboard')
+            new ClipboardJS('.copy-code')
+        } else {
+            const ClipboardJS = (await import('clipboard')).default
+            new ClipboardJS('.copy-code');
+        }
     }
 }
