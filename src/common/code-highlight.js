@@ -1,6 +1,7 @@
 import { isInDarkMode } from '../app/darkmode'
 import { loadCSS } from 'fg-loadcss'
 import { importExternal, resolvePath } from '../common/npmLib';
+import { __ } from './sakurairo_global';
 
 const PRISM_VERSION = PKG_INFO['prismjs']
 const attributes = {
