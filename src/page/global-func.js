@@ -13,18 +13,16 @@ function motionSwitch(ele) {
     document.querySelector(ele + '-container').style.display = 'block';
 }
 function grin(tag, type, before, after) {
-    let myField;
+    const myField = document.getElementById('comment');
+    if (!myField || myField.type != 'textarea') {
+        return false;
+    }
     switch (type) {
         case "custom": tag = before + tag + after; break;
         case "Img": tag = '[img]' + tag + '[/img]'; break;
         case "Math": tag = ' {{' + tag + '}} '; break;
         case "tieba": tag = ' ::' + tag + ':: '; break;
         default: tag = ' :' + tag + ': ';
-    }
-    if (document.getElementById('comment') && document.getElementById('comment').type == 'textarea') {
-        myField = document.getElementById('comment');
-    } else {
-        return false;
     }
     if (document.selection) {
         myField.focus();
