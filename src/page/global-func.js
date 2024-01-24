@@ -24,12 +24,12 @@ function grin(tag, type, before, after) {
         case "tieba": tag = ' ::' + tag + ':: '; break;
         default: tag = ' :' + tag + ': ';
     }
-    if (document.selection) {
+/*     if (document.selection) {
         myField.focus();
         const sel = document.selection.createRange();
         sel.text = tag;
         myField.focus();
-    } else if (myField.selectionStart || myField.selectionStart == '0') {
+    } else */ if (myField.selectionStart || myField.selectionStart == '0') {
         let startPos = myField.selectionStart,
             endPos = myField.selectionEnd,
             cursorPos = endPos;
