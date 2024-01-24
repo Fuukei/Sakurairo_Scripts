@@ -9,6 +9,8 @@ import { _$, __ } from '../common/sakurairo_global'
 import load_bangumi from './bangumi'
 import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
+import prepareEmoji from './emoji'
+
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
     if (!comment_inline.length) return;
@@ -367,14 +369,7 @@ function attach_image() {
         }
     }));
 }
-function smileBoxToggle() {
-    let et = document.getElementById("emotion-toggle");
-    et && et.addEventListener('click', function () {
-        document.querySelector('.emotion-toggle-off').classList.toggle("emotion-hide");
-        document.querySelector('.emotion-toggle-on').classList.toggle("emotion-show");
-        document.querySelector('.emotion-box').classList.toggle("emotion-box-show");
-    })
-}
+
 /**
  * 添加上传图片的提示
  */
@@ -448,7 +443,7 @@ function whilePjaxComplete() {
         sm()
         original_emoji_click()
         code_highlight_style()
-        smileBoxToggle()
+        prepareEmoji()
         XCS()
         resizeTOC()
     } catch (e) {
@@ -462,7 +457,7 @@ function whileLoaded() {
     load_bangumi();
     sm()
     original_emoji_click()
-    smileBoxToggle()
+    prepareEmoji()
     tableOfContentScroll(true);
     addComtListener()
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)

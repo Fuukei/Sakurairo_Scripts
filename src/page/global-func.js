@@ -1,17 +1,3 @@
-
-const motionEles = [".bili", ".menhera", ".tieba", ".custom"];
-function motionSwitch(ele) {
-    for (const clsName of motionEles) {
-        if(clsName === ele) continue;
-        const smilies = document.querySelector(clsName + '-bar');
-        if (smilies !== null) {
-            smilies.classList.remove('on-hover');
-            document.querySelector(clsName + '-container').style.display = 'none';
-        }
-    }
-    document.querySelector(ele + '-bar').classList.add("on-hover");
-    document.querySelector(ele + '-container').style.display = 'block';
-}
 function grin(tag, type, before, after) {
     const myField = document.getElementById('comment');
     if (!myField || myField.type != 'textarea') {
@@ -43,5 +29,4 @@ function grin(tag, type, before, after) {
         myField.focus();
     }
 }
-window.motionSwitch = motionSwitch
 window.grin = grin
