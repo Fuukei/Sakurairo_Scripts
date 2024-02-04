@@ -7,7 +7,7 @@ function smileBoxToggle() {
     })
 }
 function addEmojiEventListener() {
-    const row = document.querySelector('.emotion-box>table>tr')
+    const row = document.querySelector('.emotion-box>table tr')
 
     function emojiPannelSwitcher(elementSwitchTo: HTMLElement) {
         for (const element of row.querySelectorAll('th')) {
