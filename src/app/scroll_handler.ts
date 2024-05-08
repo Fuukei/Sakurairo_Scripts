@@ -6,13 +6,11 @@ export default function scrollHandler() {
     const skinMenu = document.querySelector(".skin-menu")
     const changskin = document.querySelector<HTMLElement>("#changskin")
     const mb_to_top = document.querySelector<HTMLElement>("#moblieGoTop")
+    const openNav = document.querySelector<HTMLElement>(".openNav")
     const common = (scrollTop: number) => {
-        //NH
-        if (scrollTop > header_thresold) {
-            siteHeader.classList.add("yya");
-        } else {
-            siteHeader.classList.remove("yya");
-        }
+        // topbar 根据 .yya 和自定义的 .make-it-black 样式的出现自动切换顶栏内元素的颜色
+        scrollTop > header_thresold ? siteHeader.classList.add("yya") : siteHeader.classList.remove("yya");
+        scrollTop > header_thresold ? openNav.classList.add("make-it-black") : openNav.classList.remove("make-it-black");
         const cssText = scrollTop > 20 ? "scale(1)" : "scale(0)"
         mb_to_top.style.transform = cssText;
         changskin.style.transform = cssText;
@@ -20,13 +18,13 @@ export default function scrollHandler() {
 
     if (isMobile()) {
         const smallScreenHandler = () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop           
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
             skinMenu && skinMenu.classList.remove("show")
             common(scrollTop)
         }
         window.addEventListener("scroll", smallScreenHandler)
     } else {
-        const cached = document.getElementById('bar')      
+        const cached = document.getElementById('bar')
         const recalcuScrollbar = (scrollTop: number) => {
             const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight
             const result = Math.round(scrollTop / (scrollHeight - window.innerHeight) * 100)
