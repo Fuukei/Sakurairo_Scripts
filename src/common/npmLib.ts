@@ -77,8 +77,8 @@ function analyze(time = 30000) {
         }
     }, time)
 }
-ready(analyze)
-
+/* ready(analyze)
+ */
 //TODO
 //测试cdn对实例资源的访问表现
 async function testCDN() {
@@ -89,14 +89,20 @@ async function testCDN() {
 
 }
 export const importExternal = (path: string, packageName: string, version?: string) => {
+    const id = `${packageName}${version ? '@' + version : ''}`
+    if (document.getElementById(id)) { // 避免重复加载
+        return Promise.resolve()
+    }
     const script = document.createElement('script')
+    script.id = id
     script.src = resolvePath(path, packageName, version)
     script.async = true
     //TODO: 超时处理
-    return new Promise((resolve) => {
-        script.onload = resolve
+    return new Promise<void>((resolve, reject) => {
+        script.onload = () => resolve()
         script.onerror = () => {
-            console.error(packageName, "加载失败")
+            script.remove() // 允许下次尝试
+            reject(new Error(packageName + "加载失败"))
         }
         document.body.append(script)
     }).finally(() => {

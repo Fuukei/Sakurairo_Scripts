@@ -1,7 +1,7 @@
-import { paramCase, } from 'change-case'
+import { kebabCase } from 'change-case'
 
 export function solvePluginName(pluginName: string) {
-    const fileName = paramCase(pluginName)
+    const fileName = kebabCase(pluginName)
     const folderName = pluginName[2].toLowerCase() + pluginName.replace(/^lg\w/, '')
     return `${folderName}/${fileName}`
 }

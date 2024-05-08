@@ -1,15 +1,8 @@
-
-const motionEles = [".bili", ".menhera", ".tieba"];
-function motionSwitch(ele) {
-    for (let i = 0; i < motionEles.length; i++) {
-        document.querySelector(motionEles[i] + '-bar').classList.remove('on-hover');
-        document.querySelector(motionEles[i] + '-container').style.display = 'none';
-    }
-    document.querySelector(ele + '-bar').classList.add("on-hover");
-    document.querySelector(ele + '-container').style.display = 'block';
-}
 function grin(tag, type, before, after) {
-    let myField;
+    const myField = document.getElementById('comment');
+    if (!myField || myField.type != 'textarea') {
+        return false;
+    }
     switch (type) {
         case "custom": tag = before + tag + after; break;
         case "Img": tag = '[img]' + tag + '[/img]'; break;
@@ -17,17 +10,12 @@ function grin(tag, type, before, after) {
         case "tieba": tag = ' ::' + tag + ':: '; break;
         default: tag = ' :' + tag + ': ';
     }
-    if (document.getElementById('comment') && document.getElementById('comment').type == 'textarea') {
-        myField = document.getElementById('comment');
-    } else {
-        return false;
-    }
-    if (document.selection) {
+/*     if (document.selection) {
         myField.focus();
-        sel = document.selection.createRange();
+        const sel = document.selection.createRange();
         sel.text = tag;
         myField.focus();
-    } else if (myField.selectionStart || myField.selectionStart == '0') {
+    } else */ if (myField.selectionStart || myField.selectionStart == '0') {
         let startPos = myField.selectionStart,
             endPos = myField.selectionEnd,
             cursorPos = endPos;
@@ -41,5 +29,4 @@ function grin(tag, type, before, after) {
         myField.focus();
     }
 }
-window.motionSwitch = motionSwitch
 window.grin = grin

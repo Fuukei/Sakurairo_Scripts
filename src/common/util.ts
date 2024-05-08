@@ -1,13 +1,13 @@
-let readyFunctionList: Function[] = []
+let readyFunctionList: ((...args: unknown[]) => unknown)[] = []
 
 /**
  * 传入的函数同时间只能运行一个
  * @param func 要包装的函数
  * @returns 包装后的函数
  */
-export const onlyOnceATime = <T extends Function>(func: T) => {
+export const onlyOnceATime = <T extends (...args: unknown[]) => unknown>(func: T) => {
     let isRunning = false
-    return (...args: any) => {
+    return (...args: Parameters<T>) => {
         if (!isRunning) {
             isRunning = true
             try {
@@ -37,7 +37,7 @@ const whileReady = () => {
  * @seealso https://developer.mozilla.org/zh-CN/docs/Web/API/Document/readyState
  * @param fn 要延迟执行的函数
  */
-export const ready = function (fn: Function) {
+export const ready = function (fn: (...args: unknown[]) => unknown) {
     //interactive:等价于事件DOMContentLoaded
     //complete:等价于事件load
     if (document.readyState !== 'loading') {
@@ -90,3 +90,5 @@ export function buildAPI(apiPath: string, params: Record<string, string> = {}, n
     if (nonce) searchParams.set("_wpnonce", _iro.nonce)
     return path.toString()
 }
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function noop() { }

@@ -1,6 +1,7 @@
 import { onlyOnceATime } from "../common/util";
 import { lazyload } from 'lazyload'
 import { __ } from '../common/sakurairo_global'
+import { code_highlight_style } from '../common/code-highlight'
 
 let load_post_timer;
 const load_post = onlyOnceATime(function load_post() {
@@ -18,7 +19,7 @@ const load_post = onlyOnceATime(function load_post() {
             if (now_href != document.location.href) return /**如果页面状态发生了变化，那么也应该不用理加载提示符 */
             const parser = new DOMParser(),
                 DOM = parser.parseFromString(text, "text/html"),
-                result = DOM.querySelectorAll("#main .post"),
+                result = DOM.querySelectorAll("#main .post, #shuoshuo_post"),
                 paga = DOM.querySelector("#pagination a"),
                 paga_innerText = paga && paga.innerText,
                 nextHref = paga && paga.getAttribute("href"),
@@ -43,6 +44,7 @@ const load_post = onlyOnceATime(function load_post() {
             // $("#pagination a").removeClass("loading").text("Previous");
             // $('#add_post span').removeClass("loading").text("");
             lazyload();
+            code_highlight_style();
             post_list_show_animation();
             document.dispatchEvent(new CustomEvent('ajax_post_loaded',))
             if (nextHref != undefined) {

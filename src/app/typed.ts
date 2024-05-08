@@ -14,12 +14,13 @@ export function disableTypedJsIfExist() {
 export default async function initTypedJs() {
     const json = document.getElementById('typed-js-initial')
     if (json) {
+        disableTypedJsIfExist() // Fix mirai-mamori/Sakurairo #810
         try {
             const options = JSON.parse(json.innerHTML)
             const element = document.querySelector<HTMLElement>('.element')
             element.innerText = ''
             if (_iro.ext_shared_lib) {
-                if (!window.Typed) await importExternal('lib/typed.min.js', 'typed.js')
+                if (!window.Typed) await importExternal('dist/typed.umd.js', 'typed.js')
                 typedInstance = new window.Typed(element, options)
 
             } else {

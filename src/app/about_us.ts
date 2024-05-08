@@ -1,16 +1,15 @@
 export default function about_us() {
-    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', 'background: linear-gradient(to bottom right, #9FD5F7, #F1CAFF);color:#fff', '')
+    const c = 'background: linear-gradient(to bottom right, #7b2a52, #36307f,#272151);color:#fff'
+    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', c, '')
     console.log(
-        'だからもう\n' +
-        '奇跡待たなくてもいいの\n' +
-        '飛び込んで　会いに来て\n' +
-        '渚の果て　何度でも\n' +
-        '歌うから\n' +
-        'いつか想いが叶うまで\n' +
-        '波の翼のマーメイド\n' +
-        '連れてって\n' +
-        'きらめく橋の向こうまで\n' +
-        '一緒に\n' +
-        '%c ⌜Seaside Vacation⌟', 'background: linear-gradient(to bottom right, #9FD5F7, #F1CAFF);color:#fff'
-        )
+        '誰もが信じ崇めてる\n' +
+        'まさに最強で無敵のアイドル\n' +
+        '弱点なんて見当たらない\n' +
+        '一番星を宿している\n' +
+        '弱いとこなんて見せちゃダメダメ\n' +
+        '知りたくないとこは見せずに\n' +
+        '唯一無二じゃなくちゃイヤイヤ\n' +
+        'それこそ%c本物のアイ%c\n' +
+        '%c ⌜IDOL⌟ ','color:#b424b8','', c,
+    )
 }

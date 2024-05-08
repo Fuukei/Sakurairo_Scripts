@@ -54,6 +54,8 @@ import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
 import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload, collapseMenu } from './func'
 import initTypedJs from './typed'
+import showcard from './showcard'
+
 initIsMobileCache()
 /**
  * 检查是否应当开启_iro.pjax
@@ -160,6 +162,7 @@ ready(function () {
     web_audio()
     preload_screen()
     lazyload();
+    showcard()
     powermode()
     //#region mashiro_global.ini.normalize();
     post_list_show_animation();
@@ -169,5 +172,3 @@ ready(function () {
     initEffect()
     about_us()
 });
-loadCSS(_iro.jsdelivr_css_src);
-loadCSS("https://at.alicdn.com/t/font_679578_qyt5qzzavdo39pb9.css");

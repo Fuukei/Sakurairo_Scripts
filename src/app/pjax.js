@@ -13,6 +13,8 @@ import NProgress from 'nprogress'
 import Pjax from '@sliphua/pjax'
 import initTypedJs, { disableTypedJsIfExist } from './typed'
 
+import showcard from './showcard';
+
 export default function initPjax() {
     new Pjax({
         selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link", "#entry-content-css"],
@@ -101,6 +103,7 @@ export default function initPjax() {
             document.documentElement.style.overflowY = "unset";
         }
         hitokoto()
+        showcard()
         lazyload();
     });
     document.addEventListener("pjax:success", () => {

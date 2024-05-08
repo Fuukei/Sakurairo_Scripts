@@ -1,13 +1,13 @@
 function imgError(ele, type) {
     switch (type) {
         case 1:
-            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/friendlink.jpg';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.6/basic/friendlink.jpg';
             break;
         case 2:
-            ele.src = 'https://sdn.geekzu.org/avatar/?s=80&d=mm&r=g';
+            ele.src = 'https://weavatar.com/avatar/?s=80&d=mm&r=g';
             break;
         default:
-            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.5/basic/image-404.png';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.6/basic/image-404.png';
     }
 }
 function cmt_showPopup(ele) {
@@ -25,13 +25,13 @@ function coverVideo() {
     if (video.paused) {
         video.play();
         try {
-            btn_playControl.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+            btn_playControl.innerHTML = '<i class="fa-solid fa-pause"></i>';
         } catch { }
         //console.info('play:coverVideo()');
     } else {
         video.pause();
         try {
-            btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+            btn_playControl.innerHTML = '<i class="fa-solid fa-play"></i>';
         } catch { }
         //console.info('pause:coverVideo()');
     }
@@ -41,10 +41,10 @@ function coverVideoMute() {
     const btn_volumeControl = document.getElementById("cv-vc");
     if (video.muted) {
         video.muted = false
-        btn_volumeControl.innerHTML = '<i class="fa fa-volume-up" aria-hidden="true"></i>'
+        btn_volumeControl.innerHTML = '<i class="fa-solid fa-volume-high"></i>'
     } else {
         video.muted = true
-        btn_volumeControl.innerHTML = '<i class="fa fa-volume-muted" aria-hidden="true"></i>'
+        btn_volumeControl.innerHTML = '<i class="fa-solid fa-volume-off"></i>'
     }
 }
 function killCoverVideo() {
@@ -56,7 +56,7 @@ function killCoverVideo() {
     } else {
         video.pause();
         try {
-            btn_playControl.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+            btn_playControl.innerHTML = '<i class="fa-solid fa-play"></i>';
         } catch (e) { }
         //console.info('pause:killCoverVideo()');
     }
