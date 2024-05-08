@@ -1815,7 +1815,7 @@ packages:
       npmlog: 5.0.1
       rimraf: 3.0.2
       semver: 7.5.4
-      tar: 6.1.11
+      tar: 6.2.1
     transitivePeerDependencies:
       - encoding
       - supports-color
