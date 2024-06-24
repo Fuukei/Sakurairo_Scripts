@@ -1,4 +1,4 @@
-import { lazyload } from 'lazyload'
+import lazyload from "../common/lazyload"
 import { slideToggle } from "../common/util";
 import { changeCoverBG, getCoverPath, getCurrentBG, nextBG, preBG } from "./coverBackground";
 import { isMobile } from "./mobile";

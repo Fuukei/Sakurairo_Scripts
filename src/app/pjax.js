@@ -1,4 +1,4 @@
-import { lazyload } from 'lazyload'
+import lazyload from "../common/lazyload"
 import { createButterbar } from '../common/butterbar';
 import { _$ } from '../common/sakurairo_global';
 import add_copyright from './copyright';

@@ -37,7 +37,7 @@
 import { getCurrentBG, } from './coverBackground'
 import add_copyright from './copyright'
 import { loadCSS } from 'fg-loadcss'
-import { lazyload } from 'lazyload'
+import lazyload from "../common/lazyload"
 import './global-func'
 import { ready } from '../common/util'
 import about_us from './about_us'

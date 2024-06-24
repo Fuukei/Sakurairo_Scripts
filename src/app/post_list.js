@@ -1,5 +1,5 @@
 import { onlyOnceATime } from "../common/util";
-import { lazyload } from 'lazyload'
+import lazyload from "../common/lazyload"
 import { __ } from '../common/sakurairo_global'
 import { code_highlight_style } from '../common/code-highlight'
 

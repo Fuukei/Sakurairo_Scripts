@@ -1,5 +1,5 @@
 import { createButterbar } from "../common/butterbar";
-import { lazyload } from 'lazyload'
+import lazyload from "../common/lazyload"
 
 const bgmlistener = (e: any) => {
     const target: HTMLElement = e.target;
