@@ -1,5 +1,3 @@
-const UA = navigator.userAgent
-
 /**
  * 关于AppleWebkit与Safari版本的对应，参考：
  * @seealso https://gist.github.com/jakub-g/48a16195280a7023f570ffa5c8a4eae5
@@ -8,7 +6,7 @@ const UA = navigator.userAgent
  * Opera浏览器自15以来更换了User Agent
  * OPR/*
  */
-const uaMatches = Array.from(UA.matchAll(/(Firefox|Chrome|Version|OPR|Edg)\/(\d+)/ig)) as [string,VersionName,string][];
+const uaMatches = Array.from(navigator.userAgent.matchAll(/(Firefox|Chrome|Version|OPR|Edg)\/(\d+)/ig)) as unknown as [string, VersionName, string][];
 import { setCookie } from '../common/cookie'
 
 function getSupportedImageMimeList() {
