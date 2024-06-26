@@ -44,7 +44,7 @@ async function lightbox() {
             ignoreClass: 'fancybox',
         });
     } else if (_iro.fancybox) {
-        if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/jquery.fancybox.min.css', '@fancyapps/fancybox', '3.5.7'))
+        if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/jquery.fancybox.min.css', '@fancyapps/fancybox'))
         if (!((window.jQuery instanceof Function) || (window.$ instanceof Function))) {
             if (_iro.ext_shared_lib) {
                 importExternal('dist/jquery.slim.min.js', 'jquery')
@@ -98,7 +98,7 @@ async function math() {
                 }, startup: {
                     typeset: false,           // Perform initial typeset?
                 }, chtml: {
-                    fontURL: resolvePath('es5/output/chtml/fonts/woff-v2', 'mathjax', '2.3.0'),
+                    fontURL: resolvePath('es5/output/chtml/fonts/woff-v2', 'mathjax'),
                     mathmlSpacing: true// true for MathML spacing rules, false for TeX rules
                 }
             }

@@ -40,10 +40,10 @@ const currentCDN = { raw: CDN_LIST[currentCDNIndex] }
  * @author KotoriK
  * @param relativePath 文件在npm包中的路径
  * @param packageName npm包名
- * @param version npm包版本，默认为latest
+ * @param version npm包版本，默认从package.json中获取依赖版本（注意package_info.js中有限定哪些包的信息会被带到运行时），若无相关信息则为latest
  * @returns 从当前cdn访问该文件的url
  */
-export const resolvePath = (relativePath: string, packageName: string, version: string) => String.raw(currentCDN, packageName, version || PKG_INFO[packageName] || 'latest', relativePath)
+export const resolvePath = (relativePath: string, packageName: string, version?: string) => String.raw(currentCDN, packageName, version || PKG_INFO[packageName] || 'latest', relativePath)
 const resolvePathByCDN = (cdn: Array<string>, relativePath: string, moduleName: string, version: string) => String.raw({ raw: cdn }, moduleName, version, relativePath)
 
 function isServedByCurrentCDN(path: string) {
