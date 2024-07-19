@@ -74,10 +74,11 @@ export function bgButtonAddListener() {
 }
 
 export function timeSeriesReload(flag) {
-    let archives = document.getElementById('archives');
-    if (archives == null) return;
-    let al_li = archives.getElementsByClassName('al_mon');
-    if (flag == true) {
+    const archives = document.getElementById('archives');
+    if (!archives) return;
+    const al_li = archives.getElementsByClassName('al_mon');
+
+    if (flag) {
         archives.addEventListener("click", (e) => {
             if (e.target.classList.contains("al_mon")) {
                 e.preventDefault();
@@ -124,23 +125,14 @@ export function timeSeriesReload(flag) {
                     })
                 }
             }
-            let al_expand_collapse_click = 0;
-            al_expand_collapse.addEventListener('click', () => {
-                if (al_expand_collapse_click == 0) {
-                    for (let i = 0; i < al_post_list.length; i++) {
-                        let el = al_post_list[i];
-                        slideToggle(el, 500, 'show');
-                    }
-                    al_expand_collapse_click++;
-                } else if (al_expand_collapse_click == 1) {
-                    for (let i = 0; i < al_post_list.length; i++) {
-                        let el = al_post_list[i];
-                        slideToggle(el, 500, 'hide');
-                    }
-                    al_expand_collapse_click--;
-                }
-            });
         }
+        let expanded = false;
+        al_expand_collapse.addEventListener('click', () => {
+            for (const el of al_post_list) {
+                slideToggle(el, 500, expanded ? 'hide' : 'show');
+            }
+            expanded = !expanded;
+        });
     }
 }
 //#region Siren
