@@ -55,7 +55,8 @@ export const ready = function (fn: (...args: unknown[]) => unknown) {
  * @returns 主名
  */
 export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
-export function slideToggle(el: any, duration = 1000, mode = '', callback?: () => void) {
+// TODO: 使用现代CSS替代实现
+export function slideToggle(el: any, duration = 1000, mode = '') {
     const dom = el;
     dom.status = dom.status || getComputedStyle(dom, null)['display'];
     const flag = dom.status != 'none';
@@ -79,7 +80,6 @@ export function slideToggle(el: any, duration = 1000, mode = '', callback?: () =
         dom.style.height = '';
         dom.status = dom.tagHeight = null;
     }, duration);
-    if (callback) callback();
 }
 export function buildAPI(apiPath: string, params: Record<string, string> = {}, nonce = true) {
     const path = new URL(apiPath)

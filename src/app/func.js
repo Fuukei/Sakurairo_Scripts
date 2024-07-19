@@ -96,12 +96,11 @@ export function timeSeriesReload(flag) {
         }
         const al_post_list = archives.getElementsByClassName("al_post_list")
         const al_post_list_first = al_post_list[0];
-        const cb = () => {
-            slideToggle(al_post_list_first, 500, 'show');
-        }
         for (const child of al_post_list) {
-            slideToggle(child, 500, 'hide', cb)
+            slideToggle(child, 500, 'hide')
         }
+        slideToggle(al_post_list_first, 500, 'show');
+
         archives.addEventListener("click", (e) => {
             if (e.target.classList.contains("al_mon")) {
                 slideToggle(e.target.nextElementSibling, 500);
