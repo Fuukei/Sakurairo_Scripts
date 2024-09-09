@@ -54,7 +54,7 @@ export const ready = function (fn: (...args: unknown[]) => unknown) {
  * @param fileName 文件名
  * @returns 主名
  */
-export const getFileNameMain = (fileName: string) => fileName.replace(/\.\w+$/, '')
+export const getBaseName = (fileName: string) => fileName.replace(/\.\w+$/, '')
 // TODO: 使用现代CSS替代实现
 export function slideToggle(el: any, duration = 1000, mode = '') {
     const dom = el;

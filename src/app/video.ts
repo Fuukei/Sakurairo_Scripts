@@ -1,4 +1,4 @@
-import { getFileNameMain } from '../common/util';
+import { getBaseName } from '../common/util';
 import { __ } from '../common/sakurairo_global';
 import { importExternal } from '../common/npmLib';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
@@ -28,7 +28,7 @@ function getVideo() {
     video_stu.style.bottom = "0px";
     //这里不需要检验_iro.movies是不是字符串，因为应该在前边检查
     bgvideo.setAttribute("src", new URL(fileName, _iro.movies.url || location.origin).toString());
-    bgvideo.setAttribute("video-name", getFileNameMain(fileName));
+    bgvideo.setAttribute("video-name", getBaseName(fileName));
 }
 /**
  * 播放
