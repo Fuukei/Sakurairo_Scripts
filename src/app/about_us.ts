@@ -1,15 +1,11 @@
 export default function about_us() {
-    const c = 'background: linear-gradient(to bottom right, #7b2a52, #36307f,#272151);color:#fff'
-    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', c, '')
+    const b = "background:linear-gradient(to bottom right,#212349,#2f459d,#6486c7,#a1aec9);"
+    const c = b + 'color:#fff;font-size:16px;font-family:sans-serif;font-size: 12px;border-radius: 8px; padding: 4px; box-shadow:aliceblue 0 20px;border:#6486c7 solid 1px;font-weight:bold'
     console.log(
-        '誰もが信じ崇めてる\n' +
-        'まさに最強で無敵のアイドル\n' +
-        '弱点なんて見当たらない\n' +
-        '一番星を宿している\n' +
-        '弱いとこなんて見せちゃダメダメ\n' +
-        '知りたくないとこは見せずに\n' +
-        '唯一無二じゃなくちゃイヤイヤ\n' +
-        'それこそ%c本物のアイ%c\n' +
-        '%c ⌜IDOL⌟ ','color:#b424b8','', c,
+        '%cNon, le grand amour ne suffit pas.\n' +
+        'Seul un adieu fleurira.\n' +
+        'C\'est notre histoire de vie, douce et amère.\n' +
+        '⌜La vaguelette⌟ ', b + 'color:#0000;background:linear-gradient(to bottom right,#6486c7,#a1aec9) text;font-size:14px;font-family:sans-serif',
     )
+    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', c, '')
 }
