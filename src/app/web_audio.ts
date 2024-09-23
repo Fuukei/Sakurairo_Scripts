@@ -8,15 +8,17 @@ export function web_audio() {
         const o = 1
         const t = getSheet()
         const selects = document.querySelectorAll(".site-title, #moblieGoTop, .site-branding, .searchbox, .changeSkin-gear, .menu-list li");
-        const notes = [..."♪♩♫♬♭€§¶♯"]
-        const ctx: AudioContext = new AudioContext
-        const c = ctx.createOscillator()
-        const l = ctx.createGain()
+        const notes = "♪♩♫♬♭€§¶♯"
+
         const gainValueMax = sakurairoGlobal.opt.web_audio?.main_gain || 1
-        c.connect(l)
+        const ctx: AudioContext = new AudioContext
+        const l = ctx.createGain()
+        const c = ctx.createOscillator()
         l.connect(ctx.destination)
+        c.connect(l)
         c.type = "sine"
         c.start(ctx.currentTime)
+
         let _t: ReturnType<typeof setTimeout>
         function suspendContextWhenIdle() {
             clearTimeout(_t)
@@ -30,7 +32,7 @@ export function web_audio() {
             if (e.currentTarget === lastTarget) return
             ctx.resume()
             lastTarget = e.currentTarget as HTMLElement
-            const d = Math.round(7 * Math.random());
+            const d = Math.round(notes.length * Math.random());
             const h = e.pageX
             const p = e.pageY - 5
             const dom = document.createElement("b");
