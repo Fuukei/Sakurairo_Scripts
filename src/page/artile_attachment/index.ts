@@ -1,6 +1,7 @@
 import { loadCSS } from 'fg-loadcss';
-import { slideToggle } from '../common/util';
-import { resolvePath, importExternal } from '../common/npmLib';
+import { slideToggle } from '../../common/util';
+import { resolvePath, importExternal } from '../../common/npmLib';
+import math from './math';
 declare namespace window {
     let jQuery: Function
     let $: Function
@@ -84,31 +85,11 @@ async function lightbox() {
                     const { default: initLightGallery } = await import('./lightGallery/import')
                     initLightGallery()
                 } */
-        const { default: initLightGallery } = await import('./lightGallery/import')
+        const { default: initLightGallery } = await import('../lightGallery/import')
         initLightGallery()
     }
 }
-async function math() {
-    if (document.getElementsByTagName('math').length > 0) {
-        if (!('MathJax' in window)) {
-            //@ts-ignore
-            window.MathJax = {
-                svg: {
-                    fontCache: 'global'
-                }, startup: {
-                    typeset: false,           // Perform initial typeset?
-                }, chtml: {
-                    fontURL: resolvePath('es5/output/chtml/fonts/woff-v2', 'mathjax'),
-                    mathmlSpacing: true// true for MathML spacing rules, false for TeX rules
-                }
-            }
-        }
-        //@ts-ignore
-        await import('mathjax/es5/mml-chtml')
-        //@ts-ignore
-        window.MathJax.typeset()
-    }
-}
+
 export default function article_attach() {
     collapse()
     lightbox()
