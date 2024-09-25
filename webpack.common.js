@@ -108,8 +108,8 @@ module.exports = {
         extensions: ['.js', '.json', '.ts'], // 自动判断后缀名，引入时可以不带后缀
         fallback: {
             buffer: require.resolve('buffer'),
-            util    : require.resolve('util'),
-            stream  : require.resolve('stream-browserify'),
+            util    : false,
+            stream  : false,
         },
     },
     plugins: [

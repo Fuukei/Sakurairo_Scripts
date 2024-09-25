@@ -1,4 +1,4 @@
-import { awaitImage, KMeansResult, readImageDownsampling, Vector4, } from '@kotorik/palette'
+import { awaitImage, readImageDownsampling, type KMeansResult, type Vector4, } from '@kotorik/palette'
 import PromiseWorker from 'promise-worker';
 import { isInDarkMode } from '../darkmode';
 //@ts-ignore
@@ -40,23 +40,23 @@ export async function updateThemeSkin(coverBGUrl: string) {
 function _setColor(darkmode?: boolean) {
     const hsla = rgb.hsl(currentColor)
     if (typeof darkmode == 'undefined' ? isInDarkMode() : darkmode) hsla[2] *= 0.5
-/*     const textColor = [0, 0, 0] as [number, number, number]
-
-    if (hsla[2] > 40) {
-        textColor[2] = 0.314
-    } else {
-        textColor[2] = 1 - 0.314
-    }
-
-    const style = document.documentElement.style
-    const [h, s, l] = hsla
-    style.setProperty('--header-color-h', h + 'deg')
-    style.setProperty('--header-color-s', s + '%')
-    style.setProperty('--header-color-l', l + '%')
-
-    const siteHeader = document.querySelector<HTMLDivElement>('.site-header')
-    siteHeader.style.color = hslaCSSText(textColor)
- */
+    /*     const textColor = [0, 0, 0] as [number, number, number]
+    
+        if (hsla[2] > 40) {
+            textColor[2] = 0.314
+        } else {
+            textColor[2] = 1 - 0.314
+        }
+    
+        const style = document.documentElement.style
+        const [h, s, l] = hsla
+        style.setProperty('--header-color-h', h + 'deg')
+        style.setProperty('--header-color-s', s + '%')
+        style.setProperty('--header-color-l', l + '%')
+    
+        const siteHeader = document.querySelector<HTMLDivElement>('.site-header')
+        siteHeader.style.color = hslaCSSText(textColor)
+     */
     _updateThemeColor(hslaCSSText(hsla))
 }
 function _updateThemeColor(color_css: string) {
