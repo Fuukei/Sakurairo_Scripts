@@ -12,7 +12,7 @@ const javascript_loader = {
             ['@babel/preset-env',
                 {
                     useBuiltIns: 'usage',
-                    corejs: '3.37',
+                    corejs: '3.38',
                 }
             ]],
         cacheDirectory: true,
@@ -108,8 +108,6 @@ module.exports = {
         extensions: ['.js', '.json', '.ts'], // 自动判断后缀名，引入时可以不带后缀
         fallback: {
             buffer: require.resolve('buffer'),
-            util    : false,
-            stream  : false,
         },
     },
     plugins: [

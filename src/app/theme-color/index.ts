@@ -1,4 +1,4 @@
-import { awaitImage, readImageDownsampling, type KMeansResult, type Vector4, } from '@kotorik/palette'
+import { awaitImage, type neuquant, readImageDownsampling, type Vector4, } from '@kotorik/palette'
 import PromiseWorker from 'promise-worker';
 import { isInDarkMode } from '../darkmode';
 //@ts-ignore
@@ -22,7 +22,7 @@ export async function updateThemeSkin(coverBGUrl: string) {
 
         await awaitImage(imgElement)
         const data = readImageDownsampling(imgElement, 10000)
-        const result: KMeansResult = await worker.postMessage({
+        const result: ReturnType<typeof neuquant> = await worker.postMessage({
             k: 8,
             //iteration: 20,
             img: data
