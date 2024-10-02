@@ -89,7 +89,7 @@ async function testCDN() {
 
 }
 export const importExternal = (path: string, packageName: string, version?: string) => {
-    const id = `${packageName}${version ? '@' + version : ''}`
+    const id = `${packageName}${version ? '@' + version : ''}${path}`
     if (document.getElementById(id)) { // 避免重复加载
         return Promise.resolve()
     }
