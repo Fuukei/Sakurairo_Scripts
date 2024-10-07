@@ -25,10 +25,10 @@ importers:
         version: 2.4.0
       activate-power-mode:
         specifier: github:Fuukei/activate-power-mode
-        version: git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5
+        version: git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5
       aplayer:
         specifier: github:Fuukei/APlayer
-        version: git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802
+        version: git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802
       baguettebox.js:
         specifier: ^1.11.0
         version: 1.11.1
@@ -64,7 +64,7 @@ importers:
         version: 3.7.1
       lazyload:
         specifier: github:KotoriK/lazyload
-        version: https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0
+        version: git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0
       lightgallery:
         specifier: ^2.7.2
         version: 2.7.2
@@ -1308,8 +1308,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5:
-    resolution: {commit: af3f686f10267f8ec50e15e997ea619aae9a90b5, repo: git+ssh://git@github.com/Fuukei/activate-power-mode.git, type: git}
+  activate-power-mode@git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5:
+    resolution: {commit: af3f686f10267f8ec50e15e997ea619aae9a90b5, repo: git@github.com:Fuukei/activate-power-mode.git, type: git}
     version: 1.0.0
 
   add-stream@1.0.0:
@@ -1359,8 +1359,8 @@ packages:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
-    resolution: {commit: cdcc1b1ecb75555edc4f5058d8973a52adf63802, repo: git+ssh://git@github.com/Fuukei/APlayer.git, type: git}
+  aplayer@git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+    resolution: {commit: cdcc1b1ecb75555edc4f5058d8973a52adf63802, repo: git@github.com:Fuukei/APlayer.git, type: git}
     version: 1.10.1
 
   aproba@2.0.0:
@@ -1434,8 +1434,8 @@ packages:
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
 
-  braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
+  braces@3.0.3:
+    resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
   browserslist@4.23.1:
@@ -1942,8 +1942,8 @@ packages:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
 
-  fill-range@7.0.1:
-    resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
+  fill-range@7.1.1:
+    resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
   find-cache-dir@4.0.0:
@@ -2049,6 +2049,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -2177,6 +2178,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2320,8 +2322,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  lazyload@https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0:
-    resolution: {tarball: https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0}
+  lazyload@git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0:
+    resolution: {commit: 82d55720d3076d66f0efa3ee44505a009b4819e0, repo: git@github.com:KotoriK/lazyload.git, type: git}
     version: 1.1.0
 
   levn@0.4.1:
@@ -2520,8 +2522,8 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  neuquant-js@https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e:
-    resolution: {tarball: https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e}
+  neuquant-js@git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e:
+    resolution: {commit: 623a740dde09df93e23ff76f0e97ec256772784e, repo: git@github.com:KotoriK/neuquant-js.git, type: git}
     version: 0.2.1
 
   node-fetch@2.7.0:
@@ -4487,7 +4489,7 @@ snapshots:
   '@kotorik/palette@3.0.4':
     dependencies:
       color-space: 2.0.1
-      neuquant-js: https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e
+      neuquant-js: git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e
     optionalDependencies:
       canvas: 2.11.2
     transitivePeerDependencies:
@@ -4772,7 +4774,7 @@ snapshots:
 
   acorn@8.12.0: {}
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
+  activate-power-mode@git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
 
   add-stream@1.0.0:
     optional: true
@@ -4825,7 +4827,7 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+  aplayer@git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
     dependencies:
       balloon-css: 1.2.0
       smoothscroll: 0.4.0
@@ -4912,9 +4914,9 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
-  braces@3.0.2:
+  braces@3.0.3:
     dependencies:
-      fill-range: 7.0.1
+      fill-range: 7.1.1
 
   browserslist@4.23.1:
     dependencies:
@@ -5461,7 +5463,7 @@ snapshots:
     dependencies:
       flat-cache: 4.0.1
 
-  fill-range@7.0.1:
+  fill-range@7.1.1:
     dependencies:
       to-regex-range: 5.0.1
 
@@ -5832,7 +5834,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  lazyload@https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0: {}
+  lazyload@git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0: {}
 
   levn@0.4.1:
     dependencies:
@@ -5930,7 +5932,7 @@ snapshots:
 
   micromatch@4.0.5:
     dependencies:
-      braces: 3.0.2
+      braces: 3.0.3
       picomatch: 2.3.1
 
   mime-db@1.52.0: {}
@@ -5994,7 +5996,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  neuquant-js@https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e:
+  neuquant-js@git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e:
     dependencies:
       pixel-stream: 1.0.3
 
