@@ -3,9 +3,12 @@ import lazyload from "../common/lazyload"
 import { __ } from '../common/sakurairo_global'
 // @ts-ignore
 import { code_highlight_style } from '../common/code-highlight'
-import { getThemeColorFromImageElement } from "./theme-color";
-import { hexFromArgb,  } from "@material/material-color-utilities";
-
+import { getForeground, getHighlight, getThemeColorFromImageElement } from "./theme-color";
+import type { Vector4 } from "@kotorik/palette";
+const hslaCSSText = ([h, s, l, a]: Vector4) => {
+    const hsl = `${h}deg,${s}%,${l}%`;
+    return a && a !== 1 ? `hsla(${hsl},${a})` : `hsl(${hsl})`;
+}
 let load_post_timer: ReturnType<typeof setTimeout>;
 const load_post = onlyOnceATime(
     async function load_post() {
@@ -113,17 +116,19 @@ export function post_list_show_animation() {
                 io.unobserve(target)
                 const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
                 if (thumbImage) {
-                    getThemeColorFromImageElement(thumbImage)
-                        .then(argb => {
-                            if (!argb) return
-                            const computedStyle = getComputedStyle(target)
-         /*                    const hct = Hct.fromInt(argb)
-                            const foregroundTone = DynamicColor.foregroundTone(hct.tone, 5)
-                            const foregroundHct = Hct.from(hct.hue, hct.chroma, foregroundTone)
-                            const highlightTone = Contrast.lighter(hct.tone, 1) */
-                            computedStyle.setProperty('--article-theme', hexFromArgb(argb))
-                           /*  computedStyle.setProperty('--article-theme-highlight', hexFromArgb(Hct.from(hct.hue, hct.chroma, highlightTone).toInt()))
-                            computedStyle.setProperty('--article-theme-foreground', hexFromArgb(foregroundHct.toInt())) */
+                    let finalImageElement = thumbImage;
+                    if (thumbImage.classList.contains('lazyload')) {
+                        finalImageElement = document.createElement('img')
+                        finalImageElement.src = thumbImage.getAttribute('data-src')
+                        finalImageElement.crossOrigin = "anonymous";
+                    }
+                    getThemeColorFromImageElement(finalImageElement)
+                        .then(rgba => {
+                            if (!rgba) return
+                            const style = target.style
+                            style.setProperty('--article-theme', `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] / 255})`)
+                            style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
+                            style.setProperty('--article-theme-foreground', hslaCSSText(getForeground(rgba)))
                         })
                 }
             }

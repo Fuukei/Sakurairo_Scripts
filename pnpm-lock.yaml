@@ -14,6 +14,9 @@ importers:
       '@kotorik/palette':
         specifier: ^3.0.4
         version: 3.0.4
+      '@kotorik/promise-worker':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@mui/utils':
         specifier: ^6.1.1
         version: 6.1.1(react@18.2.0)
@@ -83,9 +86,6 @@ importers:
       prismjs:
         specifier: ^1.29.0
         version: 1.29.0
-      promise-worker:
-        specifier: ^2.0.1
-        version: 2.0.1
       textarea-caret-position:
         specifier: ^0.1.1
         version: 0.1.1
@@ -1060,6 +1060,9 @@ packages:
 
   '@kotorik/palette@3.0.4':
     resolution: {integrity: sha512-P5D1ErvHcu+02O4YCT1SDie8gGT1Dseulm2GHNrHjd89K5hYDlPX3i9qBOA52RFGSvHGic5+nn1syTCX+NzTkA==}
+
+  '@kotorik/promise-worker@0.1.0':
+    resolution: {integrity: sha512-jVxokWW0TwgkiT2InNJ7WW++jyCEf5c3jvHdv1LIYnDTb5sTEYOyNJmdiAbZ/4TkAvpITtvSYLQw0xHt1a+HMQ==}
 
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
@@ -2732,9 +2735,6 @@ packages:
   prismjs@1.29.0:
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
     engines: {node: '>=6'}
-
-  promise-worker@2.0.1:
-    resolution: {integrity: sha512-jR7vHqMEwWJ15i9vA3qyCKwRHihyLJp1sAa3RyY5F35m3u5s2lQUfq0nzVjbA8Xc7+3mL3Y9+9MHBO9UFRpFxA==}
 
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
@@ -4494,6 +4494,8 @@ snapshots:
       - encoding
       - supports-color
 
+  '@kotorik/promise-worker@0.1.0': {}
+
   '@mapbox/node-pre-gyp@1.0.11':
     dependencies:
       detect-libc: 2.0.3
@@ -6194,8 +6196,6 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   prismjs@1.29.0: {}
-
-  promise-worker@2.0.1: {}
 
   prop-types@15.8.1:
     dependencies:

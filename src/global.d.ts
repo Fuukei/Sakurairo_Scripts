@@ -45,6 +45,10 @@ declare namespace _iro {
     const effect: Effect
     const entry_content_style: 'sakurairo' | 'github'
     const entry_content_style_src: string
+    /**
+     * 是否从封面图像提取主题色
+     */
+    const extract_theme_skin: boolean
     const jsdelivr_css_src: string
     const land_at_home: boolean
     const live_search: boolean

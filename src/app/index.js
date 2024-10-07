@@ -121,7 +121,7 @@ ready(function () {
     if (_iro.land_at_home) initTypedJs()
     Promise.all([checkCoverBackground(), checkBgImgSetting()])
         .then(() => {
-            if (isSupported({ Version: 15/**Safari 15 */ })) {
+            if (_iro.extract_theme_skin || isSupported({ Version: 15/**Safari 15 */ })) {
                 initThemeColor()
                 const bgUrl = getCurrentBG()
                 if (bgUrl) updateThemeSkin(bgUrl)
