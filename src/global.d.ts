@@ -62,7 +62,6 @@ declare namespace _iro {
     const skin_bg2: string
     const skin_bg3: string
     const skin_bg4: string
-    const template_url: string
     const meting_api_url: string | undefined
     const code_highlight: "prism" | "hljs" | "custom"
     const code_highlight_prism: {
