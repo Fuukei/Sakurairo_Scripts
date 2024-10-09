@@ -109,7 +109,7 @@ export function post_list_show_animation() {
                 if (entry.isIntersecting) {
                     entry.target.classList.add("post-list-show");
                 } else if (!entry.target.classList.contains("post-list-show")) {
-                    return
+                    continue
                 }
                 const target = entry.target as HTMLElement
                 target.style.willChange = 'auto';
@@ -133,7 +133,6 @@ export function post_list_show_animation() {
                 }
             }
         }, {
-            root: null,
             threshold: [0.66]
         })
         for (const article of articles) {
