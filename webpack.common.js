@@ -30,7 +30,7 @@ module.exports = {
         app: './src/app/',
         page: { import: "./src/page/", dependOn: 'app' },
         anf: './src/404.ts',
-        "page-bilibilifav":"./src/page-bilibilifav.ts"
+        "page-bilibilifav": "./src/page-bilibilifav.ts"
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
         //"customizer":"./src/entries/customizer.js"
@@ -134,4 +134,10 @@ module.exports = {
     ],
     target: "browserslist",
     devtool: "source-map",
+    cache: {
+        type: 'filesystem',
+        buildDependencies: {
+            config: [__filename]
+        }
+    }
 };
