@@ -102,19 +102,18 @@ const load_post = onlyOnceATime(
          }); */
     })
 export function post_list_show_animation() {
-    const articles = document.querySelectorAll('article.post-list-thumb')
+    const articles = document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item')
     if (articles) {
         const io = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
                     entry.target.classList.add("post-list-show");
-                } else if (!entry.target.classList.contains("post-list-show")) {
+                }else{
                     continue
                 }
                 const target = entry.target as HTMLElement
-                target.style.willChange = 'auto';
-                io.unobserve(target)
                 const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
+                io.unobserve(target)
                 if (thumbImage) {
                     let finalImageElement = thumbImage;
                     if (thumbImage.classList.contains('lazyload')) {
@@ -133,7 +132,7 @@ export function post_list_show_animation() {
                 }
             }
         }, {
-            threshold: [0.66]
+            threshold: [0.42]
         })
         for (const article of articles) {
             io.observe(article)
