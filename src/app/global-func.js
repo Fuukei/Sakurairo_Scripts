@@ -10,13 +10,6 @@ function imgError(ele, type) {
             ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.6/basic/image-404.png';
     }
 }
-function cmt_showPopup(ele) {
-    let popup = ele.querySelector("#thePopup");
-    popup.classList.add("show");
-    ele.querySelector("input").onblur = () => {
-        popup.classList.remove("show");
-    }
-}
 /*视频feature*/
 function coverVideo() {
     let video = document.getElementById("coverVideo"),
@@ -74,7 +67,6 @@ function headertop_down() {
     });
 }
 window.imgError = imgError
-window.cmt_showPopup = cmt_showPopup
 window.coverVideo = coverVideo
 window.coverVideoMute = coverVideoMute
 window.killCoverVideo = killCoverVideo
