@@ -5,6 +5,7 @@ import { __ } from '../common/sakurairo_global'
 import { code_highlight_style } from '../common/code-highlight'
 import { getForeground, getHighlight, getThemeColorFromImageElement } from "./theme-color";
 import type { Vector4 } from "@kotorik/palette";
+import applyShowUpAnimation from "./animations/show_up";
 const hslaCSSText = ([h, s, l, a]: Vector4) => {
     const hsl = `${h}deg,${s}%,${l}%`;
     return a && a !== 1 ? `hsla(${hsl},${a})` : `hsl(${hsl})`;
@@ -102,42 +103,28 @@ const load_post = onlyOnceATime(
          }); */
     })
 export function post_list_show_animation() {
-    const articles = document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item')
-    if (articles) {
-        const io = new IntersectionObserver((entries) => {
-            for (const entry of entries) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("post-list-show");
-                }else{
-                    continue
+    applyShowUpAnimation(
+        document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item'),
+        target => {
+            const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
+            if (thumbImage) {
+                let finalImageElement = thumbImage;
+                if (thumbImage.classList.contains('lazyload')) {
+                    finalImageElement = document.createElement('img')
+                    finalImageElement.src = thumbImage.getAttribute('data-src')
+                    finalImageElement.crossOrigin = "anonymous";
                 }
-                const target = entry.target as HTMLElement
-                const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
-                io.unobserve(target)
-                if (thumbImage) {
-                    let finalImageElement = thumbImage;
-                    if (thumbImage.classList.contains('lazyload')) {
-                        finalImageElement = document.createElement('img')
-                        finalImageElement.src = thumbImage.getAttribute('data-src')
-                        finalImageElement.crossOrigin = "anonymous";
-                    }
-                    getThemeColorFromImageElement(finalImageElement)
-                        .then(rgba => {
-                            if (!rgba) return
-                            const style = target.style
-                            style.setProperty('--article-theme', `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] / 255})`)
-                            style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
-                            style.setProperty('--article-theme-foreground', hslaCSSText(getForeground(rgba)))
-                        })
-                }
+                getThemeColorFromImageElement(finalImageElement)
+                    .then(rgba => {
+                        if (!rgba) return
+                        const style = target.style
+                        style.setProperty('--article-theme', `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] / 255})`)
+                        style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
+                        style.setProperty('--article-theme-foreground', hslaCSSText(getForeground(rgba)))
+                    })
             }
-        }, {
-            threshold: [0.42]
         })
-        for (const article of articles) {
-            io.observe(article)
-        }
-    }
+
 }
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代
