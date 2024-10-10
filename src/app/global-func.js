@@ -1,13 +1,13 @@
 function imgError(ele, type) {
     switch (type) {
         case 1:
-            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.6/basic/friendlink.jpg';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.7/basic/friendlink.jpg';
             break;
         case 2:
             ele.src = 'https://weavatar.com/avatar/?s=80&d=mm&r=g';
             break;
         default:
-            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.6/basic/image-404.png';
+            ele.src = 'https://s.nmxc.ltd/sakurairo_vision/@2.7/basic/image-404.png';
     }
 }
 /*视频feature*/
