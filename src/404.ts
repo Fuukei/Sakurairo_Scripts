@@ -3,7 +3,7 @@
  * @date 2021.10.29
  */
 // This is animation
-import Lottie from 'lottie-web/build/player/lottie_svg'
+import Lottie from 'lottie-web/build/player/lottie_light'
 const data = {
     "v": "4.5.9",
     "fr": 24,
@@ -20593,9 +20593,6 @@ const data = {
     }]
 }
 Lottie.loadAnimation({
-    autoplay: true,
-    loop: true,
     container: document.getElementById('404'),
     animationData: data,
-    renderer: 'svg'
 });
