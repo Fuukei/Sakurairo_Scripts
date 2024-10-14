@@ -7,7 +7,19 @@ import rgb from 'color-space/rgb'
 import { ThemeColorWorkerReq, ThemeColorWorkerResp } from './interface';
 import { awaitImage, readImageDownsampling, Vector4 } from '@kotorik/palette';
 const originalThemeSkinMatcing = getComputedStyle(document.documentElement).getPropertyValue('--theme-skin-matching')
-const worker: PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp> = new PromiseWorker(new Worker(new URL('./worker.ts', import.meta.url)))
+const proc = (async () => {
+    try {
+        const worker = new PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp>(new Worker(new URL('./worker.ts', import.meta.url)))
+        return worker.postMessage
+    } catch (error) {
+        console.warn('主题色计算已回退到主线程进行，性能可能会有轻微影响')
+        const module = import('./calc')
+        return async (data: Uint8ClampedArray, options: any) => {
+            const { default: calc } = await module
+            return calc(data)
+        }
+    }
+})()
 let currentColor = [0, 0, 0, 0] as Vector4
 function hslaCSSText([h, s, l, a]: readonly [number, number, number, number?]) {
     if (a) {
@@ -21,7 +33,7 @@ export async function getThemeColorFromImageElement(imgElement: HTMLImageElement
     try {
         await awaitImage(imgElement)
         const imageData = readImageDownsampling(imgElement, 10000)
-        const result = await worker.postMessage(imageData.data, { transfer: [imageData.data.buffer] })
+        const result = await (await proc)(imageData.data, { transfer: [imageData.data.buffer] })
         return result
     } catch (e) {
         console.error(e)
