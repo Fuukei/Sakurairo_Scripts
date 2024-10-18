@@ -25,7 +25,7 @@ declare namespace _iro {
     const baguetteBoxON: boolean
     const fancybox: boolean
     const lightGallery:  Record<string, unknown> | false | undefined
-    const clipboardCopyright: boolean
+    const clipboardRef: boolean
     const cookie_version_control: string
     const cover_api: string
     /**
