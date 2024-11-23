@@ -1,18 +1,13 @@
 import { isMobile } from "./mobile"
-
+/**
+ * 根据滚动位置调整UI显示
+ */
 export default function scrollHandler() {
-    const header_thresold = 0
-    const siteHeader = document.querySelector(".site-header")
     const skinMenu = document.querySelector(".skin-menu")
     const changskin = document.querySelector<HTMLElement>("#changskin")
     const mb_to_top = document.querySelector<HTMLElement>("#moblieGoTop")
     const common = (scrollTop: number) => {
         //NH
-        if (scrollTop > header_thresold) {
-            siteHeader.classList.add("yya");
-        } else {
-            siteHeader.classList.remove("yya");
-        }
         const cssText = scrollTop > 20 ? "scale(1)" : "scale(0)"
         mb_to_top.style.transform = cssText;
         changskin.style.transform = cssText;
