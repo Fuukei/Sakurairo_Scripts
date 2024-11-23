@@ -15,11 +15,10 @@ function collapse() {
         jQuery(this).parent().parent().find('.xContent').slideToggle('slow');
         });
         }) */
-    const collapseButtons = document.getElementsByClassName('collapseButton')
+    const collapseButtons = document.getElementsByClassName('collapseButton') as HTMLCollectionOf<HTMLAnchorElement>
     if (collapseButtons.length > 0) {
-        const collapseListener = (e: any) => {
-            slideToggle(e.target.parentNode.parentNode.parentNode.querySelector(".xContent"));
-            // e.parentNode.parentNode.querySelector(".xContent")
+        const collapseListener = (e: MouseEvent) => {
+            slideToggle((e.currentTarget as HTMLAnchorElement).nextElementSibling);
         }
         for (const ele of collapseButtons) {
             ele.addEventListener("click", collapseListener)
