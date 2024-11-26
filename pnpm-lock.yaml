@@ -25,10 +25,10 @@ importers:
         version: 2.4.0
       activate-power-mode:
         specifier: github:Fuukei/activate-power-mode
-        version: git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5
+        version: git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5
       aplayer:
         specifier: github:Fuukei/APlayer
-        version: git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802
+        version: git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802
       baguettebox.js:
         specifier: ^1.11.0
         version: 1.11.1
@@ -64,7 +64,7 @@ importers:
         version: 3.7.1
       lazyload:
         specifier: github:KotoriK/lazyload
-        version: https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0
+        version: git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0
       lightgallery:
         specifier: ^2.7.2
         version: 2.7.2
@@ -129,13 +129,13 @@ importers:
         version: 10.4.20(postcss@8.4.47)
       babel-loader:
         specifier: ^9.2.1
-        version: 9.2.1(@babel/core@7.25.2)(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 9.2.1(@babel/core@7.25.2)(webpack@5.95.0)
       core-js:
         specifier: ^3.38.1
         version: 3.38.1
       css-loader:
         specifier: ^7.1.2
-        version: 7.1.2(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 7.1.2(webpack@5.95.0)
       cz-conventional-changelog:
         specifier: ^3.3.0
         version: 3.3.0
@@ -144,25 +144,25 @@ importers:
         version: 9.11.0(jiti@1.21.0)
       mini-css-extract-plugin:
         specifier: ~2.9.1
-        version: 2.9.1(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 2.9.1(webpack@5.95.0)
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
       postcss-loader:
         specifier: ^8.1.1
-        version: 8.1.1(postcss@8.4.47)(typescript@5.6.2)(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 8.1.1(postcss@8.4.47)(typescript@5.6.2)(webpack@5.95.0)
       semver:
         specifier: ^7.6.3
         version: 7.6.3
       style-loader:
         specifier: ^4.0.0
-        version: 4.0.0(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 4.0.0(webpack@5.95.0)
       terser-webpack-plugin:
         specifier: ^5.3.10
-        version: 5.3.10(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 5.3.10(webpack@5.95.0)
       ts-loader:
         specifier: ^9.5.1
-        version: 9.5.1(typescript@5.6.2)(webpack@5.95.0(webpack-cli@5.1.4))
+        version: 9.5.1(typescript@5.6.2)(webpack@5.95.0)
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -1308,8 +1308,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5:
-    resolution: {commit: af3f686f10267f8ec50e15e997ea619aae9a90b5, repo: git+ssh://git@github.com/Fuukei/activate-power-mode.git, type: git}
+  activate-power-mode@git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5:
+    resolution: {commit: af3f686f10267f8ec50e15e997ea619aae9a90b5, repo: git@github.com:Fuukei/activate-power-mode.git, type: git}
     version: 1.0.0
 
   add-stream@1.0.0:
@@ -1359,8 +1359,8 @@ packages:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
-    resolution: {commit: cdcc1b1ecb75555edc4f5058d8973a52adf63802, repo: git+ssh://git@github.com/Fuukei/APlayer.git, type: git}
+  aplayer@git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+    resolution: {commit: cdcc1b1ecb75555edc4f5058d8973a52adf63802, repo: git@github.com:Fuukei/APlayer.git, type: git}
     version: 1.10.1
 
   aproba@2.0.0:
@@ -1718,8 +1718,8 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cross-spawn@7.0.3:
-    resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
+  cross-spawn@7.0.6:
+    resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
   crypt@0.0.2:
@@ -2049,6 +2049,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -2177,6 +2178,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2320,8 +2322,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  lazyload@https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0:
-    resolution: {tarball: https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0}
+  lazyload@git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0:
+    resolution: {commit: 82d55720d3076d66f0efa3ee44505a009b4819e0, repo: git@github.com:KotoriK/lazyload.git, type: git}
     version: 1.1.0
 
   levn@0.4.1:
@@ -2520,8 +2522,8 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  neuquant-js@https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e:
-    resolution: {tarball: https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e}
+  neuquant-js@git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e:
+    resolution: {commit: 623a740dde09df93e23ff76f0e97ec256772784e, repo: git@github.com:KotoriK/neuquant-js.git, type: git}
     version: 0.2.1
 
   node-fetch@2.7.0:
@@ -4487,7 +4489,7 @@ snapshots:
   '@kotorik/palette@3.0.4':
     dependencies:
       color-space: 2.0.1
-      neuquant-js: https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e
+      neuquant-js: git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e
     optionalDependencies:
       canvas: 2.11.2
     transitivePeerDependencies:
@@ -4731,17 +4733,17 @@ snapshots:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
 
-  '@webpack-cli/configtest@2.1.1(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))':
+  '@webpack-cli/configtest@2.1.1(webpack-cli@5.1.4)(webpack@5.95.0)':
     dependencies:
       webpack: 5.95.0(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0)
 
-  '@webpack-cli/info@2.0.2(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))':
+  '@webpack-cli/info@2.0.2(webpack-cli@5.1.4)(webpack@5.95.0)':
     dependencies:
       webpack: 5.95.0(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0)
 
-  '@webpack-cli/serve@2.0.5(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))':
+  '@webpack-cli/serve@2.0.5(webpack-cli@5.1.4)(webpack@5.95.0)':
     dependencies:
       webpack: 5.95.0(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0)
@@ -4772,7 +4774,7 @@ snapshots:
 
   acorn@8.12.0: {}
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
+  activate-power-mode@git+https://git@github.com:Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
 
   add-stream@1.0.0:
     optional: true
@@ -4825,7 +4827,7 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+  aplayer@git+https://git@github.com:Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
     dependencies:
       balloon-css: 1.2.0
       smoothscroll: 0.4.0
@@ -4858,7 +4860,7 @@ snapshots:
       postcss: 8.4.47
       postcss-value-parser: 4.2.0
 
-  babel-loader@9.2.1(@babel/core@7.25.2)(webpack@5.95.0(webpack-cli@5.1.4)):
+  babel-loader@9.2.1(@babel/core@7.25.2)(webpack@5.95.0):
     dependencies:
       '@babel/core': 7.25.2
       find-cache-dir: 4.0.0
@@ -5233,7 +5235,7 @@ snapshots:
   create-require@1.1.1:
     optional: true
 
-  cross-spawn@7.0.3:
+  cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -5241,7 +5243,7 @@ snapshots:
 
   crypt@0.0.2: {}
 
-  css-loader@7.1.2(webpack@5.95.0(webpack-cli@5.1.4)):
+  css-loader@7.1.2(webpack@5.95.0):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.47)
       postcss: 8.4.47
@@ -5371,7 +5373,7 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       ajv: 6.12.6
       chalk: 4.1.2
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       debug: 4.3.4
       escape-string-regexp: 4.0.0
       eslint-scope: 8.0.2
@@ -5832,7 +5834,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  lazyload@https://codeload.github.com/KotoriK/lazyload/tar.gz/82d55720d3076d66f0efa3ee44505a009b4819e0: {}
+  lazyload@git+https://git@github.com:KotoriK/lazyload.git#82d55720d3076d66f0efa3ee44505a009b4819e0: {}
 
   levn@0.4.1:
     dependencies:
@@ -5944,7 +5946,7 @@ snapshots:
   mimic-response@2.1.0:
     optional: true
 
-  mini-css-extract-plugin@2.9.1(webpack@5.95.0(webpack-cli@5.1.4)):
+  mini-css-extract-plugin@2.9.1(webpack@5.95.0):
     dependencies:
       schema-utils: 4.0.0
       tapable: 2.2.1
@@ -5994,7 +5996,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  neuquant-js@https://codeload.github.com/KotoriK/neuquant-js/tar.gz/623a740dde09df93e23ff76f0e97ec256772784e:
+  neuquant-js@git+https://git@github.com:KotoriK/neuquant-js.git#623a740dde09df93e23ff76f0e97ec256772784e:
     dependencies:
       pixel-stream: 1.0.3
 
@@ -6148,7 +6150,7 @@ snapshots:
     dependencies:
       find-up: 6.3.0
 
-  postcss-loader@8.1.1(postcss@8.4.47)(typescript@5.6.2)(webpack@5.95.0(webpack-cli@5.1.4)):
+  postcss-loader@8.1.1(postcss@8.4.47)(typescript@5.6.2)(webpack@5.95.0):
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.6.2)
       jiti: 1.21.0
@@ -6431,7 +6433,7 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  style-loader@4.0.0(webpack@5.95.0(webpack-cli@5.1.4)):
+  style-loader@4.0.0(webpack@5.95.0):
     dependencies:
       webpack: 5.95.0(webpack-cli@5.1.4)
 
@@ -6469,7 +6471,7 @@ snapshots:
       temp-dir: 3.0.0
     optional: true
 
-  terser-webpack-plugin@5.3.10(webpack@5.95.0(webpack-cli@5.1.4)):
+  terser-webpack-plugin@5.3.10(webpack@5.95.0):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.22
       jest-worker: 27.5.1
@@ -6518,7 +6520,7 @@ snapshots:
     dependencies:
       typescript: 5.6.2
 
-  ts-loader@9.5.1(typescript@5.6.2)(webpack@5.95.0(webpack-cli@5.1.4)):
+  ts-loader@9.5.1(typescript@5.6.2)(webpack@5.95.0):
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.15.0
@@ -6640,12 +6642,12 @@ snapshots:
   webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0):
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
-      '@webpack-cli/configtest': 2.1.1(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))
-      '@webpack-cli/info': 2.0.2(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))
-      '@webpack-cli/serve': 2.0.5(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack@5.95.0))(webpack@5.95.0(webpack-cli@5.1.4))
+      '@webpack-cli/configtest': 2.1.1(webpack-cli@5.1.4)(webpack@5.95.0)
+      '@webpack-cli/info': 2.0.2(webpack-cli@5.1.4)(webpack@5.95.0)
+      '@webpack-cli/serve': 2.0.5(webpack-cli@5.1.4)(webpack@5.95.0)
       colorette: 2.0.19
       commander: 10.0.1
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       envinfo: 7.8.1
       fastest-levenshtein: 1.0.16
       import-local: 3.1.0
@@ -6692,7 +6694,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(webpack@5.95.0(webpack-cli@5.1.4))
+      terser-webpack-plugin: 5.3.10(webpack@5.95.0)
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     optionalDependencies:
