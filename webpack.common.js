@@ -116,7 +116,7 @@ module.exports = {
         new webpack.BannerPlugin({
             raw: true,
             entryOnly: true,
-            banner: `/*! iro ${commitHash} ${new Date().toLocaleDateString()}*/`,
+            banner: `/*! iro ${commitHash} ${new Date().toLocaleDateString('zh-cn')}*/`,
             include: 'app'
         }),
         new webpack.DefinePlugin({
