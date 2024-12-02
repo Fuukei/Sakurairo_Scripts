@@ -83,7 +83,7 @@ export default function initPjax() {
         add_copyright();
         //#endregion pjaxInit
         post_list_show_animation();
-        web_audio();
+        // web_audio(); 其实大部分selects列表的元素都是pjax前后都存在的，无需重新attach
         coverVideoIni();
         checkSkinSecter();
         //#endregion
