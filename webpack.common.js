@@ -76,6 +76,7 @@ module.exports = {
                 },
             },
         },
+        moduleIds: 'deterministic'
     },
     module: {
         rules: [
