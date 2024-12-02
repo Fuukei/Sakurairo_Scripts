@@ -7,20 +7,20 @@ export function web_audio() {
         let i = 0
         const o = 1
         const t = getSheet()
-        const selects = document.querySelectorAll(".site-title, #moblieGoTop, .site-branding, .searchbox, .changeSkin-gear, .menu-list li");
         const notes = "♪♩♫♬♭€§¶♯"
 
         const gainValueMax = sakurairoGlobal.opt.web_audio?.main_gain || 1
-        const ctx: AudioContext = new AudioContext
+        const ctx: AudioContext = new AudioContext()
         const l = ctx.createGain()
         const c = ctx.createOscillator()
+        l.gain.setValueAtTime(0, ctx.currentTime)
         l.connect(ctx.destination)
         c.connect(l)
         c.type = "sine"
         c.start(ctx.currentTime)
 
         let _t: ReturnType<typeof setTimeout>
-        function suspendContextWhenIdle() {
+        const suspendContextWhenIdle = () => {
             clearTimeout(_t)
             _t = setTimeout(() => {
                 ctx.suspend()
@@ -32,14 +32,12 @@ export function web_audio() {
             if (e.currentTarget === lastTarget) return
             ctx.resume()
             lastTarget = e.currentTarget as HTMLElement
-            const d = Math.round(notes.length * Math.random());
-            const h = e.pageX
             const p = e.pageY - 5
             const dom = document.createElement("b");
-            dom.textContent = notes[d]
+            dom.textContent = notes[notes.length * Math.random() | 0]
             dom.style.zIndex = "99999";
             dom.style.top = p - 100 + "px";
-            dom.style.left = h + "px";
+            dom.style.left = e.pageX + "px";
             dom.style.position = "absolute";
             dom.style.color = "#FF6EB4";
             dom.style.pointerEvents = "none";
@@ -53,8 +51,8 @@ export function web_audio() {
 
             const r = t[i] || t[i = 0]
             i += o
-            l.gain.cancelScheduledValues(ctx.currentTime)
             c.frequency.setValueAtTime(r as unknown as number, ctx.currentTime)
+            l.gain.cancelScheduledValues(ctx.currentTime)
             l.gain.exponentialRampToValueAtTime(gainValueMax, ctx.currentTime + .01)
             l.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + 2)
             l.gain.setValueAtTime(0, ctx.currentTime + 2.1)
@@ -65,7 +63,8 @@ export function web_audio() {
                 suspendContextWhenIdle()
             }, 500)
         }
-        selects.forEach(s => (s as HTMLElement).addEventListener('pointerenter', listener))
+        document.querySelectorAll(".site-title, #moblieGoTop, .site-branding, .searchbox, .changeSkin-gear, .menu-list li")
+            .forEach(s => (s as HTMLElement).addEventListener('pointerenter', listener))
     }
 }
 
