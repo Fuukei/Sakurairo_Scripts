@@ -35,7 +35,7 @@
  */
 
 import { getCurrentBG, } from './coverBackground'
-import add_copyright from './copyright'
+import nav from './nav'
 import lazyload from "../common/lazyload"
 import './global-func'
 import { ready } from '../common/util'
@@ -54,6 +54,7 @@ import { checkDarkModeSetting, } from './darkmode'
 import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload, collapseMenu } from './func'
 import initTypedJs from './typed'
 import showcard from './showcard'
+import add_copyright from './copyright'
 
 initIsMobileCache()
 /**
@@ -161,6 +162,7 @@ ready(function () {
     web_audio()
     preload_screen()
     lazyload();
+    nav()
     showcard()
     powermode()
     //#region mashiro_global.ini.normalize();
