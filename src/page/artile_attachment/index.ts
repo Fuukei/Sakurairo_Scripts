@@ -33,7 +33,7 @@ function collapse() {
 let lightBoxCSS: HTMLLinkElement
 async function lightbox() {
     //init lightbox
-    if (_iro.baguetteBoxON) {
+    if (_iro.baguetteBox) {
         if (!lightBoxCSS) lightBoxCSS = loadCSS(resolvePath('dist/baguetteBox.min.css', 'baguettebox.js', '1.11.1'))
         //@ts-ignore
         const { default: baguetteBox } = await import('baguettebox.js')

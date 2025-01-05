@@ -22,7 +22,7 @@ declare namespace _iro {
     const NProgressON: boolean
     const audio: boolean
     const author_name: string
-    const baguetteBoxON: boolean
+    const baguetteBox: boolean
     const fancybox: boolean
     const lightGallery:  Record<string, unknown> | false | undefined
     const clipboardRef: boolean
