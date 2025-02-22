@@ -1,11 +1,23 @@
 export default function about_us() {
-    const b = "background:linear-gradient(to bottom right,#212349,#2f459d,#6486c7,#a1aec9);"
-    const c = b + 'color:#fff;font-size:16px;font-family:sans-serif;font-size: 12px;border-radius: 8px; padding: 4px; box-shadow:aliceblue 0 20px;border:#6486c7 solid 1px;font-weight:bold'
+    const c1 = "#e7c944"
+    const c2 = "#5abce0"
+    const cp = "#ff2291"
+    const getTextStyle = (color: string) => {
+        return `color:${color};font-size:16px;font-family:sans-serif;font-weight:bold`
+    }
     console.log(
-        '%cNon, le grand amour ne suffit pas.\n' +
-        'Seul un adieu fleurira.\n' +
-        'C\'est notre histoire de vie, douce et amère.\n' +
-        '⌜La vaguelette⌟ ', b + 'color:#0000;background:linear-gradient(to bottom right,#6486c7,#a1aec9) text;font-size:14px;font-family:sans-serif',
+        `%c君を待った
+僕は待った
+途切れない明日も過ぎて行って
+僕は今日も掻きむしって
+忘れない傷をつけているんだよ
+君じゃないとさ` +
+        '\n%c—⌜Re:Re⌟\n\n%c Sakura%cir%co %c https://github.com/mirai-mamori/Sakurairo',
+        'font-family:sans-serif',
+        "font-family:sans-serif;color:#777",
+        getTextStyle(cp),
+        getTextStyle(c1),
+        getTextStyle(c2),
+        ''
     )
-    console.log('%c Sakurairo %c https://github.com/mirai-mamori/Sakurairo', c, '')
 }
