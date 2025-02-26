@@ -1,13 +1,6 @@
 /* import sys_call from './_sys_call'
- */export interface SakurairoOption_WebAudio {
-    main_gain?: number
-    /**
-     * 乐谱🎼
-     */
-    sheet?: string | Array<number>
-}
+ */
 export interface SakurairoOption {
-    web_audio?: SakurairoOption_WebAudio
 }
 export type I18nFunction = (defaultStr: string) => string
 export interface SakurairoGlobal {

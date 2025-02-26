@@ -1,9 +1,13 @@
 export default function prepareEmoji() {
     const ele = document.getElementById("emotion-toggle");
     ele && ele.addEventListener('click', () => {
-        document.querySelector('.emotion-toggle-off').classList.toggle("emotion-hide");
-        document.querySelector('.emotion-toggle-on').classList.toggle("emotion-show");
-        document.querySelector('.emotion-box').classList.toggle("emotion-box-show");
+        const offElement = document.querySelector('.emotion-toggle-off');
+        const onElement = document.querySelector('.emotion-toggle-on');
+        const boxElement = document.querySelector('.emotion-box');
+        
+        offElement?.classList.toggle("emotion-hide");
+        onElement?.classList.toggle("emotion-show");
+        boxElement?.classList.toggle("emotion-box-show");
     })
 
     const row = document.querySelector('.emotion-box>table tr')

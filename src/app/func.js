@@ -2,7 +2,6 @@ import lazyload from "../common/lazyload"
 import { slideToggle } from "../common/util";
 import { changeCoverBG, getCoverPath, getCurrentBG, nextBG, preBG } from "./coverBackground";
 import { isMobile } from "./mobile";
-import { open, close } from './mobile_nav'
 
 var _mashiro_global_skin_secter = true
 
@@ -135,25 +134,7 @@ export function timeSeriesReload(flag) {
         });
     }
 }
-//#region Siren
-import { liveplay, livepause, } from './video'
-export function MN() {
-    const iconflat = document.querySelector(".iconflat");
-    iconflat && iconflat.addEventListener("click", (e) => {
-        e.stopPropagation()
-        if (document.body.classList.contains("navOpen")) {
-            close()
-        } else {
-            open()
-        }
-    });
-}
 
-export function MNH() {
-    if (document.body.classList.contains("navOpen")) {
-        close()
-    }
-}
 /**
  * @has-dom-modify
  */
@@ -191,7 +172,6 @@ export function PE() {
             } catch (e) { }
             headertop.style.height = "0px";
             headertop.style.display = "none";
-            livepause();
         }
     }
 }
@@ -268,21 +248,6 @@ export function CE() {
             loading.classList.remove("show");
         });
     } catch (e) { }
-}
-export function collapseMenu() {
-    const show_Nav = document.getElementById("show-nav");
-    show_Nav && show_Nav.addEventListener("click", () => {
-        const sln = document.querySelector(".site-top .lower nav");
-        if (show_Nav.classList.contains("showNav")) {
-            show_Nav.classList.remove("showNav");
-            show_Nav.classList.add("hideNav");
-            sln && sln.classList.add("navbar");
-        } else {
-            show_Nav.classList.remove("hideNav");
-            show_Nav.classList.add("showNav");
-            sln && sln.classList.remove("navbar");
-        }
-    });
 }
 //#endregion Siren
 export function addSkinMenuListener() {

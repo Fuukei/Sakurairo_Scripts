@@ -35,7 +35,6 @@
  */
 
 import { getCurrentBG, } from './coverBackground'
-import nav from './nav'
 import lazyload from "../common/lazyload"
 import './global-func'
 import { ready } from '../common/util'
@@ -43,7 +42,6 @@ import about_us from './about_us'
 import preload_screen from './preload_screen'
 import { isSupported } from './compatibility'
 import hitokoto from './hitokoto'
-import { web_audio } from './web_audio'
 import { XLS, post_list_show_animation } from './post_list'
 import { initThemeColor, updateThemeSkin } from './theme-color'
 import initEffect from './effect'
@@ -148,7 +146,6 @@ ready(function () {
     }
     /*GT end;*/
     XLS();
-    MN();
     coverVideo();
     hitokoto()
     bgButtonAddListener()
@@ -157,12 +154,9 @@ ready(function () {
     auto_height();
     PE();
     CE();
-    collapseMenu()
     //#endregion
-    web_audio()
     preload_screen()
     lazyload();
-    nav()
     showcard()
     powermode()
     //#region mashiro_global.ini.normalize();
