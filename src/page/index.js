@@ -275,15 +275,16 @@ function resizeTOC() {
     }
 }
 function tableOfContentScroll(flag) {
-    if (document.body.clientWidth <= 1200) {
-        return;
-    } else if (!document.querySelector("div.have-toc") && !document.querySelector("div.has-toc")) {
-        let ele = document.getElementsByClassName("toc-container")[0];
-        if (ele) {
-            ele.remove();
-            ele = null;
+    let tocContainer = document.getElementsByClassName("toc-container")[0];
+    let hasToc = document.querySelector("div.have-toc") || document.querySelector("div.has-toc");
+    if (!hasToc) {
+        if (tocContainer) {
+            tocContainer.style.display = "none";
         }
     } else {
+        if (tocContainer) {
+            tocContainer.style.display = "";
+        }
         if (flag && document.getElementsByClassName('toc').length > 0) {
             import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
