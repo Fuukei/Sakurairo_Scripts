@@ -90,4 +90,23 @@ export default function prepareEmoji() {
             }
         });
       }
+
+    const row = document.querySelector('.emotion-box>table tr')
+    if (!row) return
+
+    //表情栏切换
+    row.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).tagName === 'TH') {
+            for (const element of row.querySelectorAll('th')) {
+                const container = document.querySelector<HTMLElement>(`.${element.className.match(/(\S+)-bar/)[1]}-container`)
+                if (element === e.target) {
+                    element.classList.add('on-hover')
+                    container.style.display = 'block'
+                } else {
+                    element.classList.remove('on-hover')
+                    container.style.display = 'none'
+                }
+            }
+        }
+    })
 }
