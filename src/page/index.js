@@ -247,43 +247,17 @@ function sm() {
         })
     }
 }
-function throttling(fn, wait, maxTimelong) {
-    let timeout = null,
-        startTime = Date.parse(new Date);
-    return function () {
-        if (timeout !== null) clearTimeout(timeout);
-        let curTime = Date.parse(new Date);
-        if (curTime - startTime >= maxTimelong) {
-            fn();
-            startTime = curTime;
-        } else {
-            timeout = setTimeout(fn, wait);
-        }
-    }
-}
-function resizeTOC() {
-    const toc_container = document.querySelector(".toc-container"),
-        sc = document.querySelector(".site-content")
-    if (toc_container && sc) {
-        const resize = () => {
-            toc_container.style.height = Math.min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
-        }
-        resize()
-        //TODO:性能
-        window.addEventListener('resize', debounce(resize), { passive: true })
-        document.addEventListener('scroll', throttling(resize, 200, 1000))
-    }
-}
 function tableOfContentScroll(flag) {
-    if (document.body.clientWidth <= 1200) {
-        return;
-    } else if (!document.querySelector("div.have-toc") && !document.querySelector("div.has-toc")) {
-        let ele = document.getElementsByClassName("toc-container")[0];
-        if (ele) {
-            ele.remove();
-            ele = null;
+    let tocContainer = document.getElementsByClassName("toc-container")[0];
+    let hasToc = document.querySelector("div.have-toc") || document.querySelector("div.has-toc");
+    if (!hasToc) {
+        if (tocContainer) {
+            tocContainer.style.display = "none";
         }
     } else {
+        if (tocContainer) {
+            tocContainer.style.display = "";
+        }
         if (flag && document.getElementsByClassName('toc').length > 0) {
             import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
@@ -430,7 +404,6 @@ function whileReady() {
     XCP()
     getqqinfo()
     add_upload_tips()
-    resizeTOC()
 }
 function whilePjaxComplete() {
     try {
@@ -445,7 +418,6 @@ function whilePjaxComplete() {
         code_highlight_style()
         prepareEmoji()
         XCS()
-        resizeTOC()
     } catch (e) {
         console.warn(e)
     }
