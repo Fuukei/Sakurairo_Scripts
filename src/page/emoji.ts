@@ -1,18 +1,28 @@
 export default function prepareEmoji() {
     const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
+    const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
+    const header = document.querySelector('.emotion-header') as HTMLElement;
+    if (!emojiPanelButton) {
+        document.removeEventListener('click', closeEmojiPanel );
+        header.removeEventListener('mousedown', startDrag);
+        document.removeEventListener('mousemove', moveDrag);
+        document.removeEventListener('mouseup', endDrag);
+        header.removeEventListener('touchstart', startDrag);
+        document.removeEventListener('touchmove', moveDrag);
+        document.removeEventListener('touchend', endDrag);
+        return
+    }
     if (emojiPanelButton) {
         emojiPanelButton.addEventListener('click', openEmoji);
     }
 
     function openEmoji() {
-        const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
         if (!emojiPanel) return;
       
         // 判断是否已经拖动过
         const dragged = emojiPanel.getAttribute('dragged');
       
         if (!dragged) {
-            const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
             const btnRect = emojiPanelButton.getBoundingClientRect();
             const panelWidth = emojiPanel.offsetWidth;
             const panelHeight = emojiPanel.offsetHeight;
@@ -37,59 +47,60 @@ export default function prepareEmoji() {
             emojiPanel.setAttribute('initialized', 'true'); // 标记已初始化
         }
       }
-      
-      function initEmojiPanel() {
-        const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
-        const header = document.querySelector('.emotion-header') as HTMLElement;
+
+    function initEmojiPanel() {
         if (!emojiPanel || !header) return;
-      
-        let offsetX = 0, offsetY = 0, isDragging = false;
-      
-        function startDrag(e: MouseEvent | TouchEvent) {
-            isDragging = true;
-            const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
-            offsetX = event.clientX - emojiPanel.offsetLeft;
-            offsetY = event.clientY - emojiPanel.offsetTop;
-            emojiPanel.style.transition = "none"; // 拖拽时禁用动画
-      
-            if ((e as TouchEvent).touches) e.preventDefault();
-        }
-      
-        function moveDrag(e: MouseEvent | TouchEvent) {
-            if (!isDragging) return;
-            const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
-            const left = event.clientX - offsetX;
-            const top = event.clientY - offsetY;
-            emojiPanel.style.left = `${left}px`;
-            emojiPanel.style.top = `${top}px`;
-            emojiPanel.setAttribute('dragged', 'true'); // 标记为已拖拽
-      
-            if ((e as TouchEvent).touches) e.preventDefault();
-        }
-      
-        function endDrag() {
-            isDragging = false;
-            emojiPanel.style.transition = "transform 0.3s ease-in-out";
-        }
-      
+        
         // 监听鼠标事件
         header.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', moveDrag);
         document.addEventListener('mouseup', endDrag);
-      
+        
         // 监听触摸事件
         header.addEventListener('touchstart', startDrag, { passive: false });
         document.addEventListener('touchmove', moveDrag, { passive: false });
         document.addEventListener('touchend', endDrag);
-      
+        
         // 点击外部关闭面板
-        document.addEventListener('click', function (e: Event) {
-            const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
-            if (!emojiPanel.contains(e.target as Node) && !emojiPanelButton.contains(e.target as Node)) {
-                emojiPanel.classList.remove('open');
-            }
-        });
-      }
+        if (emojiPanelButton) {
+            document.addEventListener('click', closeEmojiPanel );
+        }
+    }
+
+    function closeEmojiPanel (e: Event) {
+        if (!emojiPanel.contains(e.target as Node) && !emojiPanelButton.contains(e.target as Node)) {
+            emojiPanel.classList.remove('open');
+        }
+    }
+
+    let offsetX = 0, offsetY = 0, isDragging = false;
+      
+    function startDrag(e: MouseEvent | TouchEvent) {
+        isDragging = true;
+        const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+        offsetX = event.clientX - emojiPanel.offsetLeft;
+        offsetY = event.clientY - emojiPanel.offsetTop;
+        emojiPanel.style.transition = "none"; // 拖拽时禁用动画
+    
+        if ((e as TouchEvent).touches) e.preventDefault();
+    }
+    
+    function moveDrag(e: MouseEvent | TouchEvent) {
+        if (!isDragging) return;
+        const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+        const left = event.clientX - offsetX;
+        const top = event.clientY - offsetY;
+        emojiPanel.style.left = `${left}px`;
+        emojiPanel.style.top = `${top}px`;
+        emojiPanel.setAttribute('dragged', 'true'); // 标记为已拖拽
+    
+        if ((e as TouchEvent).touches) e.preventDefault();
+    }
+    
+    function endDrag() {
+        isDragging = false;
+        emojiPanel.style.transition = "transform 0.3s ease-in-out";
+    }
 
     const row = document.querySelector('.emotion-box>table tr')
     if (!row) return
