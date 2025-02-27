@@ -261,7 +261,7 @@ function tableOfContentScroll(flag) {
         if (flag && document.getElementsByClassName('toc').length > 0) {
             import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
-                    tocSelector: '.toc',
+                    tocSelector: '#main-container .toc',
                     contentSelector: ['.entry-content', '.links'],
                     headingSelector: 'h1,h2,h3,h4,h5',
                     headingsOffset: heading_fix - window.innerHeight / 2,
@@ -287,6 +287,7 @@ function tableOfContentScroll(flag) {
         }
     }
 }
+
 //转义id，防止使用中文字符报错
 function generateValidId(text, idSet, index) {
     // 去除首尾空白并将空格替换为 -
