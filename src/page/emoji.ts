@@ -4,12 +4,6 @@ export default function prepareEmoji() {
     const header = document.querySelector('.emotion-header') as HTMLElement;
     if (!emojiPanelButton) {
         document.removeEventListener('click', closeEmojiPanel );
-        header.removeEventListener('mousedown', startDrag);
-        document.removeEventListener('mousemove', moveDrag);
-        document.removeEventListener('mouseup', endDrag);
-        header.removeEventListener('touchstart', startDrag);
-        document.removeEventListener('touchmove', moveDrag);
-        document.removeEventListener('touchend', endDrag);
         return
     }
     if (emojiPanelButton) {
