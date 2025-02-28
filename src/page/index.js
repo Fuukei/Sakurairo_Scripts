@@ -247,6 +247,33 @@ function sm() {
         })
     }
 }
+function throttling(fn, wait, maxTimelong) {
+    let timeout = null,
+        startTime = Date.parse(new Date);
+    return function () {
+        if (timeout !== null) clearTimeout(timeout);
+        let curTime = Date.parse(new Date);
+        if (curTime - startTime >= maxTimelong) {
+            fn();
+            startTime = curTime;
+        } else {
+            timeout = setTimeout(fn, wait);
+        }
+    }
+}
+function resizeTOC() {
+    const toc_container = document.querySelector(".toc-container"),
+        sc = document.querySelector(".site-content")
+    if (toc_container && sc) {
+        const resize = () => {
+            toc_container.style.height = Math.min(sc.getBoundingClientRect()["height"], document.documentElement.offsetHeight - toc_container.offsetTop) + "px";
+        }
+        resize()
+        //TODO:性能
+        window.addEventListener('resize', debounce(resize), { passive: true })
+        document.addEventListener('scroll', throttling(resize, 200, 1000))
+    }
+}
 function tableOfContentScroll(flag) {
     let tocContainer = document.getElementsByClassName("toc-container")[0];
     let hasToc = document.querySelector("div.have-toc") || document.querySelector("div.has-toc");
@@ -261,7 +288,7 @@ function tableOfContentScroll(flag) {
         if (flag && document.getElementsByClassName('toc').length > 0) {
             import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
-                    tocSelector: '.toc',
+                    tocSelector: '#main-container .toc',
                     contentSelector: ['.entry-content', '.links'],
                     headingSelector: 'h1,h2,h3,h4,h5',
                     headingsOffset: heading_fix - window.innerHeight / 2,
@@ -287,6 +314,7 @@ function tableOfContentScroll(flag) {
         }
     }
 }
+
 //转义id，防止使用中文字符报错
 function generateValidId(text, idSet, index) {
     // 去除首尾空白并将空格替换为 -
@@ -435,6 +463,7 @@ function whilePjaxComplete() {
         code_highlight_style()
         prepareEmoji()
         XCS()
+        resizeTOC()
     } catch (e) {
         console.warn(e)
     }
@@ -449,6 +478,7 @@ function whileLoaded() {
     prepareEmoji()
     tableOfContentScroll(true);
     addComtListener()
+    resizeTOC()
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()
