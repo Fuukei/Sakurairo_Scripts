@@ -29,7 +29,6 @@ module.exports = {
     entry: {
         app: './src/app/',
         page: { import: "./src/page/", dependOn: 'app' },
-        anf: './src/404.ts',
         "page-bilibilifav": "./src/page-bilibilifav.ts"
         /* lazyload:"lazyload",
         smoothscroll:"smoothscroll-for-websites" */
