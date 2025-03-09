@@ -6,7 +6,6 @@ import { loadFontSetting } from './font_control';
 import { MNH, auto_height, PE, CE, bgButtonAddListener, timeSeriesReload, checkSkinSecter, checkCoverBackground } from './func';
 import hitokoto from './hitokoto';
 import { coverVideoIni } from './video';
-import { web_audio } from './web_audio';
 import { XLS, post_list_show_animation } from './post_list'
 
 import NProgress from 'nprogress'
@@ -32,7 +31,6 @@ export default function initPjax() {
         }
         document.getElementById("bar").style.width = "0%";
         if (_iro.NProgressON) NProgress.start()
-        MNH();
     });
     document.addEventListener("pjax:complete", () => {
         auto_height();
@@ -73,10 +71,6 @@ export default function initPjax() {
         if (iconflat.length != 0) {
             iconflat[0].style.width = '50px';
             iconflat[0].style.height = '50px';
-        }
-        let openNav = document.getElementsByClassName("openNav");
-        if (openNav.length != 0) {
-            openNav[0].style.height = '50px';
         }
         bgButtonAddListener()
         timeSeriesReload();

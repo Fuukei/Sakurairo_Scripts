@@ -14,7 +14,6 @@ const CDN_LIST = [
     /*     ["https://jscdn.host/release/ucode/", "/", "/", ""],
         ["https://cdnjs.cloudflare.com/ajax/libs/", "/", "/", ""],
      */
-    ["https://jsd.nmxc.ltd/npm/", "@", "/", ""],
     ["https://cdn.jsdelivr.net/npm/", "@", "/", ""],
     ["https://unpkg.com/", "@", "/", ""],
     //TODO:自定cdn

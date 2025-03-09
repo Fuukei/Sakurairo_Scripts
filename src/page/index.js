@@ -275,19 +275,20 @@ function resizeTOC() {
     }
 }
 function tableOfContentScroll(flag) {
-    if (document.body.clientWidth <= 1200) {
-        return;
-    } else if (!document.querySelector("div.have-toc") && !document.querySelector("div.has-toc")) {
-        let ele = document.getElementsByClassName("toc-container")[0];
-        if (ele) {
-            ele.remove();
-            ele = null;
+    let tocContainer = document.getElementsByClassName("toc-container")[0];
+    let hasToc = document.querySelector("div.have-toc") || document.querySelector("div.has-toc");
+    if (!hasToc) {
+        if (tocContainer) {
+            tocContainer.style.display = "none";
         }
     } else {
+        if (tocContainer) {
+            tocContainer.style.display = "";
+        }
         if (flag && document.getElementsByClassName('toc').length > 0) {
             import('tocbot').then(({ default: tocbot }) => {
                 tocbot.init({
-                    tocSelector: '.toc',
+                    tocSelector: '#main-container .toc',
                     contentSelector: ['.entry-content', '.links'],
                     headingSelector: 'h1,h2,h3,h4,h5',
                     headingsOffset: heading_fix - window.innerHeight / 2,
@@ -301,17 +302,35 @@ function tableOfContentScroll(flag) {
             for (let i = 0; i < _els.length; i++) {
                 let _el = _els[i].querySelectorAll('h1,h2,h3,h4,h5');
                 for (const title of _el) {
-                    const innerText = encodeURIComponent(title.innerText.replace(' ', '-'))
-                    if (idSet.has(innerText)) {
+                    const validId = generateValidId(title.innerText, idSet, id);
+                    if (idSet.has(validId)) {
                         title.id = "toc-head-" + id++;
                     } else {
-                        title.id = innerText
-                        idSet.add(innerText)
+                        title.id = validId;
+                        idSet.add(validId);
                     }
                 }
             }
         }
     }
+}
+
+//转义id，防止使用中文字符报错
+function generateValidId(text, idSet, index) {
+    // 去除首尾空白并将空格替换为 -
+    let newId = text.trim().replace(/\s+/g, '-');
+    // 移除除字母、数字、下划线和连字符之外的所有字符
+    newId = newId.replace(/[^\w\-]/g, '');
+    // 如果处理后为空，则使用默认前缀
+    if (!newId) {
+        newId = "heading-" + index;
+    }
+    // 避免重复
+    while (idSet.has(newId)) {
+        newId += "-" + index;
+    }
+    idSet.add(newId);
+    return newId;
 }
 /**
  * 上传图片提示
@@ -430,7 +449,6 @@ function whileReady() {
     XCP()
     getqqinfo()
     add_upload_tips()
-    resizeTOC()
 }
 function whilePjaxComplete() {
     try {
@@ -460,6 +478,7 @@ function whileLoaded() {
     prepareEmoji()
     tableOfContentScroll(true);
     addComtListener()
+    resizeTOC()
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()

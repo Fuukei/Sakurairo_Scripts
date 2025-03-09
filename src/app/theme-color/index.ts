@@ -58,9 +58,10 @@ export async function updateThemeSkin(coverBGUrl: string) {
     }
 }
 function _setColor(darkmode?: boolean) {
-    let hsla = rgb.hsl(currentColor) as Vector4
-    const darkmodeColor = [...hsla] as Vector4
+    let hsl = rgb.hsl(currentColor)
+    const darkmodeColor = [...hsl, currentColor[3]] as Vector4
     darkmodeColor[2] *= 0.5
+    let hsla = [...hsl, currentColor[3]] as Vector4
     if (typeof darkmode == 'undefined' ? isInDarkMode() : darkmode) {
         hsla = darkmodeColor
     }
@@ -69,23 +70,6 @@ function _setColor(darkmode?: boolean) {
         document.documentElement.style.setProperty('--theme-skin-matching', hslaCSSText(hsla))
         document.documentElement.style.setProperty('--theme-skin-dark', hslaCSSText(darkmodeColor))
     }
-    /*     const textColor = [0, 0, 0] as [number, number, number]
-    
-        if (hsla[2] > 40) {
-            textColor[2] = 0.314
-        } else {
-            textColor[2] = 1 - 0.314
-        }
-    
-        const style = document.documentElement.style
-        const [h, s, l] = hsla
-        style.setProperty('--header-color-h', h + 'deg')
-        style.setProperty('--header-color-s', s + '%')
-        style.setProperty('--header-color-l', l + '%')
-    
-        const siteHeader = document.querySelector<HTMLDivElement>('.site-header')
-        siteHeader.style.color = hslaCSSText(textColor)
-     */
 }
 
 export function initThemeColor() {
@@ -94,15 +78,14 @@ export function initThemeColor() {
 }
 
 export function getForeground(rgba: Vector4) {
-    const hsla = rgb.hsl(rgba)
-    if (hsla[2] > 40) {
+    const hsl = rgb.hsl(rgba)
+    if (hsl[2] > 40) {
         return [0, 0, 0, 1] as Vector4
     }
     return [0, 100, 100, 1] as Vector4
 }
 
 export function getHighlight(rgba: Vector4) {
-    const hsla = rgb.hsl(rgba)
-    hsla[2] = Math.min(100, hsla[2] * 1.1)
-    return hsla
+    const hsl = rgb.hsl(rgba)
+    return [...hsl, rgba[3]] as Vector4
 }
