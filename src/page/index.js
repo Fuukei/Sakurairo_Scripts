@@ -6,7 +6,7 @@ import './global-func'
 import getqqinfo from './getqqinfo'
 import addComment from './AddComment'
 import { _$, __ } from '../common/sakurairo_global'
-import load_bangumi from './bangumi'
+import LoadNextPage from './pagination'
 import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
@@ -454,7 +454,7 @@ function whilePjaxComplete() {
     try {
         add_upload_tips()
         article_attach()
-        load_bangumi();
+        LoadNextPage();
         tableOfContentScroll(true);
         click_to_view_image()
         getqqinfo()
@@ -472,7 +472,7 @@ function whileLoaded() {
     window.addEventListener('popstate', whilePopstate)
     click_to_view_image()
     code_highlight_style()
-    load_bangumi();
+    LoadNextPage();
     sm()
     original_emoji_click()
     prepareEmoji()

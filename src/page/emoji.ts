@@ -2,16 +2,20 @@ export default function prepareEmoji() {
     const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
     const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
     const header = document.querySelector('.emotion-header') as HTMLElement;
+
     if (!emojiPanelButton) {
         document.removeEventListener('click', closeEmojiPanel );
-        header.removeEventListener('mousedown', startDrag);
         document.removeEventListener('mousemove', moveDrag);
         document.removeEventListener('mouseup', endDrag);
-        header.removeEventListener('touchstart', startDrag);
         document.removeEventListener('touchmove', moveDrag);
         document.removeEventListener('touchend', endDrag);
+        if (header) {
+            header.removeEventListener('touchstart', startDrag);
+            header.removeEventListener('mousedown', startDrag);
+        }
         return
     }
+
     if (emojiPanelButton) {
         emojiPanelButton.addEventListener('click', openEmoji);
     }

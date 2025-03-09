@@ -1,9 +1,9 @@
 import { createButterbar } from "../common/butterbar";
 import lazyload from "../common/lazyload"
 
-const bgmlistener = (e: any) => {
+const PaginationListener = (e: any) => {
     const target: HTMLElement = e.target;
-    if (target === document.querySelector("#bangumi-pagination a")) {
+    if (target === document.querySelector("#template-pagination a")) {
         e.preventDefault();
         e.stopPropagation();
         if (target.classList.contains("loading")) return;
@@ -17,7 +17,7 @@ const bgmlistener = (e: any) => {
             .then(async res => {
                 const data = await res.json();
                 if (res.ok) {
-                    document.getElementById("bangumi-pagination").remove();
+                    document.getElementById("template-pagination").remove();
                     document.querySelector(".row").insertAdjacentHTML('beforeend', data);
                     //@ts-ignore
                     lazyload()
@@ -34,16 +34,16 @@ const bgmlistener = (e: any) => {
     }
 }
 
-export default function load_bangumi() {
+export default function LoadNextPage() {
     const sections = document.getElementsByTagName("section")
     let _flag = false;
     for (let i = 0; i < sections.length; i++) {
-        if (sections[i].classList.contains("bangumi")) {
+        if (sections[i].classList.contains("have-columns")) {
             _flag = true;
             break
         }
     }
     if (_flag) {
-        document.addEventListener('click', bgmlistener);
+        document.addEventListener('click', PaginationListener);
     }
 }
