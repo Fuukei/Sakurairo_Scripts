@@ -22,7 +22,7 @@ const PaginationListener = (e: any) => {
                     //@ts-ignore
                     lazyload()
                 } else {
-                    throw Error(`Error，Status：${res.status}`);
+                    throw Error(`Error, Status: ${res.status}`);
                 }
             })
             .catch(e => {

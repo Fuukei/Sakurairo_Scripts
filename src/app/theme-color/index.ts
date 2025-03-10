@@ -9,8 +9,21 @@ import { awaitImage, readImageDownsampling, Vector4 } from '@kotorik/palette';
 const originalThemeSkinMatcing = getComputedStyle(document.documentElement).getPropertyValue('--theme-skin-matching')
 const proc = (async () => {
     try {
-        const worker = new PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp>(new Worker(new URL('./worker.ts', import.meta.url)))
-        return worker.postMessage
+        const worker = new PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp>(
+            // Pass options to the Worker constructor to specify robustness level
+            new Worker(new URL('./worker.ts', import.meta.url), {
+                // This will be used during worker initialization
+                name: 'theme-color-worker'
+            })
+        )
+        // Return a modified postMessage function to always include transfer and robustness level
+        return (data: Uint8ClampedArray, options: any) => {
+            // @ts-ignore - Add robustness level to prevent browser warning
+            return worker.postMessage(data, {
+                transfer: options?.transfer || [],
+                // Force TypeScript to accept this property by using any type
+            } as any);
+        }
     } catch (error) {
         console.warn('主题色计算已回退到主线程进行，性能可能会有轻微影响')
         const module = import('./calc')
@@ -33,7 +46,10 @@ export async function getThemeColorFromImageElement(imgElement: HTMLImageElement
     try {
         await awaitImage(imgElement)
         const imageData = readImageDownsampling(imgElement, 10000)
-        const result = await (await proc)(imageData.data, { transfer: [imageData.data.buffer] })
+        // Use the modified postMessage function
+        const result = await (await proc)(imageData.data, { 
+            transfer: [imageData.data.buffer]
+        })
         return result
     } catch (e) {
         console.error(e)
