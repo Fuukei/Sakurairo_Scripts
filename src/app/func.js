@@ -135,6 +135,8 @@ export function timeSeriesReload(flag) {
     }
 }
 
+import { liveplay, livepause, } from './video'
+
 /**
  * @has-dom-modify
  */
