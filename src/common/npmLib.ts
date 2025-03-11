@@ -1,5 +1,3 @@
-import { ready } from "./util"
-
 /**
  * 收集资源的下载情况，自动切换cdn
  * 策略：
@@ -43,50 +41,7 @@ const currentCDN = { raw: CDN_LIST[currentCDNIndex] }
  * @returns 从当前cdn访问该文件的url
  */
 export const resolvePath = (relativePath: string, packageName: string, version?: string) => String.raw(currentCDN, packageName, version || PKG_INFO[packageName] || 'latest', relativePath)
-const resolvePathByCDN = (cdn: Array<string>, relativePath: string, moduleName: string, version: string) => String.raw({ raw: cdn }, moduleName, version, relativePath)
 
-function isServedByCurrentCDN(path: string) {
-    const cdnMatchKey = CDN_LIST[currentCDNIndex][0]
-    if (path.match(cdnMatchKey)) {
-        return true
-    }
-}
-function analyze(time = 30000) {
-    let failedCounts = 0
-    let totalCounts = 0
-    const observer = new PerformanceObserver((list, observer) => {
-        for (const entry of list.getEntries()) {
-            if (isServedByCurrentCDN(entry.name)) {
-                totalCounts++
-                const { transferSize } = entry as PerformanceResourceTiming
-                if (transferSize == 0) {
-                    //可能是资源未能成功下载
-                    failedCounts++
-                }
-            }
-        }
-    })
-    observer.observe({ entryTypes: ['resource'] })
-    setTimeout(() => {
-        observer.disconnect()
-        if (failedCounts / totalCounts > 0.7) {
-            //切换cdn
-            const nextCDN = currentCDNIndex + 1
-            localStorage.setItem(STORAGE_KEY, (nextCDN >= CDN_LIST.length ? 0 : nextCDN).toString())
-        }
-    }, time)
-}
-/* ready(analyze)
- */
-//TODO
-//测试cdn对实例资源的访问表现
-async function testCDN() {
-    await Promise.allSettled(CDN_LIST.map((cdn) =>
-        //baguettebox.js@1.11.1/dist/baguetteBox.min.css
-        fetch(resolvePathByCDN(cdn, 'dist/baguetteBox.min.css', 'baguettebox.js', '1.11.1'))
-    ))
-
-}
 export const importExternal = (path: string, packageName: string, version?: string) => {
     const id = `${packageName}${version ? '@' + version : ''}${path}`
     if (document.getElementById(id)) { // 避免重复加载
