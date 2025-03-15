@@ -153,7 +153,7 @@ export function XLS() {
         }
     });
     intersectionObserver.observe(
-        document.querySelector('.footer-device')
+        document.querySelector('.footer-content')
     );
     document.body.removeEventListener('click', XLS_Listener)
     document.body.addEventListener("click", XLS_Listener)

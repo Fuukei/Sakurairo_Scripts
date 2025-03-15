@@ -13,7 +13,9 @@ const proc = (async () => {
             // Pass options to the Worker constructor to specify robustness level
             new Worker(new URL('./worker.ts', import.meta.url), {
                 // This will be used during worker initialization
-                name: 'theme-color-worker'
+                name: 'theme-color-worker',
+                // 添加 robustness level 参数
+                type: 'module'
             })
         )
         // Return a modified postMessage function to always include transfer and robustness level
@@ -21,6 +23,8 @@ const proc = (async () => {
             // @ts-ignore - Add robustness level to prevent browser warning
             return worker.postMessage(data, {
                 transfer: options?.transfer || [],
+                // 添加 robustness level 参数
+                transferList: options?.transfer || [],
                 // Force TypeScript to accept this property by using any type
             } as any);
         }

@@ -16,7 +16,7 @@ import showcard from './showcard';
 
 export default function initPjax() {
     new Pjax({
-        selectors: ["#page", "title", ".footer-device", "#app-js-before", "#login-link", "#entry-content-css"],
+        selectors: ["#page", "title", ".footer-content", "#app-js-before", "#entry-content-css"],
         scripts: "#app-js-before",
         timeout: 5000,
         defaultTrigger: {
