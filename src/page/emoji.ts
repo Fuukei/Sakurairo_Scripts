@@ -30,13 +30,15 @@ export default function prepareEmoji() {
             const btnRect = emojiPanelButton.getBoundingClientRect();
             const panelWidth = emojiPanel.offsetWidth;
             const panelHeight = emojiPanel.offsetHeight;
+
             let leftPos = btnRect.left + window.scrollX + (btnRect.width / 2) - (panelWidth / 2);
-            let topPos = btnRect.bottom + window.scrollY;
-      
-            // 若下方空间不足，则放在按钮上方
-            if (topPos + panelHeight > window.innerHeight + window.scrollY) {
-                topPos = btnRect.top - panelHeight + window.scrollY;
-            }
+            let topPos = btnRect.top - panelHeight + window.scrollY;
+
+            // let topPos = btnRect.bottom + window.scrollY;
+            // // 若下方空间不足，则放在按钮上方
+            // if (topPos + panelHeight > window.innerHeight + window.scrollY) {
+            //     topPos = btnRect.top - panelHeight + window.scrollY;
+            // }
       
             emojiPanel.style.left = `${leftPos}px`;
             emojiPanel.style.top = `${topPos}px`;
@@ -103,7 +105,7 @@ export default function prepareEmoji() {
     
     function endDrag() {
         isDragging = false;
-        emojiPanel.style.transition = "transform 0.3s ease-in-out";
+        emojiPanel.style.transition = "";
     }
 
     const row = document.querySelector('.emotion-box>table tr')
