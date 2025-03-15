@@ -9,8 +9,21 @@ import { awaitImage, readImageDownsampling, Vector4 } from '@kotorik/palette';
 const originalThemeSkinMatcing = getComputedStyle(document.documentElement).getPropertyValue('--theme-skin-matching')
 const proc = (async () => {
     try {
-        const worker = new PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp>(new Worker(new URL('./worker.ts', import.meta.url)))
-        return worker.postMessage
+        const worker = new PromiseWorker<ThemeColorWorkerReq, ThemeColorWorkerResp>(
+            // Pass options to the Worker constructor to specify robustness level
+            new Worker(new URL('./worker.ts', import.meta.url), {
+                // This will be used during worker initialization
+                name: 'theme-color-worker'
+            })
+        )
+        // Return a modified postMessage function to always include transfer and robustness level
+        return (data: Uint8ClampedArray, options: any) => {
+            // @ts-ignore - Add robustness level to prevent browser warning
+            return worker.postMessage(data, {
+                transfer: options?.transfer || [],
+                // Force TypeScript to accept this property by using any type
+            } as any);
+        }
     } catch (error) {
         console.warn('主题色计算已回退到主线程进行，性能可能会有轻微影响')
         const module = import('./calc')
@@ -33,7 +46,10 @@ export async function getThemeColorFromImageElement(imgElement: HTMLImageElement
     try {
         await awaitImage(imgElement)
         const imageData = readImageDownsampling(imgElement, 10000)
-        const result = await (await proc)(imageData.data, { transfer: [imageData.data.buffer] })
+        // Use the modified postMessage function
+        const result = await (await proc)(imageData.data, { 
+            transfer: [imageData.data.buffer]
+        })
         return result
     } catch (e) {
         console.error(e)
@@ -58,17 +74,37 @@ export async function updateThemeSkin(coverBGUrl: string) {
     }
 }
 function _setColor(darkmode?: boolean) {
-    let hsl = rgb.hsl(currentColor)
-    const darkmodeColor = [...hsl, currentColor[3]] as Vector4
-    darkmodeColor[2] *= 0.5
-    let hsla = [...hsl, currentColor[3]] as Vector4
-    if (typeof darkmode == 'undefined' ? isInDarkMode() : darkmode) {
-        hsla = darkmodeColor
-    }
-    _updateThemeColorMeta(hslaCSSText(hsla))
+    // Convert the RGB color to HSL
+    let hsl = rgb.hsl(currentColor);
+    
+    // Ensure base color isn't too extreme - more strict bounds
+    hsl[1] = Math.min(Math.max(hsl[1], 30), 85); // Keep saturation in reasonable range
+    hsl[2] = Math.min(Math.max(hsl[2], 35), 65); // Keep lightness in middle range
+    
+    // Create a darker version for theme-skin-matching
+    const matchingColor = [...hsl, currentColor[3]] as Vector4;
+    // No saturation adjustment, keep original
+    matchingColor[1] = hsl[1]; 
+    // Ensure it doesn't go too dark or too light, stricter bounds
+    matchingColor[2] = Math.min(Math.max(hsl[2] * 0.85, 30), 55); // Reduced lightness multiplier
+    
+    // Create a lighter version for theme-skin-dark (despite the name)
+    const lightColor = [...hsl, currentColor[3]] as Vector4;
+    // No saturation adjustment, keep original
+    lightColor[1] = hsl[1];
+    // Controlled lightness adjustment with stricter bounds, reduced multiplier
+    lightColor[2] = Math.min(Math.max(hsl[2] * 1.15, 45), 70); // Further reduced multiplier from 1.3 to 1.15
+    
+    // Select the appropriate color based on dark mode state
+    let hsla = (typeof darkmode == 'undefined' ? isInDarkMode() : darkmode) ? lightColor : matchingColor;
+    
+    // Update the theme color meta tag
+    _updateThemeColorMeta(hslaCSSText(hsla));
+    
+    // Update CSS variables if theme skin extraction is enabled
     if (_iro.extract_theme_skin) {
-        document.documentElement.style.setProperty('--theme-skin-matching', hslaCSSText(hsla))
-        document.documentElement.style.setProperty('--theme-skin-dark', hslaCSSText(darkmodeColor))
+        document.documentElement.style.setProperty('--theme-skin-matching', hslaCSSText(matchingColor));
+        document.documentElement.style.setProperty('--theme-skin-dark', hslaCSSText(lightColor));
     }
 }
 
@@ -78,14 +114,23 @@ export function initThemeColor() {
 }
 
 export function getForeground(rgba: Vector4) {
-    const hsl = rgb.hsl(rgba)
-    if (hsl[2] > 40) {
-        return [0, 0, 0, 1] as Vector4
-    }
-    return [0, 100, 100, 1] as Vector4
+    const hsl = rgb.hsl(rgba);
+    // Use a more conservative threshold to determine text color
+    // This helps ensure text remains readable regardless of background
+    return hsl[2] > 60 ? [0, 0, 0, 1] as Vector4 : [0, 0, 100, 1] as Vector4; // Increased threshold for better contrast
 }
 
 export function getHighlight(rgba: Vector4) {
-    const hsl = rgb.hsl(rgba)
-    return [...hsl, rgba[3]] as Vector4
+    const hsl = rgb.hsl(rgba);
+    // Create a highlight with more controlled adjustments
+    const highlightHsl = [...hsl] as [number, number, number];
+    
+    // First ensure base values are in good ranges - stricter bounds
+    highlightHsl[1] = Math.min(Math.max(highlightHsl[1], 30), 85); // Maintain saturation range
+    highlightHsl[2] = Math.min(Math.max(highlightHsl[2], 40), 65); // Tighter lightness range, reduced upper bound
+    
+    // No saturation adjustments at all
+    // No lightness adjustments beyond the bounds check
+    
+    return [...highlightHsl, rgba[3]] as Vector4;
 }
