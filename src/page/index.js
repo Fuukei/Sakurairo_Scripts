@@ -396,10 +396,8 @@ function add_upload_tips() {
     const form_submit = document.querySelector('.form-submit #submit');
     if (form_submit == null) return;
     if (!_iro.comment_upload_img) {
-        form_submit.style.width = '100%'
         return
     }
-    form_submit.insertAdjacentHTML('afterend', '<div class="insert-image-tips popup"><i class="fa-regular fa-image"></i><span class="insert-img-popuptext" id="uploadTipPopup">上传图片</span></div><input id="upload-img-file" type="file" accept="image/*" multiple="multiple" class="insert-image-button">');
     attach_image();
 
     const file_submit = document.getElementById('upload-img-file'),
