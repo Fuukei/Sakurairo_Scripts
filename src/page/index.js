@@ -10,6 +10,7 @@ import LoadNextPage from './pagination'
 import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
+import initFooterVisibility from './footer'
 
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
@@ -477,6 +478,7 @@ function whileLoaded() {
     tableOfContentScroll(true);
     addComtListener()
     resizeTOC()
+    initFooterVisibility()
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()
