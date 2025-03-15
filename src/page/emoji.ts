@@ -2,6 +2,7 @@ export default function prepareEmoji() {
     const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
     const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
     const header = document.querySelector('.emotion-header') as HTMLElement;
+    const commentTextArea = document.querySelector('.comment-textarea') as HTMLElement;
 
     if (!emojiPanelButton) {
         document.removeEventListener('click', closeEmojiPanel );
@@ -73,8 +74,14 @@ export default function prepareEmoji() {
         }
     }
 
+    // 不处于输入框、表情面板、表情开关时，关闭
     function closeEmojiPanel (e: Event) {
-        if (!emojiPanel.contains(e.target as Node) && !emojiPanelButton.contains(e.target as Node)) {
+        const target = e.target as Node;
+        if (
+            !emojiPanel.contains(target) && 
+            !emojiPanelButton.contains(target) &&
+            !commentTextArea.contains(target) ) 
+        {
             emojiPanel.classList.remove('open');
         }
     }
