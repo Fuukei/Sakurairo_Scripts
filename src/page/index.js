@@ -10,6 +10,7 @@ import LoadNextPage from './pagination'
 import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
+import initAnnotations from './annotation'
 
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
@@ -462,6 +463,7 @@ function whilePjaxComplete() {
         prepareEmoji()
         XCS()
         resizeTOC()
+        initAnnotations();
     } catch (e) {
         console.warn(e)
     }
@@ -477,6 +479,7 @@ function whileLoaded() {
     tableOfContentScroll(true);
     addComtListener()
     resizeTOC()
+    initAnnotations();
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()
