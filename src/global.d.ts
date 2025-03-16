@@ -12,6 +12,8 @@ declare namespace _iro {
     const windowheight: string
     const codeLamp: string
     const ajaxurl: string
+    const language: string
+    const captcha_endpoint: string
     const order: string
     const formpostion: string
     const api: string

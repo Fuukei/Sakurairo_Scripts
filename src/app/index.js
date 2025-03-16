@@ -53,6 +53,7 @@ import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSe
 import initTypedJs from './typed'
 import showcard from './showcard'
 import add_copyright from './copyright'
+import initFooter from './footer'
 
 initIsMobileCache()
 /**
@@ -166,4 +167,5 @@ ready(function () {
     //#endregion
     initEffect()
     about_us()
+    initFooter();
 });
