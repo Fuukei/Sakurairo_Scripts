@@ -51,6 +51,10 @@ declare namespace _iro {
      * 是否从封面图像提取主题色
      */
     const extract_theme_skin: boolean
+    /**
+     * 是否从文章特色图片提取主题色
+     */
+    const extract_article_highlight: boolean
     const jsdelivr_css_src: string
     const land_at_home: boolean
     const live_search: boolean

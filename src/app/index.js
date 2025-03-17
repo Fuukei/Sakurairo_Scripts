@@ -54,6 +54,7 @@ import initTypedJs from './typed'
 import showcard from './showcard'
 import add_copyright from './copyright'
 import initFooter from './footer'
+import { applyArticleHighlights } from './article-highlight'
 
 initIsMobileCache()
 /**
@@ -168,4 +169,9 @@ ready(function () {
     initEffect()
     about_us()
     initFooter();
+});
+
+// 在页面加载完成后执行
+window.addEventListener('load', () => {
+    applyArticleHighlights();
 });

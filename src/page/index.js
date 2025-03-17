@@ -11,6 +11,8 @@ import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
+// 导入新的文章特色图片取色模块
+import { applyArticleHighlights } from '../app/article-highlight'
 
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
@@ -464,6 +466,8 @@ function whilePjaxComplete() {
         XCS()
         resizeTOC()
         initAnnotations();
+        // 应用文章特色图片取色
+        applyArticleHighlights();
     } catch (e) {
         console.warn(e)
     }
@@ -480,7 +484,7 @@ function whileLoaded() {
     addComtListener()
     resizeTOC()
     initAnnotations();
-    document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
+    applyArticleHighlights();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
