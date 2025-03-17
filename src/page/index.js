@@ -11,6 +11,7 @@ import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
+import initLinkSubmission from './link_form'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -474,6 +475,7 @@ function whilePjaxComplete() {
         resizeTOC()
         initAnnotations();
         apply_post_theme_color();
+        initLinkSubmission();
     } catch (e) {
         console.warn(e)
     }
@@ -492,6 +494,7 @@ function whileLoaded() {
     initAnnotations();
     apply_post_theme_color();
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
+    initLinkSubmission();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
