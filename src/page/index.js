@@ -11,8 +11,16 @@ import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
-// 导入新的文章特色图片取色模块
-import { applyArticleHighlights } from '../app/article-highlight'
+import initLinkSubmission from './link_form'
+
+function apply_post_theme_color() {
+    if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
+        let post_theme_color = _iro.post_theme_color;
+        document.documentElement.style.setProperty('--article-theme-highlight', post_theme_color);
+    } else {
+        document.documentElement.style.removeProperty('--article-theme-highlight');
+    }
+}
 
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
@@ -466,8 +474,8 @@ function whilePjaxComplete() {
         XCS()
         resizeTOC()
         initAnnotations();
-        // 应用文章特色图片取色
-        applyArticleHighlights();
+        apply_post_theme_color();
+        initLinkSubmission();
     } catch (e) {
         console.warn(e)
     }
@@ -484,7 +492,9 @@ function whileLoaded() {
     addComtListener()
     resizeTOC()
     initAnnotations();
-    applyArticleHighlights();
+    apply_post_theme_color();
+    document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
+    initLinkSubmission();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)

@@ -4,7 +4,6 @@ import { __ } from '../common/sakurairo_global'
 // @ts-ignore
 import { code_highlight_style } from '../common/code-highlight'
 import applyShowUpAnimation from "./animations/show_up";
-import { applyArticleHighlights, processArticlesList } from "./article-highlight";
 
 let load_post_timer: ReturnType<typeof setTimeout>;
 const load_post = onlyOnceATime(
@@ -71,6 +70,7 @@ const load_post = onlyOnceATime(
         }
     })
 
+
 /**
  * 为文章列表应用主题色和动画效果
  */
@@ -78,28 +78,11 @@ export function post_list_show_animation() {
     applyShowUpAnimation(
         document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item'),
         target => {
-            // 如果未启用文章特色图片取色，则跳过取色处理
-            if (!_iro.extract_article_highlight) return;
-            
-            // 文章特色图片取色功能已移至独立模块
+            // 文章特色图片取色功能已移至后端
             // 这里保留空回调以保证动画效果正常工作
         })
-    
-    // 处理文章列表的特色图片取色
-    if (_iro.extract_article_highlight) {
-        processArticlesList();
-    }
-}
 
-/**
- * 重新应用文章特色图片取色
- * 用于非首页时文章特色图片取色不能及时应用的问题
- */
-export function reapplyArticleHighlights() {
-    // 调用独立模块的功能
-    applyArticleHighlights();
 }
-
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代
     if ((e.target as HTMLElement).parentElement.id == 'pagination') {

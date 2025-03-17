@@ -7,7 +7,6 @@ import { MNH, auto_height, PE, CE, bgButtonAddListener, timeSeriesReload, checkS
 import hitokoto from './hitokoto';
 import { coverVideoIni } from './video';
 import { XLS, post_list_show_animation } from './post_list'
-import { applyArticleHighlights } from './article-highlight'
 
 import NProgress from 'nprogress'
 import Pjax from '@sliphua/pjax'
@@ -48,7 +47,7 @@ export default function initPjax() {
             disableTypedJsIfExist()
         }
         if (_iro.NProgressON) NProgress.done()
-
+        //#region pjaxInit
         loadFontSetting()
         let _p = document.getElementsByTagName("p");
         for (let i = 0; i < _p.length; i++) {
@@ -69,10 +68,12 @@ export default function initPjax() {
         bgButtonAddListener()
         timeSeriesReload();
         add_copyright();
+        //#endregion pjaxInit
         post_list_show_animation();
         coverVideoIni();
         checkSkinSecter();
-        checkCoverBackground()
+        //#endregion
+        checkCoverBackground()//pjax不需要刷新前台背景
         let loading = document.getElementById("loading");
         if (loading) {
             loading.classList.add("hide");
@@ -86,45 +87,50 @@ export default function initPjax() {
         hitokoto()
         showcard()
         lazyload();
-        // 在页面切换完成后重新应用文章特色图片取色
-        applyArticleHighlights();
     });
-
-    // Pjax 成功时的处理
     document.addEventListener("pjax:success", () => {
+        //pjax加载时自动拉取page.js
         if (!_iro.land_at_home && !document.getElementById('app-page-js')) {
+            // id需要与php侧同步
             const script_app = document.getElementById('app-js')
             const script_app_page = document.createElement('script')
             script_app_page.src = script_app.src.replace('/app.js', '/page.js')
             script_app_page.id = 'app-page-js'
             document.body.appendChild(script_app_page)
         }
+        //发送页面浏览事件
+
+        /**
+         * Google Analytics
+         * @seealso https://developers.google.com/analytics/devguides/collection/gtagjs/pages
+         */
         if (window.gtag) {
             gtag('config', _iro.google_analytics_id, {
                 'page_path': window.location.pathname
             });
         }
+        /**
+         * 百度统计
+         * @seealso https://tongji.baidu.com/web/help/article?id=235
+         */
         if (window._hmt) {
             _hmt.push(['_trackPageview', pageURL]);
         }
     });
-
-    // Pjax 出错时的处理
     document.addEventListener("pjax:error", ({ detail }) => {
         const { status } = detail.request
         if (status) {
             createButterbar(_$('页面加载出错了 HTTP {0}', status))
         } else if (/aborterror/i.exec(detail.error)) {
+            //超时处理, 直接重定向
             const { url } = detail.request
             if (url) {
-                location = url
+                location = url //TODO: XSS?
                 return
             }
         }
         console.warn('pjax:error', detail)
     })
-
-    // 浏览器历史记录导航时的处理
     window.addEventListener('popstate', (e) => {
         auto_height();
         hitokoto()
@@ -132,7 +138,5 @@ export default function initPjax() {
         CE();
         timeSeriesReload(true);
         post_list_show_animation();
-        // 在浏览器历史导航时确保应用文章特色图片取色
-        applyArticleHighlights();
     }, false);
 }
