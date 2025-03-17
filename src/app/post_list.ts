@@ -3,9 +3,13 @@ import lazyload from "../common/lazyload"
 import { __ } from '../common/sakurairo_global'
 // @ts-ignore
 import { code_highlight_style } from '../common/code-highlight'
+import { getForeground, getHighlight, getThemeColorFromImageElement } from "./theme-color";
+import type { Vector4 } from "@kotorik/palette";
 import applyShowUpAnimation from "./animations/show_up";
-import { applyArticleHighlights, processArticlesList } from "./article-highlight";
-
+const hslaCSSText = ([h, s, l, a]: Vector4) => {
+    const hsl = `${h}deg,${s}%,${l}%`;
+    return a && a !== 1 ? `hsla(${hsl},${a})` : `hsl(${hsl})`;
+}
 let load_post_timer: ReturnType<typeof setTimeout>;
 const load_post = onlyOnceATime(
     async function load_post() {
@@ -69,37 +73,59 @@ const load_post = onlyOnceATime(
             document.getElementById("pagination").innerHTML = "<span>" + __("很高兴你翻到这里，但是真的没有了...") + "</span>";
             // $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
         }
-    })
+        //}
 
-/**
- * 为文章列表应用主题色和动画效果
- */
+
+        /*  $.ajax({
+             type: "POST",
+             url: $('#pagination a').attr("href") + "#main",
+             success: function (data) {
+                 result = $(data).find("#main .post");
+                 nextHref = $(data).find("#pagination a").attr("href");
+                 $("#main").append(result.fadeIn(500));
+                 $("#pagination a").removeClass("loading").text("Previous");
+                 $('#add_post span').removeClass("loading").text("");
+                 lazyload();
+                 post_list_show_animation();
+                 if (nextHref != undefined) {
+                     $("#pagination a").attr("href", nextHref);
+                     //加载完成上滑
+                     var tempScrollTop = $(window).scrollTop();
+                     $(window).scrollTop(tempScrollTop);
+                     $body.animate({
+                         scrollTop: tempScrollTop + 300
+    
+                     }, 666)
+                 } else {
+                     $("#pagination").html("<span>很高兴你翻到这里，但是真的没有了...</span>");
+                 }
+             }
+         }); */
+    })
 export function post_list_show_animation() {
     applyShowUpAnimation(
         document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item'),
         target => {
-            // 如果未启用文章特色图片取色，则跳过取色处理
-            if (!_iro.extract_article_highlight) return;
-            
-            // 文章特色图片取色功能已移至独立模块
-            // 这里保留空回调以保证动画效果正常工作
+            const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
+            if (thumbImage) {
+                let finalImageElement = thumbImage;
+                if (thumbImage.classList.contains('lazyload')) {
+                    finalImageElement = document.createElement('img')
+                    finalImageElement.src = thumbImage.getAttribute('data-src')
+                    finalImageElement.crossOrigin = "anonymous";
+                }
+                getThemeColorFromImageElement(finalImageElement)
+                    .then(rgba => {
+                        if (!rgba) return
+                        const style = target.style
+                        style.setProperty('--article-theme', `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] / 255})`)
+                        style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
+                        style.setProperty('--article-theme-foreground', hslaCSSText(getForeground(rgba)))
+                    })
+            }
         })
-    
-    // 处理文章列表的特色图片取色
-    if (_iro.extract_article_highlight) {
-        processArticlesList();
-    }
-}
 
-/**
- * 重新应用文章特色图片取色
- * 用于非首页时文章特色图片取色不能及时应用的问题
- */
-export function reapplyArticleHighlights() {
-    // 调用独立模块的功能
-    applyArticleHighlights();
 }
-
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代
     if ((e.target as HTMLElement).parentElement.id == 'pagination') {

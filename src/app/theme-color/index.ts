@@ -6,8 +6,6 @@ import 'color-space/hsl'
 import rgb from 'color-space/rgb'
 import { ThemeColorWorkerReq, ThemeColorWorkerResp } from './interface';
 import { awaitImage, readImageDownsampling, Vector4 } from '@kotorik/palette';
-import { setupDefaultThemeColors } from '../article-highlight';
-
 const originalThemeSkinMatcing = getComputedStyle(document.documentElement).getPropertyValue('--theme-skin-matching')
 const proc = (async () => {
     try {
@@ -17,9 +15,7 @@ const proc = (async () => {
                 // This will be used during worker initialization
                 name: 'theme-color-worker',
                 // 添加 robustness level 参数
-                type: 'module',
-                // 指定 robustness 级别为 "enforce"，确保即使跨域也能安全工作
-                credentials: 'omit'
+                type: 'module'
             })
         )
         // Return a modified postMessage function to always include transfer and robustness level
@@ -29,7 +25,6 @@ const proc = (async () => {
                 transfer: options?.transfer || [],
                 // 添加 robustness level 参数
                 transferList: options?.transfer || [],
-                robustness: "enforce", // 指定 robustness 级别
                 // Force TypeScript to accept this property by using any type
             } as any);
         }
@@ -43,7 +38,7 @@ const proc = (async () => {
     }
 })()
 let currentColor = [0, 0, 0, 0] as Vector4
-export function hslaCSSText([h, s, l, a]: readonly [number, number, number, number?]) {
+function hslaCSSText([h, s, l, a]: readonly [number, number, number, number?]) {
     if (a) {
         return "hsla(" + h + "deg," + s + "%," + l + "%," + a + ")"
     } else {
@@ -70,9 +65,6 @@ function _updateThemeColorMeta(color_css: string) {
     meta && (meta.content = color_css)
 }
 export async function updateThemeSkin(coverBGUrl: string) {
-    // 如果未启用封面取色功能，直接返回
-    if (!_iro.extract_theme_skin) return;
-    
     const imgElement = document.createElement('img')
     imgElement.src = coverBGUrl
     imgElement.crossOrigin = "anonymous";
@@ -86,9 +78,6 @@ export async function updateThemeSkin(coverBGUrl: string) {
     }
 }
 function _setColor(darkmode?: boolean) {
-    // 如果未启用封面取色功能，直接返回
-    if (!_iro.extract_theme_skin) return;
-    
     // Convert the RGB color to HSL
     let hsl = rgb.hsl(currentColor);
     
@@ -116,18 +105,15 @@ function _setColor(darkmode?: boolean) {
     // Update the theme color meta tag
     _updateThemeColorMeta(hslaCSSText(hsla));
     
-    // 这里不需要再检查 extract_theme_skin，因为函数开头已经检查过了
-    document.documentElement.style.setProperty('--theme-skin-matching', hslaCSSText(matchingColor));
-    document.documentElement.style.setProperty('--theme-skin-dark', hslaCSSText(lightColor));
+    // Update CSS variables if theme skin extraction is enabled
+    if (_iro.extract_theme_skin) {
+        document.documentElement.style.setProperty('--theme-skin-matching', hslaCSSText(matchingColor));
+        document.documentElement.style.setProperty('--theme-skin-dark', hslaCSSText(lightColor));
+    }
 }
 
 export function initThemeColor() {
-    // 先设置默认的主题色，确保CSS变量始终有值
-    setupDefaultThemeColors();
-    
-    // 监听封面背景变化事件
     document.addEventListener('coverBG_change', (({ detail: coverBGUrl }: CustomEvent<string>) => updateThemeSkin(coverBGUrl)) as any)
-    // 监听暗色模式变化事件
     document.addEventListener('darkmode', (({ detail: next }: CustomEvent<boolean>) => _setColor(next)) as any)
 }
 
