@@ -23,6 +23,8 @@ export default function initPjax() {
             exclude: 'a[data-no-pjax]',
         }
     })
+
+    // Pjax 开始时的处理
     document.addEventListener("pjax:send", () => {
         for (const element of document.getElementsByClassName("normal-cover-video")) {
             element.pause();
@@ -32,6 +34,8 @@ export default function initPjax() {
         document.getElementById("bar").style.width = "0%";
         if (_iro.NProgressON) NProgress.start()
     });
+
+    // Pjax 完成时的处理
     document.addEventListener("pjax:complete", () => {
         auto_height();
         PE();
@@ -43,7 +47,6 @@ export default function initPjax() {
             disableTypedJsIfExist()
         }
         if (_iro.NProgressON) NProgress.done()
-        //#region mashiro_global.ini.pjax();
         //#region pjaxInit
         loadFontSetting()
         let _p = document.getElementsByTagName("p");
@@ -53,20 +56,10 @@ export default function initPjax() {
         let _div = document.getElementsByTagName("div"),
             tla = document.getElementById("to-load-aplayer");
         tla && tla.addEventListener("click", () => {
-            /* try {
-                reloadHermit();
-            } catch (e) { }; */
             for (let i = 0; i < _div.length; i++) {
                 _div[i].classList.remove("load-aplayer");
             }
         });
-        /* for (let i = 0; i < _div.length; i++) {
-            if (_div[i].classList.contains("aplayer")) {
-                try {
-                    reloadHermit();
-                } catch { };
-            }
-        } */
         let iconflat = document.getElementsByClassName("iconflat");
         if (iconflat.length != 0) {
             iconflat[0].style.width = '50px';
@@ -77,7 +70,6 @@ export default function initPjax() {
         add_copyright();
         //#endregion pjaxInit
         post_list_show_animation();
-        // web_audio(); 其实大部分selects列表的元素都是pjax前后都存在的，无需重新attach
         coverVideoIni();
         checkSkinSecter();
         //#endregion
@@ -87,10 +79,6 @@ export default function initPjax() {
             loading.classList.add("hide");
             loading.classList.remove("show");
         }
-        //未实际使用的选项
-        /* if (_iro.codelamp == 'open') {
-            self.Prism.highlightAll(event)
-        }; */
         if (document.querySelector(".js-search.is-visible")) {
             document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
             document.getElementsByClassName("js-search")[0].classList.toggle("is-visible");
