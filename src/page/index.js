@@ -12,6 +12,15 @@ import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
 
+function apply_post_theme_color() {
+    if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
+        let post_theme_color = _iro.post_theme_color;
+        document.documentElement.style.setProperty('--article-theme-highlight', post_theme_color);
+    } else {
+        document.documentElement.style.removeProperty('--article-theme-highlight');
+    }
+}
+
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
     if (!comment_inline.length) return;
@@ -464,6 +473,7 @@ function whilePjaxComplete() {
         XCS()
         resizeTOC()
         initAnnotations();
+        apply_post_theme_color();
     } catch (e) {
         console.warn(e)
     }
@@ -480,6 +490,7 @@ function whileLoaded() {
     addComtListener()
     resizeTOC()
     initAnnotations();
+    apply_post_theme_color();
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
 }
 whileLoaded()
