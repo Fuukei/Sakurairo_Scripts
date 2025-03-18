@@ -34,7 +34,7 @@
  * 
  */
 
-import { getCurrentBG, } from './coverBackground'
+import { getCurrentBG, init_post_cover_as_bg} from './coverBackground'
 import lazyload from "../common/lazyload"
 import './global-func'
 import { ready } from '../common/util'
@@ -150,6 +150,7 @@ ready(function () {
     coverVideo();
     hitokoto()
     bgButtonAddListener()
+    init_post_cover_as_bg();
     //#region has-dom-modify
     initFontControl()
     auto_height();
