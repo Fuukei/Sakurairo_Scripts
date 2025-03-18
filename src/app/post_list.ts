@@ -5,7 +5,7 @@ import { __ } from '../common/sakurairo_global'
 import { code_highlight_style } from '../common/code-highlight'
 import applyShowUpAnimation from "./animations/show_up";
 import type { Vector4 } from "@kotorik/palette";
-import { getForeground, getHighlight, getThemeColorFromImageElement } from "./theme-color"
+import { getHighlight, getThemeColorFromImageElement } from "./theme-color"
 
 const hslaCSSText = ([h, s, l, a]: Vector4) => {
     const hsl = `${h}deg,${s}%,${l}%`;
@@ -87,6 +87,13 @@ export function post_list_show_animation() {
         target => {
             const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
             if (thumbImage) {
+                if (_iro.extract_article_highlight == false) { //未开启取色
+                    return;
+                }
+                if (target.style.getPropertyValue('--article-theme-highlight')) { // 已预定义
+                    return;
+                }
+
                 let finalImageElement = thumbImage;
                 if (thumbImage.classList.contains('lazyload')) {
                     finalImageElement = document.createElement('img')
@@ -97,13 +104,10 @@ export function post_list_show_animation() {
                     .then(rgba => {
                         if (!rgba) return
                         const style = target.style
-                        style.setProperty('--article-theme', `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3] / 255})`)
                         style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
-                        style.setProperty('--article-theme-foreground', hslaCSSText(getForeground(rgba)))
                     })
             }
         })
-
 }
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代
