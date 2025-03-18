@@ -127,12 +127,12 @@ export function initThemeColor() {
     document.addEventListener('darkmode', (({ detail: next }: CustomEvent<boolean>) => _setColor(next)) as any)
 }
 
-export function getForeground(rgba: Vector4) {
-    const hsl = rgb.hsl(rgba);
-    // Use a more conservative threshold to determine text color
-    // This helps ensure text remains readable regardless of background
-    return hsl[2] > 60 ? [0, 0, 0, 1] as Vector4 : [0, 0, 100, 1] as Vector4; // Increased threshold for better contrast
-}
+// export function getForeground(rgba: Vector4) {
+//     const hsl = rgb.hsl(rgba);
+//     // Use a more conservative threshold to determine text color
+//     // This helps ensure text remains readable regardless of background
+//     return hsl[2] > 60 ? [0, 0, 0, 1] as Vector4 : [0, 0, 100, 1] as Vector4; // Increased threshold for better contrast
+// }
 
 export function getHighlight(rgba: Vector4) {
     const hsl = rgb.hsl(rgba);

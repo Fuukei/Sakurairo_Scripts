@@ -4,6 +4,13 @@ import { __ } from '../common/sakurairo_global'
 // @ts-ignore
 import { code_highlight_style } from '../common/code-highlight'
 import applyShowUpAnimation from "./animations/show_up";
+import type { Vector4 } from "@kotorik/palette";
+import { getHighlight, getThemeColorFromImageElement } from "./theme-color"
+
+const hslaCSSText = ([h, s, l, a]: Vector4) => {
+    const hsl = `${h}deg,${s}%,${l}%`;
+    return a && a !== 1 ? `hsla(${hsl},${a})` : `hsl(${hsl})`;
+}
 
 let load_post_timer: ReturnType<typeof setTimeout>;
 const load_post = onlyOnceATime(
@@ -78,10 +85,29 @@ export function post_list_show_animation() {
     applyShowUpAnimation(
         document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item'),
         target => {
-            // 文章特色图片取色功能已移至后端
-            // 这里保留空回调以保证动画效果正常工作
-        })
+            const thumbImage = target.querySelector('.post-thumb img') as HTMLImageElement
+            if (thumbImage) {
+                if (_iro.extract_article_highlight == false) { //未开启取色
+                    return;
+                }
+                if (target.style.getPropertyValue('--article-theme-highlight')) { // 已预定义
+                    return;
+                }
 
+                let finalImageElement = thumbImage;
+                if (thumbImage.classList.contains('lazyload')) {
+                    finalImageElement = document.createElement('img')
+                    finalImageElement.src = thumbImage.getAttribute('data-src')
+                    finalImageElement.crossOrigin = "anonymous";
+                }
+                getThemeColorFromImageElement(finalImageElement)
+                    .then(rgba => {
+                        if (!rgba) return
+                        const style = target.style
+                        style.setProperty('--article-theme-highlight', hslaCSSText(getHighlight(rgba)))
+                    })
+            }
+        })
 }
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代

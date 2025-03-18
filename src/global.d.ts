@@ -55,6 +55,11 @@ declare namespace _iro {
     const land_at_home: boolean
     const live_search: boolean
     /**
+     * 文章特色图取色
+     */
+    const post_theme_color: string // rgba/'false'
+    const extract_article_highlight: boolean
+    /**
      * 图片加载占位符
      */
     const loading_ph:string
