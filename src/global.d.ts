@@ -59,6 +59,8 @@ declare namespace _iro {
      */
     const post_theme_color: string // rgba/'false'
     const extract_article_highlight: boolean
+    const post_cover_as_bg: boolean
+    const post_feature_img: string
     /**
      * 图片加载占位符
      */
