@@ -12,6 +12,8 @@ import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
 import initLinkSubmission from './link_form'
+import init_steamCard from './steam_card'
+import 
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -476,6 +478,7 @@ function whilePjaxComplete() {
         initAnnotations();
         apply_post_theme_color();
         initLinkSubmission();
+        init_steamCard();
     } catch (e) {
         console.warn(e)
     }
@@ -495,6 +498,7 @@ function whileLoaded() {
     apply_post_theme_color();
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
     initLinkSubmission();
+    init_steamCard();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
