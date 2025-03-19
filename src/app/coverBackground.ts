@@ -114,9 +114,8 @@ export function init_post_cover_as_bg () {
     } else {
         document.addEventListener('pjax:complete', post_cover_as_bg);
         document.addEventListener("coverBG_change", function(){
-            RecordedBG = document.body.style.getPropertyValue('background-image'); // 监听换背景事件
+            post_cover_as_bg();
         })
-        post_cover_as_bg();
     }
     
 }
@@ -131,6 +130,6 @@ function post_cover_as_bg() {
         lastPostCover = _iro.post_feature_img; // 记录此次更换的背景
         setTimeout(() => {
             document.body.style.backgroundImage = `url(${_iro.post_feature_img})`;
-        }, 1); // 设置背景
+        }, 0); // 设置背景
     }
 }
