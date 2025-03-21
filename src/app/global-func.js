@@ -1,16 +1,23 @@
 function imgError(ele, type) {
+    svg404 = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="0 0 200 150"><rect width="200" height="150" fill="#f8f8f8"/><text x="50%" y="50%" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" dominant-baseline="middle" fill="#888">404</text><path d="M75,55 L125,95 M125,55 L75,95" stroke="#888" stroke-width="4"/></svg>');
     switch (type) {
         case 1:
-            ele.onerror = "";
-            ele.src = _iro.missing_avatars;
-            break;
         case 2:
             ele.onerror = "";
-            ele.src = 'https://weavatar.com/avatar/?s=80&d=mm&r=g';
+            if (_iro.missing_avatars != "") {
+                ele.src = _iro.missing_avatars;
+            } else {
+                ele.src = 'https://weavatar.com/avatar/?s=80&d=mm&r=g';
+            }
             break;
         default:
             ele.onerror = "";
-            ele.src = _iro.missing_images;
+            if (_iro.missing_images != ""){
+                ele.src = _iro.missing_images;
+            } else {
+                ele.src = svg404;
+            }
+            break;
     }
 }
 /*视频feature*/
