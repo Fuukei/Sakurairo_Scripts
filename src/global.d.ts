@@ -64,13 +64,14 @@ declare namespace _iro {
     /**
      * 图片加载占位符
      */
+    const missing_avatars: string
+    const missing_images: string
     const loading_ph:string
     const qq_api_url: string
     const qzone_autocomplete: boolean
     const random_graphs_mts: boolean
     const site_name: string
     const site_url: string
-    const skin_bg0: string
     const skin_bg1: string
     const skin_bg2: string
     const skin_bg3: string
