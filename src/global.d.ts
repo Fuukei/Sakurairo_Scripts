@@ -71,6 +71,7 @@ declare namespace _iro {
     const qzone_autocomplete: boolean
     const random_graphs_mts: boolean
     const site_name: string
+    const skin_bg0: string
     const site_url: string
     const skin_bg1: string
     const skin_bg2: string
