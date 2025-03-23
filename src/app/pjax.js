@@ -15,8 +15,13 @@ import initTypedJs, { disableTypedJsIfExist } from './typed'
 import showcard from './showcard';
 
 export default function initPjax() {
+    selectors = ["#page", "title", ".footer-content", "#app-js-before"];
+    if (_iro.dev_mode == true) {
+        selectors.push("#entry-content-css");
+    }
+    
     new Pjax({
-        selectors: ["#page", "title", ".footer-content", "#app-js-before", "#entry-content-css"],
+        selectors: selectors,
         scripts: "#app-js-before",
         timeout: 5000,
         defaultTrigger: {
