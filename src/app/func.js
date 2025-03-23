@@ -46,7 +46,7 @@ export async function changeSkin(tagId) {
                 changeCoverBG(await getCoverPath())//为触发封面背景相关事件 调用函数而不是走下方流程
                 return
             } else {
-                bg_url = '';
+                bg_url = _iro.skin_bg0;
             }
             break;
         case "diy1-bg":
