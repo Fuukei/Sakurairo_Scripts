@@ -25,10 +25,10 @@ importers:
         version: 2.4.0
       activate-power-mode:
         specifier: github:Fuukei/activate-power-mode
-        version: git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5
+        version: https://codeload.github.com/Fuukei/activate-power-mode/tar.gz/af3f686f10267f8ec50e15e997ea619aae9a90b5
       aplayer:
         specifier: github:Fuukei/APlayer
-        version: git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802
+        version: https://codeload.github.com/Fuukei/APlayer/tar.gz/cdcc1b1ecb75555edc4f5058d8973a52adf63802
       baguettebox.js:
         specifier: ^1.12.0
         version: 1.12.0
@@ -1156,8 +1156,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5:
-    resolution: {commit: af3f686f10267f8ec50e15e997ea619aae9a90b5, repo: git+ssh://git@github.com/Fuukei/activate-power-mode.git, type: git}
+  activate-power-mode@https://codeload.github.com/Fuukei/activate-power-mode/tar.gz/af3f686f10267f8ec50e15e997ea619aae9a90b5:
+    resolution: {tarball: https://codeload.github.com/Fuukei/activate-power-mode/tar.gz/af3f686f10267f8ec50e15e997ea619aae9a90b5}
     version: 1.0.0
 
   add-stream@1.0.0:
@@ -1207,8 +1207,8 @@ packages:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
-    resolution: {commit: cdcc1b1ecb75555edc4f5058d8973a52adf63802, repo: git+ssh://git@github.com/Fuukei/APlayer.git, type: git}
+  aplayer@https://codeload.github.com/Fuukei/APlayer/tar.gz/cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+    resolution: {tarball: https://codeload.github.com/Fuukei/APlayer/tar.gz/cdcc1b1ecb75555edc4f5058d8973a52adf63802}
     version: 1.10.1
 
   aproba@2.0.0:
@@ -1894,6 +1894,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -2019,6 +2020,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2353,8 +2355,8 @@ packages:
   nan@2.20.0:
     resolution: {integrity: sha512-bk3gXBZDGILuuo/6sKtr0DQmSThYHLtNCdSdXk9YkxD/jK6X2vmCyyXBBxyqZ4XcnzTyYEAThfX3DCEnLf6igw==}
 
-  nanoid@3.3.8:
-    resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
+  nanoid@3.3.11:
+    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -4403,7 +4405,7 @@ snapshots:
 
   acorn@8.12.0: {}
 
-  activate-power-mode@git+ssh://git@github.com/Fuukei/activate-power-mode.git#af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
+  activate-power-mode@https://codeload.github.com/Fuukei/activate-power-mode/tar.gz/af3f686f10267f8ec50e15e997ea619aae9a90b5: {}
 
   add-stream@1.0.0:
     optional: true
@@ -4456,7 +4458,7 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
-  aplayer@git+ssh://git@github.com/Fuukei/APlayer.git#cdcc1b1ecb75555edc4f5058d8973a52adf63802:
+  aplayer@https://codeload.github.com/Fuukei/APlayer/tar.gz/cdcc1b1ecb75555edc4f5058d8973a52adf63802:
     dependencies:
       balloon-css: 1.2.0
       smoothscroll: 0.4.0
@@ -5610,7 +5612,7 @@ snapshots:
   nan@2.20.0:
     optional: true
 
-  nanoid@3.3.8: {}
+  nanoid@3.3.11: {}
 
   natural-compare@1.4.0: {}
 
@@ -5813,7 +5815,7 @@ snapshots:
 
   postcss@8.5.1:
     dependencies:
-      nanoid: 3.3.8
+      nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
