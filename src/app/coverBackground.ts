@@ -106,3 +106,30 @@ function cleanBlobUrl() {
         if (centerbg) centerbg.style.background = '#0000'
     }
 } */
+let RecordedBG = '';
+let lastPostCover = '';
+export function init_post_cover_as_bg () {
+    if (_iro.post_cover_as_bg == false) {
+        return
+    } else {
+        document.addEventListener('pjax:complete', post_cover_as_bg);
+        document.addEventListener("coverBG_change", function(){
+            post_cover_as_bg();
+        })
+    }
+    
+}
+function post_cover_as_bg() {
+    if (_iro.post_feature_img == '') { // 没有封面
+        if (document.body.style.getPropertyValue('background-image').trim() == `url("${lastPostCover}")`.trim()) { // 中途没有更换过封面（比如小组件封面）
+            document.body.style.backgroundImage = RecordedBG; // 恢复封面
+        }
+        return;
+    } else {
+        RecordedBG = document.body.style.getPropertyValue('background-image'); // 记录更换前的背景
+        lastPostCover = _iro.post_feature_img; // 记录此次更换的背景
+        setTimeout(() => {
+            document.body.style.backgroundImage = `url(${_iro.post_feature_img})`;
+        }, 0); // 设置背景
+    }
+}

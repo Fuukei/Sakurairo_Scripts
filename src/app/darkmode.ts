@@ -50,7 +50,6 @@ export function turnOffDarkMode(userTriggered?: boolean) {
     informDarkModeChange(false)
     if (userTriggered) {
         saveUserSetting(false);
-        //document.body.style.backgroundImage = `url(${_iro.skin_bg0})`;
     }
 }
 /**

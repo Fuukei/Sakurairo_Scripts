@@ -34,7 +34,7 @@
  * 
  */
 
-import { getCurrentBG, } from './coverBackground'
+import { getCurrentBG, init_post_cover_as_bg} from './coverBackground'
 import lazyload from "../common/lazyload"
 import './global-func'
 import { ready } from '../common/util'
@@ -53,6 +53,7 @@ import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSe
 import initTypedJs from './typed'
 import showcard from './showcard'
 import add_copyright from './copyright'
+import initFooter from './footer'
 
 initIsMobileCache()
 /**
@@ -149,6 +150,7 @@ ready(function () {
     coverVideo();
     hitokoto()
     bgButtonAddListener()
+    init_post_cover_as_bg();
     //#region has-dom-modify
     initFontControl()
     auto_height();
@@ -166,4 +168,5 @@ ready(function () {
     //#endregion
     initEffect()
     about_us()
+    initFooter();
 });

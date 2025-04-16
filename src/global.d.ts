@@ -12,6 +12,8 @@ declare namespace _iro {
     const windowheight: string
     const codeLamp: string
     const ajaxurl: string
+    const language: string
+    const captcha_endpoint: string
     const order: string
     const formpostion: string
     const api: string
@@ -53,15 +55,24 @@ declare namespace _iro {
     const land_at_home: boolean
     const live_search: boolean
     /**
+     * 文章特色图取色
+     */
+    const post_theme_color: string // rgba/'false'
+    const extract_article_highlight: boolean
+    const post_cover_as_bg: boolean
+    const post_feature_img: string
+    /**
      * 图片加载占位符
      */
+    const missing_avatars: string
+    const missing_images: string
     const loading_ph:string
     const qq_api_url: string
     const qzone_autocomplete: boolean
     const random_graphs_mts: boolean
     const site_name: string
-    const site_url: string
     const skin_bg0: string
+    const site_url: string
     const skin_bg1: string
     const skin_bg2: string
     const skin_bg3: string
@@ -91,6 +102,7 @@ declare namespace _iro {
      * 是否从CDN源加载第三方库
      */
     const ext_shared_lib: boolean
+    const dev_mode: boolean
 }
 declare namespace mashiro_global {
     //let font_control:FontControl

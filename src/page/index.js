@@ -10,7 +10,18 @@ import LoadNextPage from './pagination'
 import debounce from '@mui/utils/debounce'
 import { code_highlight_style } from '../common/code-highlight'
 import prepareEmoji from './emoji'
-import initFooterVisibility from './footer'
+import initAnnotations from './annotation'
+import initLinkSubmission from './link_form'
+import init_steamCard from './steam_card'
+
+function apply_post_theme_color() {
+    if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
+        let post_theme_color = _iro.post_theme_color;
+        document.documentElement.style.setProperty('--article-theme-highlight', post_theme_color);
+    } else {
+        document.documentElement.style.removeProperty('--article-theme-highlight');
+    }
+}
 
 function click_to_view_image() {
     const comment_inline = document.getElementsByClassName('comment_inline_img');
@@ -463,6 +474,10 @@ function whilePjaxComplete() {
         prepareEmoji()
         XCS()
         resizeTOC()
+        initAnnotations();
+        apply_post_theme_color();
+        initLinkSubmission();
+        init_steamCard();
     } catch (e) {
         console.warn(e)
     }
@@ -478,8 +493,11 @@ function whileLoaded() {
     tableOfContentScroll(true);
     addComtListener()
     resizeTOC()
-    initFooterVisibility()
+    initAnnotations();
+    apply_post_theme_color();
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
+    initLinkSubmission();
+    init_steamCard();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)

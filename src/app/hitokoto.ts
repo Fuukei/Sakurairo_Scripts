@@ -1,7 +1,7 @@
 export default async function hitokoto() {
     const yiyan = document.getElementById("footer_yiyan");
     if (yiyan) {
-        const api_group = _iro.yiyan_api || ["https://api.maho.cc/yiyan/"]
+        const api_group = _iro.yiyan_api || ["https://v1.hitokoto.cn/"]
         if (api_group.length == 0) {
             console.warn('一言API: 路径为空')
         }
