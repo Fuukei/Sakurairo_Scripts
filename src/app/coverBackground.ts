@@ -106,8 +106,12 @@ function cleanBlobUrl() {
         if (centerbg) centerbg.style.background = '#0000'
     }
 } */
-let RecordedBG = '';
+let RecordedBG = document.body.style.getPropertyValue('background-image');
+if (!RecordedBG || RecordedBG.trim() === '') {
+    RecordedBG = await getCoverPath(true) || '';
+}
 let lastPostCover = '';
+let first_is_home = _iro.land_at_home;
 export function init_post_cover_as_bg () {
     if (_iro.post_cover_as_bg == false) {
         return
@@ -119,8 +123,11 @@ export function init_post_cover_as_bg () {
     }
     
 }
-function post_cover_as_bg() {
-    if (_iro.post_feature_img == '') { // 没有封面
+async function post_cover_as_bg() {
+    if (_iro.land_at_home || _iro.post_feature_img == '') { // 首页或者没有封面
+        if (!first_is_home){ // 首次加载非首页
+            document.body.style.backgroundImage = RecordedBG; // 恢复封面
+        }
         if (document.body.style.getPropertyValue('background-image').trim() == `url("${lastPostCover}")`.trim()) { // 中途没有更换过封面（比如小组件封面）
             document.body.style.backgroundImage = RecordedBG; // 恢复封面
         }
