@@ -6,6 +6,7 @@ import { createButterbar } from '../common/butterbar';
 import { noop } from '../common/util';
 let bgn = 1;
 let blob_url = ''
+let RecordedBG = '';
 export async function nextBG() {
     changeCoverBG(await getCoverPath(true))
     bgn++;
@@ -21,6 +22,7 @@ const centerbg = document.querySelector<HTMLElement>(".centerbg")
  */
 export const changeCoverBG = _iro.site_bg_as_cover ? (url: string) => {
     document.body.style.backgroundImage = `url(${url})`
+    RecordedBG = `url(${url})`
     document.dispatchEvent(new CustomEvent('coverBG_change', { detail: url }))
 } :
     centerbg ? (url: string) => {
@@ -106,10 +108,6 @@ function cleanBlobUrl() {
         if (centerbg) centerbg.style.background = '#0000'
     }
 } */
-let RecordedBG = document.body.style.getPropertyValue('background-image');
-if (!RecordedBG || RecordedBG.trim() === '') {
-    RecordedBG = await getCoverPath(true) || '';
-}
 let lastPostCover = '';
 let first_is_home = _iro.land_at_home;
 export function init_post_cover_as_bg () {
@@ -124,7 +122,7 @@ export function init_post_cover_as_bg () {
     
 }
 async function post_cover_as_bg() {
-    if (_iro.land_at_home || _iro.post_feature_img == '') { // 首页或者没有封面
+    if (_iro.land_at_home) { // 首页
         if (!first_is_home){ // 首次加载非首页
             document.body.style.backgroundImage = RecordedBG; // 恢复封面
         }
@@ -132,8 +130,9 @@ async function post_cover_as_bg() {
             document.body.style.backgroundImage = RecordedBG; // 恢复封面
         }
         return;
+    } else if( _iro.post_feature_img == '') { // 文章页无特色图片
+        document.body.style.backgroundImage = RecordedBG; // 恢复封面
     } else {
-        RecordedBG = document.body.style.getPropertyValue('background-image'); // 记录更换前的背景
         lastPostCover = _iro.post_feature_img; // 记录此次更换的背景
         setTimeout(() => {
             document.body.style.backgroundImage = `url(${_iro.post_feature_img})`;
