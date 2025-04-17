@@ -15,33 +15,40 @@ export default function initAnnotations() {
     
     // 查找注释标记
     let annotationMarks = document.querySelectorAll('.iro-term-annotation');
-    
-    // 为所有注释标记添加点击事件
+    const processedTerms = new Set(); // 用于跟踪已处理的术语
+
+    // 为每个术语的第一个注释标记添加点击事件
     annotationMarks.forEach(mark => {
-        mark.addEventListener('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            let term = this.getAttribute('data-term');
-            if (_iro.page_annotation && _iro.page_annotation[term]) {
-                let explanation = _iro.page_annotation[term];
-                let popup = document.getElementById('iro-annotation-popup');
-                
-                popup.querySelector('.term').textContent = term;
-                popup.querySelector('.explanation').textContent = explanation;
-                
-                let rect = this.getBoundingClientRect();
-                popup.style.top = (window.pageYOffset + rect.bottom + 10) + 'px';
-                popup.style.left = (rect.left - 50) + 'px';
-                popup.style.display = 'block';
-            }
-        });
+        const term = mark.getAttribute('data-term');
+
+        // 如果该术语尚未处理
+        if (term && !processedTerms.has(term)) {
+            mark.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (_iro.page_annotation && _iro.page_annotation[term]) {
+                    let explanation = _iro.page_annotation[term];
+                    let popup = document.getElementById('iro-annotation-popup');
+
+                    popup.querySelector('.term').textContent = term;
+                    popup.querySelector('.explanation').textContent = explanation;
+
+                    let rect = this.getBoundingClientRect();
+                    popup.style.top = (window.pageYOffset + rect.bottom + 10) + 'px';
+                    popup.style.left = (rect.left - 50) + 'px'; // 调整弹窗位置以更好地适应
+                    popup.style.display = 'block';
+                }
+            });
+            processedTerms.add(term); // 将该术语标记为已处理
+        }
     });
     
     // 点击其他区域关闭弹窗
     document.addEventListener('click', function(event) {
         let popup = document.getElementById('iro-annotation-popup');
-        if (popup && !event.target.closest('.iro-term-annotation, .iro-annotation-popup')) {
+        // 确保 popup 存在并且点击事件的目标不是注释标记或弹窗本身
+        if (popup && popup.style.display === 'block' && !event.target.closest('.iro-term-annotation, .iro-annotation-popup')) {
             popup.style.display = 'none';
         }
     });
