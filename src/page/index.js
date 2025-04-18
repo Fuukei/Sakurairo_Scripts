@@ -13,6 +13,7 @@ import prepareEmoji from './emoji'
 import initAnnotations from './annotation'
 import initLinkSubmission from './link_form'
 import init_steamCard from './steam_card'
+import ghcardTheme from './ghcard_theme'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -459,6 +460,7 @@ function whileReady() {
     XCP()
     getqqinfo()
     add_upload_tips()
+    ghcardTheme()
 }
 function whilePjaxComplete() {
     try {
