@@ -116,6 +116,8 @@ function div_href() {
             Ty.href = ele.getAttribute('href')
             let adiv = document.createElement("a")
             adiv.href = Ty.href
+            adiv.style.display = "none"
+            document.body.appendChild(adiv)
             adiv.click()
             Ty.click()
             search_close.click()
