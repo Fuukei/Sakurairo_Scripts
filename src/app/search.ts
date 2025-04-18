@@ -114,6 +114,9 @@ function div_href() {
     for (const ele of document.getElementsByClassName('ins-selectable')) {
         ele.addEventListener("click", () => {
             Ty.href = ele.getAttribute('href')
+            let adiv = document.createElement("a")
+            adiv.href = Ty.href
+            adiv.click()
             Ty.click()
             search_close.click()
         });
