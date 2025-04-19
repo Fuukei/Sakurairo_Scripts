@@ -294,6 +294,7 @@ function tableOfContentScroll(flag) {
         if (tocContainer) {
             tocContainer.style.display = "none";
         }
+        document.dispatchEvent(new CustomEvent("tocEvent", { detail: false }))
     } else {
         if (tocContainer) {
             tocContainer.style.display = "";
@@ -325,6 +326,7 @@ function tableOfContentScroll(flag) {
                 }
             }
         }
+        document.dispatchEvent(new CustomEvent("tocEvent", { detail: true }))
     }
 }
 
