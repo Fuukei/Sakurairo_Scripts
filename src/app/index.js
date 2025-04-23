@@ -63,7 +63,6 @@ initIsMobileCache()
 _iro.pjax = _iro.pjax && isSupported({ Firefox: 60, Edg: 79, Chrome: 66, OPR: 53, Version: 12/**Safari 12 */ });
 _iro.pjax && import('./pjax').then(({ default: initPjax }) => initPjax())
 
-timeSeriesReload();
 add_copyright()
 function activate_widget() {
     let secondary = document.getElementById("secondary");

@@ -3,7 +3,7 @@ import { createButterbar } from '../common/butterbar';
 import { _$ } from '../common/sakurairo_global';
 import add_copyright from './copyright';
 import { loadFontSetting } from './font_control';
-import { MNH, auto_height, PE, CE, bgButtonAddListener, timeSeriesReload, checkSkinSecter, checkCoverBackground } from './func';
+import { MNH, auto_height, PE, CE, bgButtonAddListener, checkSkinSecter, checkCoverBackground } from './func';
 import hitokoto from './hitokoto';
 import { coverVideoIni } from './video';
 import { XLS, post_list_show_animation } from './post_list'
@@ -71,7 +71,6 @@ export default function initPjax() {
             iconflat[0].style.height = '50px';
         }
         bgButtonAddListener()
-        timeSeriesReload();
         add_copyright();
         //#endregion pjaxInit
         post_list_show_animation();
@@ -141,7 +140,6 @@ export default function initPjax() {
         hitokoto()
         PE();
         CE();
-        timeSeriesReload(true);
         post_list_show_animation();
     }, false);
 }

@@ -72,69 +72,6 @@ export function bgButtonAddListener() {
     if (pre) { pre.onclick = preBG }
 }
 
-export function timeSeriesReload(flag) {
-    const archives = document.getElementById('archives');
-    if (!archives) return;
-    const al_li = archives.getElementsByClassName('al_mon');
-
-    if (flag) {
-        archives.addEventListener("click", (e) => {
-            if (e.target.classList.contains("al_mon")) {
-                e.preventDefault();
-                slideToggle(e.target.nextElementSibling, 500);
-            }
-        })
-        lazyload();
-    } else {
-        let al_expand_collapse = document.getElementById('al_expand_collapse');
-        al_expand_collapse.style.cursor = "s-resize";
-        for (let i = 0; i < al_li.length; i++) {
-            let a = al_li[i],
-                num = a.nextElementSibling.getElementsByTagName('li').length;
-            a.style.cursor = "s-resize";
-            a.querySelector('#post-num').textContent = num;
-        }
-        const al_post_list = archives.getElementsByClassName("al_post_list")
-        const al_post_list_first = al_post_list[0];
-        for (const child of al_post_list) {
-            slideToggle(child, 500, 'hide')
-        }
-        slideToggle(al_post_list_first, 500, 'show');
-
-        archives.addEventListener("click", (e) => {
-            if (e.target.classList.contains("al_mon")) {
-                slideToggle(e.target.nextElementSibling, 500);
-                e.preventDefault();
-            }
-        })
-        if (!isMobile()) {
-            for (let i = 0; i < al_post_list.length; i++) {
-                let el = al_post_list[i];
-                el.parentNode.addEventListener('mouseover', () => {
-                    slideToggle(el, 500, 'show');
-                    return false;
-                })
-            }
-            if (false) {
-                for (let i = 0; i < al_post_list.length; i++) {
-                    let el = al_post_list[i];
-                    el.parentNode.addEventListener('mouseover', function () {
-                        slideToggle(el, 500, 'hide');
-                        return false;
-                    })
-                }
-            }
-        }
-        let expanded = false;
-        al_expand_collapse.addEventListener('click', () => {
-            for (const el of al_post_list) {
-                slideToggle(el, 500, expanded ? 'hide' : 'show');
-            }
-            expanded = !expanded;
-        });
-    }
-}
-
 import { liveplay, livepause, } from './video'
 
 /**
