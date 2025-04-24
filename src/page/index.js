@@ -14,6 +14,7 @@ import initAnnotations from './annotation'
 import initLinkSubmission from './link_form'
 import init_steamCard from './steam_card'
 import ghcardTheme from './ghcard_theme'
+import initTimeArchive from './time_archive'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -482,6 +483,7 @@ function whilePjaxComplete() {
         apply_post_theme_color();
         initLinkSubmission();
         init_steamCard();
+        initTimeArchive();
     } catch (e) {
         console.warn(e)
     }
@@ -502,6 +504,7 @@ function whileLoaded() {
     document.addEventListener('ajax_comment_complete', afterAjaxCommentComplete)
     initLinkSubmission();
     init_steamCard();
+    initTimeArchive();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
