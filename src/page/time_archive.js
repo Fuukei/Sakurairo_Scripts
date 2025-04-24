@@ -291,7 +291,7 @@ class Timeline {
 // 创建单例实例
 let timelineInstance = null;
 
-export default function initTimeline() {
+export default function initTimeArchive() {
     if (timelineInstance) {
         timelineInstance.destroy();
         timelineInstance = null;
