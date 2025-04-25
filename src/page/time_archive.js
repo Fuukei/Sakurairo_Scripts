@@ -260,15 +260,23 @@ class Timeline {
                     </div>
                 </div>
             </div>`;
+        
+        const sortedMonths = Object.entries(months).sort((a, b) => {
+            return parseInt(b[0]) - parseInt(a[0]);
+        });
 
         // 添加月份文章列表
-        Object.entries(months).forEach(([month, posts]) => {
+        sortedMonths.forEach(([month, posts]) => {
             if (posts.length) {
                 html += `                    <div class="timeline-modal-month-group">
                         <h3 class="timeline-modal-month-title">${month}${t.month}</h3>
                         <div class="timeline-modal-post-list">`;
                 
-                posts.forEach(post => {
+                const sortedPosts = posts.slice().sort((a, b) => {
+                    return new Date(b.post_date) - new Date(a.post_date);
+                });
+
+                sortedPosts.forEach(post => {
                     const date = new Date(post.post_date);
                     const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
                     const postType = post.meta.type === 'shuoshuo' ? ` [${t.shuoshuo}]` : '';
