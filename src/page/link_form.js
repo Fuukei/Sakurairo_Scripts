@@ -5,6 +5,8 @@
  */
 
 // 多语言翻译
+import initFooter from "../app/footer"
+
 function i18n_form() {
     let sakura_links = {
         // 简体中文
@@ -138,18 +140,21 @@ export default function initLinkSubmission() {
     function handleModalOpen(e) { // 点击展开
         e.preventDefault();
         disableScroll();
+        initFooter("hide");
         linkModal.style.display = 'flex';
         loadCaptcha();
     }
 
     function handleModalClose() { // 点击关闭
         enableScroll();
+        initFooter("check");
         linkModal.style.display = 'none';
     }
 
     function handleOutsideClick(e) { // 点击外部关闭
         if (e.target === linkModal) {
             linkModal.style.display = 'none';
+            initFooter("check");
             enableScroll();
         }
     }

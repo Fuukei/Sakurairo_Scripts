@@ -1,8 +1,10 @@
+import initFooter from "../app/footer"
+
 export default function prepareEmoji() {
-    const emojiPanelButton = document.getElementById('emotion-toggle') as HTMLElement;
-    const emojiPanel = document.querySelector('.emotion-box') as HTMLElement;
-    const header = document.querySelector('.emotion-header') as HTMLElement;
-    const commentTextArea = document.querySelector('.comment-textarea') as HTMLElement;
+    const emojiPanelButton = document.getElementById('emotion-toggle');
+    const emojiPanel = document.querySelector('.emotion-box');
+    const header = document.querySelector('.emotion-header');
+    const commentTextArea = document.querySelector('.comment-textarea');
 
     if (!emojiPanelButton) {
         document.removeEventListener('click', closeEmojiPanel );
@@ -34,14 +36,26 @@ export default function prepareEmoji() {
 
             let leftPos = btnRect.left + window.scrollX + (btnRect.width / 2) - (panelWidth / 2);
             const isFixed = window.getComputedStyle(emojiPanel).position === "fixed";
-            let topPos = isFixed ? (btnRect.top - panelHeight) : (btnRect.top - panelHeight + window.scrollY);
+            // let topPos = isFixed ? (btnRect.top - panelHeight) : (btnRect.top - panelHeight + window.scrollY);
+
+            let topPos = btnRect.bottom;
+            // 若下方空间不足，则放在按钮上方
+            if (topPos + panelHeight > window.innerHeight) {
+                topPos = btnRect.top - panelHeight;
+            }
 
             emojiPanel.style.left = `${leftPos}px`;
             emojiPanel.style.top = `${topPos}px`;
         }
       
         // 立即呼出
-        emojiPanel.classList.toggle('open');
+        if (emojiPanel.classList.contains("open")) {
+            emojiPanel.classList.toggle('open');
+            initFooter("check");
+        } else {
+            emojiPanel.classList.toggle('open');
+            initFooter("hide");
+        }
       
         // 初始化拖拽监听器
         if (!emojiPanel.hasAttribute('initialized')) {
@@ -70,39 +84,42 @@ export default function prepareEmoji() {
     }
 
     // 不处于输入框、表情面板、表情开关时，关闭
-    function closeEmojiPanel (e: Event) {
-        const target = e.target as Node;
+    function closeEmojiPanel (e) {
+        const target = e.target;
         if (
             !emojiPanel.contains(target) && 
             !emojiPanelButton.contains(target) &&
             !commentTextArea.contains(target) ) 
         {
-            emojiPanel.classList.remove('open');
+            if (emojiPanel.classList.contains("open")) {
+                emojiPanel.classList.remove('open');
+                initFooter("check");
+            }
         }
     }
 
     let offsetX = 0, offsetY = 0, isDragging = false;
       
-    function startDrag(e: MouseEvent | TouchEvent) {
+    function startDrag(e) {
         isDragging = true;
-        const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+        const event = (e).touches ? (e).touches[0] : (e);
         offsetX = event.clientX - emojiPanel.offsetLeft;
         offsetY = event.clientY - emojiPanel.offsetTop;
         emojiPanel.style.transition = "none"; // 拖拽时禁用动画
     
-        if ((e as TouchEvent).touches) e.preventDefault();
+        if ((e).touches) e.preventDefault();
     }
     
-    function moveDrag(e: MouseEvent | TouchEvent) {
+    function moveDrag(e) {
         if (!isDragging) return;
-        const event = (e as TouchEvent).touches ? (e as TouchEvent).touches[0] : (e as MouseEvent);
+        const event = (e).touches ? (e).touches[0] : (e);
         const left = event.clientX - offsetX;
         const top = event.clientY - offsetY;
         emojiPanel.style.left = `${left}px`;
         emojiPanel.style.top = `${top}px`;
         emojiPanel.setAttribute('dragged', 'true'); // 标记为已拖拽
     
-        if ((e as TouchEvent).touches) e.preventDefault();
+        if ((e).touches) e.preventDefault();
     }
     
     function endDrag() {
@@ -115,9 +132,12 @@ export default function prepareEmoji() {
 
     //表情栏切换
     row.addEventListener('click', (e) => {
-        if ((e.target as HTMLElement).tagName === 'TH') {
+        if ((e.target).tagName === 'TH') {
             for (const element of row.querySelectorAll('th')) {
-                const container = document.querySelector<HTMLElement>(`.${element.className.match(/(\S+)-bar/)[1]}-container`)
+                const match = element.className.match(/(\S+)-bar/);
+                if (!match) return;
+                /** @type {HTMLElement|null} */
+                const container = document.querySelector(`.${match[1]}-container`);
                 if (element === e.target) {
                     element.classList.add('on-hover')
                     container.style.display = 'block'

@@ -46,7 +46,7 @@ class Timeline {
         }
 
         this.contentAPI = this.modalContent.dataset.archiveapi;
-        this.contents = '';
+        this.contents = ''; //内容标志
         (async function(){await timelineInstance.FetchContents()}()) ;
 
         this.bindEvents();
@@ -89,6 +89,7 @@ class Timeline {
     handleClick(e) {
         const card = e.target.closest('.timeline-year-card');
         if (!card) return;
+        if (!this.contents) return; // 异步内容请求未完成
 
         const year = card.dataset.year;
         const months = this.contents[card.dataset.months];
@@ -237,17 +238,17 @@ class Timeline {
                 <div class="timeline-modal-statbox">
                     <i class="stat-icon fas fa-eye"></i>
                     <span class="stat-label">${t.readCount}</span>
-                    <span class="stat-value">${totalStats.views}</span>
+                    <span class="stat-value">${toFixNum(totalStats.views)}</span>
                     <div class="stat-tooltip">${t.articles}：${typeStats.article.views} ${t.times}<br>
-                        ${t.shuoshuo}：${typeStats.shuoshuo.views} ${t.times}
+                        ${t.shuoshuo}：${toFixNum(typeStats.shuoshuo.views)} ${t.times}
                     </div>
                 </div>
                 <div class="timeline-modal-statbox">
                     <i class="stat-icon fas fa-font"></i>
                     <span class="stat-label">${t.wordCount}</span>
-                    <span class="stat-value">${totalStats.words}</span>
-                    <div class="stat-tooltip">${t.articles}：${typeStats.article.words} ${t.characters}<br>
-                        ${t.shuoshuo}：${typeStats.shuoshuo.words} ${t.characters}
+                    <span class="stat-value">${toFixNum(totalStats.words)}</span>
+                    <div class="stat-tooltip">${t.articles}：${toFixNum(typeStats.article.words)} ${t.characters}<br>
+                        ${t.shuoshuo}：${toFixNum(typeStats.shuoshuo.words)} ${t.characters}
                     </div>
                 </div>
                 <div class="timeline-modal-statbox">
@@ -299,3 +300,13 @@ export default function initTimeArchive() {
     timelineInstance = new Timeline();
     timelineInstance.init();
 }
+
+function toFixNum(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(2) + 'm';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(2) + 'k';
+    } else {
+      return num;
+    }
+  }
