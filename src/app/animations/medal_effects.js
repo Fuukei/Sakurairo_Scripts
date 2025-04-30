@@ -6,13 +6,14 @@ export default function init_medal_effects() {
 // 初始化函数：同时支持DOMContentLoaded和PJAX加载情况
 async function init_medal_effects_main() {
     try {
+        // 由于徽章入场动画已被移除，不再需要延迟
         setTimeout(function(){
             initMedalEffects();
             initParallaxEffect();
             addShineEffect();
-        },0)
+        }, 0) // 恢复到默认的0延迟
     } catch (e) {
-
+        console.error('Medal effects initialization error:', e);
     }
 }
 
@@ -20,8 +21,7 @@ function initMedalEffects() {
     const medals = document.querySelectorAll('.medal-capsule');
     
     if (!medals.length) return;
-    
-    // 初始化每个徽章
+      // 初始化每个徽章
     medals.forEach(medal => {
         // 创建粒子效果
         createParticles(medal);
@@ -30,11 +30,6 @@ function initMedalEffects() {
         medal.addEventListener('click', function() {
             showMedalDetails(this);
         });
-        
-        // 延迟加载动画，确保CSS过渡效果能够正确执行
-        setTimeout(() => {
-            animateMedalEntry(medal);
-        }, 100 + Math.random() * 300);
     });
 }
 
@@ -312,13 +307,6 @@ function createModalParticles(container, medalType) {
         
         container.appendChild(particle);
     }
-}
-
-// 徽章入场动画
-function animateMedalEntry(medal) {
-    medal.style.opacity = '1';
-    medal.style.contentVisibility = 'visible';
-    medal.style.transform = 'translateY(0)';
 }
 
 // 初始化视差效果
