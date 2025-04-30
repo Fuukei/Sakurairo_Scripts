@@ -52,7 +52,7 @@ import { liveplay, livepause, } from './video'
  */
 export function auto_height() {
     if (_iro.windowheight == 'auto') {
-        if (document.querySelector("h1.main-title")) {
+        if (_iro.land_at_home) {
             //let _height = document.documentElement.clientHeight + "px";
             const centerbg = document.getElementById("centerbg")
             const bgvideo = document.getElementById("bgvideo")
@@ -71,7 +71,7 @@ export function PE() {
     const headertop = document.querySelector(".headertop")
     if (headertop) {
         let blank = document.querySelector(".blank");
-        if (document.querySelector(".main-title")) {
+        if (_iro.land_at_home) {
             try {
                 blank.style.paddingTop = "0px";
             } catch (e) { }
