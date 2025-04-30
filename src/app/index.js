@@ -54,6 +54,7 @@ import initTypedJs from './typed'
 import showcard from './showcard'
 import add_copyright from './copyright'
 import initFooter from './footer'
+import init_medal_effects from './animations/medal_effects';
 
 initIsMobileCache()
 /**
@@ -167,4 +168,5 @@ ready(function () {
     initEffect()
     about_us()
     initFooter();
+    init_medal_effects();
 });
