@@ -174,7 +174,21 @@ function showMedalDetails(medal) {
             </div>
             <div class="modal-medal-next-level">${nextLevel || ''}</div>
         `;    } else if (medalLevel === 'gold') {
-        const text = (typeof medalI18n !== 'undefined') ? medalI18n.maxLevelText : 'Maximum level reached';
+            let text = 'Maximum level reached';
+            switch (_iro.language) {
+                case "zh_CN":
+                    text = "已达到最高等级";
+                    break;
+                case "zh_TW":
+                    text = "已達最高等級";
+                    break;
+                case "ja":
+                    text = "最大レベルに到達";
+                    break;
+                default:
+                    text = 'Maximum level reached';
+                    break
+            }
         progressContainer.innerHTML = `
             <div class="modal-medal-max-level">${text}</div>
         `;
