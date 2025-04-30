@@ -3,7 +3,7 @@ import { createButterbar } from '../common/butterbar';
 import { _$ } from '../common/sakurairo_global';
 import add_copyright from './copyright';
 import { loadFontSetting } from './font_control';
-import { MNH, auto_height, PE, CE, bgButtonAddListener, checkSkinSecter, checkCoverBackground } from './func';
+import { MNH, auto_height, PE, CE, bgButtonAddListener, checkCoverBackground } from './func';
 import hitokoto from './hitokoto';
 import { coverVideoIni } from './video';
 import { XLS, post_list_show_animation } from './post_list'
@@ -75,7 +75,6 @@ export default function initPjax() {
         //#endregion pjaxInit
         post_list_show_animation();
         coverVideoIni();
-        checkSkinSecter();
         //#endregion
         checkCoverBackground()//pjax不需要刷新前台背景
         let loading = document.getElementById("loading");
