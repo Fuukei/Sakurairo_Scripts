@@ -82,6 +82,7 @@ const load_post = onlyOnceATime(
  * 为文章列表应用主题色和动画效果
  */
 export function post_list_show_animation() {
+    // 为文章列表项应用动画
     applyShowUpAnimation(
         document.querySelectorAll('article.post-list-thumb,article.shuoshuo-item'),
         target => {
@@ -108,6 +109,12 @@ export function post_list_show_animation() {
                     })
             }
         })
+
+    // 为其他元素应用动画，无需主题色处理
+    const elementsToAnimate = document.querySelectorAll('.stat-capsule, .bento-item, h1.fes-title, h1.main-title');
+    if (elementsToAnimate.length > 0) {
+        applyShowUpAnimation(elementsToAnimate);
+    }
 }
 function XLS_Listener(e: MouseEvent) {
     //要求是#pagination只有anchor一个直接子后代
