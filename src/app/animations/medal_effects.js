@@ -181,9 +181,12 @@ function showMedalDetails(medal) {
                 case "ja":
                     text = "最大レベルに到達";
                     break;
+                case "fr":
+                    text = "Niveau maximum atteint";
+                    break;
                 default:
                     text = 'Maximum level reached';
-                    break
+                    break;
             }
         progressContainer.innerHTML = `
             <div class="modal-medal-max-level">${text}</div>
@@ -386,10 +389,15 @@ function initParallaxEffect() {
 
 // 为徽章添加自然光效果
 function addShineEffect() {
-    const ua = navigator.userAgent;
-    if (/Safari/.test(ua) && /AppleWebKit/.test(ua)) {
-        return;
+    // 检查是否为 Safari 浏览器
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    // Safari 浏览器不支持某些特定效果，直接退出函数
+    if (isSafari) {
+        console.log('Safari browser detected, disabling medal shine effects for compatibility');
+        return; // 在 Safari 浏览器中不启用光效
     }
+    
     const goldMedals = document.querySelectorAll('.medal-capsule.gold');
 
     // 定义CSS动画规则
@@ -424,8 +432,15 @@ function addShineEffect() {
             60% { opacity: 0.4; transform: scale(0.97) translate(2px, 1px); filter: brightness(0.98); }
             85% { opacity: 0.7; transform: scale(1.01) translate(-1px, -2px); filter: brightness(1.2); }
         }
-    `;
-
+    `;    // 检测浏览器是否支持必要的CSS特性
+    const supportsMixBlendMode = window.CSS && CSS.supports && CSS.supports('mix-blend-mode', 'multiply');
+    
+    // 如果不支持关键特性，则提前退出
+    if (!supportsMixBlendMode) {
+        console.log('Browser does not support required CSS features for medal effects');
+        return;
+    }
+    
     try {
         styleSheet.insertRule(animationRules, styleSheet.cssRules.length);
     } catch (e) {
@@ -459,7 +474,7 @@ function addShineEffect() {
             borderRadius: 'inherit',
             pointerEvents: 'none',
             zIndex: '2',
-            mixBlendMode: 'color-dodge', // 更明显的混合模式
+            mixBlendMode: supportsMixBlendMode ? 'color-dodge' : 'normal', 
             animation: 'ambient-light 9s ease-in-out infinite, ambient-color 12s ease-in-out infinite',
             opacity: '0.8',
             transition: 'transform 0.5s ease-out, background 0.5s ease'
@@ -525,9 +540,11 @@ function addShineEffect() {
                 background: 'radial-gradient(ellipse at center, rgba(255,255,220,0.9) 0%, rgba(255,255,200,0.4) 40%, rgba(255,255,200,0) 100%)',
                 pointerEvents: 'none',
                 zIndex: '3',
-                filter: 'blur(1.8px)',
-                opacity: '0.75',                animation: `light-fleck-${i % 3 + 1} ${8 + i * 3}s ease-in-out infinite`,
-                mixBlendMode: 'lighten',
+                filter:'blur(1.8px)',
+                opacity: '0.75',
+                animation: `light-fleck-${i % 3 + 1} ${8 + i * 3}s ease-in-out infinite`,
+                // 使用兼容性更好的混合模式，如果不支持则回退到普通模式
+                mixBlendMode: supportsMixBlendMode ? 'lighten' : 'normal',
                 boxShadow: '0 0 10px rgba(255, 255, 200, 0.45)'
             });
 
@@ -553,7 +570,8 @@ function addShineEffect() {
             background: 'radial-gradient(circle at 35% 35%, rgba(255,236,150,0.2) 0%, rgba(255,215,0,0.1) 60%, rgba(255,215,0,0) 85%)',
             pointerEvents: 'none',
             zIndex: '1',
-            mixBlendMode: 'screen',
+            // 使用兼容性更好的混合模式，如果不支持则使用普通模式
+            mixBlendMode: supportsMixBlendMode ? 'screen' : 'normal',
             animation: 'pulse-animation 5s ease-in-out infinite',
             opacity: '0.8',
             filter: 'blur(4px)'
