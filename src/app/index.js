@@ -49,11 +49,12 @@ import { initIsMobileCache, isMobile } from './mobile'
 import { initFontControl } from './font_control'
 import scrollHandler from './scroll_handler'
 import { checkDarkModeSetting, } from './darkmode'
-import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, checkSkinSecter, closeSkinMenu, MN, PE, timeSeriesReload, collapseMenu } from './func'
+import { addSkinMenuListener, auto_height, bgButtonAddListener, CE, checkBgImgSetting, checkCoverBackground, closeSkinMenu, MN, PE, timeSeriesReload, collapseMenu } from './func'
 import initTypedJs from './typed'
 import showcard from './showcard'
 import add_copyright from './copyright'
 import initFooter from './footer'
+import init_medal_effects from './animations/medal_effects';
 
 initIsMobileCache()
 /**
@@ -163,9 +164,9 @@ ready(function () {
     //#region mashiro_global.ini.normalize();
     post_list_show_animation();
     coverVideoIni();
-    checkSkinSecter();
     //#endregion
     initEffect()
     about_us()
     initFooter();
+    init_medal_effects();
 });

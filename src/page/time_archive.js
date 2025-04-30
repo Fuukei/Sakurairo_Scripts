@@ -133,12 +133,15 @@ class Timeline {
                 views: 0,
                 words: 0,
                 comments: 0
-            }
+            },
         };
 
         // 计算统计数据
         Object.values(months).forEach(monthPosts => {
             monthPosts.forEach(post => {
+                if (post.meta.type == "page"){ // 页面不统计
+                    return
+                };
                 const type = post.meta.type || 'article';
                 const views = parseInt(post.meta.views) || 0;
                 const words = parseInt(post.meta.words) || 0;
@@ -277,6 +280,9 @@ class Timeline {
                 });
 
                 sortedPosts.forEach(post => {
+                    if (post.meta.type == "page"){ // 页面不列出
+                        return
+                    };
                     const date = new Date(post.post_date);
                     const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
                     const postType = post.meta.type === 'shuoshuo' ? ` [${t.shuoshuo}]` : '';

@@ -4,32 +4,6 @@ import { changeCoverBG, getCoverPath, getCurrentBG, nextBG, preBG } from "./cove
 import { isMobile } from "./mobile";
 
 var _mashiro_global_skin_secter = true
-
-export function checkSkinSecter() {
-    if (_mashiro_global_skin_secter === false) {
-        const pattern = document.querySelector(".pattern-center"),
-            headertop = document.querySelector(".headertop-bar");
-        if (pattern) {
-            pattern.classList.remove("pattern-center");
-            pattern.classList.add("pattern-center-sakura");
-        }
-        if (headertop) {
-            headertop.classList.remove("headertop-bar");
-            headertop.classList.add("headertop-bar-sakura");
-        }
-    } else {
-        const pattern = document.querySelector(".pattern-center-sakura"),
-            headertop = document.querySelector(".headertop-bar-sakura");
-        if (pattern) {
-            pattern.classList.remove("pattern-center-sakura");
-            pattern.classList.add("pattern-center");
-        }
-        if (headertop) {
-            headertop.classList.remove("headertop-bar-sakura");
-            headertop.classList.add("headertop-bar");
-        }
-    }
-}
 /**
  * 设置前台背景
  * @param {string} tagId 前台背景ID
@@ -38,7 +12,6 @@ export function checkSkinSecter() {
 export async function changeSkin(tagId) {
     //@sideeffect
     _mashiro_global_skin_secter = tagId == "white-bg" || tagId == "dark-bg";
-    checkSkinSecter();
     let bg_url;
     switch (tagId) {
         case "white-bg":
@@ -79,7 +52,7 @@ import { liveplay, livepause, } from './video'
  */
 export function auto_height() {
     if (_iro.windowheight == 'auto') {
-        if (document.querySelector("h1.main-title")) {
+        if (_iro.land_at_home) {
             //let _height = document.documentElement.clientHeight + "px";
             const centerbg = document.getElementById("centerbg")
             const bgvideo = document.getElementById("bgvideo")
@@ -98,7 +71,7 @@ export function PE() {
     const headertop = document.querySelector(".headertop")
     if (headertop) {
         let blank = document.querySelector(".blank");
-        if (document.querySelector(".main-title")) {
+        if (_iro.land_at_home) {
             try {
                 blank.style.paddingTop = "0px";
             } catch (e) { }
