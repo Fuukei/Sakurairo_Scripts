@@ -11,9 +11,9 @@ async function init_medal_effects_main() {
             initMedalEffects();
             initParallaxEffect();
             addShineEffect();
-        },0)
+        }, 0) // 恢复到默认的0延迟
     } catch (e) {
-
+        console.error('Medal effects initialization error:', e);
     }
 }
 
@@ -21,8 +21,7 @@ function initMedalEffects() {
     const medals = document.querySelectorAll('.medal-capsule');
     
     if (!medals.length) return;
-    
-    // 初始化每个徽章
+      // 初始化每个徽章
     medals.forEach(medal => {
         // 创建粒子效果
         createParticles(medal);
@@ -32,11 +31,6 @@ function initMedalEffects() {
             showMedalDetails(this);
             document.documentElement.style.overflow = 'hidden';
         });
-        
-        // 延迟加载动画，确保CSS过渡效果能够正确执行
-        setTimeout(() => {
-            animateMedalEntry(medal);
-        }, 100 + Math.random() * 300);
     });
 }
 
@@ -315,13 +309,6 @@ function createModalParticles(container, medalType) {
         
         container.appendChild(particle);
     }
-}
-
-// 徽章入场动画
-function animateMedalEntry(medal) {
-    medal.style.opacity = '1';
-    medal.style.contentVisibility = 'visible';
-    medal.style.transform = 'translateY(0)';
 }
 
 // 初始化视差效果
