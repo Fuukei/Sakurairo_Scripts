@@ -9,9 +9,13 @@ async function init_medal_effects_main() {
         document.documentElement.style.overflowY = 'unset';
         setTimeout(function(){
             initMedalEffects();
+            const ua = navigator.userAgent;
+            if (/Safari/.test(ua) && /AppleWebKit/.test(ua)) { // safari不支持的内容
+                return;
+            }
             initParallaxEffect();
             addShineEffect();
-        }, 0) // 恢复到默认的0延迟
+        }, 0);
     } catch (e) {
         console.error('Medal effects initialization error:', e);
     }
@@ -386,10 +390,6 @@ function initParallaxEffect() {
 
 // 为徽章添加自然光效果
 function addShineEffect() {
-    const ua = navigator.userAgent;
-    if (/Safari/.test(ua) && /AppleWebKit/.test(ua)) {
-        return;
-    }
     const goldMedals = document.querySelectorAll('.medal-capsule.gold');
 
     // 定义CSS动画规则
