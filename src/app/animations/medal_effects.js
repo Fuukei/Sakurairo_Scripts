@@ -6,6 +6,7 @@ export default function init_medal_effects() {
 // 初始化函数：同时支持DOMContentLoaded和PJAX加载情况
 async function init_medal_effects_main() {
     try {
+        document.documentElement.style.overflowY = 'unset';
         setTimeout(function(){
             initMedalEffects();
             initParallaxEffect();
@@ -29,6 +30,7 @@ function initMedalEffects() {
         // 添加点击事件，显示成就详细信息
         medal.addEventListener('click', function() {
             showMedalDetails(this);
+            document.documentElement.style.overflow = 'hidden';
         });
         
         // 延迟加载动画，确保CSS过渡效果能够正确执行
@@ -239,6 +241,7 @@ function showMedalDetails(medal) {
 function closeModal(modal) {
     modal.classList.remove('active');
     modal.classList.add('closing');
+    document.documentElement.style.overflowY = 'unset';
     
     // 移除模态框
     setTimeout(() => {
@@ -396,6 +399,10 @@ function initParallaxEffect() {
 
 // 为徽章添加自然光效果
 function addShineEffect() {
+    const ua = navigator.userAgent;
+    if (/Safari/.test(ua) && /AppleWebKit/.test(ua)) {
+        return;
+    }
     const goldMedals = document.querySelectorAll('.medal-capsule.gold');
 
     // 定义CSS动画规则
