@@ -77,7 +77,7 @@ class Timeline {
         if (this.modalMask) {
             this.modalMask.removeEventListener('click', this.boundHandleMaskClick);
         }
-        document.body.style.overflow = "auto";
+        document.documentElement.style.overflowY = 'auto';
     }
 
     bindEvents() {
