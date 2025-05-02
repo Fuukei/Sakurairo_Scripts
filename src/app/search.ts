@@ -167,14 +167,18 @@ export function SearchDialog() {
     if(searchButton && searchDialog){
         
         function closeSearch(){
-            searchDialog.close();
             searchButton.classList.remove('is-active');
+            searchForm.classList.remove('is-active');
             document.documentElement.style.overflowY = 'unset';
+            searchForm.addEventListener("transitionend",function(){
+                searchDialog.close();
+            },{once: true})
         }
         
         function showSearch(){
             searchDialog.showModal();
             searchButton.classList.add('is-active');
+            searchForm.classList.add('is-active');
             document.documentElement.style.overflowY = 'hidden';
         }
 
@@ -186,10 +190,6 @@ export function SearchDialog() {
                 showSearch();
             }
         })
-
-        searchDialog.addEventListener("click", function(event) {
-            event.stopPropagation();
-        });
 
         closeButton.addEventListener("click",closeSearch)
 
