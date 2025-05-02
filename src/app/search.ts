@@ -5,7 +5,7 @@ export interface Query {
     link: string
     text: string
     title: string
-    type: "post" | 'page' | 'category' | 'comment' | 'tag'
+    type: "post" | 'page' | 'category' | 'comment' | 'tag' | 'shuoshuo'
 }
 let QueryStorage: Array<Query>
 function renderSearchResult(keyword: string, link: string, fa: string, title: string, iconfont: string, comments: string, text: string) {
@@ -33,43 +33,69 @@ function Cx(array: Query[], query: string) {
             .some(v => new RegExp(query + '').test(v))
     );
 }
-function query(B: Query[], keyword: string,) {
-    let y = "",
-        w = "",
-        u = "",
-        r = "",
-        p = "",
-        F = ""
-    const G = '<section class="ins-section"><header class="ins-section-header">',
-        D = "</section>",
-        E = "</header>",
-        queries = Cx(B, keyword.trim());
-    for (const query of queries) {
-        switch (query.type) {
+function query(data: Query[], keyword: string,) {
+    const sectionStart = '<section class="ins-section"><header class="ins-section-header">';
+    const sectionEnd = '</section>';
+    const headerEnd = '</header>';
+
+    let articleResults = "";
+    let shuoshuoResults = "";
+    let pageResults = "";
+    let categoryResults = "";
+    let tagResults = "";
+    let commentResults = "";
+    let finalHtml = "";
+
+    const matchedItems = Cx(data, keyword.trim());
+
+    for (const item of matchedItems) {
+        switch (item.type) {
             case "post":
-                w = w + renderSearchResult(keyword, query.link, "fa-inbox", query.title, "fa-comments", query.comments, query.text);
+                articleResults += renderSearchResult(keyword,item.link,"fa-inbox",item.title,"fa-comments",item.comments,item.text);
                 break;
-            case "tag":
-                p = p + renderSearchResult("", query.link, "fa-tag", query.title, "none", "", "");
+            
+            case "shuoshuo":
+                shuoshuoResults += renderSearchResult(keyword,item.link,"pen-to-square",item.title,"fa-comments",item.comments,item.text);
                 break;
-            case "category":
-                r = r + renderSearchResult("", query.link, "fa-folder", query.title, "none", "", "");
-                break;
+
             case "page":
-                u = u + renderSearchResult(keyword, query.link, "fa-file", query.title, "fa-comments", query.comments, query.text);
+                pageResults += renderSearchResult(keyword,item.link,"fa-file",item.title,"fa-comments",item.comments,item.text);
                 break;
+
+            case "category":
+                categoryResults += renderSearchResult("",item.link,"fa-folder",item.title,"none","","");
+                break;
+
+            case "tag":
+                tagResults += renderSearchResult("",item.link,"fa-tag",item.title,"none","","");
+                break;
+
             case "comment":
-                F = F + renderSearchResult(keyword, query.link, "fa-comment", query.title, "none", "", query.text);
-                break
+                commentResults += renderSearchResult(keyword,item.link,"fa-comment",item.title,"none","",item.text);
+                break;
         }
     }
-    w && (y = y + G + __("文章") + E + w + D)
-    u && (y = y + G + __("页面") + E + u + D)
-    r && (y = y + G + __("分类") + E + r + D)
-    p && (y = y + G + __("标签") + E + p + D)
-    F && (y = y + G + __("评论") + E + F + D)
-    document.getElementById("PostlistBox").innerHTML = y
 
+    if (articleResults) {
+        finalHtml += sectionStart + __("文章") + headerEnd + articleResults + sectionEnd;
+    }
+    if (shuoshuoResults) {
+        finalHtml += sectionStart + __("说说") + headerEnd + articleResults + sectionEnd;
+    }
+    if (pageResults) {
+        finalHtml += sectionStart + __("页面") + headerEnd + pageResults + sectionEnd;
+    }
+    if (categoryResults) {
+        finalHtml += sectionStart + __("分类") + headerEnd + categoryResults + sectionEnd;
+    }
+    if (tagResults) {
+        finalHtml += sectionStart + __("标签") + headerEnd + tagResults + sectionEnd;
+    }
+    if (commentResults) {
+        finalHtml += sectionStart + __("评论") + headerEnd + commentResults + sectionEnd;
+    }
+
+    document.getElementById("PostlistBox").innerHTML = finalHtml;
 }
 
 function search_a(val: RequestInfo) {
@@ -132,29 +158,68 @@ function div_href() {
     }); */
 }
 
-export function jsSearchCallback() {
-    //$('.js-toggle-search').toggleClass('is-active');
-    document.getElementsByClassName('js-toggle-search')[0].classList.toggle('is-active')
-    //$('.js-search').toggleClass('is-visible');
-    document.getElementsByClassName('js-search')[0].classList.toggle('is-visible')
-    //$('html').css('overflow-y', 'hidden');
-    document.documentElement.style.overflowY = 'hidden'
-    if (_iro.live_search) {
-        QueryStorage = [];
-        search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"));
+export function SearchDialog() {
+    let searchButton = document.querySelector(".js-toggle-search") as HTMLElement;
+    let searchDialog = document.querySelector(".dialog-search-form") as HTMLDialogElement;
+    let closeButton = document.querySelector(".search_close") as HTMLElement;
+    let searchForm = document.querySelector(".dialog-search-form form") as HTMLElement;
+    
+    if(searchButton && searchDialog){
+        
+        function closeSearch(){
+            searchDialog.close();
+            searchButton.classList.remove('is-active');
+            document.documentElement.style.overflowY = 'unset';
+        }
+        
+        function showSearch(){
+            searchDialog.showModal();
+            searchButton.classList.add('is-active');
+            document.documentElement.style.overflowY = 'hidden';
+        }
 
-        let otxt = document.getElementById("search-input") as HTMLInputElement,
-            //list = document.getElementById("PostlistBox"),
-            //Record = list.innerHTML,
-            searchFlag: ReturnType<typeof setTimeout> = null;
-        otxt.oninput = function () {
-            if (searchFlag != null) {
-                clearTimeout(searchFlag);
+        searchButton.addEventListener("click",function(event){
+            event.stopPropagation();
+            if (searchDialog.open){
+                closeSearch();
+            } else {
+                showSearch();
             }
-            searchFlag = setTimeout(function () {
-                query(QueryStorage, otxt.value, /* Record */);
-                div_href();
-            }, 250);
-        };
+        })
+
+        searchDialog.addEventListener("click", function(event) {
+            event.stopPropagation();
+        });
+
+        closeButton.addEventListener("click",closeSearch)
+
+        document.addEventListener("click",function(event){
+            let target = event.target;
+            if(target instanceof Node && !searchForm.contains(target)){
+                if (searchDialog.open){
+                    closeSearch()
+                }
+            }
+        })
+        
+        if (_iro.live_search) {
+            QueryStorage = [];
+            search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"));
+    
+            let otxt = document.getElementById("search-input") as HTMLInputElement,
+                //list = document.getElementById("PostlistBox"),
+                //Record = list.innerHTML,
+                searchFlag: ReturnType<typeof setTimeout> = null;
+            otxt.oninput = function () {
+                if (searchFlag != null) {
+                    clearTimeout(searchFlag);
+                }
+                searchFlag = setTimeout(function () {
+                    query(QueryStorage, otxt.value, /* Record */);
+                    div_href();
+                }, 250);
+            };
+        }
+        
     }
 }
