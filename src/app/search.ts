@@ -130,22 +130,47 @@ function query(data: Query[], keyword: string,) {
         const typeKey = tabClass.slice(4); // 'post','shuoshuo','page','cate','tag','comment'
 
         // 清除所有 active
-        tabBar.querySelectorAll(".ins-section.active")
-            .forEach(el => el.classList.remove("active"));
-        typeContainer.querySelectorAll(".ins-section.active")
-            .forEach(el => el.classList.remove("active"));
+        tabBar.querySelectorAll(".ins-section")
+            .forEach(el => el.classList.remove("active", "prev", "next"));
+        typeContainer.querySelectorAll(".ins-section")
+            .forEach(el => el.classList.remove("active", "prev", "next"));
 
-        tabSection.classList.add("active");
-
-        const contentSection = typeContainer.querySelector<HTMLElement>(`.type-${typeKey}`);
-        if (contentSection) {
-            contentSection.classList.add("active");
-            contentSection.style.setProperty("--items",String(contentSection.childNodes.length));
-            // typeContainer.scrollTo({
-            // left: contentSection.offsetLeft,
-            // behavior: "smooth"
-            // });
+        let sibling = tabSection.previousElementSibling as HTMLElement | null;
+        while (sibling) {
+            sibling.classList.add("prev");
+            sibling = sibling.previousElementSibling as HTMLElement | null;
         }
+        
+        sibling = tabSection.nextElementSibling as HTMLElement | null;
+        while (sibling) {
+            sibling.classList.add("next");
+            sibling = sibling.nextElementSibling as HTMLElement | null;
+        }
+        
+        tabSection.classList.add("active");
+        
+        // 内容：添加 active / prev / next
+        const contentSection = typeContainer.querySelector<HTMLElement>(`.type-${typeKey}`);
+        if (!contentSection) return;
+        
+        sibling = contentSection.previousElementSibling as HTMLElement | null;
+        while (sibling) {
+            sibling.classList.add("prev");
+            sibling = sibling.previousElementSibling as HTMLElement | null;
+        }
+        
+        sibling = contentSection.nextElementSibling as HTMLElement | null;
+        while (sibling) {
+            sibling.classList.add("next");
+            sibling = sibling.nextElementSibling as HTMLElement | null;
+        }
+        
+        contentSection.classList.add("active");
+        contentSection.style.setProperty("--items", String(contentSection.childNodes.length));
+        // typeContainer.scrollTo({
+        // left: contentSection.offsetLeft,
+        // behavior: "smooth"
+        // });
     };
 }
 
