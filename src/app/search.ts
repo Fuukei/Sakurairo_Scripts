@@ -111,8 +111,26 @@ function query(data: Query[], keyword: string,) {
     const typeContainer = document.querySelector<HTMLDivElement>(".ins-type-container")!;
     tabBar = document.querySelector<HTMLDivElement>(".ins-tab")!;
 
-    tabBar.querySelector<HTMLElement>(".ins-section").classList.add("active");
-    typeContainer.querySelector<HTMLElement>(".ins-section").classList.add("active");
+    const firstTabSection = tabBar.querySelector<HTMLElement>(".ins-section");
+    const firstContentSection = typeContainer.querySelector<HTMLElement>(".ins-section");
+
+    if (firstTabSection && firstContentSection) {
+        firstTabSection.classList.add("active");
+        firstContentSection.classList.add("active");
+        firstContentSection.style.setProperty("--items", String(firstContentSection.childNodes.length));
+
+        let nextSibling = firstTabSection.nextElementSibling as HTMLElement | null;
+        while (nextSibling) {
+            nextSibling.classList.add("next");
+            nextSibling = nextSibling.nextElementSibling as HTMLElement | null;
+        }
+
+        nextSibling = firstContentSection.nextElementSibling as HTMLElement | null;
+        while (nextSibling) {
+            nextSibling.classList.add("next");
+            nextSibling = nextSibling.nextElementSibling as HTMLElement | null;
+        }
+    }
 
     tabBar.addEventListener("click", tabSwitch)
 
