@@ -55,7 +55,7 @@ function query(data: Query[], keyword: string,) {
                 break;
             
             case "shuoshuo":
-                shuoshuoResults += renderSearchResult(keyword,item.link,"pen-to-square",item.title,"fa-comments",item.comments,item.text);
+                shuoshuoResults += renderSearchResult(keyword,item.link,"fa-pen-to-square",item.title,"fa-comments",item.comments,item.text);
                 break;
 
             case "page":
@@ -80,7 +80,7 @@ function query(data: Query[], keyword: string,) {
         finalHtml += sectionStart + __("文章") + headerEnd + articleResults + sectionEnd;
     }
     if (shuoshuoResults) {
-        finalHtml += sectionStart + __("说说") + headerEnd + articleResults + sectionEnd;
+        finalHtml += sectionStart + __("说说") + headerEnd + shuoshuoResults + sectionEnd;
     }
     if (pageResults) {
         finalHtml += sectionStart + __("页面") + headerEnd + pageResults + sectionEnd;
