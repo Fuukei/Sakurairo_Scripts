@@ -38,6 +38,10 @@ function query(data: Query[], keyword: string,) {
     const sectionEnd = '</section>';
     const headerEnd = '</header>';
 
+    let tabBar = document.querySelector<HTMLDivElement>(".ins-tab")!;
+
+    tabBar && tabBar.removeEventListener("click",tabSwitch);
+
     let articleResults = "";
     let shuoshuoResults = "";
     let pageResults = "";
@@ -45,6 +49,7 @@ function query(data: Query[], keyword: string,) {
     let tagResults = "";
     let commentResults = "";
     let finalHtml = "";
+    let tabs = "";
 
     const matchedItems = Cx(data, keyword.trim());
 
@@ -77,25 +82,70 @@ function query(data: Query[], keyword: string,) {
     }
 
     if (articleResults) {
-        finalHtml += sectionStart + __("文章") + headerEnd + articleResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-post">' + __("文章") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-post">' + articleResults + sectionEnd;
     }
     if (shuoshuoResults) {
-        finalHtml += sectionStart + __("说说") + headerEnd + shuoshuoResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-shuoshuo">' + __("说说") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-shuoshuo">' + shuoshuoResults + sectionEnd;
     }
     if (pageResults) {
-        finalHtml += sectionStart + __("页面") + headerEnd + pageResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-page">' + __("页面") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-page">' + pageResults + sectionEnd;
     }
     if (categoryResults) {
-        finalHtml += sectionStart + __("分类") + headerEnd + categoryResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-cate">' + __("分类") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-cate">' + categoryResults + sectionEnd;
     }
     if (tagResults) {
-        finalHtml += sectionStart + __("标签") + headerEnd + tagResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-tag">' + __("标签") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-tag">' + tagResults + sectionEnd;
     }
     if (commentResults) {
-        finalHtml += sectionStart + __("评论") + headerEnd + commentResults + sectionEnd;
+        tabs += '<section class="ins-section"><header class="ins-section-header tab-comment">' + __("评论") + headerEnd + sectionEnd;
+        finalHtml += '<section class="ins-section type-comment">' + commentResults + sectionEnd;
     }
 
-    document.getElementById("PostlistBox").innerHTML = finalHtml;
+    document.getElementById("PostlistBox").innerHTML = '<div class="ins-tab">' + tabs + '</div><div class="ins-type-container">' + finalHtml + "</div>";
+
+    const typeContainer = document.querySelector<HTMLDivElement>(".ins-type-container")!;
+    tabBar = document.querySelector<HTMLDivElement>(".ins-tab")!;
+
+    tabBar.querySelector<HTMLElement>(".ins-section").classList.add("active");
+    typeContainer.querySelector<HTMLElement>(".ins-section").classList.add("active");
+
+    tabBar.addEventListener("click", tabSwitch)
+
+    function tabSwitch (e: Event) {
+        const target = e.target as HTMLElement;
+        
+        if (!target.classList.contains("ins-section-header")) return;
+
+        const tabSection = target.closest(".ins-section") as HTMLElement;
+        if (!tabSection) return;
+
+        const tabClasses = Array.from(target.classList);
+        const tabClass   = tabClasses.find(c => c.startsWith("tab-"));
+        if (!tabClass) return;
+        const typeKey = tabClass.slice(4); // 'post','shuoshuo','page','cate','tag','comment'
+
+        // 清除所有 active
+        tabBar.querySelectorAll(".ins-section.active")
+            .forEach(el => el.classList.remove("active"));
+        typeContainer.querySelectorAll(".ins-section.active")
+            .forEach(el => el.classList.remove("active"));
+
+        tabSection.classList.add("active");
+
+        const contentSection = typeContainer.querySelector<HTMLElement>(`.type-${typeKey}`);
+        if (contentSection) {
+            contentSection.classList.add("active");
+            // typeContainer.scrollTo({
+            // left: contentSection.offsetLeft,
+            // behavior: "smooth"
+            // });
+        }
+    };
 }
 
 function search_a(val: RequestInfo) {
@@ -122,18 +172,7 @@ function search_a(val: RequestInfo) {
             .catch(reason => console.warn(reason))
     }
 }
-/*                     if (!Object.values) Object.values = function (obj) {
-                        if (obj !== Object(obj))
-                            throw new TypeError('Object.values called on a non-object');
-                        var val = [],
-                            key;
-                        for (key in obj) {
-                            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                                val.push(obj[key]);
-                            }
-                        }
-                        return val;
-                    } */
+
 function div_href() {
     const search_close = document.querySelector(".search_close") as HTMLElement
     const Ty = document.getElementById('Ty') as HTMLAnchorElement
@@ -149,13 +188,6 @@ function div_href() {
             search_close.click()
         });
     }
-    /* $(".ins-selectable").each(function () {
-        $(this).click(function () {
-            $("#Ty").attr('href', $(this).attr('href'));
-            $("#Ty").click();
-            $(".search_close").click();
-        });
-    }); */
 }
 
 export function SearchDialog() {
