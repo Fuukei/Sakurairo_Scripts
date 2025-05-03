@@ -140,6 +140,7 @@ function query(data: Query[], keyword: string,) {
         const contentSection = typeContainer.querySelector<HTMLElement>(`.type-${typeKey}`);
         if (contentSection) {
             contentSection.classList.add("active");
+            contentSection.style.setProperty("--items",String(contentSection.childNodes.length));
             // typeContainer.scrollTo({
             // left: contentSection.offsetLeft,
             // behavior: "smooth"
@@ -175,16 +176,13 @@ function search_a(val: RequestInfo) {
 
 function div_href() {
     const search_close = document.querySelector(".search_close") as HTMLElement
-    const Ty = document.getElementById('Ty') as HTMLAnchorElement
     for (const ele of document.getElementsByClassName('ins-selectable')) {
         ele.addEventListener("click", () => {
-            Ty.href = ele.getAttribute('href')
             let adiv = document.createElement("a")
-            adiv.href = Ty.href
+            adiv.href = ele.getAttribute('href')
             adiv.style.display = "none"
             document.body.appendChild(adiv)
             adiv.click()
-            Ty.click()
             search_close.click()
         });
     }
