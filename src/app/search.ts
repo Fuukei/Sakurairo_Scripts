@@ -8,7 +8,7 @@ export interface Query {
     type: "post" | 'page' | 'category' | 'comment' | 'tag' | 'shuoshuo'
 }
 let QueryStorage: Array<Query>
-function renderSearchResult(keyword: string, link: string, fa: string, title: string, iconfont: string, comments: string, text: string) {
+function renderSearchResult(keyword: string, link: string, title: string, text: string) {
     if (keyword) {
         const s = keyword.trim().split(" "),
             a = title.indexOf(s[s.length - 1]),
@@ -18,7 +18,7 @@ function renderSearchResult(keyword: string, link: string, fa: string, title: st
         text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
         text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
     }
-    return `<a class="ins-selectable ins-search-item" href="${link}"><header><i class="fa-solid ${fa}" aria-hidden="true"></i>${title}<i class="fa-solid ${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></a>`;
+    return `<a class="ins-selectable ins-search-item" href="${link}"><header>${title}</header><p class="ins-search-preview">${text}</p></a>`;
 }
 function Cx(array: Query[], query: string) {
     for (let s = 0; s < query.length; s++) {
@@ -56,27 +56,27 @@ function query(data: Query[], keyword: string,) {
     for (const item of matchedItems) {
         switch (item.type) {
             case "post":
-                articleResults += renderSearchResult(keyword,item.link,"fa-inbox",item.title,"fa-comments",item.comments,item.text);
+                articleResults += renderSearchResult(keyword,item.link,item.title,item.text);
                 break;
             
             case "shuoshuo":
-                shuoshuoResults += renderSearchResult(keyword,item.link,"fa-pen-to-square",item.title,"fa-comments",item.comments,item.text);
+                shuoshuoResults += renderSearchResult(keyword,item.link,item.title,item.text);
                 break;
 
             case "page":
-                pageResults += renderSearchResult(keyword,item.link,"fa-file",item.title,"fa-comments",item.comments,item.text);
+                pageResults += renderSearchResult(keyword,item.link,item.title,item.text);
                 break;
 
             case "category":
-                categoryResults += renderSearchResult("",item.link,"fa-folder",item.title,"none","","");
+                categoryResults += renderSearchResult("",item.link,item.title,item.text);
                 break;
 
             case "tag":
-                tagResults += renderSearchResult("",item.link,"fa-tag",item.title,"none","","");
+                tagResults += renderSearchResult("",item.link,item.title,"");
                 break;
 
             case "comment":
-                commentResults += renderSearchResult(keyword,item.link,"fa-comment",item.title,"none","",item.text);
+                commentResults += renderSearchResult(keyword,item.link,item.title,item.text);
                 break;
         }
     }
