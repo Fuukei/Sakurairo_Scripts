@@ -18,7 +18,7 @@ function renderSearchResult(keyword: string, link: string, fa: string, title: st
         text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
         text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
     }
-    return `<div class="ins-selectable ins-search-item" href="${link}"><header><i class="fa-solid ${fa}" aria-hidden="true"></i>${title}<i class="fa-solid ${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></div>`;
+    return `<a class="ins-selectable ins-search-item" href="${link}"><header><i class="fa-solid ${fa}" aria-hidden="true"></i>${title}<i class="fa-solid ${iconfont}">${comments}</i></header><p class="ins-search-preview">${text}</p></a>`;
 }
 function Cx(array: Query[], query: string) {
     for (let s = 0; s < query.length; s++) {
@@ -197,7 +197,6 @@ function search_a(val: RequestInfo) {
     if (sessionStorage.getItem('search') != null) {
         QueryStorage = JSON.parse(sessionStorage.getItem('search'));
         query(QueryStorage, otxt.value, /* Record */);
-        div_href();
     } else {
         fetch(val)
             .then(async resp => {
@@ -207,27 +206,12 @@ function search_a(val: RequestInfo) {
                         sessionStorage.setItem('search', json);
                         QueryStorage = JSON.parse(json);
                         query(QueryStorage, otxt.value, /* Record */);
-                        div_href();
                     }
                 } else {
                     console.warn('HTTP ' + resp.status)
                 }
             })
             .catch(reason => console.warn(reason))
-    }
-}
-
-function div_href() {
-    const search_close = document.querySelector(".search_close") as HTMLElement
-    for (const ele of document.getElementsByClassName('ins-selectable')) {
-        ele.addEventListener("click", () => {
-            let adiv = document.createElement("a")
-            adiv.href = ele.getAttribute('href')
-            adiv.style.display = "none"
-            document.body.appendChild(adiv)
-            adiv.click()
-            search_close.click()
-        });
     }
 }
 
@@ -289,9 +273,9 @@ export function SearchDialog() {
                 }
                 searchFlag = setTimeout(function () {
                     query(QueryStorage, otxt.value, /* Record */);
-                    div_href();
                 }, 250);
             };
+            document.addEventListener("pjax:complete",closeSearch);
         }
         
     }
