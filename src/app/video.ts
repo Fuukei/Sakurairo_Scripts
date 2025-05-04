@@ -2,6 +2,9 @@ import { getBaseName } from '../common/util';
 import { __ } from '../common/sakurairo_global';
 import { importExternal } from '../common/npmLib';
 const bgvideo = document.getElementById<HTMLVideoElement>("bgvideo");
+//Mute homepage video and enable autoplay
+bgvideo.autoplay = true;
+bgvideo.muted = true;
 const videoList: Array<string> = _iro.movies.name?.split(",") || []// 视频列表
 let unplayedIndex = new Array(videoList.length).fill(0).map((_, index) => index)
 let aplayersToResume: any[] = []
@@ -92,6 +95,27 @@ export function livepause() {
 }
 export function coverVideo() {
     const video_btn = document.getElementById("video-btn");
+    // 自动播放初始化
+    function autoPlayInit() {
+        if (!video_btn.classList.contains("loadvideo")) return;
+        getVideo();
+        bgvideo.oncanplay = () => {
+            splay();
+            bgvideo.play().catch(e => console.error("Autoplay failed:", e)); // 处理自动播放限制
+            document.getElementById("video-add").style.display = "block";
+            if (video_btn) {
+                video_btn.classList.add("videolive", "haslive");
+                video_btn.classList.remove("loadvideo");
+            }
+        }
+    }
+    // 页面加载完成后立即执行
+    if (document.readyState === 'complete') {
+        autoPlayInit();
+    } else {
+       window.addEventListener('load', autoPlayInit);
+    }
+
     if (video_btn) video_btn.addEventListener("click", function () {
         if (this.classList.contains("loadvideo")) {
             this.classList.add("video-pause");
