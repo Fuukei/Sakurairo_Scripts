@@ -28,11 +28,7 @@ const javascript_loader = {
 module.exports = {
     entry: {
         app: './src/app/',
-        page: { import: "./src/page/", dependOn: 'app' },
-        "page-bilibilifav": "./src/page-bilibilifav.ts"
-        /* lazyload:"lazyload",
-        smoothscroll:"smoothscroll-for-websites" */
-        //"customizer":"./src/entries/customizer.js"
+        page: { import: "./src/page/", dependOn: 'app' }
     },
     output: {
         filename: '[name].js',
