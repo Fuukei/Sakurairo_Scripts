@@ -17,6 +17,7 @@ declare namespace _iro {
     const order: string
     const formpostion: string
     const api: string
+    const iro_api: string
     const nonce: string
     const google_analytics_id: string
     const gravatar_url: string
@@ -103,6 +104,7 @@ declare namespace _iro {
      */
     const ext_shared_lib: boolean
     const dev_mode: boolean
+    const is_admin: boolean | string
 }
 declare namespace mashiro_global {
     //let font_control:FontControl
