@@ -9,22 +9,19 @@ let isInitialized = false;
 let isAdmin = null;
 let app = null;
 
-function bili_fav_init () {
-    app = document.getElementById("bilibili-favlist-app");
-    isAdmin = _iro.is_admin;
-    if (app) {
-        initBilibiliFavList();
-    } else {
-        cleanup();
-    }
-    document.addEventListener("pjax:complete", () => {
-        setTimeout(() => {
+export default function bili_fav_init () {
+    function init(){
+        app = document.getElementById("bilibili-favlist-app");
+        isAdmin = _iro.is_admin;
+        if (app) {
             initBilibiliFavList();
-        }, 100);
-    });
-};
-
-setInterval(bili_fav_init,3000)
+        } else {
+            cleanup();
+        }
+    }
+    document.addEventListener("pjax:complete",init);
+    init();
+}
 
 function cleanup () {
     if (visibilityHandler) {
@@ -759,15 +756,10 @@ async function initBilibiliFavList() {
 
             visibilityHandler = function () {
                 const now = Date.now();
-                const app = document.getElementById("bilibili-favlist-app");
 
                 if (document.visibilityState === "hidden") {
                     lastVisibilityChange = now;
                 } else if (document.visibilityState === "visible") {
-                    if (!app || !document.body.contains(app)) {
-                        return;
-                    }
-
                     const timeAway = now - lastVisibilityChange;
                     if (
                         isInitialized &&
@@ -803,7 +795,6 @@ async function initBilibiliFavList() {
         }
 
         function setupScrollEffects() {
-            if (!app) return;
             const itemObserver = new IntersectionObserver(
                 (entries) => {
                     entries.forEach((entry) => {
@@ -857,7 +848,6 @@ async function initBilibiliFavList() {
             }
 
             scrollHandler = debounce(() => {
-                if (!app) return;
                 // 选择没有 'fav-item-exit' 类的项目来应用 'visible'
                 const items = app.querySelectorAll(
                     ".fav-item:not(.visible):not(.fav-item-exit)"
@@ -1009,7 +999,6 @@ async function initBilibiliFavList() {
             });
         }
     } catch (error) {
-        const app = document.getElementById("bilibili-favlist-app");
         if (app) {
             app.innerHTML = `
                 <div class="fav-empty">

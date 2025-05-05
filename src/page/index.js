@@ -15,6 +15,7 @@ import initLinkSubmission from './link_form'
 import init_steamCard from './steam_card'
 import ghcardTheme from './ghcard_theme'
 import initTimeArchive from './time_archive'
+import bili_fav_init from './bili_fav'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -505,6 +506,7 @@ function whileLoaded() {
     initLinkSubmission();
     init_steamCard();
     initTimeArchive();
+    bili_fav_init();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
