@@ -13,10 +13,9 @@ export default function bili_fav_init () {
     function init(){
         app = document.getElementById("bilibili-favlist-app");
         isAdmin = _iro.is_admin;
+        cleanup();
         if (app) {
             initBilibiliFavList();
-        } else {
-            cleanup();
         }
     }
     document.addEventListener("pjax:complete",init);
