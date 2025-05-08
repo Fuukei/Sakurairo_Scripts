@@ -16,6 +16,7 @@ import init_steamCard from './steam_card'
 import ghcardTheme from './ghcard_theme'
 import initTimeArchive from './time_archive'
 import bili_fav_init from './bili_fav'
+import init_comment_captcha from './comment_captcha'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -485,6 +486,7 @@ function whilePjaxComplete() {
         initLinkSubmission();
         init_steamCard();
         initTimeArchive();
+        init_comment_captcha();
     } catch (e) {
         console.warn(e)
     }
@@ -507,6 +509,7 @@ function whileLoaded() {
     init_steamCard();
     initTimeArchive();
     bili_fav_init();
+    init_comment_captcha();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
