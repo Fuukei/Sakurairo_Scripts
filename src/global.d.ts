@@ -92,6 +92,7 @@ declare namespace _iro {
      * 开启评论上传图片功能
      */
     const comment_upload_img: boolean
+    const img_upload_max_size: number
     /**
      * 
      */
