@@ -106,7 +106,7 @@ class Timeline {
 
         const categoryCard = e.target.closest('.category-card');
         if (categoryCard) {
-            const catId = parseInt(categoryCard.dataset.categoryId, 10);
+            const catId = parseInt(categoryCard.dataset.categoryid, 10);
             const categoryData = this.filterByCategory(catId);
             this.renderModal(categoryCard.querySelector('.category-name').innerHTML, categoryData, 'category');
 
