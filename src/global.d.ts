@@ -106,6 +106,8 @@ declare namespace _iro {
     const ext_shared_lib: boolean
     const dev_mode: boolean
     const is_admin: boolean | string
+    const page_annotation: string | string[]
+    const have_annotation: boolean
 }
 declare namespace mashiro_global {
     //let font_control:FontControl
