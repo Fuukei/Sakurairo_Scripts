@@ -502,7 +502,6 @@ function whilePjaxComplete() {
         initLinkSubmission();
         init_steamCard();
         initTimeArchive();
-        init_comment_captcha();
     } catch (e) {
         console.warn(e)
     }
