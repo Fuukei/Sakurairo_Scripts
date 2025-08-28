@@ -344,7 +344,7 @@ class Timeline {
                         const formattedDate = `${date.getMonth() + 1}-${date.getDate()}`;
                         const postType = post.meta.type === 'shuoshuo' ? ` [${t.shuoshuo}]` : '';
                         html += `
-                            <a href="${post.guid}" class="timeline-modal-post-item">
+                            <a href="${post.link}" class="timeline-modal-post-item">
                                 <span class="timeline-modal-post-title">${post.post_title}${postType}</span>
                                 <span class="timeline-modal-post-date">${formattedDate}</span>
                             </a>`;
