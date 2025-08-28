@@ -93,9 +93,10 @@ class Timeline {
 
     handleClick(e) {
         if (!this.contents) return; // 异步内容请求未完成
+        if (e.target.matches('a')) return; // 点击对象为卡片内文章链接
         
         const yearCard = e.target.closest('.timeline-year-card');
-        if (yearCard) {
+        if (yearCard && !e.target.matches('a')) {
             let year = yearCard.dataset.year;
             let yearData = this.filterByYear(year);
             this.renderModal(`${year}`, yearData, 'year');
