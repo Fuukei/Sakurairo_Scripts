@@ -11,14 +11,22 @@ export default function init_comment_captcha() {
         let captchaHideTimeout = null;
         let captchaField = document.querySelector('.comment-captcha .input');
         let captchaImg = document.querySelector('.comment-captcha img');
-    
+        
         if (captchaField && captchaImg) {
             captchaImg.addEventListener('click',refreshCaptcha);
             captchaField.addEventListener('focus',showCaptcha);
             captchaField.addEventListener('blur',hideCaptcha);
+            captchaImg.onerror = function() {
+                refreshCaptcha();
+                captchaImg.onerror = ''
+            }
         }
     
         function showCaptcha() {
+            if (!captchaImg.dataset.loaded) {
+                captchaImg.dataset.loaded = true;
+                refreshCaptcha();
+            };
             captchaField.setAttribute("placeholder", "");
             if (captchaHideTimeout) {
                 clearTimeout(captchaHideTimeout);
