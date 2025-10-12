@@ -80,6 +80,7 @@ declare namespace _iro {
     const skin_bg4: string
     const meting_api_url: string | undefined
     const code_highlight: "prism" | "hljs" | "custom"
+    const theme_mathjax: boolean
     const code_highlight_prism: {
         line_number_all: boolean
         autoload_path: string,
