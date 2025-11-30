@@ -80,6 +80,7 @@ declare namespace _iro {
     const skin_bg4: string
     const meting_api_url: string | undefined
     const code_highlight: "prism" | "hljs" | "custom"
+    const theme_mathjax: boolean
     const code_highlight_prism: {
         line_number_all: boolean
         autoload_path: string,
@@ -92,6 +93,7 @@ declare namespace _iro {
      * 开启评论上传图片功能
      */
     const comment_upload_img: boolean
+    const img_upload_max_size: number
     /**
      * 
      */
@@ -105,6 +107,8 @@ declare namespace _iro {
     const ext_shared_lib: boolean
     const dev_mode: boolean
     const is_admin: boolean | string
+    const page_annotation: string | string[]
+    const have_annotation: boolean
 }
 declare namespace mashiro_global {
     //let font_control:FontControl

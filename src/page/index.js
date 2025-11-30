@@ -16,6 +16,7 @@ import init_steamCard from './steam_card'
 import ghcardTheme from './ghcard_theme'
 import initTimeArchive from './time_archive'
 import bili_fav_init from './bili_fav'
+import init_comment_captcha from './comment_captcha'
 
 function apply_post_theme_color() {
     if (_iro.post_theme_color != false && _iro.post_theme_color != 'false') {
@@ -362,8 +363,24 @@ function attach_image() {
             return 0;
         }
         for (let i = 0; i < this.files.length; i++) {
-            if (this.files[i].size >= 5242880) {
-                alert(_$('图片上传大小限制为5 MB\n\n「{0}」\n\n这张图太大啦~请重新上传噢！', this.files[i].name));
+            let max_size = _iro.img_upload_max_size || 5;
+            if (this.files[i].size >= max_size *1024 *1024) {
+                let alerts = `The maximum upload size for images is${max_size} MB\n\n${this.files[i].name}\n\nThis image is too large~ Please upload it again!`;
+                switch (_iro.language) {
+                    case "zh_CN":
+                        alerts = `图片上传大小限制为${max_size} MB\n\n${this.files[i].name}\n\n这张图太大啦~请重新上传噢！`;
+                        break;
+                    case "zh_TW":
+                        alerts = `圖片上傳大小限制為${max_size} MB\n\n${this.files[i].name}\n\n這張圖太大啦~請重新上傳噢！`;
+                        break;
+                    case "ja":
+                        alerts = `画像アップロードのサイズ制限は${max_size} MBです\n\n${this.files[i].name}\n\nこの画像は大きすぎます～再度アップロードしてください！`;
+                        break;
+                    case "fr":
+                        alerts = `La taille maximale de téléchargement des images est de ${max_size} Mo\n\n« ${this.files[i].name} »\n\nCette image est trop volumineuse ~ Veuillez la télécharger à nouveau !`;
+                        break;
+                }
+                alert(alerts);
                 return;
             }
         }
@@ -507,6 +524,7 @@ function whileLoaded() {
     init_steamCard();
     initTimeArchive();
     bili_fav_init();
+    init_comment_captcha();
 }
 whileLoaded()
 document.addEventListener('pjax:complete', whilePjaxComplete)
