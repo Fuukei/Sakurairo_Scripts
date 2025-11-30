@@ -87,7 +87,7 @@ export function PE() {
         }
     }
 }
-import { jsSearchCallback } from './search'
+
 import { turnOnDarkMode, turnOffDarkMode } from './darkmode';
 /**
  * @has-dom-modify
@@ -119,40 +119,7 @@ export function CE() {
             h3[i].addEventListener("click", handler)
         }
     }
-    // $('.comments-hidden').show();
-    // $('.comments-main').hide();
-    // $('.comments-hidden').click(function () {
-    //     $('.comments-main').slideDown(500);
-    //     $('.comments-hidden').hide();
-    // });
-    // $('.archives').hide();
-    // $('.archives:first').show();
-    // $('#archives-temp h3').click(function () {
-    //     $(this).next().slideToggle('fast');
-    //     return false;
-    // });
-    /*if (_iro.baguetteBoxON) {
-        baguetteBox.run('.entry-content', {
-            captions: function (element) {
-                return element.getElementsByTagName('img')[0].alt;
-            },
-            ignoreClass: 'fancybox',
-        });
-    }*/
 
-    for (const ele of document.getElementsByClassName('js-toggle-search')) {
-        ele.addEventListener('click', jsSearchCallback);
-    }
-
-    const sc = document.querySelector(".search_close");
-    sc && sc.addEventListener("click", () => {
-        let js_search = document.getElementsByClassName("js-search")[0];
-        if (js_search.classList.contains("is-visible")) {
-            document.getElementsByClassName("js-toggle-search")[0].classList.toggle("is-active");
-            js_search.classList.toggle("is-visible");
-            document.documentElement.style.overflowY = "unset";
-        }
-    });
     try {
         const loading = document.getElementById("loading");
         loading.addEventListener("click", () => {
