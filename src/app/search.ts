@@ -7,6 +7,7 @@ export interface Query {
     title: string
     type: "post" | 'page' | 'category' | 'comment' | 'tag' | 'shuoshuo'
 }
+
 let QueryStorage: Array<Query>
 function renderSearchResult(keyword: string, link: string, title: string, text: string) {
     if (keyword) {
@@ -14,11 +15,14 @@ function renderSearchResult(keyword: string, link: string, title: string, text: 
             a = title.indexOf(s[s.length - 1]),
             b = text.indexOf(s[s.length - 1]);
         title = a < 60 ? title.slice(0, 80) : title.slice(a - 30, a + 30);
-        title = title.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
+        title = title.replace(s[s.length - 1], '<mark class="search-keyword">' + s[s.length - 1] + '</mark>');
         text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
-        text = text.replace(s[s.length - 1], '<mark class="search-keyword"> ' + s[s.length - 1].toUpperCase() + ' </mark>');
+        text = text.replace(s[s.length - 1], '<mark class="search-keyword">' + s[s.length - 1] + '</mark>');
     }
-    return `<a class="ins-selectable ins-search-item" href="${link}"><header>${title}</header><p class="ins-search-preview">${text}</p></a>`;
+    return `<a class="ins-selectable ins-search-item" href="${link}">
+                <header>${title}</header>
+                <p class="ins-search-preview">${text}</p>
+            </a>`;
 }
 function Cx(array: Query[], query: string) {
     for (let s = 0; s < query.length; s++) {
@@ -218,8 +222,8 @@ function search_a(val: RequestInfo) {
 export function SearchDialog() {
     let searchButton = document.querySelector(".js-toggle-search") as HTMLElement;
     let searchDialog = document.querySelector(".dialog-search-form") as HTMLDialogElement;
-    let closeButton = document.querySelector(".search_close") as HTMLElement;
     let searchForm = document.querySelector(".dialog-search-form form") as HTMLElement;
+    let detail =  document.querySelector(".dialog-search-form .search-detail") as HTMLElement;
     
     if(searchButton && searchDialog){
         
@@ -239,6 +243,11 @@ export function SearchDialog() {
             document.documentElement.style.overflowY = 'hidden';
         }
 
+        detail.addEventListener("click",function(){
+            detail.classList.toggle("active");
+            searchForm.classList.toggle("show-detail");
+        })
+
         searchButton.addEventListener("click",function(event){
             event.stopPropagation();
             if (searchDialog.open){
@@ -247,8 +256,6 @@ export function SearchDialog() {
                 showSearch();
             }
         })
-
-        closeButton.addEventListener("click",closeSearch)
 
         document.addEventListener("click",function(event){
             let target = event.target;
