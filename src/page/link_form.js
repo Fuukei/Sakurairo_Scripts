@@ -305,7 +305,7 @@ function validateForm() {
         siteUrl.value = siteUrlValue;
     }
 
-    let urlPattern = /^https?:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
+    let urlPattern = /^https?:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
     if (!urlPattern.test(siteUrlValue)) {
         displayStatus('error', i18n.invalid_url);
         return false;
