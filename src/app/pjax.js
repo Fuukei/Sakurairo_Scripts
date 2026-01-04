@@ -21,12 +21,20 @@ let navigationId = 0;
 let popstateExpectedId = -1;
 
 /**
+ * 获取当前页面的标识符（用于滚动位置存储）
+ * 使用 pathname + search 作为键，忽略 hash 片段
+ */
+function getPageKey() {
+    return window.location.pathname + window.location.search;
+}
+
+/**
  * 保存当前页面的滚动位置
  */
 function saveScrollPosition() {
     try {
         const scrollPositions = JSON.parse(sessionStorage.getItem(SCROLL_STORAGE_KEY) || '{}');
-        scrollPositions[window.location.href] = {
+        scrollPositions[getPageKey()] = {
             x: window.scrollX,
             y: window.scrollY
         };
@@ -42,7 +50,7 @@ function saveScrollPosition() {
 function restoreScrollPosition() {
     try {
         const scrollPositions = JSON.parse(sessionStorage.getItem(SCROLL_STORAGE_KEY) || '{}');
-        const savedPosition = scrollPositions[window.location.href];
+        const savedPosition = scrollPositions[getPageKey()];
         if (savedPosition) {
             window.scrollTo(savedPosition.x, savedPosition.y);
         }
