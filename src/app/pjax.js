@@ -131,11 +131,4 @@ export default function initPjax() {
         }
         console.warn('pjax:error', detail)
     })
-    window.addEventListener('popstate', (e) => {
-        auto_height();
-        hitokoto()
-        PE();
-        CE();
-        post_list_show_animation();
-    }, false);
 }
