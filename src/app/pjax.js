@@ -149,12 +149,18 @@ export default function initPjax() {
         hitokoto()
         lazyload();
         
-        // 在所有布局调整完成后，恢复滚动位置（仅后退/前进导航时）
-        // 通过比较导航 ID 来确保这是 popstate 触发的导航
+        // 在所有布局调整完成后处理滚动位置
+        // 通过比较导航 ID 来判断这是 popstate（后退/前进）还是普通导航（点击链接）
         if (popstateExpectedId === navigationId) {
+            // 后退/前进导航：恢复到之前保存的滚动位置
             restoreScrollPosition();
             // 重置，防止后续导航误判
             popstateExpectedId = -1;
+        } else {
+            // 普通导航（点击链接）：滚动到页面顶部，除非 URL 包含 hash
+            if (!window.location.hash) {
+                window.scrollTo(0, 0);
+            }
         }
     });
     document.addEventListener("pjax:success", () => {
