@@ -12,6 +12,42 @@ import NProgress from 'nprogress'
 import Pjax from '@sliphua/pjax'
 import initTypedJs, { disableTypedJsIfExist } from './typed'
 
+// 用于存储滚动位置的键名
+const SCROLL_STORAGE_KEY = 'pjax_scroll_positions';
+// 标记是否为后退/前进导航
+let isPopstateNavigation = false;
+
+/**
+ * 保存当前页面的滚动位置
+ */
+function saveScrollPosition() {
+    try {
+        const scrollPositions = JSON.parse(sessionStorage.getItem(SCROLL_STORAGE_KEY) || '{}');
+        scrollPositions[window.location.href] = {
+            x: window.scrollX,
+            y: window.scrollY
+        };
+        sessionStorage.setItem(SCROLL_STORAGE_KEY, JSON.stringify(scrollPositions));
+    } catch (e) {
+        // 忽略存储错误
+    }
+}
+
+/**
+ * 恢复页面的滚动位置
+ */
+function restoreScrollPosition() {
+    try {
+        const scrollPositions = JSON.parse(sessionStorage.getItem(SCROLL_STORAGE_KEY) || '{}');
+        const savedPosition = scrollPositions[window.location.href];
+        if (savedPosition) {
+            window.scrollTo(savedPosition.x, savedPosition.y);
+        }
+    } catch (e) {
+        // 忽略恢复错误
+    }
+}
+
 export default function initPjax() {
     selectors = ["#page", "title", ".footer-content", "#app-js-before"];
     if (_iro.dev_mode == true) {
@@ -22,13 +58,23 @@ export default function initPjax() {
         selectors: selectors,
         scripts: "#app-js-before",
         timeout: 5000,
+        scrollRestoration: false, // 禁用内置滚动恢复，我们在布局调整后手动处理
+        scrollTo: false, // 禁用自动滚动到顶部
         defaultTrigger: {
             exclude: 'a[data-no-pjax]',
         }
     })
 
+    // 监听 popstate 事件，标记后退/前进导航
+    window.addEventListener('popstate', () => {
+        isPopstateNavigation = true;
+    });
+
     // Pjax 开始时的处理
     document.addEventListener("pjax:send", () => {
+        // 保存当前滚动位置
+        saveScrollPosition();
+        
         for (const element of document.getElementsByClassName("normal-cover-video")) {
             element.pause();
             element.src = '';
@@ -87,6 +133,12 @@ export default function initPjax() {
         }
         hitokoto()
         lazyload();
+        
+        // 在所有布局调整完成后，恢复滚动位置（仅后退/前进导航时）
+        if (isPopstateNavigation) {
+            restoreScrollPosition();
+            isPopstateNavigation = false;
+        }
     });
     document.addEventListener("pjax:success", () => {
         //pjax加载时自动拉取page.js
@@ -131,11 +183,4 @@ export default function initPjax() {
         }
         console.warn('pjax:error', detail)
     })
-    window.addEventListener('popstate', (e) => {
-        auto_height();
-        hitokoto()
-        PE();
-        CE();
-        post_list_show_animation();
-    }, false);
 }
