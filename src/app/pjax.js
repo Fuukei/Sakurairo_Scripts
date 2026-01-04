@@ -14,8 +14,11 @@ import initTypedJs, { disableTypedJsIfExist } from './typed'
 
 // 用于存储滚动位置的键名
 const SCROLL_STORAGE_KEY = 'pjax_scroll_positions';
-// 标记是否为后退/前进导航
-let isPopstateNavigation = false;
+// 用于追踪 popstate 导航
+// 每次 pjax:send 递增 navigationId
+// popstate 时记录当前的 navigationId + 1（预期的下一个导航 ID）
+let navigationId = 0;
+let popstateExpectedId = -1;
 
 /**
  * 保存当前页面的滚动位置
@@ -49,7 +52,7 @@ function restoreScrollPosition() {
 }
 
 export default function initPjax() {
-    selectors = ["#page", "title", ".footer-content", "#app-js-before"];
+    let selectors = ["#page", "title", ".footer-content", "#app-js-before"];
     if (_iro.dev_mode == true) {
         selectors.push("#entry-content-css");
     }
@@ -67,11 +70,15 @@ export default function initPjax() {
 
     // 监听 popstate 事件，标记后退/前进导航
     window.addEventListener('popstate', () => {
-        isPopstateNavigation = true;
+        // 记录预期的下一个导航 ID（popstate 后立即会触发 pjax 导航）
+        popstateExpectedId = navigationId + 1;
     });
 
     // Pjax 开始时的处理
     document.addEventListener("pjax:send", () => {
+        // 递增导航 ID
+        navigationId++;
+        
         // 保存当前滚动位置
         saveScrollPosition();
         
@@ -135,9 +142,11 @@ export default function initPjax() {
         lazyload();
         
         // 在所有布局调整完成后，恢复滚动位置（仅后退/前进导航时）
-        if (isPopstateNavigation) {
+        // 通过比较导航 ID 来确保这是 popstate 触发的导航
+        if (popstateExpectedId === navigationId) {
             restoreScrollPosition();
-            isPopstateNavigation = false;
+            // 重置，防止后续导航误判
+            popstateExpectedId = -1;
         }
     });
     document.addEventListener("pjax:success", () => {
