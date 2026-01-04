@@ -7,6 +7,7 @@ module.exports = merge(common, {
   optimization: {
     minimizer: [
       new TerserPlugin({
+        exclude: /nav\.js$/,
         terserOptions: {
           // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
           sourceMap: true,

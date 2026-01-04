@@ -1,8 +1,10 @@
 const define = require('./define')
 const webpack = require('webpack')
+const path = require('path')
 const { commitHash } = require('./commit_hash')
 /* const { VueLoaderPlugin } = require('vue-loader')
  */const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const package_info = require('./package_info')
 
 const javascript_loader = {
@@ -121,6 +123,17 @@ module.exports = {
                 date: new Date().toLocaleDateString()
             }),
             PKG_INFO: JSON.stringify(package_info)
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    // Copy files inside external/ into dist root, preserving any subfolder structure
+                    from: '**/*',
+                    context: path.resolve(__dirname, 'external'),
+                    to: path.resolve(define.dist_path),
+                    noErrorOnMissing: true,
+                }
+            ]
         })
         /* new webpack.DefinePlugin({
             'typeof document': JSON.stringify('object'),

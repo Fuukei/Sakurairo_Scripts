@@ -64,6 +64,7 @@
     "@typescript-eslint/parser": "^8.6.0",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.1",
     "core-js": "^3.46.0",
     "css-loader": "^7.1.2",
     "cz-conventional-changelog": "^3.3.0",
