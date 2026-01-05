@@ -54,6 +54,8 @@ import initTypedJs from './typed'
 import add_copyright from './copyright'
 import initFooter from './footer'
 import init_medal_effects from './animations/medal_effects';
+import { SearchDialog } from './search'
+
 
 initIsMobileCache()
 /**
@@ -167,4 +169,5 @@ ready(function () {
     about_us()
     initFooter();
     init_medal_effects();
+    SearchDialog();
 });
