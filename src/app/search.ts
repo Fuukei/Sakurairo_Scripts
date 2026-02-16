@@ -9,38 +9,71 @@ export interface Query {
 }
 
 let QueryStorage: Array<Query>
-function renderSearchResult(keyword: string, link: string, title: string, text: string) {
-    if (keyword) {
-        const s = keyword.trim().split(" "),
-            a = title.indexOf(s[s.length - 1]),
-            b = text.indexOf(s[s.length - 1]);
-        title = a < 60 ? title.slice(0, 80) : title.slice(a - 30, a + 30);
-        title = title.replace(s[s.length - 1], '<mark class="search-keyword">' + s[s.length - 1] + '</mark>');
-        text = b < 60 ? text.slice(0, 80) : text.slice(b - 30, b + 30);
-        text = text.replace(s[s.length - 1], '<mark class="search-keyword">' + s[s.length - 1] + '</mark>');
+function isLiveSearchEnabled(value: unknown) {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'number') return value === 1;
+    if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        return normalized === '1' || normalized === 'true' || normalized === 'on' || normalized === 'yes';
     }
+    return !!value;
+}
+
+function renderSearchResult(keyword: string, link: string, title: string, text: string, showPreview = true) {
+    if (keyword) {
+        const terms = keyword.trim().split(/\s+/).filter(Boolean);
+        const lastTerm = terms[terms.length - 1];
+        const escapedTerm = lastTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const highlightRegExp = new RegExp(escapedTerm, 'ig');
+
+        title = title.replace(highlightRegExp, match => `<mark class="search-keyword">${match}</mark>`);
+        text = text.replace(highlightRegExp, match => `<mark class="search-keyword">${match}</mark>`);
+    }
+    const previewHtml = showPreview ? `<p class="ins-search-preview">${text}</p>` : '';
+
     return `<a class="ins-selectable ins-search-item" href="${link}">
                 <header>${title}</header>
-                <p class="ins-search-preview">${text}</p>
+                ${previewHtml}
             </a>`;
 }
 function Cx(array: Query[], query: string) {
-    for (let s = 0; s < query.length; s++) {
-        if (['.', '?', '*'].indexOf(query[s]) != -1) {
-            query = query.slice(0, s) + "\\" + query.slice(s);
-            s++;
-        }
+    const terms = query
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
+    if (!terms.length) {
+        return [];
     }
-    query = query.replace(query, "^(?=.*?" + query + ").+$").replace(/\s/g, ")(?=.*?");
+
+    query = "^" + terms.map(term => `(?=.*${term})`).join('') + ".+$";
+    const regexp = new RegExp(query, 'i');
+
     return array.filter(
         v => Object.values(v)
-            .some(v => new RegExp(query + '').test(v))
+            .some(v => regexp.test(String(v ?? '')))
     );
 }
-function query(data: Query[], keyword: string,) {
+function query(data: Query[], keyword: string, showPreview = true) {
     const sectionStart = '<section class="ins-section"><header class="ins-section-header">';
     const sectionEnd = '</section>';
     const headerEnd = '</header>';
+    const normalizedKeyword = keyword.trim();
+
+    const resultContainer = document.getElementById("PostlistBox");
+    const wrapper = resultContainer?.closest<HTMLElement>(".ins-section-wrapper");
+    if (!resultContainer) {
+        return;
+    }
+
+    if (!normalizedKeyword) {
+        resultContainer.innerHTML = '';
+        if (wrapper) wrapper.style.display = 'none';
+        return;
+    }
+
+    if (wrapper) wrapper.style.display = '';
 
     let tabBar = document.querySelector<HTMLDivElement>(".ins-tab")!;
 
@@ -55,32 +88,32 @@ function query(data: Query[], keyword: string,) {
     let finalHtml = "";
     let tabs = "";
 
-    const matchedItems = Cx(data, keyword.trim());
+    const matchedItems = Cx(data, normalizedKeyword);
 
     for (const item of matchedItems) {
         switch (item.type) {
             case "post":
-                articleResults += renderSearchResult(keyword,item.link,item.title,item.text);
+                articleResults += renderSearchResult(normalizedKeyword, item.link, item.title, item.text, showPreview);
                 break;
             
             case "shuoshuo":
-                shuoshuoResults += renderSearchResult(keyword,item.link,item.title,item.text);
+                shuoshuoResults += renderSearchResult(normalizedKeyword, item.link, item.title, item.text, showPreview);
                 break;
 
             case "page":
-                pageResults += renderSearchResult(keyword,item.link,item.title,item.text);
+                pageResults += renderSearchResult(normalizedKeyword, item.link, item.title, item.text, showPreview);
                 break;
 
             case "category":
-                categoryResults += renderSearchResult("",item.link,item.title,item.text);
+                categoryResults += renderSearchResult("", item.link, item.title, item.text, showPreview);
                 break;
 
             case "tag":
-                tagResults += renderSearchResult("",item.link,item.title,"");
+                tagResults += renderSearchResult("", item.link, item.title, "", showPreview);
                 break;
 
             case "comment":
-                commentResults += renderSearchResult(keyword,item.link,item.title,item.text);
+                commentResults += renderSearchResult(normalizedKeyword, item.link, item.title, item.text, showPreview);
                 break;
         }
     }
@@ -110,7 +143,14 @@ function query(data: Query[], keyword: string,) {
         finalHtml += '<section class="ins-section type-comment">' + commentResults + sectionEnd;
     }
 
-    document.getElementById("PostlistBox").innerHTML = '<div class="ins-tab">' + tabs + '</div><div class="ins-type-container">' + finalHtml + "</div>";
+    if (!tabs || !finalHtml) {
+        resultContainer.innerHTML = '';
+        if (wrapper) wrapper.style.display = 'none';
+        return;
+    }
+
+    resultContainer.innerHTML = '<div class="ins-tab">' + tabs + '</div><div class="ins-type-container">' + finalHtml + "</div>";
+    if (wrapper) wrapper.style.display = '';
 
     const typeContainer = document.querySelector<HTMLDivElement>(".ins-type-container")!;
     tabBar = document.querySelector<HTMLDivElement>(".ins-tab")!;
@@ -196,11 +236,20 @@ function query(data: Query[], keyword: string,) {
     };
 }
 
-function search_a(val: RequestInfo) {
+function search_a(val: RequestInfo, showPreview = true) {
     const otxt = (document.getElementById("search-input") as HTMLInputElement)
+    const resultContainer = document.getElementById("PostlistBox");
+    if (!resultContainer || !otxt) {
+        return;
+    }
+
     if (sessionStorage.getItem('search') != null) {
-        QueryStorage = JSON.parse(sessionStorage.getItem('search'));
-        query(QueryStorage, otxt.value, /* Record */);
+        try {
+            QueryStorage = JSON.parse(sessionStorage.getItem('search'));
+            query(QueryStorage, otxt.value, showPreview);
+        } catch {
+            sessionStorage.removeItem('search');
+        }
     } else {
         fetch(val)
             .then(async resp => {
@@ -209,7 +258,7 @@ function search_a(val: RequestInfo) {
                     if (json != "") {
                         sessionStorage.setItem('search', json);
                         QueryStorage = JSON.parse(json);
-                        query(QueryStorage, otxt.value, /* Record */);
+                        query(QueryStorage, otxt.value, showPreview);
                     }
                 } else {
                     console.warn('HTTP ' + resp.status)
@@ -220,70 +269,112 @@ function search_a(val: RequestInfo) {
 }
 
 export function SearchDialog() {
-    let searchButton = document.querySelector(".js-toggle-search") as HTMLElement;
-    let searchDialog = document.querySelector(".dialog-search-form") as HTMLDialogElement;
-    let searchForm = document.querySelector(".dialog-search-form form") as HTMLElement;
-    let detail =  document.querySelector(".dialog-search-form .search-detail") as HTMLElement;
-    
-    if(searchButton && searchDialog){
-        
-        function closeSearch(){
-            searchButton.classList.remove('is-active');
-            searchForm.classList.remove('is-active');
-            document.documentElement.style.overflowY = 'unset';
-            searchForm.addEventListener("transitionend",function(){
+    const searchButton = document.querySelector<HTMLElement>(".js-toggle-search");
+    const searchDialog = document.querySelector<HTMLDialogElement>(".dialog-search-form");
+    const searchForm = document.querySelector<HTMLElement>(".dialog-search-form form");
+    const detail = document.querySelector<HTMLElement>(".dialog-search-form .search-detail");
+    const closeButton = document.querySelector<HTMLElement>(".dialog-search-form .search-close");
+    const searchInput = document.getElementById("search-input") as HTMLInputElement;
+    const resultWrapper = document.querySelector<HTMLElement>(".dialog-search-form .ins-section-wrapper");
+
+    if (!searchButton || !searchDialog || !searchForm || !searchInput) {
+        return;
+    }
+
+    if (searchDialog.dataset.initialized === '1') {
+        return;
+    }
+    searchDialog.dataset.initialized = '1';
+
+    const hasResultContainer = !!document.getElementById("PostlistBox");
+    const canLiveSearch = isLiveSearchEnabled(_iro.live_search) && hasResultContainer;
+    const canShowPreview = canLiveSearch && isLiveSearchEnabled(_iro.live_search_preview);
+
+    if (resultWrapper) {
+        resultWrapper.style.display = canLiveSearch ? 'none' : '';
+    }
+
+    let lastFocusedElement: HTMLElement | null = null;
+
+    function closeSearch() {
+        if (!searchDialog.open) return;
+
+        searchButton.classList.remove('is-active');
+        searchButton.setAttribute('aria-expanded', 'false');
+        searchForm.classList.remove('is-active');
+        document.documentElement.style.overflowY = 'unset';
+
+        searchForm.addEventListener("transitionend", function () {
+            if (searchDialog.open) {
                 searchDialog.close();
-            },{once: true})
-        }
-        
-        function showSearch(){
-            searchDialog.showModal();
-            searchButton.classList.add('is-active');
-            searchForm.classList.add('is-active');
-            document.documentElement.style.overflowY = 'hidden';
-        }
+            }
+            if (lastFocusedElement && document.contains(lastFocusedElement)) {
+                lastFocusedElement.focus();
+            }
+        }, { once: true });
+    }
 
-        detail.addEventListener("click",function(){
-            detail.classList.toggle("active");
-            searchForm.classList.toggle("show-detail");
-        })
+    function showSearch() {
+        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        searchDialog.showModal();
+        searchButton.classList.add('is-active');
+        searchButton.setAttribute('aria-expanded', 'true');
+        searchForm.classList.add('is-active');
+        document.documentElement.style.overflowY = 'hidden';
+        window.requestAnimationFrame(() => searchInput.focus());
+    }
 
-        searchButton.addEventListener("click",function(event){
-            event.stopPropagation();
-            if (searchDialog.open){
+    if (canShowPreview && detail) {
+        detail.addEventListener("click", function () {
+            const isActive = detail.classList.toggle("active");
+            searchForm.classList.toggle("show-detail", isActive);
+            detail.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    } else {
+        detail?.remove();
+        searchForm.classList.remove("show-detail");
+    }
+
+    closeButton?.addEventListener("click", function () {
+        closeSearch();
+    });
+
+    searchButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (searchDialog.open) {
+            closeSearch();
+        } else {
+            showSearch();
+        }
+    });
+
+    searchDialog.addEventListener('cancel', function (event) {
+        event.preventDefault();
+        closeSearch();
+    });
+
+    document.addEventListener("click", function (event) {
+        const target = event.target;
+        if (target instanceof Node && !searchForm.contains(target) && !searchButton.contains(target)) {
+            if (searchDialog.open) {
                 closeSearch();
-            } else {
-                showSearch();
             }
-        })
-
-        document.addEventListener("click",function(event){
-            let target = event.target;
-            if(target instanceof Node && !searchForm.contains(target)){
-                if (searchDialog.open){
-                    closeSearch()
-                }
-            }
-        })
-        
-        if (_iro.live_search) {
-            QueryStorage = [];
-            search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"));
-    
-            let otxt = document.getElementById("search-input") as HTMLInputElement,
-                //list = document.getElementById("PostlistBox"),
-                //Record = list.innerHTML,
-                searchFlag: ReturnType<typeof setTimeout> = null;
-            otxt.oninput = function () {
-                if (searchFlag != null) {
-                    clearTimeout(searchFlag);
-                }
-                searchFlag = setTimeout(function () {
-                    query(QueryStorage, otxt.value, /* Record */);
-                }, 250);
-            };
-            document.addEventListener("pjax:complete",closeSearch);
         }
-        
+    });
+
+    if (canLiveSearch) {
+        QueryStorage = [];
+        search_a(buildAPI(_iro.api + "sakura/v1/cache_search/json"), canShowPreview);
+
+        let searchFlag: ReturnType<typeof setTimeout> = null;
+        searchInput.oninput = function () {
+            if (searchFlag != null) {
+                clearTimeout(searchFlag);
+            }
+            searchFlag = setTimeout(function () {
+                query(QueryStorage || [], searchInput.value, canShowPreview);
+            }, 250);
+        };
+        document.addEventListener("pjax:complete", closeSearch);
     }
 }

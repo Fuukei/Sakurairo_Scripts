@@ -55,6 +55,7 @@ declare namespace _iro {
     const jsdelivr_css_src: string
     const land_at_home: boolean
     const live_search: boolean
+    const live_search_preview: boolean
     /**
      * 文章特色图取色
      */
