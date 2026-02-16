@@ -1,3 +1,5 @@
+import { animateFooterVisibility } from './animations/anime_runtime'
+
 export default function initFooter(action = 'init') {
   let footer = document.getElementById('colophon');
   let emojiPanel = document.querySelector('.emotion-box');
@@ -7,6 +9,7 @@ export default function initFooter(action = 'init') {
   function hideFooter() {
     let footer = document.getElementById('colophon');
     footer.classList.remove('show');
+    void animateFooterVisibility(footer, false)
   }
 
   function adjustWrapperPadding() {
@@ -28,11 +31,17 @@ export default function initFooter(action = 'init') {
         if (emojiPanel && emojiPanel.classList.contains("open") && window.outerWidth < 860) {
           return;
         }
-        requestAnimationFrame(() => footer.classList.add('show'));
+        requestAnimationFrame(() => {
+          footer.classList.add('show');
+          void animateFooterVisibility(footer, true)
+        });
       }
     } else {
       if (footer.classList.contains('show')) {
-        requestAnimationFrame(() => footer.classList.remove('show'));
+        requestAnimationFrame(() => {
+          footer.classList.remove('show');
+          void animateFooterVisibility(footer, false)
+        });
       }
     }
   }

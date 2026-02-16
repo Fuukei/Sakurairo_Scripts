@@ -1,3 +1,5 @@
+import { loadAnime } from "../app/animations/anime_runtime";
+
 let visibilityHandler = null;
 let scrollHandler = null;
 let videoClickHandler = null;
@@ -136,6 +138,93 @@ async function initBilibiliFavList() {
                 return Date.now() - cachedItem.timestamp < 12 * 60 * 60 * 1000;
             },
         };
+
+        let animePromise = null;
+        const getAnime = () => {
+            if (!animePromise) {
+                animePromise = loadAnime().catch((error) => {
+                    animePromise = null;
+                    throw error;
+                });
+            }
+            return animePromise;
+        };
+
+        async function playAnime(targets, params) {
+            try {
+                const anime = await getAnime();
+                anime.remove(targets);
+                return anime.animate(targets, params);
+            } catch {
+                return null;
+            }
+        }
+
+        async function waitAnime(animation) {
+            if (!animation || typeof animation.then !== "function") return;
+            try {
+                await animation;
+            } catch {
+                return;
+            }
+        }
+
+        async function animateItemsExit(items) {
+            const list = Array.from(items || []);
+            if (!list.length) return;
+            list.forEach((item) => item.classList.add("fav-item-exit"));
+            const animation = await playAnime(list, {
+                opacity: [1, 0],
+                translateY: [0, -16],
+                duration: 320,
+                delay: (_, index) => index * 45,
+                easing: "easeInCubic",
+            });
+            await waitAnime(animation);
+        }
+
+        function animateItemsEnter(items) {
+            const list = Array.from(items || []);
+            if (!list.length) return;
+            list.forEach((item) => {
+                item.classList.add("visible");
+                item.dataset.iroAnimated = "1";
+                item.style.opacity = "0";
+                item.style.transform = "translateY(20px)";
+            });
+            void playAnime(list, {
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 420,
+                delay: (_, index) => index * 30,
+                easing: "easeOutCubic",
+                complete: () => {
+                    list.forEach((item) => {
+                        item.style.opacity = "";
+                        item.style.transform = "";
+                    });
+                },
+            });
+        }
+
+        function revealItem(item, delay = 0) {
+            if (!item || item.dataset.iroAnimated === "1") return;
+            item.classList.add("visible");
+            item.dataset.iroAnimated = "1";
+            item.style.opacity = "0";
+            item.style.transform = "translateY(20px)";
+            void playAnime(item, {
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 380,
+                delay,
+                easing: "easeOutCubic",
+                complete: () => {
+                    item.style.opacity = "";
+                    item.style.transform = "";
+                },
+            });
+        }
 
         async function initApp() {
             try {
@@ -303,9 +392,6 @@ async function initBilibiliFavList() {
         }
 
         function renderApp(isUpdate = false) {
-            const EXIT_ANIMATION_DURATION = 400; // 基础退出动画时间 (ms)
-            const EXIT_STAGGER_DELAY = 50; // 每个卡片退出的交错延迟 (ms)
-            const ENTER_STAGGER_DELAY = 30; // 每个卡片进入的交错延迟 (ms) - 更短
             const folderSelectorHtml =
                 state.folders.length > 0 ? renderFolderSelector() : "";
             let contentHtml = "";
@@ -361,20 +447,7 @@ async function initBilibiliFavList() {
                     state.currentItems.length > 0
                 ) {
                     const newItems = app.querySelectorAll(".fav-item");
-                    newItems.forEach((item, index) => {
-                        // 为新项目添加入场动画和交错
-                        item.classList.add("fav-item-enter");
-                        // 添加入场交错
-                        item.style.transitionDelay = `${
-                            index * ENTER_STAGGER_DELAY
-                        }ms`;
-                        requestAnimationFrame(() => {
-                            // 触发 CSS transition
-                            if (item && item.parentNode) {
-                                item.classList.remove("fav-item-enter");
-                            }
-                        });
-                    });
+                    animateItemsEnter(newItems);
                     // 重新设置懒加载和滚动动画
                     if (imgObserverInstance) imgObserverInstance.disconnect();
                     imgObserverInstance = setupImageLazyLoading();
@@ -393,41 +466,7 @@ async function initBilibiliFavList() {
                 const itemsToExit =
                     existingContent.querySelectorAll(".fav-item");
                 if (itemsToExit.length > 0) {
-                    // 计算总退出时间 (最后一个元素完成动画的时间点)
-                    const totalExitDuration =
-                        EXIT_ANIMATION_DURATION +
-                        (itemsToExit.length - 1) * EXIT_STAGGER_DELAY;
-
-                    // 应用交错退出动画
-                    itemsToExit.forEach((item, index) => {
-                        // 使用 requestAnimationFrame 确保类添加和延迟设置在同一帧或后续帧
-                        requestAnimationFrame(() => {
-                            // 确保元素仍然存在
-                            if (item && item.parentNode) {
-                                item.style.transitionDelay = `${
-                                    index * EXIT_STAGGER_DELAY
-                                }ms`;
-                                item.classList.add("fav-item-exit");
-                                // 在动画结束后移除元素上的延迟，以防干扰后续操作
-                                setTimeout(() => {
-                                    if (item && item.parentNode) {
-                                        // 再次检查
-                                        item.style.transitionDelay = "";
-                                    }
-                                }, EXIT_ANIMATION_DURATION + index * EXIT_STAGGER_DELAY);
-                            }
-                        });
-                    });
-
-                    // 稍微提前调用 renderNewContent，让进入动画开始时，退出动画接近尾声
-                    // 例如，在最后一个元素开始退出动画后不久，或者总时间的 80-90% 处
-                    const waitTimeForNewContent = Math.max(
-                        EXIT_ANIMATION_DURATION,
-                        totalExitDuration - EXIT_STAGGER_DELAY * 2
-                    ); // 保证至少等待基础动画时间，并提前一点
-
-                    // 等待计算出的时间后渲染新内容
-                    setTimeout(renderNewContent, waitTimeForNewContent);
+                    void animateItemsExit(itemsToExit).finally(renderNewContent);
                 } else {
                     // 如果没有旧项目（例如从空状态更新），直接渲染
                     renderNewContent();
@@ -796,9 +835,9 @@ async function initBilibiliFavList() {
         function setupScrollEffects() {
             const itemObserver = new IntersectionObserver(
                 (entries) => {
-                    entries.forEach((entry) => {
+                    entries.forEach((entry, index) => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add("visible");
+                            revealItem(entry.target, index * 20);
                             itemObserver.unobserve(entry.target);
                         }
                     });
@@ -807,10 +846,7 @@ async function initBilibiliFavList() {
             );
 
             const items = app.querySelectorAll(".fav-item:not(.visible)");
-            items.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.05}s`; // Keep delay
-                itemObserver.observe(item);
-            });
+            items.forEach((item) => itemObserver.observe(item));
         }
 
         function appMutationCallback (mutationsList){
@@ -847,19 +883,19 @@ async function initBilibiliFavList() {
             }
 
             scrollHandler = debounce(() => {
-                // 选择没有 'fav-item-exit' 类的项目来应用 'visible'
+                // 选择未做过动画的项目执行 reveal
                 const items = app.querySelectorAll(
-                    ".fav-item:not(.visible):not(.fav-item-exit)"
+                    ".fav-item:not(.fav-item-exit)"
                 );
                 const viewportHeight = window.innerHeight;
-                items.forEach((item) => {
+                items.forEach((item, index) => {
+                    if (item.dataset.iroAnimated === "1") return;
                     const rect = item.getBoundingClientRect();
                     if (
                         rect.top < viewportHeight * 0.9 &&
                         rect.bottom > viewportHeight * 0.1
                     ) {
-                        // .visible 类现在可以只用于标记是否已滚动到视图，而不是控制入场动画
-                        item.classList.add("visible");
+                        revealItem(item, index * 15);
                     }
                 });
             }, 50); // Adjust debounce wait time as needed
@@ -916,20 +952,23 @@ async function initBilibiliFavList() {
         function setupVideoModal() {
             videoContainer = document.querySelector(".video-modal");
 
-            function closeVideoModal () {
+            async function closeVideoModal () {
                 if (!videoContainer) return;
                 const container = videoContainer.querySelector(".video-modal-container");
                 const iframe = videoContainer.querySelector(".video-modal-iframe");
 
-                container.style.transform = "translateY(20px)";
-                container.style.opacity = "0";
+                const animation = await playAnime(container, {
+                    opacity: [1, 0],
+                    translateY: [0, 20],
+                    duration: 260,
+                    easing: "easeInCubic",
+                });
+                await waitAnime(animation);
 
-                setTimeout(() => {
-                        videoContainer.classList.remove("active");
-                        videoContainer.close();
-                        document.body.style.overflow = "";
-                        if (iframe) iframe.src = "about:blank";
-                }, 300);
+                videoContainer.classList.remove("active");
+                videoContainer.close();
+                document.body.style.overflow = "";
+                if (iframe) iframe.src = "about:blank";
             };
             videoContainer.querySelector(".video-modal-close").addEventListener("click", closeVideoModal);
             videoContainer.addEventListener("click", (e) => {
@@ -957,15 +996,15 @@ async function initBilibiliFavList() {
                 videoContainer.classList.add("active");
                 document.body.style.overflow = "hidden";
 
-                setTimeout(() => {
-                    if (videoContainer) {
-                        const container = videoContainer.querySelector(".video-modal-container");
-                        if (container) {
-                            container.style.transform = "translateY(0)";
-                            container.style.opacity = "1";
-                        }
-                    }
-                }, 10);
+                const container = videoContainer.querySelector(".video-modal-container");
+                if (container) {
+                    void playAnime(container, {
+                        opacity: [0, 1],
+                        translateY: [20, 0],
+                        duration: 300,
+                        easing: "easeOutCubic",
+                    });
+                }
             }
         }
 

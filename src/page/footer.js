@@ -1,3 +1,5 @@
+import { animateFooterVisibility } from '../app/animations/anime_runtime'
+
 export default function initFooterVisibility() {
   document.addEventListener('DOMContentLoaded', function () {
     initFooterVisibility();
@@ -34,6 +36,7 @@ export default function initFooterVisibility() {
           // 添加show类来显示footer
           requestAnimationFrame(() => {
             footer.classList.add('show');
+            void animateFooterVisibility(footer, true)
           });
         }
       } else {
@@ -41,6 +44,7 @@ export default function initFooterVisibility() {
           // 移除show类来隐藏footer
           requestAnimationFrame(() => {
             footer.classList.remove('show');
+            void animateFooterVisibility(footer, false)
           });
         }
       }

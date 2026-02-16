@@ -1,3 +1,24 @@
+import { animateModalState, loadAnime } from './anime_runtime'
+
+let animePromise = null
+
+function getAnime() {
+    if (!animePromise) {
+        animePromise = loadAnime().catch((error) => {
+            animePromise = null
+            throw error
+        })
+    }
+    return animePromise
+}
+
+function runAnime(targets, params) {
+    void getAnime().then((anime) => {
+        anime.remove(targets)
+        anime.animate(targets, params)
+    }).catch(() => void 0)
+}
+
 export default function init_medal_effects() {
     document.addEventListener('DOMContentLoaded', async () =>{await init_medal_effects_main()});
     document.addEventListener('pjax:complete', async () =>{await init_medal_effects_main()});
@@ -38,6 +59,9 @@ function initMedalEffects() {
 function createParticles(medal) {
     const container = medal.querySelector('.medal-particles');
     if (!container) return;
+
+    if (container.dataset.iroParticleInit === '1') return;
+    container.dataset.iroParticleInit = '1'
     
     const medalType = medal.getAttribute('data-medal-level') || 'bronze';
     let particleColor;
@@ -58,6 +82,7 @@ function createParticles(medal) {
     
     // 创建10-15个粒子
     const particleCount = 10 + Math.floor(Math.random() * 5);
+    const particles = []
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('span');
         particle.className = 'medal-particle';
@@ -72,36 +97,38 @@ function createParticles(medal) {
             opacity: 0.3 + Math.random() * 0.7,
             top: Math.random() * 100 + '%',
             left: Math.random() * 100 + '%',
-            transition: 'transform ' + (1.5 + Math.random() * 2) + 's ease-out, opacity 1s ease-out',
             pointerEvents: 'none',
             boxShadow: '0 0 3px ' + particleColor
         });
         
         container.appendChild(particle);
-        
-        // 设置粒子悬浮动画
-        medal.addEventListener('mouseenter', () => {
-            setTimeout(() => {
-                Object.assign(particle.style, {
-                    transform: `translate3d(
-                        ${-20 + Math.random() * 40}px, 
-                        ${-20 + Math.random() * 40}px, 
-                        0
-                    )`,
-                    opacity: Math.random() * 0.6
-                });
-            }, Math.random() * 100);
-        });
-        
-        medal.addEventListener('mouseleave', () => {
-            setTimeout(() => {
-                Object.assign(particle.style, {
-                    transform: 'translate3d(0, 0, 0)',
-                    opacity: 0.3 + Math.random() * 0.7
-                });
-            }, Math.random() * 100);
-        });
+        particles.push(particle)
     }
+        
+    // 设置粒子悬浮动画
+    medal.addEventListener('mouseenter', () => {
+        runAnime(particles, {
+            translateX: () => -20 + Math.random() * 40,
+            translateY: () => -20 + Math.random() * 40,
+            opacity: () => 0.1 + Math.random() * 0.5,
+            scale: () => 0.92 + Math.random() * 0.2,
+            duration: () => 900 + Math.random() * 1100,
+            delay: () => Math.random() * 120,
+            easing: 'easeOutCubic',
+        })
+    });
+
+    medal.addEventListener('mouseleave', () => {
+        runAnime(particles, {
+            translateX: 0,
+            translateY: 0,
+            opacity: () => 0.3 + Math.random() * 0.7,
+            scale: 1,
+            duration: 820,
+            delay: () => Math.random() * 80,
+            easing: 'easeOutQuad',
+        });
+    });
 }
 
 // 显示徽章详细信息的交互
@@ -114,10 +141,11 @@ function showMedalDetails(medal) {
     const progress = medal.getAttribute('data-progress');
     
     // 给徽章一个"按下"的视觉反馈
-    medal.style.transform = 'scale(0.98)';
-    setTimeout(() => {
-        medal.style.transform = '';
-    }, 200);
+    runAnime(medal, {
+        scale: [1, 0.98, 1],
+        duration: 220,
+        easing: 'easeOutQuad',
+    })
     
     // 如果目标浏览器支持，添加触觉反馈
     if ('vibrate' in navigator) {
@@ -224,6 +252,7 @@ function showMedalDetails(medal) {
     // 动画显示模态框
     setTimeout(() => {
         modal.classList.add('active');
+        void animateModalState(modal, true)
     }, 10);
     
     // 点击模态框外部关闭
@@ -235,15 +264,12 @@ function showMedalDetails(medal) {
 }
 
 // 关闭模态框
-function closeModal(modal) {
+async function closeModal(modal) {
     modal.classList.remove('active');
     modal.classList.add('closing');
     document.documentElement.style.overflowY = 'unset';
-    
-    // 移除模态框
-    setTimeout(() => {
-        modal.remove();
-    }, 300);
+    await animateModalState(modal, false)
+    modal.remove();
 }
 
 // 为模态框创建粒子效果
@@ -264,127 +290,148 @@ function createModalParticles(container, medalType) {
             particleColor = 'rgba(205, 127, 50, 0.8)';
             break;
     }
+
+    void getAnime().then((anime) => {
+        const particleNodes = []
     
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('span');
-        particle.className = 'modal-particle';
-        
-        // 随机大小和位置
-        const size = 3 + Math.random() * 5;
-        // 生成唯一的动画名称
-        const animationName = `float-particle-${Math.random().toString(36).substr(2, 9)}`;
-        
-        // 创建自定义动画
-        const xMove = -20 + Math.random() * 40;
-        const yMove = -20 + Math.random() * 40;
-        const styleSheet = document.styleSheets[0];
-        const animationRule = `
-            @keyframes ${animationName} {
-                0% { transform: translate(0, 0); }
-                50% { transform: translate(${xMove/2}px, ${yMove/2}px); }
-                100% { transform: translate(${xMove}px, ${yMove}px); }
-            }
-        `;
-        
-        try {
-            styleSheet.insertRule(animationRule, styleSheet.cssRules.length);
-        } catch (e) {
-            // 如果不能直接插入，则创建style标签
-            const style = document.createElement('style');
-            style.textContent = animationRule;
-            document.head.appendChild(style);
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('span');
+            particle.className = 'modal-particle';
+
+            const size = 3 + Math.random() * 5;
+            const xMove = -20 + Math.random() * 40;
+            const yMove = -20 + Math.random() * 40;
+
+            Object.assign(particle.style, {
+                position: 'absolute',
+                width: size + 'px',
+                height: size + 'px',
+                background: particleColor,
+                borderRadius: '50%',
+                opacity: 0.1 + Math.random() * 0.5,
+                top: Math.random() * 100 + '%',
+                left: Math.random() * 100 + '%',
+                boxShadow: '0 0 ' + (size / 2) + 'px ' + particleColor,
+                pointerEvents: 'none',
+            });
+
+            container.appendChild(particle);
+            particleNodes.push({ particle, xMove, yMove })
         }
-        
-        // 设置粒子样式
-        Object.assign(particle.style, {
-            position: 'absolute',
-            width: size + 'px',
-            height: size + 'px',
-            background: particleColor,
-            borderRadius: '50%',
-            opacity: 0.1 + Math.random() * 0.5,
-            top: Math.random() * 100 + '%',
-            left: Math.random() * 100 + '%',
-            boxShadow: '0 0 ' + (size/2) + 'px ' + particleColor,
-            animation: `${animationName} ${3 + Math.random() * 5}s ease-in-out infinite alternate`,
-            animationDelay: `-${Math.random() * 5}s`
-        });
-        
-        container.appendChild(particle);
-    }
+
+        for (const { particle, xMove, yMove } of particleNodes) {
+            anime.animate(particle, {
+                translateX: [0, xMove],
+                translateY: [0, yMove],
+                opacity: [particle.style.opacity || 0.3, 0.7, 0.2],
+                duration: 3000 + Math.random() * 5000,
+                delay: -Math.random() * 5000,
+                easing: 'easeInOutSine',
+                direction: 'alternate',
+                loop: true,
+            })
+        }
+    }).catch(() => void 0)
 }
 
 // 初始化视差效果
 function initParallaxEffect() {
     const medals = document.querySelectorAll('.medal-capsule');
-    
-    medals.forEach(medal => {
-        // 设置3D变换样式
-        medal.style.transform = 'perspective(1000px)';
-        medal.style.transformStyle = 'preserve-3d';
-        
-        // 获取徽章各元素
-        const icon = medal.querySelector('i');
-        const content = medal.querySelector('.capsule-content');
-        const particles = medal.querySelector('.medal-particles');
-        
-        if (icon) icon.style.transform = 'translateZ(5px)';
-        if (content) content.style.transform = 'translateZ(3px)';
-        
-        // 添加鼠标移动视差效果
-        medal.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left; // x position within the element
-            const y = e.clientY - rect.top;  // y position within the element
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // 计算相对中心的位置（-1到1的范围）
-            const deltaX = (x - centerX) / centerX;
-            const deltaY = (y - centerY) / centerY;
-            
-            // 应用旋转和位移效果，较小的角度让效果更细微
-            this.style.transform = `
-                perspective(1000px)
-                rotateY(${deltaX * 5}deg)
-                rotateX(${-deltaY * 5}deg)
-                scale3d(1.05, 1.05, 1.05)
-            `;
-            
-            // 为子元素应用不同程度的位移，创造视差效果
-            if (icon) {
-                icon.style.transform = `
-                    translateX(${deltaX * 6}px)
-                    translateY(${deltaY * 4}px)
-                    translateZ(15px)
-                `;
-            }
-            
-            if (content) {
-                content.style.transform = `
-                    translateX(${deltaX * 3}px)
-                    translateY(${deltaY * 2}px)
-                    translateZ(5px)
-                `;
-            }
-            
-            if (particles) {
-                particles.style.transform = `
-                    translateX(${-deltaX * 2}px)
-                    translateY(${-deltaY * 2}px)
-                    translateZ(-5px)
-                `;
-            }
+
+    void getAnime().then((anime) => {
+        medals.forEach(medal => {
+            medal.style.transform = 'perspective(1000px)';
+            medal.style.transformStyle = 'preserve-3d';
+
+            const icon = medal.querySelector('i');
+            const content = medal.querySelector('.capsule-content');
+            const particles = medal.querySelector('.medal-particles');
+
+            medal.addEventListener('mousemove', function (e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const deltaX = (x - centerX) / centerX;
+                const deltaY = (y - centerY) / centerY;
+
+                anime.remove(this)
+                anime.animate(this, {
+                    rotateY: deltaX * 5,
+                    rotateX: -deltaY * 5,
+                    scale: 1.05,
+                    duration: 120,
+                    easing: 'easeOutQuad',
+                })
+
+                if (icon) {
+                    anime.remove(icon)
+                    anime.animate(icon, {
+                        translateX: deltaX * 6,
+                        translateY: deltaY * 4,
+                        duration: 130,
+                        easing: 'easeOutQuad',
+                    })
+                }
+
+                if (content) {
+                    anime.remove(content)
+                    anime.animate(content, {
+                        translateX: deltaX * 3,
+                        translateY: deltaY * 2,
+                        duration: 130,
+                        easing: 'easeOutQuad',
+                    })
+                }
+
+                if (particles) {
+                    anime.remove(particles)
+                    anime.animate(particles, {
+                        translateX: -deltaX * 2,
+                        translateY: -deltaY * 2,
+                        duration: 130,
+                        easing: 'easeOutQuad',
+                    })
+                }
+            });
+
+            medal.addEventListener('mouseleave', function () {
+                anime.animate(this, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    scale: 1,
+                    duration: 260,
+                    easing: 'easeOutCubic',
+                })
+                if (icon) {
+                    anime.animate(icon, {
+                        translateX: 0,
+                        translateY: 0,
+                        duration: 260,
+                        easing: 'easeOutCubic',
+                    })
+                }
+                if (content) {
+                    anime.animate(content, {
+                        translateX: 0,
+                        translateY: 0,
+                        duration: 260,
+                        easing: 'easeOutCubic',
+                    })
+                }
+                if (particles) {
+                    anime.animate(particles, {
+                        translateX: 0,
+                        translateY: 0,
+                        duration: 260,
+                        easing: 'easeOutCubic',
+                    })
+                }
+            });
         });
-        
-        // 鼠标离开时恢复原状
-        medal.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px)';
-            if (icon) icon.style.transform = 'translateZ(5px)';
-            if (content) content.style.transform = 'translateZ(3px)';
-            if (particles) particles.style.transform = 'translateZ(-5px)';
-        });
-    });
+    }).catch(() => void 0)
 }
 
 // 为徽章添加自然光效果
@@ -399,207 +446,162 @@ function addShineEffect() {
     }
     
     const goldMedals = document.querySelectorAll('.medal-capsule.gold');
-
-    // 定义CSS动画规则
-    const styleSheet = document.styleSheets[0];
-    const animationRules = `
-        /* 环境光效果动画 - 更明显的强度和位置变化 */
-        @keyframes ambient-light {
-            0% { opacity: 0.4; background-position: 20% 20%; background-size: 140% 140%; }
-            20% { opacity: 0.7; background-position: 45% 30%; background-size: 165% 165%; }
-            40% { opacity: 0.5; background-position: 50% 45%; background-size: 155% 155%; }
-            60% { opacity: 0.75; background-position: 15% 40%; background-size: 170% 170%; }
-            80% { opacity: 0.6; background-position: 25% 15%; background-size: 160% 160%; }
-            100% { opacity: 0.4; background-position: 20% 20%; background-size: 140% 140%; }
-        }
-        /* 环境光颜色变化动画 - 更强烈的颜色变化效果 */
-        @keyframes ambient-color {
-            0% { filter: hue-rotate(0deg) brightness(1) contrast(1); }
-            25% { filter: hue-rotate(8deg) brightness(1.15) contrast(1.05); }
-            50% { filter: hue-rotate(3deg) brightness(1.1) contrast(0.98); }
-            75% { filter: hue-rotate(-6deg) brightness(0.95) contrast(1.08); }
-            100% { filter: hue-rotate(0deg) brightness(1) contrast(1); }
-        }
-        /* 光斑动画 - 更强烈的闪烁与变换 */        @keyframes light-fleck-1 {
-            0%, 100% { opacity: 0.4; transform: scale(1) translate(0, 0); filter: brightness(1); }
-            20% { opacity: 0.75; transform: scale(1.04) translate(2px, -1px); filter: brightness(1.15); }
-            50% { opacity: 0.5; transform: scale(0.98) translate(-1px, -2px); filter: brightness(0.95); }
-            80% { opacity: 0.65; transform: scale(1.02) translate(1px, 2px); filter: brightness(1.1); }
-        }
-        @keyframes light-fleck-2 {
-            0%, 100% { opacity: 0.45; transform: scale(1) translate(0, 0); filter: brightness(1.05); }
-            30% { opacity: 0.6; transform: scale(1.03) translate(-2px, 2px); filter: brightness(1.15); }
-            60% { opacity: 0.4; transform: scale(0.97) translate(2px, 1px); filter: brightness(0.98); }
-            85% { opacity: 0.7; transform: scale(1.01) translate(-1px, -2px); filter: brightness(1.2); }
-        }
-    `;    // 检测浏览器是否支持必要的CSS特性
     const supportsMixBlendMode = window.CSS && CSS.supports && CSS.supports('mix-blend-mode', 'multiply');
-    
-    // 如果不支持关键特性，则提前退出
+
     if (!supportsMixBlendMode) {
         console.log('Browser does not support required CSS features for medal effects');
         return;
     }
-    
-    try {
-        styleSheet.insertRule(animationRules, styleSheet.cssRules.length);
-    } catch (e) {
-        // 如果直接插入失败，则创建style标签
-        const style = document.createElement('style');
-        style.textContent = animationRules;
-        document.head.appendChild(style);
-    }
 
-    goldMedals.forEach(medal => {
-        // 确保徽章有正确的定位
-        if (window.getComputedStyle(medal).position === 'static') {
-            medal.style.position = 'relative';
-        }
+    void getAnime().then((anime) => {
+        goldMedals.forEach(medal => {
+            if (window.getComputedStyle(medal).position === 'static') {
+                medal.style.position = 'relative';
+            }
 
-        // 检查是否已经有光效，有则移除（防止PJAX重复添加）
-        const existingEffects = medal.querySelectorAll('.medal-shine, .medal-ambient, .medal-glow, .medal-fleck');
-        existingEffects.forEach(effect => effect.remove());
+            const existingEffects = medal.querySelectorAll('.medal-shine, .medal-ambient, .medal-glow, .medal-fleck, .medal-pulse');
+            existingEffects.forEach(effect => effect.remove());
 
-        // 添加动态环境光效果 - 模拟自然环境光照
-        const ambient = document.createElement('div');
-        ambient.className = 'medal-ambient';
-        Object.assign(ambient.style, {
-            position: 'absolute',
-            top: '-20%',
-            left: '-20%',
-            width: '140%',
-            height: '140%',
-            background: 'radial-gradient(circle at 30% 30%, rgba(255,236,150,0.75) 0%, rgba(255,220,100,0.35) 35%, rgba(255,215,0,0.15) 65%, rgba(255,215,0,0) 80%)',
-            backgroundSize: '150% 150%', // 使背景更大以便移动
-            borderRadius: 'inherit',
-            pointerEvents: 'none',
-            zIndex: '2',
-            mixBlendMode: supportsMixBlendMode ? 'color-dodge' : 'normal', 
-            animation: 'ambient-light 9s ease-in-out infinite, ambient-color 12s ease-in-out infinite',
-            opacity: '0.8',
-            transition: 'transform 0.5s ease-out, background 0.5s ease'
-        });
-
-        // 添加鼠标互动效果，让环境光随鼠标移动
-        medal.addEventListener('mousemove', (e) => {
-            const rect = medal.getBoundingClientRect();
-            const x = e.clientX - rect.left; // 鼠标在元素内的X坐标
-            const y = e.clientY - rect.top;  // 鼠标在元素内的Y坐标
-
-            // 将坐标转换为百分比 (0%-100%)
-            const xPercent = Math.round((x / rect.width) * 100);
-            const yPercent = Math.round((y / rect.height) * 100);                // 更新环境光位置，光源更加明显且突出
-            ambient.style.background = `radial-gradient(circle at ${xPercent}% ${yPercent}%, 
-                rgba(255,246,180,0.9) 0%, 
-                rgba(255,226,100,0.45) 30%, 
-                rgba(255,215,0,0.2) 60%,
-                rgba(255,215,0,0) 85%)`;
-                
-            // 添加更明显的变换效果，增强动态感
-            ambient.style.transform = `scale(1.15) translate(${(xPercent-50)/20}%, ${(yPercent-50)/20}%)`;
-              // 光斑随鼠标移动的自然位置调整，每个光斑以不同比例移动
-            const flecks = medal.querySelectorAll('.medal-fleck');
-            flecks.forEach((fleck, idx) => {
-                // 每个光斑以不同的灵敏度和方向随鼠标移动，增加差异性
-                const xFactor = idx === 0 ? 0.05 : 0.03;
-                const yFactor = idx === 0 ? 0.02 : 0.04;
-                const xMove = (xPercent - 50) * xFactor;
-                const yMove = (yPercent - 50) * yFactor;
-                
-                // 保留原来的动画，仅添加位置偏移
-                fleck.style.transform = `translate(${xMove}px, ${yMove}px)`;
-            });
-        });            // 鼠标离开时恢复动画，保持显著的光效
-        medal.addEventListener('mouseleave', () => {
-            ambient.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,236,150,0.75) 0%, rgba(255,220,100,0.35) 35%, rgba(255,215,0,0.15) 65%, rgba(255,215,0,0) 80%)';
-            ambient.style.transform = 'scale(1) translate(0%, 0%)';
-            ambient.style.animation = 'ambient-light 9s ease-in-out infinite, ambient-color 12s ease-in-out infinite';
-            
-            // 恢复光斑的原始位置，保持各自独立的动画
-            const flecks = medal.querySelectorAll('.medal-fleck');
-            flecks.forEach(fleck => {
-                fleck.style.transform = '';
-            });
-        });
-
-        medal.appendChild(ambient);        // 添加随机光斑点 - 进一步减少数量，只保留关键位置
-        const fleckPositions = [
-            { top: '25%', left: '20%', size: '15%' },
-            { top: '65%', left: '70%', size: '13%' }
-        ];
-
-        fleckPositions.forEach((pos, i) => {
-            const fleck = document.createElement('div');
-            fleck.className = 'medal-fleck';
-            Object.assign(fleck.style, {
+            const ambient = document.createElement('div');
+            ambient.className = 'medal-ambient';
+            Object.assign(ambient.style, {
                 position: 'absolute',
-                top: pos.top,
-                left: pos.left,
-                width: pos.size,
-                height: pos.size,                borderRadius: '50%',
-                background: 'radial-gradient(ellipse at center, rgba(255,255,220,0.9) 0%, rgba(255,255,200,0.4) 40%, rgba(255,255,200,0) 100%)',
+                top: '-20%',
+                left: '-20%',
+                width: '140%',
+                height: '140%',
+                background: 'radial-gradient(circle at 30% 30%, rgba(255,236,150,0.75) 0%, rgba(255,220,100,0.35) 35%, rgba(255,215,0,0.15) 65%, rgba(255,215,0,0) 80%)',
+                borderRadius: 'inherit',
                 pointerEvents: 'none',
-                zIndex: '3',
-                filter:'blur(1.8px)',
+                zIndex: '2',
+                mixBlendMode: 'color-dodge',
                 opacity: '0.75',
-                animation: `light-fleck-${i % 3 + 1} ${8 + i * 3}s ease-in-out infinite`,
-                // 使用兼容性更好的混合模式，如果不支持则回退到普通模式
-                mixBlendMode: supportsMixBlendMode ? 'lighten' : 'normal',
-                boxShadow: '0 0 10px rgba(255, 255, 200, 0.45)'
+            });
+            medal.appendChild(ambient);
+
+            anime.animate(ambient, {
+                opacity: [0.45, 0.78, 0.55, 0.82, 0.45],
+                scale: [1, 1.08, 1.03, 1.1, 1],
+                duration: 9000,
+                easing: 'easeInOutSine',
+                loop: true,
+            })
+
+            const fleckPositions = [
+                { top: '25%', left: '20%', size: '15%' },
+                { top: '65%', left: '70%', size: '13%' },
+            ];
+
+            const flecks = []
+            fleckPositions.forEach((pos, i) => {
+                const fleck = document.createElement('div');
+                fleck.className = 'medal-fleck';
+                Object.assign(fleck.style, {
+                    position: 'absolute',
+                    top: pos.top,
+                    left: pos.left,
+                    width: pos.size,
+                    height: pos.size,
+                    borderRadius: '50%',
+                    background: 'radial-gradient(ellipse at center, rgba(255,255,220,0.9) 0%, rgba(255,255,200,0.4) 40%, rgba(255,255,200,0) 100%)',
+                    pointerEvents: 'none',
+                    zIndex: '3',
+                    filter: 'blur(1.8px)',
+                    opacity: '0.75',
+                    mixBlendMode: 'lighten',
+                    boxShadow: '0 0 10px rgba(255, 255, 200, 0.45)',
+                });
+                medal.appendChild(fleck);
+                flecks.push(fleck)
+
+                anime.animate(fleck, {
+                    opacity: [0.4, 0.75, 0.45, 0.7, 0.4],
+                    scale: [1, 1.04, 0.98, 1.03, 1],
+                    duration: 7000 + i * 2000,
+                    easing: 'easeInOutSine',
+                    loop: true,
+                })
             });
 
-            medal.appendChild(fleck);
+            if (!medal.style.boxShadow) {
+                medal.style.boxShadow = 'inset 0 0 20px rgba(255, 215, 0, 0.55), 0 7px 15px rgba(0, 0, 0, 0.2)';
+            }
+
+            const pulseEffect = document.createElement('div');
+            pulseEffect.className = 'medal-pulse';
+            Object.assign(pulseEffect.style, {
+                position: 'absolute',
+                top: '-10%',
+                left: '-10%',
+                width: '120%',
+                height: '120%',
+                borderRadius: 'inherit',
+                background: 'radial-gradient(circle at 35% 35%, rgba(255,236,150,0.2) 0%, rgba(255,215,0,0.1) 60%, rgba(255,215,0,0) 85%)',
+                pointerEvents: 'none',
+                zIndex: '1',
+                mixBlendMode: 'screen',
+                opacity: '0.75',
+                filter: 'blur(4px)',
+            });
+            medal.appendChild(pulseEffect);
+
+            anime.animate(pulseEffect, {
+                scale: [1, 1.04, 1.06, 1.03, 1],
+                opacity: [0.6, 0.72, 0.82, 0.68, 0.6],
+                duration: 5000,
+                easing: 'easeInOutSine',
+                loop: true,
+            })
+
+            medal.addEventListener('mousemove', (e) => {
+                const rect = medal.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xPercent = Math.round((x / rect.width) * 100);
+                const yPercent = Math.round((y / rect.height) * 100);
+
+                ambient.style.background = `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(255,246,180,0.9) 0%, rgba(255,226,100,0.45) 30%, rgba(255,215,0,0.2) 60%, rgba(255,215,0,0) 85%)`;
+
+                anime.remove(ambient)
+                anime.animate(ambient, {
+                    scale: 1.15,
+                    translateX: (xPercent - 50) / 2,
+                    translateY: (yPercent - 50) / 2,
+                    duration: 180,
+                    easing: 'easeOutQuad',
+                })
+
+                flecks.forEach((fleck, idx) => {
+                    const xFactor = idx === 0 ? 0.05 : 0.03;
+                    const yFactor = idx === 0 ? 0.02 : 0.04;
+                    anime.remove(fleck)
+                    anime.animate(fleck, {
+                        translateX: (xPercent - 50) * xFactor,
+                        translateY: (yPercent - 50) * yFactor,
+                        duration: 200,
+                        easing: 'easeOutQuad',
+                    })
+                });
+            });
+
+            medal.addEventListener('mouseleave', () => {
+                ambient.style.background = 'radial-gradient(circle at 30% 30%, rgba(255,236,150,0.75) 0%, rgba(255,220,100,0.35) 35%, rgba(255,215,0,0.15) 65%, rgba(255,215,0,0) 80%)';
+                anime.animate(ambient, {
+                    scale: 1,
+                    translateX: 0,
+                    translateY: 0,
+                    duration: 280,
+                    easing: 'easeOutCubic',
+                })
+                flecks.forEach((fleck) => {
+                    anime.animate(fleck, {
+                        translateX: 0,
+                        translateY: 0,
+                        duration: 280,
+                        easing: 'easeOutCubic',
+                    })
+                });
+            });
         });
-
-        // 添加金属纹理的额外样式，增加质感和光泽效果
-        if (!medal.style.boxShadow) {
-            medal.style.boxShadow = 'inset 0 0 20px rgba(255, 215, 0, 0.55), 0 7px 15px rgba(0, 0, 0, 0.2)';
-        }
-
-        // 添加微妙的脉动光效，模拟自然光线变化
-        const pulseEffect = document.createElement('div');
-        pulseEffect.className = 'medal-pulse';
-
-        Object.assign(pulseEffect.style, {
-            position: 'absolute',
-            top: '-10%',
-            left: '-10%',
-            width: '120%',
-            height: '120%',
-            borderRadius: 'inherit',
-            background: 'radial-gradient(circle at 35% 35%, rgba(255,236,150,0.2) 0%, rgba(255,215,0,0.1) 60%, rgba(255,215,0,0) 85%)',
-            pointerEvents: 'none',
-            zIndex: '1',
-            // 使用兼容性更好的混合模式，如果不支持则使用普通模式
-            mixBlendMode: supportsMixBlendMode ? 'screen' : 'normal',
-            animation: 'pulse-animation 5s ease-in-out infinite',
-            opacity: '0.8',
-            filter: 'blur(4px)'
-        });
-
-        // 添加更明显的脉动动画
-        try {
-            styleSheet.insertRule(`
-                @keyframes pulse-animation {
-                    0%, 100% { transform: scale(1); opacity: 0.7; background-position: 30% 30%; }
-                    25% { transform: scale(1.04); opacity: 0.8; background-position: 45% 25%; }
-                    50% { transform: scale(1.06); opacity: 0.85; background-position: 50% 45%; }
-                    75% { transform: scale(1.03); opacity: 0.75; background-position: 25% 50%; }
-                }
-            `, styleSheet.cssRules.length);
-        } catch (e) {
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes pulse-animation {
-                    0%, 100% { transform: scale(1); opacity: 0.6; background-position: 35% 35%; }
-                    25% { transform: scale(1.02); opacity: 0.65; background-position: 40% 30%; }
-                    50% { transform: scale(1.03); opacity: 0.7; background-position: 45% 40%; }
-                    75% { transform: scale(1.01); opacity: 0.65; background-position: 30% 45%; }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        medal.appendChild(pulseEffect);
-    });
+    }).catch(() => void 0)
 }

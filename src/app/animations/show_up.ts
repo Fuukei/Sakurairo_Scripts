@@ -1,9 +1,12 @@
+import { animateShowUp } from './anime_runtime'
+
 export default function applyShowUpAnimation(elements: Iterable<Element> | null, callback?: (target: HTMLElement) => void) {
     if (!elements) return
     const io = new IntersectionObserver((entries) => {
         for (const entry of entries) {
             if (entry.isIntersecting) {
                 entry.target.classList.add("post-list-show");
+                void animateShowUp(entry.target as HTMLElement)
             } else {
                 continue
             }

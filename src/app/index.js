@@ -54,10 +54,12 @@ import initTypedJs from './typed'
 import add_copyright from './copyright'
 import initFooter from './footer'
 import init_medal_effects from './animations/medal_effects';
+import { initAnimeRuntime } from './animations/anime_runtime'
 import { SearchDialog } from './search'
 
 
 initIsMobileCache()
+initAnimeRuntime()
 /**
  * 检查是否应当开启_iro.pjax
  * @seealso https://github.com/PaperStrike/Pjax#compatibility

@@ -1,3 +1,5 @@
+import { animateSlideToggle } from '../app/animations/anime_runtime'
+
 let readyFunctionList: ((...args: unknown[]) => unknown)[] = []
 
 /**
@@ -62,24 +64,12 @@ export function slideToggle(el: any, duration = 1000, mode = '') {
     const flag = dom.status != 'none';
     if ((flag == true && mode == "show") || (flag == false && mode == "hide")) return;
     dom.status = flag ? 'none' : 'block';
-    dom.style.transition = 'height ' + duration / 1000 + 's';
-    dom.style.overflow = 'hidden';
     clearTimeout(dom.tagTimer);
     dom.tagTimer = dom.tagTimer || null;
-    dom.style.display = 'block';
-    dom.tagHeight = dom.tagHeight || dom.clientHeight + 'px';
-    dom.style.display = '';
-    dom.style.height = flag ? dom.tagHeight : "0px";
-    setTimeout(() => {
-        dom.style.height = flag ? "0px" : dom.tagHeight
-    }, 0);
-    dom.tagTimer = setTimeout(() => {
-        dom.style.display = flag ? 'none' : 'block';
-        dom.style.transition = '';
-        dom.style.overflow = '';
-        dom.style.height = '';
-        dom.status = dom.tagHeight = null;
-    }, duration);
+    void animateSlideToggle(dom as HTMLElement, !flag, duration).finally(() => {
+        dom.status = null;
+        dom.tagHeight = null;
+    })
 }
 export function buildAPI(apiPath: string, params: Record<string, string> = {}, nonce = true) {
     const path = new URL(apiPath)
