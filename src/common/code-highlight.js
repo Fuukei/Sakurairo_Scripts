@@ -192,7 +192,7 @@ export async function prism_process(code) {
 }
 
 export async function code_highlight_style() {
-    const pre = document.getElementsByTagName("pre"),
+    const pre = document.querySelectorAll("pre:has(code)"),
         code = document.querySelectorAll("pre code");
     if (!pre.length) {
         switch (_iro.code_highlight) {
