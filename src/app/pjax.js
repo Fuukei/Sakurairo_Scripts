@@ -23,7 +23,7 @@ export default function initPjax() {
         scripts: "#app-js-before",
         timeout: 5000,
         defaultTrigger: {
-            exclude: 'a[data-no-pjax]',
+            exclude: 'a[data-no-pjax],a[href*="/wp-admin"],a[target="_blank"],a[download]',
         }
     })
 
