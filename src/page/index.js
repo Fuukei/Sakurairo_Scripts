@@ -236,17 +236,13 @@ function sm() {
         cm.addEventListener("click", (e) => {
             let list = e.target.parentNode;
             if (list.classList.contains("sm")) {
-                let msg = __("您真的要设为私密吗？");
+                let msg = __("您确定要切换私密状态吗？");
                 if (confirm(msg) == true) {
-                    if (list.classList.contains('private_now')) {
-                        alert(__('您之前已设过私密评论'));
-                        return false;
-                    } else {
-                        list.classList.add('private_now');
                         let idp = list.getAttribute("data-idp"),
                             actionp = list.getAttribute("data-actionp"),
-                            rateHolderp = list.getElementsByClassName('has_set_private')[0];
-                        let ajax_data = "action=siren_private&p_id=" + idp + "&p_action=" + actionp;
+                            rateHolderp = list.getElementsByClassName('has_set_private')[0],
+                            noncep = list.getAttribute("data-noncep");
+                        let ajax_data = "action=siren_private&p_id=" + idp + "&p_action=" + actionp + "&_wpnonce=" + noncep;
                         let request = new XMLHttpRequest();
                         request.onreadystatechange = function () {
                             if (this.readyState == 4 && this.status == 200) {
@@ -257,7 +253,6 @@ function sm() {
                         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         request.send(ajax_data);
                         return false;
-                    }
                 }
             }
         })
